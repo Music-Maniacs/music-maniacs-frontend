@@ -14,7 +14,7 @@ function App() {
         <NavBar />
         <Suspense
           fallback={
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 200 }}>
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <Loader />
             </div>
           }

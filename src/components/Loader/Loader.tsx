@@ -2,7 +2,12 @@ import React from 'react';
 import Lottie from 'react-lottie';
 import animationData from './../../assets/lottie/loader.json';
 
-export const Loader = () => {
+type Props = {
+  height?: string | number;
+  width?: string | number;
+};
+
+export const Loader = ({ height = 200, width = 200 }: Props) => {
   const options = {
     loop: true,
     autoplay: true,
@@ -12,5 +17,5 @@ export const Loader = () => {
     }
   };
 
-  return <Lottie options={options} height={200} width={200} />;
+  return <Lottie options={options} height={height} width={width} />;
 };
