@@ -1,0 +1,28 @@
+.mm-link {
+  position: relative;
+  color: white;
+  text-decoration: none;
+  width: fit-content;
+
+  &:hover {
+    color: white;
+  }
+
+  &::before {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 1px;
+    bottom: 0;
+    left: 0;
+    background-color: white;
+    transform: scaleX(0);
+    transform-origin: top left;
+    transition: transform 0.2s ease;
+  }
+
+  &:hover::before {
+    transform: scaleX(1);
+  }
+}

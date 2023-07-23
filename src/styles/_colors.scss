@@ -1,0 +1,19 @@
+$primary: #6c26ed;
+$secondary: #d12eee;
+$info: #1e90ff;
+$success: #738a80;
+$warning: #f17a48;
+$error: #f44336;
+
+$box_background: rgba(255, 255, 255, 0.1);
+
+:export {
+  primary: $primary;
+  secondary: $secondary;
+  info: $info;
+  success: $success;
+  warning: $warning;
+  error: $error;
+
+  box_background: $box_background;
+}

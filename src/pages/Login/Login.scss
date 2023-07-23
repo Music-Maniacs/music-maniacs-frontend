@@ -1,0 +1,21 @@
+@import '../../styles/main';
+
+.login-container {
+  margin-top: 70px;
+  padding: 25px;
+  @include flex-column-center;
+  gap: 25px;
+
+  .form-container {
+    @include flex-column-center;
+    gap: 25px;
+  }
+
+  .register-container {
+    @include flex-center;
+    width: 90%;
+    gap: 10px;
+    border-top: 1px solid $primary;
+    padding-top: 10px;
+  }
+}

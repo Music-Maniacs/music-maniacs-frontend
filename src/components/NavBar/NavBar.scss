@@ -1,0 +1,27 @@
+@import './../../styles/main.scss';
+
+nav {
+  @include flex-space-between;
+  width: 100%;
+  padding: 0.5rem 0rem;
+  border-bottom: 1px solid #d12eee;
+}
+
+.logo-container {
+  @include flex-start;
+  gap: 0.5rem;
+
+  .title {
+    margin: 0;
+    background: -webkit-linear-gradient(0.25deg, #902cdc, #d033ef);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+.links-container {
+  @include flex-start;
+  margin-right: 0.5rem;
+  gap: 1.5rem;
+}
