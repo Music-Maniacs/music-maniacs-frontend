@@ -4,6 +4,7 @@ $info: #1e90ff;
 $success: #738a80;
 $warning: #f17a48;
 $error: #f44336;
+$input: #d9d9d9;
 
 $box_background: rgba(255, 255, 255, 0.1);
 
@@ -14,6 +15,7 @@ $box_background: rgba(255, 255, 255, 0.1);
   success: $success;
   warning: $warning;
   error: $error;
-
+  input: $input;
+  
   box_background: $box_background;
 }

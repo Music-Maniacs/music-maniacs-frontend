@@ -1,0 +1,21 @@
+@import '../../styles/main';
+
+
+.input-container{
+  width: 100%;
+  
+  .input-title {
+    display: block;
+    margin-bottom: 10px;  
+  }
+
+  .input-input{
+    display: block;
+    width: 100%;
+    background: $input;
+    border: solid 0px;
+  }
+  .input-input:focus{
+    outline: none;
+  }
+}
