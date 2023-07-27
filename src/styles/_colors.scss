@@ -1,19 +1,36 @@
 $primary: #6c26ed;
+$primary_dark: darken($primary, 15%);
+
 $secondary: #d12eee;
+$secondary_dark: darken($secondary, 15%);
+
 $info: #1e90ff;
+$info_dark: darken($info, 15%);
+
 $success: #738a80;
+$success_dark: darken($success, 15%);
+
 $warning: #f17a48;
+$warning_dark: darken($warning, 15%);
+
 $error: #f44336;
+$error_dark: darken($error, 15%);
 
 $box_background: rgba(255, 255, 255, 0.1);
 
 :export {
   primary: $primary;
+  primary_dark: $primary_dark;
   secondary: $secondary;
+  secondary_dark: $secondary_dark;
   info: $info;
+  info_dark: $info_dark;
   success: $success;
+  success_dark: $success_dark;
   warning: $warning;
+  warning_dark: $warning_dark;
   error: $error;
+  error_dark: $error_dark;
 
   box_background: $box_background;
 }

@@ -20,9 +20,9 @@ function App() {
           }
         >
           <Routes>
-            <Route path='/' element={<h1>Music Maniacs Home</h1>} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/register' element={<Register />} />
+            <Route path="/" element={<h1>Music Maniacs Home</h1>} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
           </Routes>
         </Suspense>
       </BrowserRouter>

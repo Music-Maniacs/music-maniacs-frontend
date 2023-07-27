@@ -1,5 +1,4 @@
 import React from 'react';
-import { ColorPaletteProvider } from './context/colorPaletteContext';
 import { AuthProvider } from './context/authContext';
 
 type Props = {
@@ -7,9 +6,5 @@ type Props = {
 };
 
 export const AppProviders = ({ children }: Props) => {
-  return (
-    <AuthProvider>
-      <ColorPaletteProvider>{children}</ColorPaletteProvider>
-    </AuthProvider>
-  );
+  return <AuthProvider>{children}</AuthProvider>;
 };
