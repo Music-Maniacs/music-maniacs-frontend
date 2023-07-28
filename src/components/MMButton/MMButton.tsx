@@ -7,8 +7,8 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
 }
 
-const StyledButton = styled.button<{ bg?: string; bgDark?: string }>`
-  background-color: ${({ bg }) => bg ?? colors.primary};
+const StyledButton = styled.button<{ $bg?: string; $bgDark?: string }>`
+  background-color: ${({ $bg }) => $bg ?? colors.primary};
   cursor: pointer;
   border-radius: 4px;
   line-height: 1.75;
@@ -22,7 +22,7 @@ const StyledButton = styled.button<{ bg?: string; bgDark?: string }>`
   transition: background-color 0.2s ease-in-out;
 
   &:hover {
-    background-color: ${({ bgDark }) => bgDark ?? colors.primary_dark};
+    background-color: ${({ $bgDark }) => $bgDark ?? colors.primary_dark};
   }
 `;
 
@@ -30,28 +30,28 @@ export const MMButton = ({ children, color, ...props }: Props) => {
   const getColors = () => {
     const colorsMap = {
       primary: {
-        bg: colors.primary,
-        bgDark: colors.primary_dark
+        $bg: colors.primary,
+        $bgDark: colors.primary_dark
       },
       secondary: {
-        bg: colors.secondary,
-        bgDark: colors.secondary_dark
+        $bg: colors.secondary,
+        $bgDark: colors.secondary_dark
       },
       success: {
-        bg: colors.success,
-        bgDark: colors.success_dark
+        $bg: colors.success,
+        b$gDark: colors.success_dark
       },
       error: {
-        bg: colors.error,
-        bgDark: colors.error_dark
+        $bg: colors.error,
+        $bgDark: colors.error_dark
       },
       info: {
-        bg: colors.info,
-        bgDark: colors.info_dark
+        $bg: colors.info,
+        $bgDark: colors.info_dark
       },
       warning: {
-        bg: colors.warning,
-        bgDark: colors.warning_dark
+        $bg: colors.warning,
+        $bgDark: colors.warning_dark
       }
     };
 

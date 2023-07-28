@@ -8,6 +8,7 @@ import MMLink from '../../components/MMLink/MMLink';
 import { MMButton } from '../../components/MMButton/MMButton';
 import { MMTitle } from '../../components/MMTitle/MMTitle';
 import { MMContainer } from '../../components/MMContainer/MMContainer';
+import { errorSnackbar } from '../../components/Snackbar/Snackbar';
 
 const Login = () => {
   const { userLogin } = useAuth();
@@ -19,8 +20,7 @@ const Login = () => {
     e.preventDefault();
 
     if (!usernameRef.current?.value || !passwordRef.current?.value) {
-      // fixme: errores
-      return console.log('error');
+      return errorSnackbar('Debe ingresar un usuario y contraseña');
     }
 
     login(usernameRef.current.value, passwordRef.current.value)
