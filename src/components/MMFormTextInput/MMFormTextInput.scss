@@ -4,18 +4,20 @@
 .input-container{
   width: 100%;
   
-  .input-title {
+  & label {
     display: block;
     margin-bottom: 10px;  
   }
 
-  .input-input{
+  & input{
     display: block;
     width: 100%;
     background: $input;
     border: solid 0px;
+
+    &:focus{
+      outline: none;
+    }
   }
-  .input-input:focus{
-    outline: none;
-  }
+  
 }
