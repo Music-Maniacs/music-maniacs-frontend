@@ -1,28 +1,27 @@
-@import "/src/styles/main";
+@import '/src/styles/main';
 
 .reg-container {
-    margin-top: 70px;
-    padding: 25px !important;
-    @include flex-column-center;
-    gap: 25px;
-  
-    .form-container {
-      @include flex-column-center;
-      width: 75%;
-      gap: 10px; 
+  margin-top: 70px;
+  padding: 25px !important;
+  @include flex-column-center;
+  gap: 25px;
 
-      .error-span{
-        width: 100%;
-        color: $error;
-        
-      }
-    }
-    
-    .log-container {
-      @include flex-center;
-      width: 85%;
-      gap: 10px;
-      border-top: 1px solid $primary;
-      padding-top: 10px;
+  .form-container {
+    @include flex-column-center;
+    width: 75%;
+    gap: 10px;
+
+    .error-span {
+      width: 100%;
+      color: $error;
     }
   }
+
+  .log-container {
+    @include flex-center;
+    width: 85%;
+    gap: 10px;
+    border-top: 1px solid $primary;
+    padding-top: 10px;
+  }
+}
