@@ -1,0 +1,35 @@
+@import './../../styles/main.scss';
+
+.mm-container {
+  width: 100%;
+  box-sizing: border-box;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
+
+  &--xs {
+    @extend .mm-container;
+    max-width: 444px;
+  }
+
+  &--sm {
+    @extend .mm-container;
+    max-width: $sm;
+  }
+
+  &--md {
+    @extend .mm-container;
+    max-width: $md;
+  }
+
+  &--lg {
+    @extend .mm-container;
+    max-width: $lg;
+  }
+
+  &--xl {
+    @extend .mm-container;
+    max-width: $xl;
+  }
+}
