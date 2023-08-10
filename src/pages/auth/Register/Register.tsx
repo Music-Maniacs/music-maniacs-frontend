@@ -8,6 +8,7 @@ import { register as serviceRegister } from '../../../services/userService';
 import MMLink from '../../../components/MMLink/MMLink';
 import { MMContainer } from '../../../components/MMContainer/MMContainer';
 import '../Auth.scss';
+import { userValidations } from '../../../models/User';
 
 type FormData = {
   name: string;
@@ -42,10 +43,7 @@ const Register = () => {
             name="name"
             register={register}
             errors={errors}
-            options={{
-              required: { value: true, message: 'Debe ingresar su nombre completo' },
-              maxLength: { value: 10, message: 'El nombre debe ser menor a 10 caracteres' }
-            }}
+            options={userValidations.name}
           />
 
           <InputText
@@ -54,10 +52,7 @@ const Register = () => {
             name="username"
             register={register}
             errors={errors}
-            options={{
-              required: { value: true, message: 'Debe ingresar su nombre de usuario' },
-              maxLength: { value: 10, message: 'El usuario debe ser menor a 10 caracteres' }
-            }}
+            options={userValidations.username}
           />
 
           <InputText
@@ -66,13 +61,7 @@ const Register = () => {
             name="email"
             register={register}
             errors={errors}
-            options={{
-              required: { value: true, message: 'Debe ingresar su correo electronico' },
-              pattern: {
-                value: /\S+@\S+\.\S+/,
-                message: 'Debe ingresar un correo valido de la forma nombre@mail.com'
-              }
-            }}
+            options={userValidations.email}
           />
 
           <InputText
@@ -81,10 +70,7 @@ const Register = () => {
             name="password"
             register={register}
             errors={errors}
-            options={{
-              required: { value: true, message: 'Debe ingresar su contraseña' },
-              minLength: { value: 8, message: 'La contraseña debe ser de más de 8 caracteres' }
-            }}
+            options={userValidations.password}
           />
 
           <InputText

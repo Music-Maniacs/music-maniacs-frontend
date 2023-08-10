@@ -1,4 +1,4 @@
-import React, { FormEvent } from 'react';
+import React from 'react';
 import { useAuth } from '../../../context/authContext';
 import { login } from '../../../services/userService';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +11,7 @@ import { errorSnackbar, infoSnackbar } from '../../../components/Snackbar/Snackb
 import { InputText } from '../../../components/form/InputText/InputText';
 import '../Auth.scss';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { userValidations } from '../../../models/User';
 
 type FormData = {
   username: string;
@@ -50,7 +51,7 @@ const Login = () => {
             name="username"
             errors={errors}
             register={register}
-            options={{ required: { value: true, message: 'Debe ingresar su nombre de usuario' } }}
+            options={userValidations.username}
           />
 
           <InputText

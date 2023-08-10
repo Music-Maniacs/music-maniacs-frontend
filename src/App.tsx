@@ -15,13 +15,7 @@ function App() {
     <AppProviders>
       <BrowserRouter>
         <NavBar />
-        <Suspense
-          fallback={
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-              <Loader />
-            </div>
-          }
-        >
+        <Suspense fallback={<Loader />}>
           <Routes>
             <Route path="/" element={<h1>Music Maniacs Home</h1>} />
             <Route path="/login" element={<Login />} />

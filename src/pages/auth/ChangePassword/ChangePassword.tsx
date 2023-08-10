@@ -9,6 +9,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { errorSnackbar, infoSnackbar } from '../../../components/Snackbar/Snackbar';
 import '../Auth.scss';
+import { userValidations } from '../../../models/User';
 
 type FormData = {
   password: string;
@@ -47,10 +48,7 @@ const ChangePassword = () => {
             name="password"
             register={register}
             errors={errors}
-            options={{
-              required: { value: true, message: 'Debe ingresar su contraseña' },
-              minLength: { value: 8, message: 'La contraseña debe ser de más de 8 caracteres' }
-            }}
+            options={userValidations.password}
           />
 
           <InputText

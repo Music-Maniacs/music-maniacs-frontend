@@ -20,8 +20,8 @@ export const NavBar = () => {
       <div className="links-container">
         <MMLink to={'/login'} content="Login" />
         <MMLink to={'/register'} content="Register" />
-        <MMLink to={'/change-password'} content="Cambiar COntraseña" />
-        <MMLink to={'/recover-password'} content="Recuperar COntraseña" />
+        <MMLink to={'/change-password'} content="Cambiar Contraseña" />
+        <MMLink to={'/recover-password'} content="Recuperar Contraseña" />
       </div>
     </nav>
   );

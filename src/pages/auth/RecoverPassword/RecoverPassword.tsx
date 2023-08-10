@@ -8,6 +8,7 @@ import { MMTitle } from '../../../components/MMTitle/MMTitle';
 import { InputText } from '../../../components/form/InputText/InputText';
 import { MMButton } from '../../../components/MMButton/MMButton';
 import MMLink from '../../../components/MMLink/MMLink';
+import { userValidations } from '../../../models/User';
 
 type FormData = {
   email: string;
@@ -43,13 +44,7 @@ const RecoverPassword = () => {
             name="email"
             register={register}
             errors={errors}
-            options={{
-              required: { value: true, message: 'Debe ingresar su correo electronico' },
-              pattern: {
-                value: /\S+@\S+\.\S+/,
-                message: 'Debe ingresar un correo valido de la forma nombre@mail.com'
-              }
-            }}
+            options={userValidations.email}
           />
 
           <input type="submit" hidden />
