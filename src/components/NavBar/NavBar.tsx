@@ -6,10 +6,10 @@ import { Link } from 'react-router-dom';
 export const NavBar = () => {
   return (
     <nav>
-      <div className='logo-container'>
+      <div className="logo-container">
         {/* <img alt='music-maniacs-logo' /> */}
         <Link to={'/'} style={{ textDecoration: 'none' }}>
-          <h1 className='title'>MUSIC MANIACS</h1>
+          <h1 className="title">MUSIC MANIACS</h1>
         </Link>
       </div>
 
@@ -17,9 +17,11 @@ export const NavBar = () => {
         <span>Buscador</span>
       </div>
 
-      <div className='links-container'>
-        <MMLink to={'/login'} content='Login' />
-        <MMLink to={'/register'} content='Register' />
+      <div className="links-container">
+        <MMLink to={'/login'} content="Login" />
+        <MMLink to={'/register'} content="Register" />
+        <MMLink to={'/change-password'} content="Cambiar COntraseña" />
+        <MMLink to={'/recover-password'} content="Recuperar COntraseña" />
       </div>
     </nav>
   );

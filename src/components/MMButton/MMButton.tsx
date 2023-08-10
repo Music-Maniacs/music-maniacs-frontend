@@ -1,4 +1,4 @@
-import React, { ButtonHTMLAttributes } from 'react';
+import React, { ButtonHTMLAttributes, useCallback } from 'react';
 import colors from './../../styles/_colors.scss';
 import { styled } from 'styled-components';
 
@@ -27,7 +27,7 @@ const StyledButton = styled.button<{ $bg?: string; $bgDark?: string }>`
 `;
 
 export const MMButton = ({ children, color, ...props }: Props) => {
-  const getColors = () => {
+  const getColors = useCallback(() => {
     const colorsMap = {
       primary: {
         $bg: colors.primary,
@@ -39,7 +39,7 @@ export const MMButton = ({ children, color, ...props }: Props) => {
       },
       success: {
         $bg: colors.success,
-        b$gDark: colors.success_dark
+        $bgDark: colors.success_dark
       },
       error: {
         $bg: colors.error,
@@ -56,7 +56,7 @@ export const MMButton = ({ children, color, ...props }: Props) => {
     };
 
     return colorsMap[color ?? 'primary'];
-  };
+  }, [color]);
 
   return (
     <>
