@@ -6,14 +6,13 @@ export const StyledLabel = styled.label`
 `;
 
 export const StyledInput = styled.input<{ $hasErrors?: boolean }>`
-  width: 100%;
-  border: 1px solid ${({ $hasErrors }) => ($hasErrors ? colors.error : 'black')};
+  border: 1px solid ${({ $hasErrors }) => ($hasErrors ? colors.error : colors.input_border)};
   border-radius: 3px;
   outline: none;
   background: transparent;
   padding: 7px 5px;
   font-size: 14px;
-
+  background-color: ${colors.input_background};
   color: white;
 
   &:active,

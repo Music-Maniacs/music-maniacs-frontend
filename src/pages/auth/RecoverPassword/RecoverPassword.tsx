@@ -36,7 +36,7 @@ const RecoverPassword = () => {
       <MMBox className="auth-box-container">
         <MMTitle content="Recuperar Contraseña" />
 
-        <form className="form-container" onSubmit={handleSubmit(onSubmit)}>
+        <form className="form-container" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
           <InputText
             label="Email"
             type="text"

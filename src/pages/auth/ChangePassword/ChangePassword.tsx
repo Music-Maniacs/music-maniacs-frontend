@@ -40,7 +40,7 @@ const ChangePassword = () => {
       <MMBox className="auth-box-container">
         <MMTitle content="Cambiar Contraseña" />
 
-        <form className="form-container" onSubmit={handleSubmit(onSubmit)}>
+        <form className="form-container" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
           <InputText
             label="Contraseña"
             type="password"

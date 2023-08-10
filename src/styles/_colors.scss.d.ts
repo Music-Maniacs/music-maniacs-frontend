@@ -13,6 +13,9 @@ interface ColorsScss {
   error: string;
   error_dark: string;
 
+  input_border: string;
+  input_background: string;
+
   box_background: string;
 }
 

@@ -43,7 +43,7 @@ const Login = () => {
       <MMBox className="auth-box-container">
         <MMTitle content="Iniciar Sesión" />
 
-        <form className="form-container" onSubmit={handleSubmit(onSubmit)}>
+        <form className="form-container" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
           <InputText
             type="text"
             label="Usuario"

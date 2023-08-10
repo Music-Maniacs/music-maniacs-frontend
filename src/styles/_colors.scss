@@ -16,7 +16,8 @@ $warning_dark: darken($warning, 15%);
 $error: #f44336;
 $error_dark: darken($error, 15%);
 
-$input_background: #d9d9d9;
+$input_border: #00000091;
+$input_background: rgba(255, 255, 255, 0.15);
 
 $box_background: rgba(255, 255, 255, 0.1);
 
@@ -34,6 +35,7 @@ $box_background: rgba(255, 255, 255, 0.1);
   error: $error;
   error_dark: $error_dark;
 
+  input_border: $input_border;
   input_background: $input_background;
 
   box_background: $box_background;
