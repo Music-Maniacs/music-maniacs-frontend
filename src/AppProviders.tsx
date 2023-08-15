@@ -9,7 +9,12 @@ type Props = {
 export const AppProviders = ({ children }: Props) => {
   return (
     <AuthProvider>
-      <SnackbarProvider maxSnack={3} autoHideDuration={3000} anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
+      <SnackbarProvider
+        maxSnack={3}
+        autoHideDuration={3000}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+        preventDuplicate
+      >
         {children}
       </SnackbarProvider>
     </AuthProvider>

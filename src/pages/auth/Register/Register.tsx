@@ -9,16 +9,19 @@ import MMLink from '../../../components/MMLink/MMLink';
 import { MMContainer } from '../../../components/MMContainer/MMContainer';
 import '../Auth.scss';
 import { userValidations } from '../../../models/User';
+import { errorSnackbar, infoSnackbar } from '../../../components/Snackbar/Snackbar';
+import { useNavigate } from 'react-router-dom';
 
 type FormData = {
-  name: string;
+  full_name: string;
   username: string;
   email: string;
   password: string;
-  repeat_password: string;
+  password_confirmation: string;
 };
 
 const Register = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -26,9 +29,15 @@ const Register = () => {
     formState: { errors }
   } = useForm<FormData>();
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
-    window.alert(JSON.stringify(data));
-    // serviceRegister(data.name,data.username,data.email, data.password)
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
+    try {
+      await serviceRegister(data.full_name, data.username, data.email, data.password, data.password_confirmation);
+
+      infoSnackbar('Usuario creado con exito');
+      navigate('/login');
+    } catch (error) {
+      errorSnackbar('Error al crear el usuario');
+    }
   };
 
   return (
@@ -40,10 +49,10 @@ const Register = () => {
           <InputText
             label="Nombre Completo"
             type="text"
-            name="name"
+            name="full_name"
             register={register}
             errors={errors}
-            options={userValidations.name}
+            options={userValidations.full_name}
           />
 
           <InputText
@@ -76,7 +85,7 @@ const Register = () => {
           <InputText
             label="Repetir Contraseña"
             type="password"
-            name="repeat_password"
+            name="password_confirmation"
             register={register}
             errors={errors}
             options={{

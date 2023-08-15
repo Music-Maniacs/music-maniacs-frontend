@@ -11,15 +11,14 @@ import { errorSnackbar, infoSnackbar } from '../../../components/Snackbar/Snackb
 import { InputText } from '../../../components/form/InputText/InputText';
 import '../Auth.scss';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { userValidations } from '../../../models/User';
 
 type FormData = {
-  username: string;
+  loginCredentials: string;
   password: string;
 };
 
 const Login = () => {
-  const { userLogin } = useAuth();
+  const { handleUserLogin } = useAuth();
   const navigate = useNavigate();
   const {
     register,
@@ -29,10 +28,10 @@ const Login = () => {
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
-      const response = await login(data.username, data.password);
+      const response = await login(data.loginCredentials, data.password);
 
       infoSnackbar('Inicio de sesión exitoso');
-      userLogin(response);
+      handleUserLogin(response.data.user, response.headers.authorization);
       navigate('/');
     } catch (error) {
       errorSnackbar('Usuario o contraseña incorrectos');
@@ -47,11 +46,11 @@ const Login = () => {
         <form className="form-container" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
           <InputText
             type="text"
-            label="Usuario"
-            name="username"
+            label="Usuario o email"
+            name="loginCredentials"
             errors={errors}
             register={register}
-            options={userValidations.username}
+            options={{ required: { value: true, message: 'Debe ingresar su usuario o email' } }}
           />
 
           <InputText

@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User } from '../models/User';
+import axios from 'axios';
 
 type Props = {
   children: React.ReactNode;
@@ -7,8 +8,8 @@ type Props = {
 
 type StoreProps = {
   user?: User;
-  userLogin: (user: User) => void;
-  userLogout: () => void;
+  handleUserLogin: (user: User, authToken: string) => void;
+  handleUserLogout: () => void;
 };
 
 const Auth = createContext<StoreProps | null>(null);
@@ -17,25 +18,40 @@ export const AuthProvider = ({ children }: Props) => {
   const [user, setUser] = useState<User>();
 
   useEffect(() => {
-    // todo: verificar si hay un usuario logueado en el localStorage
+    const user = localStorage.getItem('user');
+    const token = localStorage.getItem('token');
+
+    if (user && token) {
+      axios.defaults.headers.common['Authorization'] = token;
+      setUser(JSON.parse(user));
+    } else {
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
+    }
   }, []);
 
-  const userLogin = (user: User) => {
+  const handleUserLogin = (user: User, authToken: string) => {
+    axios.defaults.headers.common['Authorization'] = authToken;
+
+    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('token', authToken);
+
     setUser(user);
-    // todo: addLocalStorage
-    // todo: axios.defaults.headers.common['Authorization'] = ...
   };
 
-  const userLogout = () => {
+  const handleUserLogout = () => {
+    axios.defaults.headers.common['Authorization'] = undefined;
+
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+
     setUser(undefined);
-    // todo: removeLocalStorage
-    // todo: axios.defaults.headers.common['Authorization'] = ...
   };
 
   const store = {
     user,
-    userLogin,
-    userLogout
+    handleUserLogin,
+    handleUserLogout
   };
 
   return <Auth.Provider value={store}>{children}</Auth.Provider>;

@@ -9,6 +9,7 @@ import { InputText } from '../../../components/form/InputText/InputText';
 import { MMButton } from '../../../components/MMButton/MMButton';
 import MMLink from '../../../components/MMLink/MMLink';
 import { userValidations } from '../../../models/User';
+import { recoverPasswordEmail } from '../../../services/userService';
 
 type FormData = {
   email: string;
@@ -24,12 +25,12 @@ const RecoverPassword = () => {
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
-      // const response = await recoverPassword(data.email);
+      await recoverPasswordEmail(data.email);
 
       infoSnackbar('Se enviará un correo con las instrucciones para recuperar su contraseña');
       navigate('/');
     } catch (error) {
-      errorSnackbar('Error al recuperar la contraseña');
+      errorSnackbar('El email no coincide con ningún usuario registrado');
     }
   };
   return (

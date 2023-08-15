@@ -2,14 +2,16 @@ import { ModelValidations } from './Generic';
 
 export interface User {
   id: string;
-  name: string;
+  full_name: string;
   username: string;
   email: string;
   password: string;
+  rol: string;
+  state: string;
 }
 
 export const userValidations: Readonly<ModelValidations<User>> = {
-  name: {
+  full_name: {
     required: {
       value: true,
       message: 'Debe ingresar su nombre completo'
@@ -17,7 +19,7 @@ export const userValidations: Readonly<ModelValidations<User>> = {
   },
   username: {
     required: { value: true, message: 'Debe ingresar su nombre de usuario' },
-    maxLength: { value: 10, message: 'El usuario debe ser menor a 10 caracteres' }
+    maxLength: { value: 128, message: 'El usuario debe ser menor a 128 caracteres' }
   },
   email: {
     required: { value: true, message: 'Debe ingresar su correo electrónico' },
@@ -28,6 +30,6 @@ export const userValidations: Readonly<ModelValidations<User>> = {
   },
   password: {
     required: { value: true, message: 'Debe ingresar su contraseña' },
-    minLength: { value: 8, message: 'La contraseña debe ser de más de 8 caracteres' }
+    minLength: { value: 6, message: 'La contraseña debe ser de más de 6 caracteres' }
   }
 };

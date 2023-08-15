@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { MMContainer } from '../../../components/MMContainer/MMContainer';
 import { MMBox } from '../../../components/MMBox/MMBox';
 import { MMTitle } from '../../../components/MMTitle/MMTitle';
@@ -10,14 +10,29 @@ import { useNavigate } from 'react-router-dom';
 import { errorSnackbar, infoSnackbar } from '../../../components/Snackbar/Snackbar';
 import '../Auth.scss';
 import { userValidations } from '../../../models/User';
+import { recoverPassword } from '../../../services/userService';
 
 type FormData = {
   password: string;
-  repeat_password: string;
+  password_confirmation: string;
 };
 
 const ChangePassword = () => {
   const navigate = useNavigate();
+  const [resetPasswordToken, setResetPasswordToken] = React.useState<string>('');
+
+  useEffect(() => {
+    const params = window.location.search;
+    const urlParams = new URLSearchParams(params);
+
+    if (!urlParams.get('reset_password_token')) {
+      errorSnackbar('Para cambiar la contraseña debe ingresar con el link enviado a su correo');
+      navigate('/login');
+    }
+
+    setResetPasswordToken(urlParams.get('reset_password_token') as string);
+  }, []);
+
   const {
     register,
     handleSubmit,
@@ -27,7 +42,7 @@ const ChangePassword = () => {
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
-      // const response = await changePassword(data.password);
+      await recoverPassword(data.password, data.password_confirmation, resetPasswordToken);
 
       infoSnackbar('Contraseña modificada correctamente');
       navigate('/login');
@@ -54,7 +69,7 @@ const ChangePassword = () => {
           <InputText
             label="Repetir Contraseña"
             type="password"
-            name="repeat_password"
+            name="password_confirmation"
             register={register}
             errors={errors}
             options={{
