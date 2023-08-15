@@ -7,7 +7,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
 }
 
-const StyledButton = styled.button<{ $bg?: string; $bgDark?: string }>`
+const StyledButton = styled.button<{ $bg?: string; $bgDark?: string}>`
   background-color: ${({ $bg }) => $bg ?? colors.primary};
   cursor: pointer;
   border-radius: 4px;

@@ -1,9 +1,10 @@
-@import './../../styles/main.scss';
+@import './../../styles/_main.scss';
 
 nav {
   @include flex-space-between;
-  width: 100%;
-  padding: 0.5rem 0rem;
+  
+  height: 2rem;
+  padding: 1rem 1.6rem;
   border-bottom: 1px solid #d12eee;
 }
 
@@ -11,17 +12,98 @@ nav {
   @include flex-start;
   gap: 0.5rem;
 
+  .logo {
+    height: 2rem;
+  }
   .title {
     margin: 0;
     background: -webkit-linear-gradient(0.25deg, #902cdc, #d033ef);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    @include md-breakpoint {
+        display: none;
+    }
+  }
+}
+
+.search-bar {
+  border-radius: 10px;
+  background: #DFDFDF;
+  padding: 0.4rem;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  display: flex;
+  width: 27%;
+  @include md-breakpoint {
+    width: 60%;
+  }
+  @include lg-breakpoint {
+    width: 40%;
+  }
+
+  i {
+    width: auto;
+  }
+  input{
+    background: inherit;
+    font-weight: 400;
+    line-height: normal; 
+    border: none;
+    border-radius: inherit;
+    flex: 2;  
+    width: 100%;
+    &:active,
+    &:hover,
+    &:focus,
+    &:target {
+    outline: none;
+    }
+
   }
 }
 
 .links-container {
   @include flex-start;
-  margin-right: 0.5rem;
   gap: 1.5rem;
+  @include xxl-breakpoint {
+    display: none;
+  }
+}
+
+.hamburguer {
+  display: none;
+  cursor: pointer;
+  @include xxl-breakpoint {
+    display: contents;
+  }
+}
+
+.close-sidenav {
+  cursor: pointer;
+}
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  max-width: 250px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #0f1817;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+
+  .content {
+    text-align: center;
+    overflow: clip;
+    * {
+      padding: 8px 8px;
+      display: inline-block;
+      overflow: hidden;
+    }
+  }
 }
