@@ -27,18 +27,24 @@
 
 @mixin md-breakpoint {
   @media only screen and (max-width: $md) {
-    @content
+    @content;
   }
 }
 
 @mixin lg-breakpoint {
   @media only screen and (max-width: $lg){
-  @content
+  @content;
  }
 }
 
 @mixin xxl-breakpoint {
   @media only screen and (max-width: $xxl) {
-    @content
+    @content;
+  }
+}
+
+@mixin sm-breakpoint {
+  @media only screen and (max-width: $sm) {
+    @content;
   }
 }

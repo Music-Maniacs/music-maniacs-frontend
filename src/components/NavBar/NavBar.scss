@@ -2,15 +2,49 @@
 
 nav {
   @include flex-space-between;
-  
+
   height: 2rem;
   padding: 1rem 1.6rem;
   border-bottom: 1px solid #d12eee;
+
+  @include xxl-breakpoint {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+
+  }
+
+  @include sm-breakpoint {
+    grid-template-columns: 0.5fr 2fr 0.5fr;
+
+    .hamburguer {
+      order: 1
+    }
+    .logo-container {
+      order: 3
+    }
+    .search-bar-container {
+      margin-right: 0.2rem;
+      margin-left: 0.2rem;
+      order: 2;
+    }
+  }
 }
 
 .logo-container {
   @include flex-start;
   gap: 0.5rem;
+
+  @include xxl-breakpoint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @include sm-breakpoint {
+    display: flex;
+    align-items: end;
+    justify-content: end;
+  }
 
   .logo {
     height: 2rem;
@@ -27,21 +61,25 @@ nav {
   }
 }
 
+.search-bar-container {
+  justify-content: center;
+  display: flex;
+
+  // @include sm-breakpoint {
+  //   display: none;
+  // }
+}
+
 .search-bar {
   border-radius: 10px;
+  max-width: 370px;
   background: #DFDFDF;
   padding: 0.4rem;
   justify-content: center;
   align-items: center;
   gap: 10px;
   display: flex;
-  width: 27%;
-  @include md-breakpoint {
-    width: 60%;
-  }
-  @include lg-breakpoint {
-    width: 40%;
-  }
+  width: 100%;
 
   i {
     width: auto;
@@ -80,13 +118,16 @@ nav {
   }
 }
 
-.close-sidenav {
-  cursor: pointer;
+.sidenav.active {
+  width: 250px;
+  @include md-breakpoint {
+    width: 60%;
+  }
 }
 
 .sidenav {
   height: 100%;
-  width: 0;
+  width: 0%;
   max-width: 250px;
   position: fixed;
   z-index: 1;
@@ -94,16 +135,38 @@ nav {
   left: 0;
   background-color: #0f1817;
   overflow-x: hidden;
-  transition: 0.5s;
-  padding-top: 60px;
+  transition: 0.5s linear;
+  @include md-breakpoint {
+    transition: 0.4s linear;
+  }
+
+  
+  .close-sidenav {
+    padding: 1rem 1.6rem;
+    cursor: pointer;
+  }
 
   .content {
     text-align: center;
     overflow: clip;
-    * {
-      padding: 8px 8px;
-      display: inline-block;
-      overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    a, button{
+      width: max-content;  
     }
+    
+  }
+}
+
+.user-profile {
+  display: flex;
+  flex-direction: row;
+  gap: 0.4rem;
+  .name {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
   }
 }

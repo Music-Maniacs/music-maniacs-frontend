@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './NavBar.scss';
 import MMLink from '../MMLink/MMLink';
 import { Link } from 'react-router-dom';
@@ -7,10 +7,11 @@ import { MMButton } from '../MMButton/MMButton';
 import { FaSearch } from 'react-icons/fa';
 import { BiMenu } from 'react-icons/bi';
 import { IoMdClose } from 'react-icons/io';
+import { PiUserCircleFill } from 'react-icons/pi';
 
 export const NavBar = () => {
   const { user, handleUserLogout } = useAuth();
-  const [sidenavWidth, setSidenavWidth] = useState('0');
+  const [sidenavAcive, setSidenavActive] = useState(false);
 
   const SearchBar = () => {
     let placeholder = 'Buscar Artistas, Espacios de Eventos y Productoras';
@@ -31,8 +32,6 @@ export const NavBar = () => {
         <div className="links-container">
           <MMLink to={'/'} content="Buscar Eventos" />
           <MMLink to={'/'} content="Sobre Nosotros" />
-          <MMLink to={'/'} content="Sobre Nosotros" />
-          <MMLink to={'/'} content="Sobre Nosotros" />
           <Link to={'/login'}>
             <MMButton style={{ textTransform: 'none' }} color="secondary">
               Iniciar Sesión / Registrarse
@@ -47,6 +46,13 @@ export const NavBar = () => {
           <MMLink to={'/register'} content="Register" />
           <MMLink to={'/change-password'} content="Cambiar Contraseña" />
           <MMLink to={'/recover-password'} content="Recuperar Contraseña" />
+          <div className="user-profile">
+            <PiUserCircleFill size={40} />
+            <div className="name">
+              <MMLink to={'/'} content={user.username} />
+              <span>Rol</span>
+            </div>
+          </div>
         </div>
       );
     }
@@ -67,12 +73,21 @@ export const NavBar = () => {
       );
     } else {
       return (
-        <div className="">
+        <div className="content">
           <MMLink to={'/BuscarEvento'} content="Buscar Evento" />
           <MMLink to={'/register'} content="Register" />
           <MMLink to={'/change-password'} content="Cambiar Contraseña" />
           <MMLink to={'/recover-password'} content="Recuperar Contraseña" />
-          <button onClick={() => handleUserLogout()}> Logout </button>
+          <div className="user-profile">
+            <PiUserCircleFill size={40} />
+            <div className="name">
+              <MMLink to={'/'} content={user.username} />
+              <span>Rol</span>
+            </div>
+          </div>
+          <MMButton style={{ textTransform: 'none' }} color="secondary" onClick={() => handleUserLogout()}>
+            Cerrar Sesión
+          </MMButton>
         </div>
       );
     }
@@ -80,33 +95,32 @@ export const NavBar = () => {
 
   return (
     <div>
-      <div id="mySidenav" className="sidenav" style={{ width: sidenavWidth }}>
-        <SideNavContent />
-      </div>
       <nav>
+        <div className="hamburguer">
+          <BiMenu size={40} onClick={() => setSidenavActive(true)} />
+        </div>
+
         <Link to={'/'} style={{ textDecoration: 'none' }} className="logo-container">
           <img className="logo" alt="music-maniacs-logo" src={require('../../assets/logos/MMlogo.png')} />
           <h1 className="title">MUSIC MANIACS</h1>
         </Link>
 
-        <SearchBar />
+        <div className="search-bar-container">
+          <SearchBar />
+        </div>
 
         <NavContent />
-
-        <div className="hamburguer">
-          {sidenavWidth == '0' ? (
-            <BiMenu size={40} onClick={() => setSidenavWidth('40%')} />
-          ) : (
-            <IoMdClose
-              className="close-sidenav"
-              size={40}
-              onClick={() => {
-                setSidenavWidth('0');
-              }}
-            />
-          )}
-        </div>
       </nav>
+      <div id="mySidenav" className={sidenavAcive ? 'sidenav active' : 'sidenav'}>
+        <IoMdClose
+          className="close-sidenav"
+          size={40}
+          onClick={() => {
+            setSidenavActive(false);
+          }}
+        />
+        <SideNavContent />
+      </div>
     </div>
   );
 };
