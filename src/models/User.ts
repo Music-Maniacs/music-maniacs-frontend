@@ -15,7 +15,8 @@ export const userValidations: Readonly<ModelValidations<User>> = {
     required: {
       value: true,
       message: 'Debe ingresar su nombre completo'
-    }
+    },
+    maxLength: { value: 128, message: 'El nombre debe ser menor a 128 caracteres' }
   },
   username: {
     required: { value: true, message: 'Debe ingresar su nombre de usuario' },

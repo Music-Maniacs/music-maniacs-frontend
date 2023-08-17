@@ -10,6 +10,7 @@ import { MMButton } from '../../../components/MMButton/MMButton';
 import MMLink from '../../../components/MMLink/MMLink';
 import { userValidations } from '../../../models/User';
 import { recoverPasswordEmail } from '../../../services/userService';
+import '../Auth.scss';
 
 type FormData = {
   email: string;

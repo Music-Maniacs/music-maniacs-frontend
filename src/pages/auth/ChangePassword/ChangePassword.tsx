@@ -31,6 +31,7 @@ const ChangePassword = () => {
     }
 
     setResetPasswordToken(urlParams.get('reset_password_token') as string);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const {

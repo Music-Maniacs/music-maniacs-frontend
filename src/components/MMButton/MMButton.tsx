@@ -3,11 +3,15 @@ import colors from './../../styles/_colors.scss';
 import { styled } from 'styled-components';
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
-  color?: 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning';
+  color?: 'primary' | 'secondary' | 'tertiary' | 'success' | 'error' | 'info' | 'warning';
   children: React.ReactNode;
 }
 
 const StyledButton = styled.button<{ $bg?: string; $bgDark?: string }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
   background-color: ${({ $bg }) => $bg ?? colors.primary};
   cursor: pointer;
   border-radius: 4px;
@@ -37,6 +41,10 @@ export const MMButton = ({ children, color, ...props }: Props) => {
         $bg: colors.secondary,
         $bgDark: colors.secondary_dark
       },
+      tertiary: {
+        $bg: colors.tertiary,
+        $bgDark: colors.tertiary_dark
+      },
       success: {
         $bg: colors.success,
         $bgDark: colors.success_dark
@@ -59,10 +67,8 @@ export const MMButton = ({ children, color, ...props }: Props) => {
   }, [color]);
 
   return (
-    <>
-      <StyledButton {...getColors()} {...props}>
-        {children}
-      </StyledButton>
-    </>
+    <StyledButton {...getColors()} {...props}>
+      {children}
+    </StyledButton>
   );
 };

@@ -32,4 +32,9 @@
     @extend .mm-container;
     max-width: $xl;
   }
+
+  &--xxl {
+    @extend .mm-container;
+    max-width: $xxl;
+  }
 }

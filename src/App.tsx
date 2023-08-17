@@ -10,6 +10,9 @@ const Register = lazy(() => import('./pages/auth/Register/Register'));
 const ChangePassword = lazy(() => import('./pages/auth/ChangePassword/ChangePassword'));
 const RecoverPassword = lazy(() => import('./pages/auth/RecoverPassword/RecoverPassword'));
 
+// Admin Module
+const UsersIndex = lazy(() => import('./pages/admin/users/UsersIndex'));
+
 function App() {
   return (
     <AppProviders>
@@ -17,11 +20,15 @@ function App() {
         <NavBar />
         <Suspense fallback={<Loader />}>
           <Routes>
+            {/* Auth Module */}
             <Route path="/" element={<h1>Music Maniacs Home</h1>} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/change-password" element={<ChangePassword />} />
             <Route path="/recover-password" element={<RecoverPassword />} />
+
+            {/* Admin Module */}
+            <Route path="/admin/users" element={<UsersIndex />} />
           </Routes>
         </Suspense>
       </BrowserRouter>
