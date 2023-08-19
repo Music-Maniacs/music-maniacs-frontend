@@ -6,33 +6,23 @@ import { useAuth } from '../../context/authContext';
 import { MMButton } from '../MMButton/MMButton';
 import { FaSearch } from 'react-icons/fa';
 import { BiMenu } from 'react-icons/bi';
-import { IoMdClose } from 'react-icons/io';
+import { IoMdClose, IoMdArrowDropup, IoMdArrowDropdown } from 'react-icons/io';
 import { PiUserCircleFill } from 'react-icons/pi';
+import colors from '../../styles/_colors.scss';
+import { SideNav } from './SideNav';
+import { NavUserProfile } from './NavUserProfile';
 
 export const NavBar = () => {
   const { user, handleUserLogout } = useAuth();
   const [sidenavAcive, setSidenavActive] = useState(false);
 
-  const SearchBar = () => {
-    let placeholder = 'Buscar Artistas, Espacios de Eventos y Productoras';
-
-    return (
-      <div className="search-bar">
-        <i>
-          <FaSearch color="black" />
-        </i>
-        <input placeholder={placeholder}></input>
-      </div>
-    );
-  };
-
   const NavContent = () => {
-    if (user === undefined) {
+    if (user !== undefined) {
       return (
         <div className="links-container">
           <MMLink to={'/'} content="Buscar Eventos" />
           <MMLink to={'/'} content="Sobre Nosotros" />
-          <Link to={'/login'}>
+          <Link to={'/login'} onClick={() => setSidenavActive(false)}>
             <MMButton style={{ textTransform: 'none' }} color="secondary">
               Iniciar Sesión / Registrarse
             </MMButton>
@@ -43,51 +33,37 @@ export const NavBar = () => {
       return (
         <div className="links-container">
           <MMLink to={'/BuscarEvento'} content="Buscar Evento" />
-          <MMLink to={'/register'} content="Register" />
-          <MMLink to={'/change-password'} content="Cambiar Contraseña" />
-          <MMLink to={'/recover-password'} content="Recuperar Contraseña" />
-          <div className="user-profile">
-            <PiUserCircleFill size={40} />
-            <div className="name">
-              <MMLink to={'/'} content={user.username} />
-              <span>Rol</span>
-            </div>
-          </div>
-        </div>
-      );
-    }
-  };
+          <MMLink to={'/BuscarEvento'} content="Moderar Contenido" />
 
-  const SideNavContent = () => {
-    if (user === undefined) {
-      return (
-        <div className="content">
-          <MMLink to={'/'} content="Buscar Eventos" />
-          <MMLink to={'/'} content="Sobre Nosotros" />
-          <Link to={'/login'}>
-            <MMButton style={{ textTransform: 'none' }} color="secondary">
-              Iniciar Sesión / Registrarse
-            </MMButton>
-          </Link>
-        </div>
-      );
-    } else {
-      return (
-        <div className="content">
-          <MMLink to={'/BuscarEvento'} content="Buscar Evento" />
-          <MMLink to={'/register'} content="Register" />
-          <MMLink to={'/change-password'} content="Cambiar Contraseña" />
-          <MMLink to={'/recover-password'} content="Recuperar Contraseña" />
-          <div className="user-profile">
-            <PiUserCircleFill size={40} />
-            <div className="name">
-              <MMLink to={'/'} content={user.username} />
-              <span>Rol</span>
+          <div className="nav-dropdown">
+            <div className="nav-admin-container">
+              <span>Administrar Contendino</span>
+              <IoMdArrowDropdown size={20} />
+            </div>
+            <div className="nav-dropdown-content">
+              <MMLink to={'/'} content="Métricas y Reportes" />
+              <MMLink to={'/'} content="Usuarios" />
+              <MMLink to={'/'} content="Eventos" />
+              <MMLink to={'/'} content="Artistas" />
+              <MMLink to={'/'} content="Productoras" />
+              <MMLink to={'/'} content="Espacios de eventos" />
+              <MMLink to={'/'} content="Generos Musicales" />
+              <MMLink to={'/'} content="Roles" />
+              <MMLink to={'/'} content="Niveles de Confianza" />
+              <MMLink to={'/'} content="Copias de Seguridad" />
+              <MMLink to={'/'} content="Umbrales Penalizacion" />
             </div>
           </div>
-          <MMButton style={{ textTransform: 'none' }} color="secondary" onClick={() => handleUserLogout()}>
-            Cerrar Sesión
-          </MMButton>
+
+          <div className="nav-dropdown">
+            <div className="nav-admin-container">
+              <NavUserProfile active={false} />
+            </div>
+            <div className="nav-dropdown-content">
+              <MMLink to={'/'} content="Mi Perfil" />
+              <MMLink to={'/'} content="Cerrar Sesión" />
+            </div>
+          </div>
         </div>
       );
     }
@@ -97,7 +73,7 @@ export const NavBar = () => {
     <div>
       <nav>
         <div className="hamburguer">
-          <BiMenu size={40} onClick={() => setSidenavActive(true)} />
+          <BiMenu size={40} onClick={() => setSidenavActive(true)} color={sidenavAcive ? '#1e2e2c' : 'white'} />
         </div>
 
         <Link to={'/'} style={{ textDecoration: 'none' }} className="logo-container">
@@ -105,22 +81,16 @@ export const NavBar = () => {
           <h1 className="title">MUSIC MANIACS</h1>
         </Link>
 
-        <div className="search-bar-container">
-          <SearchBar />
+        <div className="search-bar">
+          <i>
+            <FaSearch color="black" />
+          </i>
+          <input placeholder="Buscar Artistas, Espacios de Eventos y Productoras"></input>
         </div>
 
         <NavContent />
       </nav>
-      <div id="mySidenav" className={sidenavAcive ? 'sidenav active' : 'sidenav'}>
-        <IoMdClose
-          className="close-sidenav"
-          size={40}
-          onClick={() => {
-            setSidenavActive(false);
-          }}
-        />
-        <SideNavContent />
-      </div>
+      <SideNav active={sidenavAcive} setActive={setSidenavActive} />
     </div>
   );
 };
