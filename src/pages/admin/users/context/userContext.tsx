@@ -24,7 +24,7 @@ const UsersContext = createContext<StoreProps | null>(null);
 export const UsersProvider = ({ children }: Props) => {
   const INDEX_URL = `${process.env.REACT_APP_API_URL}/admin/users`;
   const queryParams = useRef<Record<string, string>>({
-    name_or_username_or_email_matches: '',
+    full_name_or_username_or_email_cont: '',
     search_by_state: ''
   });
 

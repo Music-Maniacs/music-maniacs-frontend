@@ -17,7 +17,7 @@ export const Searcher = () => {
     <form className="admin-search-container" onSubmit={handleFormSubmit}>
       <div className="inputs-container">
         <SearchInputText
-          paramKey="name_or_username_or_email_matches"
+          paramKey="full_name_or_username_or_email_cont"
           placeholder="Buscar por Nombre, Usuarios o Email"
           queryParams={queryParams}
         />
