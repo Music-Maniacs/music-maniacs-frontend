@@ -12,4 +12,16 @@
 
 .admin-search-container {
   @include flex-space-between;
+
+  .inputs-container {
+    @include flex-center;
+    margin: 0px 8px;
+    gap: 8px;
+    width: 100%;
+  }
+}
+
+.admin-form-container {
+  @include flex-column-center;
+  gap: 10px;
 }

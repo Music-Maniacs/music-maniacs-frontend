@@ -1,10 +1,14 @@
 import React from 'react';
 import { AuthProvider } from './context/authContext';
 import { SnackbarProvider } from 'notistack';
+import { ThemeProvider, createTheme } from '@mui/material';
+import { esES } from '@mui/material/locale';
 
 type Props = {
   children: React.ReactNode;
 };
+
+const theme = createTheme({}, esES);
 
 export const AppProviders = ({ children }: Props) => {
   return (
@@ -15,7 +19,7 @@ export const AppProviders = ({ children }: Props) => {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         preventDuplicate
       >
-        {children}
+        <ThemeProvider theme={theme}>{children}</ThemeProvider>
       </SnackbarProvider>
     </AuthProvider>
   );

@@ -11,7 +11,8 @@ const ChangePassword = lazy(() => import('./pages/auth/ChangePassword/ChangePass
 const RecoverPassword = lazy(() => import('./pages/auth/RecoverPassword/RecoverPassword'));
 
 // Admin Module
-const UsersIndex = lazy(() => import('./pages/admin/users/UsersIndex'));
+const UsersContainer = lazy(() => import('./pages/admin/users/UsersContainer'));
+const UserShow = lazy(() => import('./pages/admin/users/show/Show'));
 
 function App() {
   return (
@@ -28,7 +29,8 @@ function App() {
             <Route path="/recover-password" element={<RecoverPassword />} />
 
             {/* Admin Module */}
-            <Route path="/admin/users" element={<UsersIndex />} />
+            <Route path="/admin/users" element={<UsersContainer />} />
+            <Route path="/admin/users/:id" element={<UserShow />} />
           </Routes>
         </Suspense>
       </BrowserRouter>

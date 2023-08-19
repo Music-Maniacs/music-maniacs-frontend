@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import { Table, TableBody, TableCell, TableCellProps, TableContainer, TableHead, TableRow } from '@mui/material';
 import './MMTable.scss';
+import { Loader } from '../Loader/Loader';
 
 interface CellProps extends TableCellProps {
   children: string | React.ReactNode;
@@ -13,8 +14,9 @@ type ColumnDefinitionType<T> = {
 };
 
 type TableProps<T> = {
-  data: T[];
+  data?: T[];
   columns: ColumnDefinitionType<T>[];
+  isLoading?: boolean;
 };
 
 const StyledMaterialUiCell = ({ children, ...props }: CellProps) => {
@@ -25,7 +27,7 @@ const StyledMaterialUiCell = ({ children, ...props }: CellProps) => {
   );
 };
 
-export function MMTable<T>({ data, columns }: TableProps<T>) {
+export function MMTable<T>({ data, columns, isLoading = false }: TableProps<T>) {
   return (
     <TableContainer>
       <Table>
@@ -39,15 +41,25 @@ export function MMTable<T>({ data, columns }: TableProps<T>) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((row, index1) => (
-            <TableRow key={'row-' + index1}>
-              {columns.map((column, index2) => (
-                <StyledMaterialUiCell key={`cell-${index1}-${index2}`} {...column.cellProps}>
-                  {column.renderCell(row)}
-                </StyledMaterialUiCell>
-              ))}
+          {isLoading ? (
+            <TableRow>
+              <StyledMaterialUiCell colSpan={12}>
+                <Loader height={100} />
+              </StyledMaterialUiCell>
             </TableRow>
-          ))}
+          ) : (
+            data &&
+            data.length > 0 &&
+            data.map((row, index1) => (
+              <TableRow key={'row-' + index1}>
+                {columns.map((column, index2) => (
+                  <StyledMaterialUiCell key={`cell-${index1}-${index2}`} {...column.cellProps}>
+                    {column.renderCell(row)}
+                  </StyledMaterialUiCell>
+                ))}
+              </TableRow>
+            ))
+          )}
         </TableBody>
       </Table>
     </TableContainer>

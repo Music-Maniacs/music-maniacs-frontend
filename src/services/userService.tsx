@@ -1,7 +1,10 @@
 import axios, { AxiosResponse } from 'axios';
 import { User } from '../models/User';
+import { PaginatedApiResponse } from '../models/Generic';
 
 const userUrl = `${process.env.REACT_APP_API_URL}/users`;
+
+const adminUsersUrl = `${process.env.REACT_APP_API_URL}/admin/users`;
 
 export type LoginResponse = {
   message: string;
@@ -63,4 +66,68 @@ export async function recoverPassword(
     }
   };
   return await axios.patch(`${userUrl}/password`, body);
+}
+
+export async function index(params: string, page: number, perPage: number): Promise<PaginatedApiResponse<User>> {
+  const response = await axios.get<PaginatedApiResponse<User>>(
+    `${adminUsersUrl}?page=${page}&per_page=${perPage}&${params}`
+  );
+
+  return response.data;
+}
+
+export async function adminRegister(
+  full_name: string,
+  username: string,
+  email: string,
+  password: string,
+  password_confirmation: string,
+  biography: string,
+  links_attributes: {
+    title: string;
+    url: string;
+  }[]
+): Promise<User> {
+  const body = {
+    user: {
+      full_name,
+      username,
+      password,
+      email,
+      password_confirmation,
+      biography,
+      links_attributes
+    }
+  };
+
+  return (await axios.post(adminUsersUrl, body)).data;
+}
+
+export async function adminGetUser(id: string): Promise<User> {
+  return (await axios.get(`${adminUsersUrl}/${id}`)).data;
+}
+
+export async function adminDeleteUser(id: string): Promise<void> {
+  return await axios.delete(`${adminUsersUrl}/${id}`);
+}
+
+export async function adminUpdateUser(
+  id: string,
+  full_name: string,
+  username: string,
+  email: string,
+  biography: string,
+  links_attributes: { id?: string; title: string; url: string; _destroy?: boolean }[]
+): Promise<User> {
+  const body = {
+    user: {
+      full_name,
+      username,
+      email,
+      biography,
+      links_attributes
+    }
+  };
+
+  return (await axios.put(`${adminUsersUrl}/${id}`, body)).data;
 }

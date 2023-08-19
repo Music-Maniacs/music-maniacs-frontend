@@ -3,19 +3,19 @@ import { Dialog, DialogContent, DialogTitle } from '@mui/material';
 import colors from '../../styles/_colors.scss';
 
 type Props = {
-  isOpen: boolean;
-  onClose: () => void;
-  title: React.ReactNode | string;
+  isModalOpen: boolean;
+  closeModal: () => void;
+  title?: React.ReactNode | string;
   children: React.ReactNode;
 };
 
-export const MMModal = ({ isOpen, onClose, title, children }: Props) => {
+export const MMModal = ({ isModalOpen, closeModal, title, children }: Props) => {
   return (
     <Dialog
       fullWidth={true}
       maxWidth={'sm'}
-      open={isOpen}
-      onClose={onClose}
+      open={isModalOpen}
+      onClose={closeModal}
       sx={{
         '& .MuiPaper-root': {
           backgroundColor: colors.sweet_alert_background,
@@ -23,7 +23,7 @@ export const MMModal = ({ isOpen, onClose, title, children }: Props) => {
         }
       }}
     >
-      <DialogTitle>{title}</DialogTitle>
+      {title && <DialogTitle>{title}</DialogTitle>}
       <DialogContent>{children}</DialogContent>
     </Dialog>
   );

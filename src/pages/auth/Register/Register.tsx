@@ -11,6 +11,7 @@ import '../Auth.scss';
 import { userValidations } from '../../../models/User';
 import { errorSnackbar, infoSnackbar } from '../../../components/Snackbar/Snackbar';
 import { useNavigate } from 'react-router-dom';
+import { handleFormErrors } from '../../../utils/handleFormErrors';
 
 type FormData = {
   full_name: string;
@@ -26,6 +27,7 @@ const Register = () => {
     register,
     handleSubmit,
     watch,
+    setError,
     formState: { errors }
   } = useForm<FormData>();
 
@@ -36,7 +38,9 @@ const Register = () => {
       infoSnackbar('Usuario creado con exito');
       navigate('/login');
     } catch (error) {
-      errorSnackbar('Error al crear el usuario');
+      let hasFormError = handleFormErrors(error, setError);
+
+      !hasFormError && errorSnackbar('Error inesperado al crear el usuario. Contacte a soporte.');
     }
   };
 
