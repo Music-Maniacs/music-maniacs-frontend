@@ -32,7 +32,22 @@ export const Table = () => {
 
   const handleDeleteButton = (userId: string) => {
     handleDeleteUser(userId, () => {
-      setUsers((prevState) => prevState?.filter((user) => user.id !== userId));
+      const user = users?.find((user) => user.id === userId);
+      if (!user) return;
+
+      user.deleted_at = new Date().toISOString();
+      user.state = 'deleted';
+
+      setUsers((users) => {
+        const newUsers = [...(users ? users : [])];
+        const index = newUsers.findIndex((user) => user.id === userId);
+
+        if (index === -1) return users;
+
+        newUsers[index] = user;
+
+        return newUsers;
+      });
     });
   };
 
