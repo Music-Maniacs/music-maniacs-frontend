@@ -35,22 +35,23 @@
   .user-container {
     border-bottom: 1px solid #6c26ed;
     padding-left: 1rem;
-    padding-bottom: 1rem;
     margin-bottom: 1.5rem;
+    overflow: clip;
 
     .sidenav-user-dropdown {
       flex-direction: column;
-      gap: 0.7rem;
+      gap: 1rem;
       transition: max-height 1s ease-out;
       display: flex;
       overflow: hidden;
       max-height: 0px;
       width: max-content;
+      margin: 0.5rem 0rem 0.5rem 0rem;
+      padding-left: 2rem;
 
       &.active {
         max-height: 200px;
-        transition: max-height 1s ease-in;
-        padding: 1rem 2rem 0.2rem;
+        transition: max-height padding-bottom 0.5s ease-in;
       }
 
       a {
@@ -77,17 +78,17 @@
 
     .sidenav-admin-dropdown {
       flex-direction: column;
-      gap: 0.7rem;
-      transition: max-height 1s ease-out;
+      gap: 1rem;
+      transition: max-height 0.5s ease-out;
       display: flex;
       overflow: hidden;
       max-height: 0px;
       width: max-content;
+      padding: 0rem 2.5rem 0rem 2rem;
 
       &.active {
         max-height: 200px;
-        transition: max-height 1s ease-in;
-        padding: 1rem 2.5rem 0.2rem 2rem;
+        transition: max-height 0.5s ease-in;
       }
 
       a {

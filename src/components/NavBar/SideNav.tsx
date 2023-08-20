@@ -13,10 +13,7 @@ type Props = {
 };
 
 export const SideNav = ({ active, setActive }: Props) => {
-  const { user, handleUserLogout } = useAuth();
-  const [userDropdownActive, setUserDropdownActive] = useState(false);
-  const [adminDropdownActive, setAdminDropdownActive] = useState(false);
-
+  const { user } = useAuth();
   let sideNavRef = useRef<HTMLDivElement>(null);
 
   const md_breakpoint = 798;
@@ -50,53 +47,11 @@ export const SideNav = ({ active, setActive }: Props) => {
     }
     return (
       <>
-        <div className="user-container">
-          <div
-            onClick={() => {
-              setUserDropdownActive(!userDropdownActive);
-              setAdminDropdownActive(false);
-            }}
-          >
-            <NavUserProfile active={userDropdownActive} />
-          </div>
-
-          <div className={userDropdownActive ? 'sidenav-user-dropdown active' : 'sidenav-user-dropdown'}>
-            <MMLink to={'/'} content="Mi Perfil" />
-            <MMLink to={'/change-password'} content="Cambiar Contraseña" />
-            <MMLink to={'/recover-password'} content="Recuperar Contraseña" />
-            <MMLink to={'/login'} onClick={() => handleUserLogout()} content="Cerrar Sesión" />
-          </div>
-        </div>
-
+        <UserDropdown />
         <div className="content">
           <MMLink to={'/BuscarEvento'} content="Buscar Evento" />
           <MMLink to={'/'} content="Moderar Contenido" />
-          <div>
-            <div
-              className="sidenav-admin-container"
-              onClick={() => {
-                setAdminDropdownActive(!adminDropdownActive);
-                setUserDropdownActive(false);
-              }}
-            >
-              <span>Administrar Contendino</span>
-              {adminDropdownActive ? <IoMdArrowDropup size={20} /> : <IoMdArrowDropdown size={20} />}
-            </div>
-
-            <div className={adminDropdownActive ? 'sidenav-admin-dropdown active' : 'sidenav-admin-dropdown'}>
-              <MMLink to={'/'} content="Métricas y Reportes" />
-              <MMLink to={'/'} content="Usuarios" />
-              <MMLink to={'/'} content="Eventos" />
-              <MMLink to={'/'} content="Artistas" />
-              <MMLink to={'/'} content="Productoras" />
-              <MMLink to={'/'} content="Espacios de eventos" />
-              <MMLink to={'/'} content="Generos Musicales" />
-              <MMLink to={'/'} content="Roles" />
-              <MMLink to={'/'} content="Niveles de Confianza" />
-              <MMLink to={'/'} content="Copias de Seguridad" />
-              <MMLink to={'/'} content="Umbrales Penalizacion" />
-            </div>
-          </div>
+          <AdminDropdown />
         </div>
       </>
     );
@@ -112,6 +67,61 @@ export const SideNav = ({ active, setActive }: Props) => {
         }}
       />
       <SidenavContent />
+    </div>
+  );
+};
+
+const AdminDropdown = () => {
+  const [adminDropdownActive, setAdminDropdownActive] = useState(false);
+  return (
+    <>
+      <div
+        className="sidenav-admin-container"
+        onClick={() => {
+          setAdminDropdownActive(!adminDropdownActive);
+        }}
+      >
+        <span>Administrar Contendino</span>
+        {adminDropdownActive ? <IoMdArrowDropup size={20} /> : <IoMdArrowDropdown size={20} />}
+      </div>
+
+      <div className={adminDropdownActive ? 'sidenav-admin-dropdown active' : 'sidenav-admin-dropdown'}>
+        <MMLink to={'/'} content="Métricas y Reportes" />
+        <MMLink to={'/'} content="Usuarios" />
+        <MMLink to={'/'} content="Eventos" />
+        <MMLink to={'/'} content="Artistas" />
+        <MMLink to={'/'} content="Productoras" />
+        <MMLink to={'/'} content="Espacios de eventos" />
+        <MMLink to={'/'} content="Generos Musicales" />
+        <MMLink to={'/'} content="Roles" />
+        <MMLink to={'/'} content="Niveles de Confianza" />
+        <MMLink to={'/'} content="Copias de Seguridad" />
+        <MMLink to={'/'} content="Umbrales Penalizacion" />
+      </div>
+    </>
+  );
+};
+
+const UserDropdown = () => {
+  const [userDropdownActive, setUserDropdownActive] = useState(false);
+  const { handleUserLogout } = useAuth();
+  return (
+    <div className="user-container">
+      <div
+        className="user-info"
+        onClick={() => {
+          setUserDropdownActive(!userDropdownActive);
+        }}
+      >
+        <NavUserProfile active={userDropdownActive} />
+      </div>
+
+      <div className={userDropdownActive ? 'sidenav-user-dropdown active' : 'sidenav-user-dropdown'}>
+        <MMLink to={'/'} content="Mi Perfil" />
+        <MMLink to={'/change-password'} content="Cambiar Contraseña" />
+        <MMLink to={'/recover-password'} content="Recuperar Contraseña" />
+        <MMLink to={'/login'} onClick={() => handleUserLogout()} content="Cerrar Sesión" />
+      </div>
     </div>
   );
 };
