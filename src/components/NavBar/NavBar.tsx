@@ -17,7 +17,7 @@ export const NavBar = () => {
   const [sidenavAcive, setSidenavActive] = useState(false);
 
   const NavContent = () => {
-    if (user !== undefined) {
+    if (!user) {
       return (
         <div className="links-container">
           <MMLink to={'/'} content="Buscar Eventos" />
@@ -29,44 +29,43 @@ export const NavBar = () => {
           </Link>
         </div>
       );
-    } else {
-      return (
-        <div className="links-container">
-          <MMLink to={'/BuscarEvento'} content="Buscar Evento" />
-          <MMLink to={'/BuscarEvento'} content="Moderar Contenido" />
+    }
+    return (
+      <div className="links-container">
+        <MMLink to={'/BuscarEvento'} content="Buscar Evento" />
+        <MMLink to={'/BuscarEvento'} content="Moderar Contenido" />
 
-          <div className="nav-dropdown">
-            <div className="nav-admin-container">
-              <span>Administrar Contendino</span>
-              <IoMdArrowDropdown size={20} />
-            </div>
-            <div className="nav-dropdown-content">
-              <MMLink to={'/'} content="Métricas y Reportes" />
-              <MMLink to={'/'} content="Usuarios" />
-              <MMLink to={'/'} content="Eventos" />
-              <MMLink to={'/'} content="Artistas" />
-              <MMLink to={'/'} content="Productoras" />
-              <MMLink to={'/'} content="Espacios de eventos" />
-              <MMLink to={'/'} content="Generos Musicales" />
-              <MMLink to={'/'} content="Roles" />
-              <MMLink to={'/'} content="Niveles de Confianza" />
-              <MMLink to={'/'} content="Copias de Seguridad" />
-              <MMLink to={'/'} content="Umbrales Penalizacion" />
-            </div>
+        <div className="nav-dropdown">
+          <div className="nav-admin-container">
+            <span>Administrar Contendino</span>
+            <IoMdArrowDropdown size={20} />
           </div>
-
-          <div className="nav-dropdown">
-            <div className="nav-admin-container">
-              <NavUserProfile active={false} />
-            </div>
-            <div className="nav-dropdown-content">
-              <MMLink to={'/'} content="Mi Perfil" />
-              <MMLink to={'/'} content="Cerrar Sesión" />
-            </div>
+          <div className="nav-dropdown-content">
+            <MMLink to={'/'} content="Métricas y Reportes" />
+            <MMLink to={'/'} content="Usuarios" />
+            <MMLink to={'/'} content="Eventos" />
+            <MMLink to={'/'} content="Artistas" />
+            <MMLink to={'/'} content="Productoras" />
+            <MMLink to={'/'} content="Espacios de eventos" />
+            <MMLink to={'/'} content="Generos Musicales" />
+            <MMLink to={'/'} content="Roles" />
+            <MMLink to={'/'} content="Niveles de Confianza" />
+            <MMLink to={'/'} content="Copias de Seguridad" />
+            <MMLink to={'/'} content="Umbrales Penalizacion" />
           </div>
         </div>
-      );
-    }
+
+        <div className="nav-dropdown">
+          <div className="nav-admin-container">
+            <NavUserProfile active={false} />
+          </div>
+          <div className="nav-dropdown-content">
+            <MMLink to={'/'} content="Mi Perfil" />
+            <MMLink to={'/'} content="Cerrar Sesión" onClick={() => handleUserLogout()} />
+          </div>
+        </div>
+      </div>
+    );
   };
 
   return (

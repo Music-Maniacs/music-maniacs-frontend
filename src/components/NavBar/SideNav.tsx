@@ -28,14 +28,14 @@ export const SideNav = ({ active, setActive }: Props) => {
       }
     };
     document.addEventListener('mousedown', handler);
-
+    console.log('Sidenav useEffect');
     return () => {
       document.removeEventListener('mousedown', handler);
     };
-  });
+  }, []);
 
   const SidenavContent = () => {
-    if (user === undefined) {
+    if (!user) {
       return (
         <div className="content">
           <MMLink to={'/'} content="Buscar Eventos" />
@@ -47,62 +47,59 @@ export const SideNav = ({ active, setActive }: Props) => {
           </Link>
         </div>
       );
-    } else {
-      return (
-        <>
-          <div className="user-container">
+    }
+    return (
+      <>
+        <div className="user-container">
+          <div
+            onClick={() => {
+              setUserDropdownActive(!userDropdownActive);
+              setAdminDropdownActive(false);
+            }}
+          >
+            <NavUserProfile active={userDropdownActive} />
+          </div>
+
+          <div className={userDropdownActive ? 'sidenav-user-dropdown active' : 'sidenav-user-dropdown'}>
+            <MMLink to={'/'} content="Mi Perfil" />
+            <MMLink to={'/change-password'} content="Cambiar Contraseña" />
+            <MMLink to={'/recover-password'} content="Recuperar Contraseña" />
+            <MMLink to={'/login'} onClick={() => handleUserLogout()} content="Cerrar Sesión" />
+          </div>
+        </div>
+
+        <div className="content">
+          <MMLink to={'/BuscarEvento'} content="Buscar Evento" />
+          <MMLink to={'/'} content="Moderar Contenido" />
+          <div>
             <div
+              className="sidenav-admin-container"
               onClick={() => {
-                setUserDropdownActive(!userDropdownActive);
-                setAdminDropdownActive(false);
+                setAdminDropdownActive(!adminDropdownActive);
+                setUserDropdownActive(false);
               }}
             >
-              <NavUserProfile active={userDropdownActive} />
+              <span>Administrar Contendino</span>
+              {adminDropdownActive ? <IoMdArrowDropup size={20} /> : <IoMdArrowDropdown size={20} />}
             </div>
 
-            <div className={userDropdownActive ? 'sidenav-user-dropdown active' : 'sidenav-user-dropdown'}>
-              <MMLink to={'/'} content="Mi Perfil" />
-              <MMLink to={'/change-password'} content="Cambiar Contraseña" />
-              <MMLink to={'/recover-password'} content="Recuperar Contraseña" />
-              <MMButton style={{ textTransform: 'none' }} color="secondary" onClick={() => handleUserLogout()}>
-                Cerrar Sesión
-              </MMButton>
-            </div>
-          </div>
-
-          <div className="content">
-            <MMLink to={'/BuscarEvento'} content="Buscar Evento" />
-            <MMLink to={'/'} content="Moderar Contenido" />
-            <div>
-              <div
-                className="sidenav-admin-container"
-                onClick={() => {
-                  setAdminDropdownActive(!adminDropdownActive);
-                  setUserDropdownActive(false);
-                }}
-              >
-                <span>Administrar Contendino</span>
-                {adminDropdownActive ? <IoMdArrowDropup size={20} /> : <IoMdArrowDropdown size={20} />}
-              </div>
-
-              <div className={adminDropdownActive ? 'sidenav-admin-dropdown active' : 'sidenav-admin-dropdown'}>
-                <MMLink to={'/'} content="Métricas y Reportes" />
-                <MMLink to={'/'} content="Usuarios" />
-                <MMLink to={'/'} content="Eventos" />
-                <MMLink to={'/'} content="Artistas" />
-                <MMLink to={'/'} content="Productoras" />
-                <MMLink to={'/'} content="Espacios de eventos" />
-                <MMLink to={'/'} content="Generos Musicales" />
-                <MMLink to={'/'} content="Roles" />
-                <MMLink to={'/'} content="Niveles de Confianza" />
-                <MMLink to={'/'} content="Copias de Seguridad" />
-                <MMLink to={'/'} content="Umbrales Penalizacion" />
-              </div>
+            <div className={adminDropdownActive ? 'sidenav-admin-dropdown active' : 'sidenav-admin-dropdown'}>
+              <MMLink to={'/'} content="Métricas y Reportes" />
+              <MMLink to={'/'} content="Usuarios" />
+              <MMLink to={'/'} content="Eventos" />
+              <MMLink to={'/'} content="Artistas" />
+              <MMLink to={'/'} content="Productoras" />
+              <MMLink to={'/'} content="Espacios de eventos" />
+              <MMLink to={'/'} content="Generos Musicales" />
+              <MMLink to={'/'} content="Roles" />
+              <MMLink to={'/'} content="Niveles de Confianza" />
+              <MMLink to={'/'} content="Copias de Seguridad" />
+              <MMLink to={'/'} content="Umbrales Penalizacion" />
             </div>
           </div>
-        </>
-      );
-    }
+        </div>
+      </>
+    );
   };
 
   return (
