@@ -58,7 +58,7 @@ export default function Show() {
     if (!user) return;
 
     handleDeleteUser(user.id, () => {
-      setUser({ ...user, state: 'deleted' });
+      setUser({ ...user, state: 'deleted', deleted_at: new Date().toISOString() });
     });
   };
 

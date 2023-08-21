@@ -68,6 +68,16 @@ export async function recoverPassword(
   return await axios.patch(`${userUrl}/password`, body);
 }
 
+export async function userInfo(token: string): Promise<User> {
+  return (
+    await axios.get(`${userUrl}/user_info`, {
+      headers: {
+        Authorization: token
+      }
+    })
+  ).data;
+}
+
 export async function index(params: string, page: number, perPage: number): Promise<PaginatedApiResponse<User>> {
   const response = await axios.get<PaginatedApiResponse<User>>(
     `${adminUsersUrl}?page=${page}&per_page=${perPage}&${params}`

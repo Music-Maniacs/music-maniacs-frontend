@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User } from '../models/User';
 import axios from 'axios';
+import { userInfo } from '../services/userService';
 
 type Props = {
   children: React.ReactNode;
@@ -8,6 +9,7 @@ type Props = {
 
 type StoreProps = {
   user?: User;
+  isUserLoading: boolean;
   handleUserLogin: (user: User, authToken: string) => void;
   handleUserLogout: () => void;
 };
@@ -15,25 +17,35 @@ type StoreProps = {
 const Auth = createContext<StoreProps | null>(null);
 
 export const AuthProvider = ({ children }: Props) => {
+  const [isUserLoading, setIsUserLoading] = useState<boolean>(true);
   const [user, setUser] = useState<User>();
 
   useEffect(() => {
-    const user = localStorage.getItem('user');
     const token = localStorage.getItem('token');
 
-    if (user && token) {
-      axios.defaults.headers.common['Authorization'] = token;
-      setUser(JSON.parse(user));
-    } else {
-      localStorage.removeItem('user');
-      localStorage.removeItem('token');
+    if (!token) {
+      return setIsUserLoading(false);
     }
+
+    getUserInfo(token);
   }, []);
+
+  const getUserInfo = async (token: string) => {
+    try {
+      const user = await userInfo(token);
+
+      axios.defaults.headers.common['Authorization'] = token;
+      setUser(user);
+    } catch (error) {
+      localStorage.removeItem('token');
+    } finally {
+      setIsUserLoading(false);
+    }
+  };
 
   const handleUserLogin = (user: User, authToken: string) => {
     axios.defaults.headers.common['Authorization'] = authToken;
 
-    localStorage.setItem('user', JSON.stringify(user));
     localStorage.setItem('token', authToken);
 
     setUser(user);
@@ -42,7 +54,6 @@ export const AuthProvider = ({ children }: Props) => {
   const handleUserLogout = () => {
     axios.defaults.headers.common['Authorization'] = undefined;
 
-    localStorage.removeItem('user');
     localStorage.removeItem('token');
 
     setUser(undefined);
@@ -50,6 +61,7 @@ export const AuthProvider = ({ children }: Props) => {
 
   const store = {
     user,
+    isUserLoading,
     handleUserLogin,
     handleUserLogout
   };
