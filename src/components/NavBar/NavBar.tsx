@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import './NavBar.scss';
 import MMLink from '../MMLink/MMLink';
 import { Link } from 'react-router-dom';
@@ -6,9 +6,7 @@ import { useAuth } from '../../context/authContext';
 import { MMButton } from '../MMButton/MMButton';
 import { FaSearch } from 'react-icons/fa';
 import { BiMenu } from 'react-icons/bi';
-import { IoMdClose, IoMdArrowDropup, IoMdArrowDropdown } from 'react-icons/io';
-import { PiUserCircleFill } from 'react-icons/pi';
-import colors from '../../styles/_colors.scss';
+import { IoMdArrowDropdown } from 'react-icons/io';
 import { SideNav } from './SideNav';
 import { NavUserProfile } from './NavUserProfile';
 

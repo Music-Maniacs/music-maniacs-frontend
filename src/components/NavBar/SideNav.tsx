@@ -25,10 +25,11 @@ export const SideNav = ({ active, setActive }: Props) => {
       }
     };
     document.addEventListener('mousedown', handler);
-    console.log('Sidenav useEffect');
+
     return () => {
       document.removeEventListener('mousedown', handler);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const SidenavContent = () => {
