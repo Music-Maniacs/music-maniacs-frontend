@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './NavBar.scss';
 import MMLink from '../MMLink/MMLink';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authContext';
 import { MMButton } from '../MMButton/MMButton';
 import { FaSearch } from 'react-icons/fa';
@@ -13,6 +13,7 @@ import { NavUserProfile } from './NavUserProfile';
 export const NavBar = () => {
   const { user, handleUserLogout } = useAuth();
   const [sidenavAcive, setSidenavActive] = useState(false);
+  const navigate = useNavigate();
 
   const NavContent = () => {
     if (!user) {
@@ -20,11 +21,16 @@ export const NavBar = () => {
         <div className="links-container">
           <MMLink to={'/'} content="Buscar Eventos" />
           <MMLink to={'/'} content="Sobre Nosotros" />
-          <Link to={'/login'} onClick={() => setSidenavActive(false)}>
-            <MMButton style={{ textTransform: 'none' }} color="secondary">
-              Iniciar Sesión / Registrarse
-            </MMButton>
-          </Link>
+          <MMButton
+            style={{ textTransform: 'none' }}
+            color="secondary"
+            onClick={() => {
+              setSidenavActive(false);
+              navigate('login');
+            }}
+          >
+            Iniciar Sesión / Registrarse
+          </MMButton>
         </div>
       );
     }
@@ -35,12 +41,12 @@ export const NavBar = () => {
 
         <div className="nav-dropdown">
           <div className="nav-admin-container">
-            <span>Administrar Contendino</span>
+            <span>Administrar Contenido</span>
             <IoMdArrowDropdown size={20} />
           </div>
           <div className="nav-dropdown-content">
             <MMLink to={'/'} content="Métricas y Reportes" />
-            <MMLink to={'/'} content="Usuarios" />
+            <MMLink to={'/admin/users'} content="Usuarios" />
             <MMLink to={'/'} content="Eventos" />
             <MMLink to={'/'} content="Artistas" />
             <MMLink to={'/'} content="Productoras" />
