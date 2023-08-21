@@ -4,7 +4,7 @@ import { warningSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { MMTable } from '../../../../components/MMTable/MMTable';
 import { User, stateColors, stateNames } from '../../../../models/User';
 import { useUsers } from '../context/userContext';
-import { Dictionary, MMColors } from '../../../../models/Generic';
+import { MMColors } from '../../../../models/Generic';
 import colors from '../../../../styles/_colors.scss';
 import { Stack } from '@mui/material';
 import { MMButton } from '../../../../components/MMButton/MMButton';

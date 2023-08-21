@@ -24,3 +24,27 @@
   align-items: center;
   justify-content: space-between;
 }
+
+@mixin md-breakpoint {
+  @media only screen and (max-width: $md) {
+    @content;
+  }
+}
+
+@mixin lg-breakpoint {
+  @media only screen and (max-width: $lg){
+  @content;
+ }
+}
+
+@mixin xxl-breakpoint {
+  @media only screen and (max-width: $xxl) {
+    @content;
+  }
+}
+
+@mixin sm-breakpoint {
+  @media only screen and (max-width: $sm) {
+    @content;
+  }
+}

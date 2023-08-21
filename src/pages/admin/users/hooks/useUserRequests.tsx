@@ -1,4 +1,3 @@
-import React from 'react';
 import { sweetAlert } from '../../../../components/SweetAlert/sweetAlert';
 import { errorSnackbar, infoSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { adminDeleteUser } from '../../../../services/userService';

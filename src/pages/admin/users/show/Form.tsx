@@ -1,4 +1,4 @@
-import React, { Dispatch, useEffect } from 'react';
+import React, { Dispatch } from 'react';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { errorSnackbar, infoSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { handleFormErrors } from '../../../../utils/handleFormErrors';
