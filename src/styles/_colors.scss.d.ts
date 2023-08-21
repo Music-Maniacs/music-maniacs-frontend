@@ -4,6 +4,8 @@ interface ColorsScss {
   primary_dark: string;
   secondary: string;
   secondary_dark: string;
+  tertiary: string;
+  tertiary_dark: string;
   success: string;
   success_dark: string;
   info: string;
@@ -17,6 +19,8 @@ interface ColorsScss {
   input_background: string;
 
   box_background: string;
+
+  sweet_alert_background: string;
 }
 
 export const colors: ColorsScss;

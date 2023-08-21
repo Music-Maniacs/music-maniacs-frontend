@@ -4,6 +4,9 @@ $primary_dark: darken($primary, 15%);
 $secondary: #d12eee;
 $secondary_dark: darken($secondary, 15%);
 
+$tertiary: #70327b;
+$tertiary_dark: darken($tertiary, 15%);
+
 $info: #1e90ff;
 $info_dark: darken($info, 15%);
 
@@ -21,11 +24,15 @@ $input_background: rgba(255, 255, 255, 0.15);
 
 $box_background: rgba(255, 255, 255, 0.1);
 
+$sweet_alert_background: #383838;
+
 :export {
   primary: $primary;
   primary_dark: $primary_dark;
   secondary: $secondary;
   secondary_dark: $secondary_dark;
+  tertiary: $tertiary;
+  tertiary_dark: $tertiary_dark;
   info: $info;
   info_dark: $info_dark;
   success: $success;
@@ -39,4 +46,6 @@ $box_background: rgba(255, 255, 255, 0.1);
   input_background: $input_background;
 
   box_background: $box_background;
+
+  sweet_alert_background: $sweet_alert_background;
 }
