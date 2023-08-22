@@ -29,7 +29,6 @@ export const usePagination = <T>({ url, requestCallback, queryParams, ...props }
   }, [pagination.isLoading]);
 
   const fetchData = async () => {
-    console.log("Parametros: "+JSON.stringify(queryParams))
     try {
       const response = await axios.get<PaginatedApiResponse<T>>(
         `${url}?page=${pagination.page}&per_page=${pagination.perPage}${

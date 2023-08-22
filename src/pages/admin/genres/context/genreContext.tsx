@@ -24,8 +24,7 @@ const GenresContext = createContext<StoreProps | null>(null);
 export const GenresProvider = ({ children }: Props) => {
   const INDEX_URL = `${process.env.REACT_APP_API_URL}/admin/genres`;
   const queryParams = useRef<Record<string, string>>({
-    name: '',
-    search_by_state: ''
+    name_cont: ''
   });
 
   const [genres, setGenres] = useState<Genre[]>();

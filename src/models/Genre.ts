@@ -1,4 +1,4 @@
-import { Dictionary, MMColors, ModelValidations } from './Generic';
+import { ModelValidations } from './Generic';
 
 export interface Genre {
   id: string;
@@ -6,18 +6,6 @@ export interface Genre {
   created_at: string;
   updated_at: string;
 }
-
-export const stateColors: Record<string, MMColors> = {
-  active: 'success',
-  blocked: 'primary',
-  deleted: 'error'
-};
-
-export const stateNames: Dictionary = {
-  active: 'Activo',
-  blocked: 'Bloqueado',
-  deleted: 'Eliminado'
-};
 
 export const genreValidations: Readonly<ModelValidations<Genre>> = {
   name: {

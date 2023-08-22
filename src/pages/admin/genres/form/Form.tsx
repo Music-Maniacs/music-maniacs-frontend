@@ -1,5 +1,5 @@
 import React from 'react';
-import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { MMButton } from '../../../../components/MMButton/MMButton';
 import { useGenres } from '../context/genreContext';
 import { InputText } from '../../../../components/form/InputText/InputText';
@@ -18,9 +18,7 @@ export const Form = () => {
 
   const {
     register,
-    control,
     handleSubmit,
-    watch,
     setError,
     formState: { errors }
   } = useForm<FormData>();

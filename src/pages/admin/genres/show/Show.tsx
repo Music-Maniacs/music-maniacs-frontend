@@ -4,11 +4,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Stack } from '@mui/material';
 import { GenreInfo } from './GenreInfo';
 import { Form } from './Form';
-import { Genre, stateColors, stateNames } from '../../../../models/Genre';
+import { Genre } from '../../../../models/Genre';
 import { useModal } from '../../../../components/hooks/useModal';
-import { errorSnackbar, warningSnackbar } from '../../../../components/Snackbar/Snackbar';
-import { adminGetUser } from '../../../../services/userService';
-import { sweetAlert } from '../../../../components/SweetAlert/sweetAlert';
 import { MMContainer } from '../../../../components/MMContainer/MMContainer';
 import { MMBox } from '../../../../components/MMBox/MMBox';
 import { MMTitle } from '../../../../components/MMTitle/MMTitle';
@@ -17,9 +14,6 @@ import { MMModal } from '../../../../components/Modal/MMModal';
 import { Loader } from '../../../../components/Loader/Loader';
 import '../../Admin.scss';
 import { useGenreRequests } from '../hooks/useGenreRequests';
-import colors from '../../../../styles/_colors.scss';
-import { MMColors } from '../../../../models/Generic';
-import { MMChip } from '../../../../components/MMChip/MMChip';
 
 
 export default function Show() {

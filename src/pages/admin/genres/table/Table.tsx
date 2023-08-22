@@ -1,21 +1,16 @@
 import React from 'react';
-import { sweetAlert } from '../../../../components/SweetAlert/sweetAlert';
-import { warningSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { MMTable } from '../../../../components/MMTable/MMTable';
-import { Genre, stateColors, stateNames } from '../../../../models/Genre';
+import { Genre } from '../../../../models/Genre';
 import { useGenres } from '../context/genreContext';
-import { MMColors } from '../../../../models/Generic';
-import colors from '../../../../styles/_colors.scss';
 import { Stack } from '@mui/material';
 import { MMButton } from '../../../../components/MMButton/MMButton';
-import { FaLock, FaSearch, FaTrash, FaTrashRestore, FaUnlock } from 'react-icons/fa';
-import { MMChip } from '../../../../components/MMChip/MMChip';
+import { FaSearch, FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useGenreRequests } from '../hooks/useGenreRequests';
 
 export const Table = () => {
   const navigate = useNavigate();
-  const { genres, pagination, setPagination, setGenres } = useGenres();
+  const { genres, pagination, setPagination } = useGenres();
   const { handleDeleteGenre } = useGenreRequests();
 
   const handleShowButton = (genreId: string, genreName: string) => {
@@ -26,7 +21,7 @@ export const Table = () => {
     handleDeleteGenre(genreId, () => {
         setPagination(prevPagination => ({
             ...prevPagination,
-            page: (Math.round( (prevPagination.total-1)/prevPagination.perPage+0.5)==prevPagination.page) 
+            page: (Math.round( (prevPagination.total-1)/prevPagination.perPage+0.5)===prevPagination.page) 
             && (prevPagination.total-1)/prevPagination.perPage <= (prevPagination.page-1) ?
              prevPagination.page-1 : prevPagination.page,
             isLoading: true

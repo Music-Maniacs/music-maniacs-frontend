@@ -1,11 +1,9 @@
 import React, { Dispatch } from 'react';
-import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { errorSnackbar, infoSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { handleFormErrors } from '../../../../utils/handleFormErrors';
 import { InputText } from '../../../../components/form/InputText/InputText';
 import { Genre, genreValidations } from '../../../../models/Genre';
-import { InputArea } from '../../../../components/form/InputArea/InputArea';
-import { LinksFieldArray } from '../../../../components/form/LinksFieldArray/LinksFieldArray';
 import { StyledButtonGroup } from '../../styles';
 import { MMButton } from '../../../../components/MMButton/MMButton';
 import { updateGenre } from '../../../../services/genreService';
@@ -23,10 +21,8 @@ type FormData = {
 export const Form = ({ genre, closeFormModal, setGenre }: Props) => {
   const {
     register,
-    control,
     handleSubmit,
     setError,
-    getValues,
     formState: { errors }
   } = useForm<FormData>();
 
