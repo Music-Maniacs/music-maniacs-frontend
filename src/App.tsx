@@ -14,6 +14,10 @@ const RecoverPassword = lazy(() => import('./pages/auth/RecoverPassword/RecoverP
 const UsersContainer = lazy(() => import('./pages/admin/users/UsersContainer'));
 const UserShow = lazy(() => import('./pages/admin/users/show/Show'));
 
+// Genres Module
+const GenresContainer = lazy(() => import('./pages/admin/genres/GenresContainer'));
+const GenresShow = lazy(() => import('./pages/admin/genres/show/Show'));
+
 function App() {
   return (
     <AppProviders>
@@ -31,6 +35,12 @@ function App() {
             {/* Admin Module */}
             <Route path="/admin/users" element={<UsersContainer />} />
             <Route path="/admin/users/:id" element={<UserShow />} />
+
+            {/* Genres Module */}
+            <Route path="/admin/genres/:id/:name" element={<GenresShow />} />
+            <Route path="/admin/genres" element={<GenresContainer/>} />
+            
+
           </Routes>
         </Suspense>
       </BrowserRouter>
