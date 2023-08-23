@@ -86,7 +86,7 @@ export async function index(params: string, page: number, perPage: number): Prom
   return response.data;
 }
 
-export async function adminRegister(
+export async function adminCreateUser(
   full_name: string,
   username: string,
   email: string,

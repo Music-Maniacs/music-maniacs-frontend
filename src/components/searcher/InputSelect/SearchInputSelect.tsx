@@ -11,7 +11,7 @@ type Props = {
   containerWidth?: string;
 };
 
-export const SearchInputSelect = ({ placeholder, queryParams, paramKey, options, containerWidth = '200px' }: Props) => {
+export const SearchInputSelect = ({ placeholder, queryParams, paramKey, options, containerWidth = 'auto' }: Props) => {
   const height = '33px';
 
   const onSelectChange = (newValue: any) => {

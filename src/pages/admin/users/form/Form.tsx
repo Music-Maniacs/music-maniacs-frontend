@@ -8,7 +8,7 @@ import { LinksFieldArray } from '../../../../components/form/LinksFieldArray/Lin
 import { StyledButtonGroup } from '../../styles';
 import { InputArea } from '../../../../components/form/InputArea/InputArea';
 import { errorSnackbar, infoSnackbar } from '../../../../components/Snackbar/Snackbar';
-import { adminRegister } from '../../../../services/userService';
+import { adminCreateUser } from '../../../../services/userService';
 import { handleFormErrors } from '../../../../utils/handleFormErrors';
 
 type FormData = {
@@ -45,7 +45,7 @@ export const Form = () => {
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
-      const user = await adminRegister(
+      const user = await adminCreateUser(
         data.full_name,
         data.username,
         data.email,
