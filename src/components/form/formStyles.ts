@@ -11,6 +11,7 @@ export const reactSelectCustomStyles = (hasErrors = false) => {
       minHeight: reactSelectHeight,
       height: reactSelectHeight,
       backgroundColor: colors.input_background,
+      boxShadow: 'none',
       border: `1px solid ${hasErrors ? colors.error : colors.input_border}`,
       '&:hover': { border: `1px solid ${hasErrors ? colors.error : colors.primary}` }
     }),
@@ -39,6 +40,7 @@ export const reactSelectCustomStyles = (hasErrors = false) => {
     }),
     input: (provided) => ({
       ...provided,
+      color: 'white',
       margin: '0px'
     }),
     indicatorSeparator: () => ({
