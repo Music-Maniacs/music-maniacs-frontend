@@ -90,6 +90,7 @@ export async function adminCreateUser(
   full_name: string,
   username: string,
   email: string,
+  role_id: string,
   password: string,
   password_confirmation: string,
   biography: string,
@@ -104,6 +105,7 @@ export async function adminCreateUser(
       username,
       password,
       email,
+      role_id,
       password_confirmation,
       biography,
       links_attributes
@@ -126,6 +128,7 @@ export async function adminUpdateUser(
   full_name: string,
   username: string,
   email: string,
+  role_id: string,
   biography: string,
   links_attributes: { id?: string; title: string; url: string; _destroy?: boolean }[]
 ): Promise<User> {
@@ -134,6 +137,7 @@ export async function adminUpdateUser(
       full_name,
       username,
       email,
+      role_id,
       biography,
       links_attributes
     }

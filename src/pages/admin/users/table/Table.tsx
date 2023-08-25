@@ -127,7 +127,7 @@ export const Table = () => {
         {
           header: 'Rol',
           renderCell: (rowData) => {
-            return rowData.rol;
+            return rowData.role.name;
           },
           cellProps: {
             align: 'center'

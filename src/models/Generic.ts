@@ -28,6 +28,11 @@ export type Pagination = {
   isLoading: boolean;
 };
 
+export type SelectCollection = {
+  label: string;
+  value: string;
+};
+
 export type MMColors = 'primary' | 'secondary' | 'tertiary' | 'success' | 'error' | 'info' | 'warning';
 
 export type ModelValidations<T> = {
