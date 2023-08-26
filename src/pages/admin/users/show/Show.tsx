@@ -12,7 +12,6 @@ import { sweetAlert } from '../../../../components/SweetAlert/sweetAlert';
 import { MMContainer } from '../../../../components/MMContainer/MMContainer';
 import { MMBox } from '../../../../components/MMBox/MMBox';
 import { MMTitle } from '../../../../components/MMTitle/MMTitle';
-import { MMButton } from '../../../../components/MMButton/MMButton';
 import { MMModal } from '../../../../components/Modal/MMModal';
 import { Loader } from '../../../../components/Loader/Loader';
 import '../../Admin.scss';
@@ -20,6 +19,9 @@ import { useUserRequests } from '../hooks/useUserRequests';
 import colors from '../../../../styles/_colors.scss';
 import { MMColors } from '../../../../models/Generic';
 import { MMChip } from '../../../../components/MMChip/MMChip';
+import { MMButtonResponsive } from '../../../../components/MMButton/MMButtonResponsive';
+import { FaArrowLeft, FaEdit, FaLock, FaTrash, FaTrashRestore, FaUnlock } from 'react-icons/fa';
+import './Show.scss';
 
 export default function Show() {
   const { id } = useParams();
@@ -100,38 +102,44 @@ export default function Show() {
     <MMContainer maxWidth="xxl">
       <MMBox className="admin-box-container">
         <div className="admin-title-container">
-          <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-            <MMTitle content="Usuario" />
-            {user && <MMChip color={getStateColor(user.state)}>{getStateName(user.state)}</MMChip>}
+          <div className="users-show-title-container">
+            <div className="title-chip">
+              <MMTitle content="Usuario" />
+              {user && <MMChip color={getStateColor(user.state)}>{getStateName(user.state)}</MMChip>}
+            </div>
+
+            <Stack direction={'row'} spacing={1} justifyContent={'flex-end'} width={'100%'}>
+              <MMButtonResponsive Icon={FaEdit} onClick={() => openModal()}>
+                Editar
+              </MMButtonResponsive>
+
+              {user?.deleted_at ? (
+                <MMButtonResponsive color="error" onClick={() => handleRestoreButton()} Icon={FaTrashRestore}>
+                  Restaurar
+                </MMButtonResponsive>
+              ) : (
+                <>
+                  {user?.blocked_until ? (
+                    <MMButtonResponsive color="error" onClick={() => handleLockButton()} Icon={FaUnlock}>
+                      Desbloquear
+                    </MMButtonResponsive>
+                  ) : (
+                    <MMButtonResponsive color="error" onClick={() => handleLockButton()} Icon={FaLock}>
+                      Bloquear
+                    </MMButtonResponsive>
+                  )}
+
+                  <MMButtonResponsive color="error" onClick={() => handleDeleteButton()} Icon={FaTrash}>
+                    Eliminar
+                  </MMButtonResponsive>
+                </>
+              )}
+
+              <MMButtonResponsive Icon={FaArrowLeft} onClick={() => navigate(-1)}>
+                Volver
+              </MMButtonResponsive>
+            </Stack>
           </div>
-
-          <Stack direction={'row'} spacing={1}>
-            <MMButton onClick={() => openModal()}>Editar</MMButton>
-
-            {user?.deleted_at ? (
-              <MMButton color="error" onClick={() => handleRestoreButton()}>
-                Restaurar
-              </MMButton>
-            ) : (
-              <>
-                {user?.blocked_until ? (
-                  <MMButton color="error" onClick={() => handleLockButton()}>
-                    Desbloquear
-                  </MMButton>
-                ) : (
-                  <MMButton color="error" onClick={() => handleLockButton()}>
-                    Bloquear
-                  </MMButton>
-                )}
-
-                <MMButton color="error" onClick={() => handleDeleteButton()}>
-                  Eliminar
-                </MMButton>
-              </>
-            )}
-
-            <MMButton onClick={() => navigate(-1)}>Volver</MMButton>
-          </Stack>
         </div>
 
         {user ? (

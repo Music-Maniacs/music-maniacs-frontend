@@ -1,4 +1,4 @@
-import React, { Dispatch } from 'react';
+import React, { Dispatch, useEffect, useState } from 'react';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { errorSnackbar, infoSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { handleFormErrors } from '../../../../utils/handleFormErrors';
@@ -9,6 +9,9 @@ import { LinksFieldArray } from '../../../../components/form/LinksFieldArray/Lin
 import { StyledButtonGroup } from '../../styles';
 import { MMButton } from '../../../../components/MMButton/MMButton';
 import { adminUpdateUser } from '../../../../services/userService';
+import { SelectCollection } from '../../../../models/Generic';
+import { InputSelect } from '../../../../components/form/InputSelect/InputSelect';
+import { useCollection } from '../../../../context/collectionContext';
 
 type Props = {
   user: User;
@@ -20,6 +23,7 @@ type FormData = {
   full_name: string;
   username: string;
   email: string;
+  role: SelectCollection;
   biography: string;
   links_attributes: {
     id?: string;
@@ -30,6 +34,14 @@ type FormData = {
 };
 
 export const Form = ({ user, closeFormModal, setUser }: Props) => {
+  const [rolesCollection, setRolesCollection] = useState<SelectCollection[]>([]);
+  const { getRolesCollection } = useCollection();
+
+  useEffect(() => {
+    getRolesCollection().then((roles) => setRolesCollection(roles));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const {
     register,
     control,
@@ -40,6 +52,10 @@ export const Form = ({ user, closeFormModal, setUser }: Props) => {
   } = useForm<FormData>({
     defaultValues: {
       ...user,
+      role: {
+        value: user.role.id,
+        label: user.role.name
+      },
       ...(user.links && user.links.length > 0
         ? { links_attributes: user.links.map((link) => ({ id: link.id, title: link.title, url: link.url })) }
         : {})
@@ -60,6 +76,7 @@ export const Form = ({ user, closeFormModal, setUser }: Props) => {
         data.full_name,
         data.username,
         data.email,
+        data.role.value,
         data.biography,
         data.links_attributes
       );
@@ -83,7 +100,15 @@ export const Form = ({ user, closeFormModal, setUser }: Props) => {
 
       <InputText label="Email" name="email" options={userValidations.email} {...inputCommonProps} />
 
-      {/* fixme: agregar rol cuando este */}
+      <InputSelect
+        name="role"
+        label="Rol"
+        control={control}
+        errors={errors}
+        collection={rolesCollection}
+        options={userValidations.role}
+        isClearable={false}
+      />
 
       <InputArea
         label="Biografía"

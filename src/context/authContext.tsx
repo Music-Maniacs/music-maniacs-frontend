@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }: Props) => {
     setUser(undefined);
   };
 
-  const store = {
+  const store: StoreProps = {
     user,
     isUserLoading,
     handleUserLogin,
