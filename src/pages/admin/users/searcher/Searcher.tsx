@@ -5,11 +5,7 @@ import { useUsers } from '../context/userContext';
 import { SearchInputText } from '../../../../components/searcher/InputText/SearchInputText';
 import { SearchInputSelect } from '../../../../components/searcher/InputSelect/SearchInputSelect';
 import { Grid } from '@mui/material';
-import { styled } from 'styled-components';
-
-const StyledFloatRight = styled.div`
-  float: right;
-`;
+import { StyledFloatRight } from '../../styles';
 
 export const Searcher = () => {
   const { setPagination, queryParams } = useUsers();

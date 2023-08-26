@@ -2,7 +2,7 @@ import { styled } from 'styled-components';
 import colors from '../../styles/_colors.scss';
 import { StylesConfig } from 'react-select';
 
-const reactSelectHeight = '33px';
+const reactSelectHeight = '32px';
 
 export const reactSelectCustomStyles = (hasErrors = false) => {
   const styles: StylesConfig<any> = {
@@ -13,6 +13,7 @@ export const reactSelectCustomStyles = (hasErrors = false) => {
       backgroundColor: colors.input_background,
       boxShadow: 'none',
       border: `1px solid ${hasErrors ? colors.error : colors.input_border}`,
+      borderRadius: '3px',
       '&:hover': { border: `1px solid ${hasErrors ? colors.error : colors.primary}` }
     }),
     placeholder: (styles) => ({
@@ -94,4 +95,35 @@ export const StyledInputContainer = styled.div<{ $containerWidth?: string }>`
   flex-direction: column;
   gap: 10px;
   width: ${({ $containerWidth }) => $containerWidth ?? '100%'};
+`;
+
+export const StyledDropzoneContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: flex-end;
+`;
+
+export const StyledDropzoneBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 10px;
+  background-color: white;
+  color: black;
+  font-weight: 400;
+  border-radius: 3px;
+  box-sizing: border-box;
+  cursor: pointer;
+`;
+
+export const StyledDropzoneImagePreviewContainer = styled.div`
+  max-height: 250px;
+`;
+export const StyledDropzoneImagePreview = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: scale-down;
 `;

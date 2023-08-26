@@ -1,6 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
 import { User } from '../models/User';
-import { PaginatedApiResponse } from '../models/Generic';
 
 const userUrl = `${process.env.REACT_APP_API_URL}/users`;
 
@@ -76,14 +75,6 @@ export async function userInfo(token: string): Promise<User> {
       }
     })
   ).data;
-}
-
-export async function index(params: string, page: number, perPage: number): Promise<PaginatedApiResponse<User>> {
-  const response = await axios.get<PaginatedApiResponse<User>>(
-    `${adminUsersUrl}?page=${page}&per_page=${perPage}&${params}`
-  );
-
-  return response.data;
 }
 
 export async function adminCreateUser(
