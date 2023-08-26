@@ -4,28 +4,26 @@ import { Genre } from '../../../../models/Genre';
 import { useGenres } from '../context/genreContext';
 import { Stack } from '@mui/material';
 import { MMButton } from '../../../../components/MMButton/MMButton';
-import { FaSearch, FaTrash } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { FaEdit , FaTrash } from 'react-icons/fa';
 import { useGenreRequests } from '../hooks/useGenreRequests';
 
-export const Table = () => {
-  const navigate = useNavigate();
-  const { genres, pagination, setPagination } = useGenres();
-  const { handleDeleteGenre } = useGenreRequests();
 
-  const handleShowButton = (genreId: string, genreName: string) => {
-    navigate(`/admin/genres/${genreId}/${genreName}`);
-  };
+export const Table = () => {
+  const { setGenre, genres, pagination, setPagination, openFormModalForEdit } =
+    useGenres();
+  const { handleDeleteGenre } = useGenreRequests();
 
   const handleDeleteButton = (genreId: string) => {
     handleDeleteGenre(genreId, () => {
-        setPagination(prevPagination => ({
-            ...prevPagination,
-            page: (Math.round( (prevPagination.total-1)/prevPagination.perPage+0.5)===prevPagination.page) 
-            && (prevPagination.total-1)/prevPagination.perPage <= (prevPagination.page-1) ?
-             prevPagination.page-1 : prevPagination.page,
-            isLoading: true
-          }));
+      setPagination((prevPagination) => ({
+        ...prevPagination,
+        page:
+          Math.round((prevPagination.total - 1) / prevPagination.perPage + 0.5) === prevPagination.page &&
+          (prevPagination.total - 1) / prevPagination.perPage <= prevPagination.page - 1
+            ? prevPagination.page - 1
+            : prevPagination.page,
+        isLoading: true
+      }));
     });
   };
 
@@ -47,17 +45,20 @@ export const Table = () => {
               <Stack direction={'row'} spacing={1}>
                 <MMButton
                   data-tooltip-id="tooltip"
-                  data-tooltip-content="Ver"
-                  onClick={() => handleShowButton(rowData.id,rowData.name)}
+                  data-tooltip-content="Editar"
+                  onClick={() => {
+                    setGenre(rowData);
+                    openFormModalForEdit();
+                  }}
                 >
-                  <FaSearch />
+                  <FaEdit  />
                 </MMButton>
                 <MMButton
-                      data-tooltip-id="tooltip"
-                      data-tooltip-content="Eliminar"
-                      onClick={() => handleDeleteButton(rowData.id)}
-                    >
-                    <FaTrash />
+                  data-tooltip-id="tooltip"
+                  data-tooltip-content="Eliminar"
+                  onClick={() => handleDeleteButton(rowData.id)}
+                >
+                  <FaTrash />
                 </MMButton>
               </Stack>
             );

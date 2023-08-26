@@ -4,16 +4,22 @@ import { useModal } from '../../../../components/hooks/useModal';
 import { usePagination } from '../../../../components/searcher/usePagination';
 import { Pagination } from '../../../../models/Generic';
 
+
 type Props = {
   children: React.ReactNode;
 };
 
 type StoreProps = {
+  genre?: Genre;
+  setGenre: Dispatch<SetStateAction<Genre | undefined>>;
   genres?: Genre[];
   setGenres: Dispatch<SetStateAction<Genre[] | undefined>>;
-  isFormModalOpen: boolean;
-  openFormModal: () => void;
-  closeFormModal: () => void;
+  isFormModalOpenForCreate: boolean;
+  openFormModalForCreate: () => void;
+  closeFormModalForCreate: () => void;
+  isFormModalOpenForEdit: boolean;
+  openFormModalForEdit: () => void;
+  closeFormModalForEdit: () => void;
   pagination: Pagination;
   setPagination: Dispatch<SetStateAction<Pagination>>;
   queryParams: MutableRefObject<Record<string, string>>;
@@ -33,18 +39,26 @@ export const GenresProvider = ({ children }: Props) => {
     requestCallback: (data) => indexRequestCallback(data),
     queryParams: queryParams.current
   });
-  const { isModalOpen: isFormModalOpen, openModal: openFormModal, closeModal: closeFormModal } = useModal();
+  const { isModalOpen: isFormModalOpenForCreate, openModal: openFormModalForCreate, closeModal: closeFormModalForCreate } = useModal();
+  const { isModalOpen: isFormModalOpenForEdit, openModal: openFormModalForEdit, closeModal: closeFormModalForEdit } = useModal();
+
+  const [genre, setGenre] = useState<Genre>();
 
   const indexRequestCallback = (genres: Genre[]) => {
     setGenres(genres);
   };
 
   const store = {
+    genre,
+    setGenre,
     genres,
     setGenres,
-    isFormModalOpen,
-    openFormModal,
-    closeFormModal,
+    isFormModalOpenForCreate,
+    openFormModalForCreate,
+    closeFormModalForCreate,
+    isFormModalOpenForEdit,
+    openFormModalForEdit,
+    closeFormModalForEdit,
     pagination,
     setPagination,
     queryParams

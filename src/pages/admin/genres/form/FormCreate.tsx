@@ -1,24 +1,21 @@
-import React, { Dispatch } from 'react';
+import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { errorSnackbar, infoSnackbar } from '../../../../components/Snackbar/Snackbar';
-import { handleFormErrors } from '../../../../utils/handleFormErrors';
-import { InputText } from '../../../../components/form/InputText/InputText';
-import { Genre, genreValidations } from '../../../../models/Genre';
-import { StyledButtonGroup } from '../../styles';
 import { MMButton } from '../../../../components/MMButton/MMButton';
-import { updateGenre } from '../../../../services/genreService';
-
-type Props = {
-  genre: Genre;
-  closeFormModal: () => void;
-  setGenre: Dispatch<React.SetStateAction<Genre | undefined>>;
-};
+import { useGenres } from '../context/genreContext';
+import { InputText } from '../../../../components/form/InputText/InputText';
+import { genreValidations } from '../../../../models/Genre';
+import { StyledButtonGroup } from '../../styles';
+import { errorSnackbar, infoSnackbar } from '../../../../components/Snackbar/Snackbar';
+import { createGenre } from '../../../../services/genreService';
+import { handleFormErrors } from '../../../../utils/handleFormErrors';
 
 type FormData = {
   name: string;
 };
 
-export const Form = ({ genre, closeFormModal, setGenre }: Props) => {
+export const FormCreate = () => {
+  const { closeFormModalForCreate, setGenres } = useGenres();
+
   const {
     register,
     handleSubmit,
@@ -30,31 +27,33 @@ export const Form = ({ genre, closeFormModal, setGenre }: Props) => {
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
-      const response = await updateGenre(
-        genre.id,
+
+      const genre = await createGenre(
         data.name
       );
-      setGenre(response);
-      infoSnackbar('Género actualizado con exito');
-      closeFormModal();
+      
+      setGenres((genres) => [genre, ...(genres ? genres : [])]);
+
+      infoSnackbar('Género creado con exito');
+      closeFormModalForCreate();
     } catch (error) {
       let hasFormError = handleFormErrors(error, setError);
 
-      !hasFormError && errorSnackbar('Error inesperado al editar el género. Contacte a soporte.');
+      !hasFormError && errorSnackbar('Error inesperado al crear género. Contacte a soporte.');
     }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" className="admin-form-container">
       <InputText label="Nombre" name="name" options={genreValidations.name} {...inputCommonProps} />
-
+      
       <input type="submit" hidden />
 
       <StyledButtonGroup>
         <MMButton type="submit" color="primary">
-          Editar
+          Crear
         </MMButton>
-        <MMButton type="button" color="tertiary" onClick={closeFormModal}>
+        <MMButton type="button" color="tertiary" onClick={closeFormModalForCreate}>
           Cerrar
         </MMButton>
       </StyledButtonGroup>

@@ -16,7 +16,6 @@ const UserShow = lazy(() => import('./pages/admin/users/show/Show'));
 
 // Genres Module
 const GenresContainer = lazy(() => import('./pages/admin/genres/GenresContainer'));
-const GenresShow = lazy(() => import('./pages/admin/genres/show/Show'));
 
 function App() {
   return (
@@ -37,7 +36,6 @@ function App() {
             <Route path="/admin/users/:id" element={<UserShow />} />
 
             {/* Genres Module */}
-            <Route path="/admin/genres/:id/:name" element={<GenresShow />} />
             <Route path="/admin/genres" element={<GenresContainer/>} />
             
 
