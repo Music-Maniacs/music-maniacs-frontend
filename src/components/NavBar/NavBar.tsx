@@ -51,7 +51,7 @@ export const NavBar = () => {
             <MMLink to={'/admin/artists'} content="Artistas" />
             <MMLink to={'/'} content="Productoras" />
             <MMLink to={'/'} content="Espacios de eventos" />
-            <MMLink to={'/'} content="Generos Musicales" />
+            <MMLink to={'/admin/genres'} content="Generos Musicales" />
             <MMLink to={'/'} content="Roles" />
             <MMLink to={'/'} content="Niveles de Confianza" />
             <MMLink to={'/'} content="Copias de Seguridad" />

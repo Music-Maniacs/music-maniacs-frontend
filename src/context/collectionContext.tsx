@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState } from 'react';
 import { fetchRolesSelect } from '../services/rolesService';
 import { errorSnackbar } from '../components/Snackbar/Snackbar';
 import { SelectCollection } from '../models/Generic';
-import { fetchGenresSelect } from '../services/genresService';
+import { fetchGenresSelect } from '../services/genreService';
 
 type StoreProps = {
   getRolesCollection: () => Promise<SelectCollection[]>;
