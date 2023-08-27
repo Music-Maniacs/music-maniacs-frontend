@@ -5,7 +5,7 @@ import { Index } from './Index';
 export const GenresContainer = () => {
   return (
     <GenresProvider>
-      <Index/>
+      <Index />
     </GenresProvider>
   );
 };

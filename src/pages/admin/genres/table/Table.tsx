@@ -4,13 +4,11 @@ import { Genre } from '../../../../models/Genre';
 import { useGenres } from '../context/genreContext';
 import { Stack } from '@mui/material';
 import { MMButton } from '../../../../components/MMButton/MMButton';
-import { FaEdit , FaTrash } from 'react-icons/fa';
+import { FaEdit, FaTrash } from 'react-icons/fa';
 import { useGenreRequests } from '../hooks/useGenreRequests';
 
-
 export const Table = () => {
-  const { setGenre, genres, pagination, setPagination, openFormModalForEdit } =
-    useGenres();
+  const { setGenreToEdit, genres, pagination, setPagination, openFormModal } = useGenres();
   const { handleDeleteGenre } = useGenreRequests();
 
   const handleDeleteButton = (genreId: string) => {
@@ -47,11 +45,11 @@ export const Table = () => {
                   data-tooltip-id="tooltip"
                   data-tooltip-content="Editar"
                   onClick={() => {
-                    setGenre(rowData);
-                    openFormModalForEdit();
+                    setGenreToEdit(rowData);
+                    openFormModal();
                   }}
                 >
-                  <FaEdit  />
+                  <FaEdit />
                 </MMButton>
                 <MMButton
                   data-tooltip-id="tooltip"

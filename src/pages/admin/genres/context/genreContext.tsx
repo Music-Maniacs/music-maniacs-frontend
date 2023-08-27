@@ -4,22 +4,18 @@ import { useModal } from '../../../../components/hooks/useModal';
 import { usePagination } from '../../../../components/searcher/usePagination';
 import { Pagination } from '../../../../models/Generic';
 
-
 type Props = {
   children: React.ReactNode;
 };
 
 type StoreProps = {
-  genre?: Genre;
-  setGenre: Dispatch<SetStateAction<Genre | undefined>>;
+  genreToEdit?: Genre;
+  setGenreToEdit: Dispatch<SetStateAction<Genre | undefined>>;
   genres?: Genre[];
   setGenres: Dispatch<SetStateAction<Genre[] | undefined>>;
-  isFormModalOpenForCreate: boolean;
-  openFormModalForCreate: () => void;
-  closeFormModalForCreate: () => void;
-  isFormModalOpenForEdit: boolean;
-  openFormModalForEdit: () => void;
-  closeFormModalForEdit: () => void;
+  isFormModalOpen: boolean;
+  openFormModal: () => void;
+  closeFormModal: () => void;
   pagination: Pagination;
   setPagination: Dispatch<SetStateAction<Pagination>>;
   queryParams: MutableRefObject<Record<string, string>>;
@@ -39,26 +35,22 @@ export const GenresProvider = ({ children }: Props) => {
     requestCallback: (data) => indexRequestCallback(data),
     queryParams: queryParams.current
   });
-  const { isModalOpen: isFormModalOpenForCreate, openModal: openFormModalForCreate, closeModal: closeFormModalForCreate } = useModal();
-  const { isModalOpen: isFormModalOpenForEdit, openModal: openFormModalForEdit, closeModal: closeFormModalForEdit } = useModal();
+  const { isModalOpen: isFormModalOpen, openModal: openFormModal, closeModal: closeFormModal } = useModal();
 
-  const [genre, setGenre] = useState<Genre>();
+  const [genreToEdit, setGenreToEdit] = useState<Genre>();
 
   const indexRequestCallback = (genres: Genre[]) => {
     setGenres(genres);
   };
 
   const store = {
-    genre,
-    setGenre,
+    genreToEdit,
+    setGenreToEdit,
     genres,
     setGenres,
-    isFormModalOpenForCreate,
-    openFormModalForCreate,
-    closeFormModalForCreate,
-    isFormModalOpenForEdit,
-    openFormModalForEdit,
-    closeFormModalForEdit,
+    isFormModalOpen,
+    openFormModal,
+    closeFormModal,
     pagination,
     setPagination,
     queryParams

@@ -15,11 +15,7 @@ export const Searcher = () => {
   return (
     <form className="admin-search-container" onSubmit={handleFormSubmit}>
       <div className="inputs-container">
-        <SearchInputText
-          paramKey="name_cont"
-          placeholder="Buscar por Nombre"
-          queryParams={queryParams}
-        />
+        <SearchInputText paramKey="name_cont" placeholder="Buscar por Nombre" queryParams={queryParams} />
       </div>
 
       <MMButton type="submit">
