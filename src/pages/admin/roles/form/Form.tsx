@@ -1,8 +1,8 @@
 import './Form.scss';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { errorSnackbar, infoSnackbar } from '../../../../components/Snackbar/Snackbar';
-import { Permission, Role, roleValidation } from '../../../../models/Role';
+import { Role, roleValidation } from '../../../../models/Role';
 import { adminCreateRole, adminUpdateRole } from '../../../../services/roleService';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { InputText } from '../../../../components/form/InputText/InputText';
