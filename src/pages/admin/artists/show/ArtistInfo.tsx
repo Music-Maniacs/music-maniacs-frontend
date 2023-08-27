@@ -33,7 +33,7 @@ export const ArtistInfo = ({ artist }: Props) => {
       content: (
         <ul style={{ marginTop: '3px' }}>
           {artist.genres.map((genre) => (
-            <li>{genre.name}</li>
+            <li key={genre.name}>{genre.name}</li>
           ))}
         </ul>
       )
