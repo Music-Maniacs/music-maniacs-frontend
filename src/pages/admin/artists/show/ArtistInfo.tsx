@@ -30,10 +30,6 @@ export const ArtistInfo = ({ artist }: Props) => {
     },
     {
       label: 'Géneros Relacionados',
-      content: <InputText disabled value={artist.genres.toString()} />
-    },
-    {
-      label: 'Géneros Relacionados',
       content: (
         <ul style={{ marginTop: '3px' }}>
           {artist.genres.map((genre) => (
@@ -61,7 +57,7 @@ export const ArtistInfo = ({ artist }: Props) => {
     },
     {
       label: 'Descripción',
-      content: <InputArea disabled value={artist.description} rows={10} />
+      content: <InputArea disabled value={artist.description} rows={8} />
     }
   ];
 
