@@ -1,7 +1,13 @@
 import React from 'react';
 import { Artist } from '../../../../models/Artist';
 import { Grid } from '@mui/material';
-import { StyledBoldText, StyledDataContainer, StyledImageScaledDown, StyledLinksContainer } from '../../styles';
+import {
+  StyledBoldText,
+  StyledDataContainer,
+  StyledImageContainer,
+  StyledImageScaledDown,
+  StyledLinksContainer
+} from '../../styles';
 import { InputText } from '../../../../components/form/InputText/InputText';
 import { StyledLabel } from '../../../../components/form/formStyles';
 import { InputArea } from '../../../../components/form/InputArea/InputArea';
@@ -12,6 +18,7 @@ type Props = {
 
 export const ArtistInfo = ({ artist }: Props) => {
   const backendUrl = process.env.REACT_APP_API_URL;
+
   const firstColumn = [
     {
       label: 'Nombre',
@@ -26,6 +33,19 @@ export const ArtistInfo = ({ artist }: Props) => {
       content: <InputText disabled value={artist.genres.toString()} />
     },
     {
+      label: 'Géneros Relacionados',
+      content: (
+        <ul style={{ marginTop: '3px' }}>
+          {artist.genres.map((genre) => (
+            <li>{genre.name}</li>
+          ))}
+        </ul>
+      )
+    }
+  ];
+
+  const secondColumn = [
+    {
       label: 'Links',
       content: (
         <>
@@ -38,10 +58,7 @@ export const ArtistInfo = ({ artist }: Props) => {
             ))}
         </>
       )
-    }
-  ];
-
-  const secondColumn = [
+    },
     {
       label: 'Descripción',
       content: <InputArea disabled value={artist.description} rows={10} />
@@ -54,7 +71,9 @@ export const ArtistInfo = ({ artist }: Props) => {
         <StyledLabel>Portada del Artista</StyledLabel>
 
         {artist.image && artist.image.url && (
-          <StyledImageScaledDown alt="Portada del artista" src={`${backendUrl}${artist.image.url}`} />
+          <StyledImageContainer>
+            <StyledImageScaledDown alt="Portada del artista" src={`${backendUrl}${artist.image.url}`} />
+          </StyledImageContainer>
         )}
       </Grid>
 

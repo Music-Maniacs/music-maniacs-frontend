@@ -33,8 +33,14 @@ export const StyledLinksContainer = styled.div`
   gap: 9px;
 `;
 
-export const StyledImageScaledDown = styled.img`
-  width: 100%;
-  object-fit: scale-down;
+export const StyledImageContainer = styled.div`
+  padding: 15px;
   max-height: 300px;
+  display: flex;
+  justify-content: center;
+`;
+
+export const StyledImageScaledDown = styled.img`
+  max-width: 100%;
+  object-fit: scale-down;
 `;

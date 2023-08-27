@@ -43,7 +43,7 @@ export const InputSelect = ({
               {...field}
               options={collection}
               isClearable={isClearable}
-              styles={reactSelectCustomStyles(hasErrors)}
+              styles={reactSelectCustomStyles(hasErrors, isMultiSelect)}
               placeholder={''}
               isMulti={isMultiSelect}
               menuPosition="fixed"

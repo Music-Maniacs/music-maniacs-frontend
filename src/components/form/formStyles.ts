@@ -4,12 +4,14 @@ import { StylesConfig } from 'react-select';
 
 const reactSelectHeight = '32px';
 
-export const reactSelectCustomStyles = (hasErrors = false) => {
+export const reactSelectCustomStyles = (hasErrors = false, isMultiSelect = false) => {
+  const customHeight = { ...(!isMultiSelect ? { height: reactSelectHeight } : {}) };
+
   const styles: StylesConfig<any> = {
     control: (styles) => ({
       ...styles,
       minHeight: reactSelectHeight,
-      height: reactSelectHeight,
+      ...customHeight,
       backgroundColor: colors.input_background,
       boxShadow: 'none',
       border: `1px solid ${hasErrors ? colors.error : colors.input_border}`,
@@ -35,7 +37,7 @@ export const reactSelectCustomStyles = (hasErrors = false) => {
     }),
     valueContainer: (provided) => ({
       ...provided,
-      height: reactSelectHeight,
+      ...customHeight,
       padding: '0px 3px',
       fontSize: '14px'
     }),
@@ -49,7 +51,21 @@ export const reactSelectCustomStyles = (hasErrors = false) => {
     }),
     indicatorsContainer: (provided) => ({
       ...provided,
-      height: reactSelectHeight
+      ...customHeight
+    }),
+    multiValue: (provided) => ({
+      ...provided,
+      backgroundColor: colors.primary,
+      border: `1px solid ${colors.sweet_alert_background}`,
+      color: 'white'
+    }),
+    multiValueLabel: (provided) => ({
+      ...provided,
+      color: 'white'
+    }),
+    multiValueRemove: (provided) => ({
+      ...provided,
+      '&:hover': { backgroundColor: colors.primary_dark, color: 'white' }
     })
   };
   return styles;
