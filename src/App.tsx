@@ -13,6 +13,9 @@ const RecoverPassword = lazy(() => import('./pages/auth/RecoverPassword/RecoverP
 // Admin Module
 const UsersContainer = lazy(() => import('./pages/admin/users/UsersContainer'));
 const UserShow = lazy(() => import('./pages/admin/users/show/Show'));
+const RolesContainer = lazy(() => import('./pages/admin/roles/RolesContainer'));
+const CreateRole = lazy(() => import('./pages/admin/roles/CreateRole'));
+const RoleShow = lazy(() => import('./pages/admin/roles/ShowRole'));
 
 function App() {
   return (
@@ -31,6 +34,9 @@ function App() {
             {/* Admin Module */}
             <Route path="/admin/users" element={<UsersContainer />} />
             <Route path="/admin/users/:id" element={<UserShow />} />
+            <Route path="/admin/roles" element={<RolesContainer />} />
+            <Route path="/admin/roles/create" element={<CreateRole />} />
+            <Route path="/admin/roles/:id" element={<RoleShow />} />
           </Routes>
         </Suspense>
       </BrowserRouter>
