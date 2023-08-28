@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { MMButton } from '../../../../components/MMButton/MMButton';
 import { useUsers } from '../context/userContext';
@@ -8,13 +8,17 @@ import { LinksFieldArray } from '../../../../components/form/LinksFieldArray/Lin
 import { StyledButtonGroup } from '../../styles';
 import { InputArea } from '../../../../components/form/InputArea/InputArea';
 import { errorSnackbar, infoSnackbar } from '../../../../components/Snackbar/Snackbar';
-import { adminRegister } from '../../../../services/userService';
+import { adminCreateUser } from '../../../../services/userService';
 import { handleFormErrors } from '../../../../utils/handleFormErrors';
+import { useCollection } from '../../../../context/collectionContext';
+import { InputSelect } from '../../../../components/form/InputSelect/InputSelect';
+import { SelectCollection } from '../../../../models/Generic';
 
 type FormData = {
   full_name: string;
   username: string;
   email: string;
+  role: SelectCollection;
   password: string;
   password_confirmation: string;
   biography: string;
@@ -25,7 +29,15 @@ type FormData = {
 };
 
 export const Form = () => {
+  const [rolesCollection, setRolesCollection] = useState<SelectCollection[]>([]);
   const { closeFormModal, setUsers } = useUsers();
+
+  const { getRolesCollection } = useCollection();
+
+  useEffect(() => {
+    getRolesCollection().then((roles) => setRolesCollection(roles));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const {
     register,
@@ -44,11 +56,13 @@ export const Form = () => {
   const inputCommonProps = { register, errors, type: 'text' };
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
+    console.log(data);
     try {
-      const user = await adminRegister(
+      const user = await adminCreateUser(
         data.full_name,
         data.username,
         data.email,
+        data.role.value,
         data.password,
         data.password_confirmation,
         data.biography,
@@ -95,7 +109,15 @@ export const Form = () => {
         }}
       />
 
-      {/* fixme: agregar rol cuando este */}
+      <InputSelect
+        name="role"
+        label="Rol"
+        control={control}
+        errors={errors}
+        collection={rolesCollection}
+        options={userValidations.role}
+        isClearable={false}
+      />
 
       <InputArea
         label="Biografía"

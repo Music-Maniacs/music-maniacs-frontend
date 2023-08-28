@@ -59,7 +59,7 @@ export const UserInfo = ({ user }: Props) => {
   const secondColumn = [
     {
       label: 'Rol',
-      content: <InputText disabled value={user.rol} />
+      content: <InputText disabled value={user.role.name} />
     },
     {
       label: 'Creado El',

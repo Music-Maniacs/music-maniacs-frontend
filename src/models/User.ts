@@ -1,5 +1,6 @@
 import { Dictionary, MMColors, ModelValidations } from './Generic';
 import { Link } from './Link';
+import { Role } from './Role';
 
 export interface User {
   id: string;
@@ -7,7 +8,7 @@ export interface User {
   username: string;
   email: string;
   password?: string;
-  rol?: string;
+  role: Role;
   state: string;
   biography?: string;
   created_at: string;
@@ -51,5 +52,8 @@ export const userValidations: Readonly<ModelValidations<User>> = {
   password: {
     required: { value: true, message: 'Debe ingresar su contraseña' },
     minLength: { value: 6, message: 'La contraseña debe ser de más de 6 caracteres' }
+  },
+  role: {
+    required: { value: true, message: 'Debe seleccionar un rol' }
   }
 };

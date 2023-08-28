@@ -3,7 +3,7 @@ import colors from './../../styles/_colors.scss';
 import { styled } from 'styled-components';
 import { getColorVariant } from '../../utils/getColorVariant';
 
-interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface MMButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   color?: 'primary' | 'secondary' | 'tertiary' | 'success' | 'error' | 'info' | 'warning';
   children: React.ReactNode;
 }
@@ -31,7 +31,7 @@ const StyledButton = styled.button<{ $bg?: string; $bgDark?: string }>`
   }
 `;
 
-export const MMButton = ({ children, color, ...props }: Props) => {
+export const MMButton = ({ children, color, ...props }: MMButtonProps) => {
   const getColors = useCallback(() => {
     return getColorVariant(color);
   }, [color]);

@@ -13,7 +13,8 @@ const fieldNames: Dictionary = {
   username: 'El usuario',
   email: 'El correo electrónico',
   password: 'La contraseña',
-  password_confirmation: ''
+  password_confirmation: '',
+  name: 'El nombre'
 };
 
 function formatErrorMessage(error: string, field: string): string {

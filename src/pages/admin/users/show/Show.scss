@@ -1,0 +1,17 @@
+@import '../../../../styles/main';
+
+.users-show-title-container {
+  @include flex-space-between;
+  width: 100%;
+
+  @include sm-breakpoint {
+    flex-direction: column-reverse;
+  }
+
+  .title-chip {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+  }
+}
