@@ -72,7 +72,7 @@ export const Form = ({ type, role, isUpdate }: Props) => {
           {...inputCommonProps}
         />
         {type === 'show' && role ? (
-          <>
+          <div className="date-input-container">
             <InputText
               className="date-input"
               label="Creado El"
@@ -89,7 +89,7 @@ export const Form = ({ type, role, isUpdate }: Props) => {
               type="text"
               readOnly={true}
             />
-          </>
+          </div>
         ) : (
           <></>
         )}
