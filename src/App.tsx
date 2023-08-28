@@ -13,8 +13,8 @@ const RecoverPassword = lazy(() => import('./pages/auth/RecoverPassword/RecoverP
 // Admin Module
 const UsersContainer = lazy(() => import('./pages/admin/users/UsersContainer'));
 const UserShow = lazy(() => import('./pages/admin/users/show/Show'));
-
-// Genres Module
+const ArtistsContainer = lazy(() => import('./pages/admin/artists/ArtistsContainer'));
+const ArtistShow = lazy(() => import('./pages/admin/artists/show/Show'));
 const GenresContainer = lazy(() => import('./pages/admin/genres/GenresContainer'));
 
 function App() {
@@ -34,11 +34,9 @@ function App() {
             {/* Admin Module */}
             <Route path="/admin/users" element={<UsersContainer />} />
             <Route path="/admin/users/:id" element={<UserShow />} />
-
-            {/* Genres Module */}
-            <Route path="/admin/genres" element={<GenresContainer/>} />
-            
-
+            <Route path="/admin/artists" element={<ArtistsContainer />} />
+            <Route path="/admin/artists/:id" element={<ArtistShow />} />
+            <Route path="/admin/genres" element={<GenresContainer />} />
           </Routes>
         </Suspense>
       </BrowserRouter>

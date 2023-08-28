@@ -4,36 +4,16 @@ import { Grid } from '@mui/material';
 import { styled } from 'styled-components';
 import { InputText } from '../../../../components/form/InputText/InputText';
 import { InputArea } from '../../../../components/form/InputArea/InputArea';
+import { StyledBoldText, StyledDataContainer, StyledLinksContainer } from '../../styles';
 
 type Props = {
   user: User;
 };
 
-const StyledBoldText = styled.span`
-  font-weight: 600;
-`;
-
 const StyledStatContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: 10px;
-`;
-
-const StyledDataContainer = styled.div`
-  display: flex;
-  gap: 8px;
-  flex-direction: column;
-  margin-bottom: 10px;
-
-  width: 90%;
-`;
-
-const StyledLinkContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 9px;
 `;
 
 export const UserInfo = ({ user }: Props) => {
@@ -75,10 +55,10 @@ export const UserInfo = ({ user }: Props) => {
         <>
           {user.links &&
             user.links.map((link, index) => (
-              <StyledLinkContainer key={index}>
+              <StyledLinksContainer key={index}>
                 <InputText disabled value={link.title} containerWidth="40%" />
                 <InputText disabled value={link.url} containerWidth="60%" />
-              </StyledLinkContainer>
+              </StyledLinksContainer>
             ))}
         </>
       )

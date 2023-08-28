@@ -24,7 +24,7 @@ export const usePagination = <T>({ url, requestCallback, queryParams, ...props }
   });
 
   useEffect(() => {
-    fetchData();
+    pagination.isLoading && fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pagination.isLoading]);
 

@@ -56,7 +56,6 @@ export const Form = () => {
   const inputCommonProps = { register, errors, type: 'text' };
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    console.log(data);
     try {
       const user = await adminCreateUser(
         data.full_name,
