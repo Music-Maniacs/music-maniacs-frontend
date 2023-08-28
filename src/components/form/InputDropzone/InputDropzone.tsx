@@ -9,10 +9,11 @@ import {
   StyledInputContainer,
   StyledLabel
 } from '../formStyles';
-import { useDropzone } from 'react-dropzone';
+import { Accept, useDropzone } from 'react-dropzone';
 import { FaCloudUploadAlt } from 'react-icons/fa';
 import colors from '../../../styles/_colors.scss';
 import { MMButton } from '../../MMButton/MMButton';
+import { errorSnackbar } from '../../Snackbar/Snackbar';
 
 interface Props {
   name: string;
@@ -22,6 +23,7 @@ interface Props {
   errors: FieldErrors<any>;
   containerWidth?: string;
   previewImageUrl?: string;
+  acceptedFileTypes?: Accept;
 }
 
 export const InputDropzone = ({
@@ -31,6 +33,7 @@ export const InputDropzone = ({
   control,
   errors,
   previewImageUrl,
+  acceptedFileTypes,
   containerWidth = '100%'
 }: Props) => {
   const hasErrors = !!errors?.[`${name}`];
@@ -50,6 +53,7 @@ export const InputDropzone = ({
                 onChange(acceptedFiles[0]);
               }}
               previewImageUrl={previewImageUrl}
+              acceptedFileTypes={acceptedFileTypes}
               {...props}
             />
           );
@@ -65,14 +69,21 @@ type DropzoneProps = {
   onChange: (acceptedFiles: File[]) => void;
   previewImageUrl?: string;
   [x: string]: unknown;
+  acceptedFileTypes?: Accept;
 };
 
-const Dropzone = ({ onChange, previewImageUrl, ...props }: DropzoneProps) => {
+const Dropzone = ({ onChange, previewImageUrl, acceptedFileTypes, ...props }: DropzoneProps) => {
   const [preview, setPreview] = useState<string | undefined>(previewImageUrl);
   const { getRootProps, getInputProps } = useDropzone({
-    onDrop: (acceptedFiles) => {
-      setPreview(URL.createObjectURL(acceptedFiles[0]));
-      onChange(acceptedFiles);
+    accept: acceptedFileTypes,
+    onDrop: (acceptedFiles, fileRejections) => {
+      if (fileRejections.length > 0) {
+        errorSnackbar('El tipo de archivo no es válido');
+      }
+      if (acceptedFiles.length > 0) {
+        setPreview(URL.createObjectURL(acceptedFiles[0]));
+        onChange(acceptedFiles);
+      }
     },
     ...props
   });

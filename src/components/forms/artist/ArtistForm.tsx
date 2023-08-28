@@ -140,6 +140,7 @@ export const ArtistForm = ({
             control={control}
             errors={errors}
             previewImageUrl={artistToEdit?.image?.url ? `${backendUrl}${artistToEdit.image.url}` : ''}
+            acceptedFileTypes={{ 'image/*': ['.png', '.jpeg', '.jpg'] }}
           />
         </Grid>
         <Grid {...gridCommonProps}>
