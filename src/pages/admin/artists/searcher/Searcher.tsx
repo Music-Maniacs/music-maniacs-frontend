@@ -11,7 +11,7 @@ export const Searcher = () => {
 
   const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setPagination((prevState) => ({ ...prevState, isLoading: true }));
+    setPagination((prevState) => ({ ...prevState, isLoading: true, page: 1 }));
   };
 
   return (

@@ -189,7 +189,7 @@ export const ArtistForm = ({
 
       <StyledButtonGroup>
         <MMButton type="submit" color="primary">
-          Crear
+          {isFormEdit ? 'Editar' : 'Crear'}
         </MMButton>
         <MMButton type="button" color="tertiary" onClick={closeFormModal}>
           Cerrar
