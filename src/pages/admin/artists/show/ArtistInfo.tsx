@@ -82,7 +82,7 @@ export const ArtistInfo = ({ artist }: Props) => {
         ))}
       </Grid>
 
-      <Grid item sm={12} md={4}>
+      <Grid item xs={12} sm={12} md={4}>
         {secondColumn.map((stat, index) => (
           <StyledDataContainer key={index}>
             <StyledBoldText>{stat.label}</StyledBoldText>
