@@ -17,6 +17,10 @@ const UserShow = lazy(() => import('./pages/admin/users/show/Show'));
 // Genres Module
 const GenresContainer = lazy(() => import('./pages/admin/genres/GenresContainer'));
 
+// Thresholds Module
+const ThresholdsContainer = lazy(() => import('./pages/admin/thresholds/ThresholdContainer'));
+
+
 function App() {
   return (
     <AppProviders>
@@ -38,6 +42,8 @@ function App() {
             {/* Genres Module */}
             <Route path="/admin/genres" element={<GenresContainer/>} />
             
+            {/* Penalty Thresholds Module */}
+            <Route path="/admin/thresholds" element={<ThresholdsContainer/>} />
 
           </Routes>
         </Suspense>
