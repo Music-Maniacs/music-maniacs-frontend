@@ -2,17 +2,20 @@ import { styled } from 'styled-components';
 import colors from '../../styles/_colors.scss';
 import { StylesConfig } from 'react-select';
 
-const reactSelectHeight = '33px';
+const reactSelectHeight = '32px';
 
-export const reactSelectCustomStyles = (hasErrors = false) => {
+export const reactSelectCustomStyles = (hasErrors = false, isMultiSelect = false) => {
+  const customHeight = { ...(!isMultiSelect ? { height: reactSelectHeight } : {}) };
+
   const styles: StylesConfig<any> = {
     control: (styles) => ({
       ...styles,
       minHeight: reactSelectHeight,
-      height: reactSelectHeight,
+      ...customHeight,
       backgroundColor: colors.input_background,
       boxShadow: 'none',
       border: `1px solid ${hasErrors ? colors.error : colors.input_border}`,
+      borderRadius: '3px',
       '&:hover': { border: `1px solid ${hasErrors ? colors.error : colors.primary}` }
     }),
     placeholder: (styles) => ({
@@ -34,7 +37,7 @@ export const reactSelectCustomStyles = (hasErrors = false) => {
     }),
     valueContainer: (provided) => ({
       ...provided,
-      height: reactSelectHeight,
+      ...customHeight,
       padding: '0px 3px',
       fontSize: '14px'
     }),
@@ -48,7 +51,21 @@ export const reactSelectCustomStyles = (hasErrors = false) => {
     }),
     indicatorsContainer: (provided) => ({
       ...provided,
-      height: reactSelectHeight
+      ...customHeight
+    }),
+    multiValue: (provided) => ({
+      ...provided,
+      backgroundColor: colors.primary,
+      border: `1px solid ${colors.sweet_alert_background}`,
+      color: 'white'
+    }),
+    multiValueLabel: (provided) => ({
+      ...provided,
+      color: 'white'
+    }),
+    multiValueRemove: (provided) => ({
+      ...provided,
+      '&:hover': { backgroundColor: colors.primary_dark, color: 'white' }
     })
   };
   return styles;
@@ -94,4 +111,35 @@ export const StyledInputContainer = styled.div<{ $containerWidth?: string }>`
   flex-direction: column;
   gap: 10px;
   width: ${({ $containerWidth }) => $containerWidth ?? '100%'};
+`;
+
+export const StyledDropzoneContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: flex-end;
+`;
+
+export const StyledDropzoneBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 10px;
+  background-color: white;
+  color: black;
+  font-weight: 400;
+  border-radius: 3px;
+  box-sizing: border-box;
+  cursor: pointer;
+`;
+
+export const StyledDropzoneImagePreviewContainer = styled.div`
+  max-height: 250px;
+`;
+export const StyledDropzoneImagePreview = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: scale-down;
 `;

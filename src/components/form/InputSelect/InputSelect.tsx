@@ -13,6 +13,7 @@ interface Props {
   containerWidth?: string;
   collection: SelectCollection[];
   isClearable?: boolean;
+  isMultiSelect?: boolean;
 }
 
 export const InputSelect = ({
@@ -23,7 +24,8 @@ export const InputSelect = ({
   errors,
   containerWidth = '100%',
   collection,
-  isClearable = true
+  isClearable = true,
+  isMultiSelect = false
 }: Props) => {
   const hasErrors = !!errors?.[`${name}`];
 
@@ -41,8 +43,10 @@ export const InputSelect = ({
               {...field}
               options={collection}
               isClearable={isClearable}
-              styles={reactSelectCustomStyles(hasErrors)}
+              styles={reactSelectCustomStyles(hasErrors, isMultiSelect)}
               placeholder={''}
+              isMulti={isMultiSelect}
+              menuPosition="fixed"
             />
           );
         }}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dialog, DialogContent, DialogTitle } from '@mui/material';
+import { Breakpoint, Dialog, DialogContent, DialogTitle } from '@mui/material';
 import colors from '../../styles/_colors.scss';
 
 type Props = {
@@ -7,13 +7,14 @@ type Props = {
   closeModal: () => void;
   title?: React.ReactNode | string;
   children: React.ReactNode;
+  maxWidth?: Breakpoint;
 };
 
-export const MMModal = ({ isModalOpen, closeModal, title, children }: Props) => {
+export const MMModal = ({ isModalOpen, closeModal, title, maxWidth = 'sm', children }: Props) => {
   return (
     <Dialog
       fullWidth={true}
-      maxWidth={'sm'}
+      maxWidth={maxWidth}
       open={isModalOpen}
       onClose={closeModal}
       sx={{
