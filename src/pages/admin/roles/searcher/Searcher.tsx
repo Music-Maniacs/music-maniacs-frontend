@@ -6,7 +6,6 @@ import { SearchInputText } from '../../../../components/searcher/InputText/Searc
 
 export const Searcher = () => {
   const { setPagination, queryParams } = useRoles();
-
   const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setPagination((prevState) => ({ ...prevState, isLoading: true }));
@@ -15,7 +14,7 @@ export const Searcher = () => {
   return (
     <form className="admin-search-container" onSubmit={handleFormSubmit}>
       <div className="inputs-container">
-        <SearchInputText paramKey="name" placeholder="Buscar por Nombre" queryParams={queryParams} />
+        <SearchInputText paramKey="name_cont" placeholder="Buscar por Nombre" queryParams={queryParams} />
       </div>
 
       <MMButton type="submit">

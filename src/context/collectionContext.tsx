@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
-import { fetchRolesSelect } from '../services/rolesService';
+import { fetchRolesSelect } from '../services/roleService';
 import { errorSnackbar } from '../components/Snackbar/Snackbar';
 import { SelectCollection } from '../models/Generic';
 

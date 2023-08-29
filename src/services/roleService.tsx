@@ -34,3 +34,8 @@ export async function adminUpdateRole(id: string, name: string, permission_ids: 
   };
   return (await axios.put(`${adminRolesUrl}/${id}`, body)).data;
 }
+
+export async function fetchRolesSelect(): Promise<Role[]> {
+  const response = await axios.get<Role[]>(`${adminRolesUrl}/roles_select`);
+  return response.data;
+}
