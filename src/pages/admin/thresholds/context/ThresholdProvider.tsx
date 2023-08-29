@@ -31,6 +31,12 @@ export function ThresholdProvider(props: Props) {
   function reducer(reducer: Array<Threshold>, action: Action) {
     switch (action.type) {
       case 'add_threshold': {
+        console.log("Creando umbral"+action.payload);
+        if (action.payload && !Array.isArray(action.payload)){
+          createThreshold(action.payload).then( threshold => {
+            dispatch({ type: 'set_threshold', payload: [...reducer, threshold] });
+          });
+        }
         return reducer;
       }
       case 'remove_threshold': {

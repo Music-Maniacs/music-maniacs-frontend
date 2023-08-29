@@ -8,7 +8,6 @@ import { Tooltip } from 'react-tooltip';
 import { MMModal } from '../../../components/Modal/MMModal';
 import '../Admin.scss';
 
-//import { Searcher } from './searcher/Searcher';
 import { Table } from './table/Table';
 import { Form } from './form/Form';
 import { useThreshold } from './context/ThresholdProvider';

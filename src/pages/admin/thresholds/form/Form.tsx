@@ -24,9 +24,9 @@ export const Form = () => {
 
   const inputCommonProps = { register, errors, type: 'text' };
 
-  const onSubmit: SubmitHandler<Threshold> = async (threshold) => {
+  const onSubmit: SubmitHandler<Threshold> = (threshold) => {
     try {
-      await dispatch({ type: 'remove_threshold', payload: threshold });
+      dispatch({ type: 'add_threshold', payload: threshold });
       infoSnackbar('Umbral creado con exito');
       closeModal();
     } catch (error) {
@@ -37,8 +37,8 @@ export const Form = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" className="admin-form-container">
-      <InputText label="Cantidad de penalizaciones" name="name" options={thresholdValidations.penalty_score} {...inputCommonProps} />
-      <InputText label="Dias bloqueados" name="name" options={thresholdValidations.days_blocked} {...inputCommonProps} />
+      <InputText label="Cantidad de penalizaciones" name="penalty_score" options={thresholdValidations.penalty_score} {...inputCommonProps} />
+      <InputText label="Dias bloqueados" name="days_blocked" options={thresholdValidations.days_blocked} {...inputCommonProps} />
       <input type="submit" hidden />
       <StyledButtonGroup>
         <MMButton type="submit" color="primary">
