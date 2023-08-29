@@ -69,7 +69,11 @@ export const PermissionListInput = ({ setSelectedPermissions, selectedPermission
         <div className="permissions">
           {prm.map((perm, innerIndex) => {
             return (
-              <label className="permission" htmlFor={'check' + index + '.' + innerIndex}>
+              <label
+                className="permission"
+                htmlFor={'check' + index + '.' + innerIndex}
+                key={'check' + index + '.' + innerIndex}
+              >
                 <input
                   type={'checkbox'}
                   id={'check' + index + '.' + innerIndex}

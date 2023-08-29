@@ -69,6 +69,7 @@ export const Form = ({ type, role, isUpdate }: Props) => {
           name="name"
           readOnly={type === 'show' ? true : false}
           options={roleValidation.name}
+          style={type !== 'show' ? { maxWidth: '400px' } : {}}
           {...inputCommonProps}
         />
         {type === 'show' && role ? (
