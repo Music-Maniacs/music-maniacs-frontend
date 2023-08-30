@@ -3,10 +3,13 @@ import { fetchRolesSelect } from '../services/rolesService';
 import { errorSnackbar } from '../components/Snackbar/Snackbar';
 import { SelectCollection } from '../models/Generic';
 import { fetchGenresSelect } from '../services/genreService';
+import { Genre } from '../models/Genre';
 
 type StoreProps = {
   getRolesCollection: () => Promise<SelectCollection[]>;
   getGenresCollection: () => Promise<SelectCollection[]>;
+  addGenreToCollection: (genre: Genre) => void;
+  updateGenreInCollection: (genre: Genre) => void;
 };
 
 type Props = {
@@ -51,7 +54,28 @@ export const CollectionProvider = ({ children }: Props) => {
     }
   };
 
-  const store: StoreProps = { getRolesCollection, getGenresCollection };
+  const addGenreToCollection = (genre: Genre) => {
+    if (genresCollection.length === 0) return;
+
+    const genreAsSelectCollection = { value: genre.id, label: genre.name };
+    setGenresCollection((prevState) => [genreAsSelectCollection, ...prevState]);
+  };
+
+  const updateGenreInCollection = (genre: Genre) => {
+    if (genresCollection.length === 0) return;
+
+    const index = genresCollection.findIndex((genreCollection) => genreCollection.value === genre.id);
+
+    if (index === -1) addGenreToCollection(genre);
+
+    const genreAsSelectCollection = { value: genre.id, label: genre.name };
+    setGenresCollection((prevState) => {
+      prevState[index] = genreAsSelectCollection;
+      return [...prevState];
+    });
+  };
+
+  const store: StoreProps = { getRolesCollection, getGenresCollection, addGenreToCollection, updateGenreInCollection };
 
   return <CollectionContext.Provider value={store}>{children}</CollectionContext.Provider>;
 };

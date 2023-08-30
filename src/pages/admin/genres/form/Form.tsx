@@ -8,6 +8,7 @@ import { StyledButtonGroup } from '../../styles';
 import { errorSnackbar, infoSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { createGenre, updateGenre } from '../../../../services/genreService';
 import { handleFormErrors } from '../../../../utils/handleFormErrors';
+import { useCollection } from '../../../../context/collectionContext';
 
 type FormData = {
   name: string;
@@ -15,6 +16,7 @@ type FormData = {
 
 export const Form = () => {
   const { closeFormModal, setGenres, genreToEdit, isFormModalOpen } = useGenres();
+  const { updateGenreInCollection, addGenreToCollection } = useCollection();
   const isFormEdit = !!genreToEdit;
 
   const {
@@ -47,8 +49,10 @@ export const Form = () => {
         setGenres((prevGenres) =>
           prevGenres?.map((oldGenre) => (oldGenre.id === genreToEdit.id ? response : oldGenre))
         );
+        updateGenreInCollection(response);
       } else {
         setGenres((genres) => [response, ...(genres ? genres : [])]);
+        addGenreToCollection(response);
       }
 
       infoSnackbar(`Género ${isFormEdit ? 'actualizado' : 'creado'} con exito`);
