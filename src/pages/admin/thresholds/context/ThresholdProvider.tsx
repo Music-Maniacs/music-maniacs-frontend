@@ -40,7 +40,10 @@ export function ThresholdProvider(props: Props) {
         return reducer;
       }
       case 'index_threshold': {
-        return thresholds;
+        if (Array.isArray(action.payload) && action.payload ){
+          return action.payload;
+        }
+        return reducer;
       }
       default: {
         return reducer;
@@ -51,9 +54,11 @@ export function ThresholdProvider(props: Props) {
   const [thresholds, dispatch] = useReducer(reducer, []);
 
   useEffect(() => {
+
     indexThreshold().then((thresholds) => {
       dispatch({ type: 'index_threshold', payload: thresholds });
     });
+
   }, []);
 
   const { isModalOpen, openModal, closeModal } = useModal();
