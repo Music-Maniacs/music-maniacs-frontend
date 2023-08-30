@@ -31,7 +31,10 @@ export function ThresholdProvider(props: Props) {
   function reducer(reducer: Array<Threshold>, action: Action):Array<Threshold>{
     switch (action.type) {
       case 'add_threshold': {
-        return [...reducer,...thresholds];
+        if (!Array.isArray(action.payload) && action.payload ){
+          return [...reducer,action.payload];
+        }
+        return reducer;
       }
       case 'remove_threshold': {
         if (!Array.isArray(action.payload) && action.payload ){
