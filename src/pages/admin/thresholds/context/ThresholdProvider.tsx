@@ -28,39 +28,19 @@ interface Store {
 export const thresholdContext = createContext<Store | null>(null);
 
 export function ThresholdProvider(props: Props) {
-  function reducer(reducer: Array<Threshold>, action: Action) {
+  function reducer(reducer: Array<Threshold>, action: Action):Array<Threshold>{
     switch (action.type) {
       case 'add_threshold': {
-        console.log("Creando umbral"+action.payload);
-        if (action.payload && !Array.isArray(action.payload)){
-          createThreshold(action.payload).then( threshold => {
-            dispatch({ type: 'set_threshold', payload: [...reducer, threshold] });
-          });
-        }
-        return reducer;
+        return [...reducer,...thresholds];
       }
       case 'remove_threshold': {
+        if (!Array.isArray(action.payload) && action.payload ){
+          return reducer.filter(thresholds => thresholds.id !== (action.payload as Threshold).id );
+        }
         return reducer;
       }
       case 'index_threshold': {
-        /*
-        // Otra forma de hacerlo
-        (async () => {
-          let data = await indexThreshold();
-          //console.log(data);
-          dispatch( {type:'set_threshold', payload:data} );
-        })();
-        */
-        indexThreshold().then((thresholds) => {
-          dispatch({ type: 'set_threshold', payload: thresholds });
-        });
-        return reducer;
-      }
-      case 'set_threshold': {
-        if (action.payload && Array.isArray(action.payload)) {
-          return action.payload;
-        }
-        return reducer;
+        return thresholds;
       }
       default: {
         return reducer;
@@ -71,7 +51,9 @@ export function ThresholdProvider(props: Props) {
   const [thresholds, dispatch] = useReducer(reducer, []);
 
   useEffect(() => {
-    dispatch({ type: 'index_threshold', payload: undefined });
+    indexThreshold().then((thresholds) => {
+      dispatch({ type: 'index_threshold', payload: thresholds });
+    });
   }, []);
 
   const { isModalOpen, openModal, closeModal } = useModal();

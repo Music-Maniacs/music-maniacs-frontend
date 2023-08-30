@@ -9,6 +9,13 @@ import { handleFormErrors } from '../../../../utils/handleFormErrors';
 import { Threshold, thresholdValidations } from '../../../../models/Threshold';
 import { useThreshold } from '../context/ThresholdProvider';
 
+import {
+  indexThreshold,
+  createThreshold,
+  destroyThreshold,
+  updateThreshold
+} from '../../../../services/thresholdService';
+
 export const Form = () => {
   const { dispatch, isModalOpen, closeModal } = useThreshold();
 
@@ -26,9 +33,11 @@ export const Form = () => {
 
   const onSubmit: SubmitHandler<Threshold> = (threshold) => {
     try {
-      dispatch({ type: 'add_threshold', payload: threshold });
-      infoSnackbar('Umbral creado con exito');
-      closeModal();
+      createThreshold(threshold).then( threshold => {
+        dispatch({ type: 'add_threshold', payload: threshold });
+        infoSnackbar('Umbral creado con exito');
+        closeModal();
+      });
     } catch (error) {
       let hasFormError = handleFormErrors(error, setError);
       !hasFormError && errorSnackbar('Error inesperado al crear umbral. Contacte a soporte.');
