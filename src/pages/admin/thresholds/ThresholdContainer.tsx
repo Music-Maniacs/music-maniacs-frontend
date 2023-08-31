@@ -5,7 +5,7 @@ import Index from './Index';
 export const ThresholdContainer = () => {
   return (
     <ThresholdProvider>
-      <Index/>
+      <Index />
     </ThresholdProvider>
   );
 };

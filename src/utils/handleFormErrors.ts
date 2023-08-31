@@ -6,7 +6,8 @@ import { FieldValues, UseFormSetError } from 'react-hook-form';
 const errors: Dictionary = {
   taken: 'está ocupado',
   too_short: 'es demasiado corta',
-  confirmation: 'No coincide con la contraseña'
+  confirmation: 'No coincide con la contraseña',
+  not_a_number: 'no es un número'
 };
 
 const fieldNames: Dictionary = {
@@ -14,7 +15,9 @@ const fieldNames: Dictionary = {
   email: 'El correo electrónico',
   password: 'La contraseña',
   password_confirmation: '',
-  name: 'El nombre'
+  name: 'El nombre',
+  penalty_score: 'La cantidad de penalizaciones',
+  days_blocked: 'Los dias bloqueados'
 };
 
 function formatErrorMessage(error: string, field: string): string {

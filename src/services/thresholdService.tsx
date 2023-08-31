@@ -9,8 +9,8 @@ export async function indexThreshold(): Promise<Array<Threshold>> {
 
 export async function createThreshold(threshold: Threshold): Promise<Threshold> {
   const body = {
-    penalty_score:threshold.penalty_score,
-    days_blocked:threshold.days_blocked
+    penalty_score: threshold.penalty_score,
+    days_blocked: threshold.days_blocked
   };
   return (await axios.post(URL, body)).data;
 }
@@ -21,8 +21,8 @@ export async function destroyThreshold(id: string): Promise<void> {
 
 export async function updateThreshold(threshold: Threshold): Promise<Threshold> {
   const body = {
-    penalty_score:threshold.penalty_score,
-    days_blocked:threshold.days_blocked
+    penalty_score: threshold.penalty_score,
+    days_blocked: threshold.days_blocked
   };
   return (await axios.put(`${URL}/${threshold.id}`, body)).data;
 }

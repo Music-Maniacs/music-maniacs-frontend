@@ -1,6 +1,5 @@
 import React from 'react';
 import { MMTable } from '../../../../components/MMTable/MMTable';
-import { Genre } from '../../../../models/Genre';
 import { Stack } from '@mui/material';
 import { MMButton } from '../../../../components/MMButton/MMButton';
 import { FaEdit, FaTrash } from 'react-icons/fa';
@@ -10,7 +9,7 @@ import { Threshold } from '../../../../models/Threshold';
 import { useThreshold } from '../context/ThresholdProvider';
 
 export const Table = () => {
-  const { thresholds, dispatch, isModalOpen, openModal, closeModal } = useThreshold();
+  const { thresholds, isLoading, openModal, setThreshold } = useThreshold();
   const { handleDeleteThreshold } = useThresholdRequests();
 
   const handleDeleteButton = (threshold: Threshold) => {
@@ -20,7 +19,7 @@ export const Table = () => {
   return (
     <MMTable<Threshold>
       data={thresholds}
-      isLoading={false}
+      isLoading={isLoading}
       columns={[
         {
           header: 'Cantidad Penalizaciones',
@@ -31,7 +30,7 @@ export const Table = () => {
         {
           header: 'Dias Bloqueados',
           renderCell: (rowData) => {
-            return rowData.days_blocked;
+            return rowData.permanent_block ? 'Permanente' : rowData.days_blocked;
           }
         },
         {
@@ -43,7 +42,7 @@ export const Table = () => {
                   data-tooltip-id="tooltip"
                   data-tooltip-content="Editar"
                   onClick={() => {
-                    //setGenreToEdit(rowData);
+                    setThreshold(rowData);
                     openModal();
                   }}
                 >

@@ -13,7 +13,7 @@ import { Form } from './form/Form';
 import { useThreshold } from './context/ThresholdProvider';
 
 function Index() {
-  const { thresholds, dispatch, isModalOpen, openModal, closeModal } = useThreshold();
+  const { threshold, setThreshold, isModalOpen, openModal, closeModal } = useThreshold();
 
   return (
     <MMContainer maxWidth="xxl">
@@ -22,6 +22,7 @@ function Index() {
           <MMTitle content="Umbrales" />
           <MMButton
             onClick={() => {
+              setThreshold(undefined);
               openModal();
             }}
           >
@@ -29,15 +30,9 @@ function Index() {
           </MMButton>
         </div>
 
-        <MMModal isModalOpen={isModalOpen} closeModal={closeModal} title="Umbral ...">
+        <MMModal isModalOpen={isModalOpen} closeModal={closeModal} title={`${threshold ? 'Editar' : 'Crear'} umbral`}>
           <Form />
         </MMModal>
-
-
-        {/*
-        thresholds && thresholds.map((task, index) => 
-        <p>{task.id}</p>)
-        */}
 
         <Table />
       </MMBox>
