@@ -1,5 +1,5 @@
 import './Form.scss';
-import React, { SetStateAction, useEffect, useState } from 'react';
+import React, { SetStateAction, useState } from 'react';
 import { errorSnackbar, infoSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { Role, roleValidation } from '../../../../models/Role';
 import { adminCreateRole, adminUpdateRole } from '../../../../services/roleService';
