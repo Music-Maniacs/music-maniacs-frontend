@@ -25,7 +25,7 @@ type Props = {
 
 type FormData = {
   name: string;
-  nationality: string;
+  nationality: SelectCollection;
   description: string;
   genres: SelectCollection[];
   links_attributes: {
@@ -45,7 +45,7 @@ export const ArtistForm = ({
   const backendUrl = process.env.REACT_APP_API_URL;
   const [genresCollection, setGenresCollection] = useState<SelectCollection[]>([]);
 
-  const { getGenresCollection } = useCollection();
+  const { getGenresCollection, nationalitiesCollection } = useCollection();
 
   const {
     register,
@@ -69,7 +69,7 @@ export const ArtistForm = ({
       reset({
         name: artistToEdit.name,
         description: artistToEdit.description,
-        nationality: artistToEdit.nationality,
+        nationality: { value: artistToEdit.nationality, label: artistToEdit.nationality },
         genres: artistToEdit.genres.map((genre) => ({ value: genre.id, label: genre.name })),
         links_attributes: artistToEdit.links.map((link) => ({ id: link.id, title: link.title, url: link.url }))
       });
@@ -101,7 +101,7 @@ export const ArtistForm = ({
         artist = await adminUpdateArtist(
           artistToEdit.id,
           data.name,
-          data.nationality,
+          data.nationality.value,
           data.description,
           data.genres?.map((genre) => genre.value) ?? [],
           data.links_attributes,
@@ -110,7 +110,7 @@ export const ArtistForm = ({
       } else {
         artist = await adminCreateArtist(
           data.name,
-          data.nationality,
+          data.nationality.value,
           data.description,
           data.genres?.map((genre) => genre.value) ?? [],
           data.links_attributes,
@@ -146,11 +146,14 @@ export const ArtistForm = ({
         <Grid {...gridCommonProps}>
           <InputText label="Nombre" name="name" options={artistValidations.name} {...inputCommonProps} />
 
-          <InputText
+          <InputSelect
             label="Nacionalidad"
             name="nationality"
+            control={control}
+            errors={errors}
+            collection={nationalitiesCollection}
+            isClearable={true}
             options={artistValidations.nationality}
-            {...inputCommonProps}
           />
 
           <InputSelect

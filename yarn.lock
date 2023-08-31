@@ -3753,6 +3753,11 @@ cosmiconfig@^7.0.0:
     path-type "^4.0.0"
     yaml "^1.10.0"
 
+country-list-spanish@^0.3.2:
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/country-list-spanish/-/country-list-spanish-0.3.2.tgz#02dadc14b5242f513d4ec85f3ab0bfdb7b2ab63b"
+  integrity sha512-I89/Etvjo5/des/jq1OtgcVmGtxc3wxZvraqJ5iWso3dy3zTiVVapfySGI7HR8s15ZQqlOCMv9AwvYqZmb0d8w==
+
 cross-spawn@^7.0.2, cross-spawn@^7.0.3:
   version "7.0.3"
   resolved "https://registry.yarnpkg.com/cross-spawn/-/cross-spawn-7.0.3.tgz#f73a85b9d5d41d045551c177e2882d4ac85728a6"
