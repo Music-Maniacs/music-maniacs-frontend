@@ -1,13 +1,12 @@
 import './Form.scss';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { SetStateAction, useEffect, useState } from 'react';
 import { errorSnackbar, infoSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { Role, roleValidation } from '../../../../models/Role';
 import { adminCreateRole, adminUpdateRole } from '../../../../services/roleService';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { InputText } from '../../../../components/form/InputText/InputText';
 import { MMButton } from '../../../../components/MMButton/MMButton';
-import { useRoles } from '../context/roleContext';
+
 import { handleFormErrors } from '../../../../utils/handleFormErrors';
 import { PermissionListInput } from '../../../../components/form/PermissionListInput/PermissionListInput';
 
@@ -16,21 +15,21 @@ type FormData = {
 };
 
 type Props = {
-  type: 'create' | 'update' | 'show';
+  type: 'create' | 'update';
   role?: Role;
-  isUpdate?: React.Dispatch<React.SetStateAction<boolean>>;
+  setRole?: React.Dispatch<SetStateAction<Role | undefined>>;
+  closeFormModal?: () => void;
+  roleList?: Role[];
+  setRoleList?: React.Dispatch<SetStateAction<Role[] | undefined>>;
 };
-export const Form = ({ type, role, isUpdate }: Props) => {
-  const navigate = useNavigate();
+export const Form = ({ type, role, setRole, closeFormModal, roleList, setRoleList }: Props) => {
   const [selectedPermissions, setSelectedPermissions] = useState<string[]>(role ? role.permission_ids : []);
-  const { setRoles, roles } = useRoles();
 
   const preloadValues = {
     name: role?.name
   };
   const {
     register,
-    reset,
     handleSubmit,
     setError,
     formState: { errors }
@@ -39,18 +38,19 @@ export const Form = ({ type, role, isUpdate }: Props) => {
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
       if (type === 'create') {
-        const response = await adminCreateRole(data.name, selectedPermissions);
-        setRoles((roles) => [response, ...(roles ? roles : [])]);
+        if (roleList && setRoleList) {
+          const response = await adminCreateRole(data.name, selectedPermissions);
+          setRoleList((roleList) => [response, ...(roleList ? roleList : [])]);
+        }
         infoSnackbar('Rol creado con exito');
-        navigate(-1);
+        if (closeFormModal) closeFormModal();
       } else {
         if (!role) return;
         const response = await adminUpdateRole(role.id, data.name, selectedPermissions);
-        let newRoles = roles?.filter((item) => item.id !== role.id);
-        newRoles = [response, ...(newRoles ? newRoles : [])];
-        setRoles(newRoles);
+        response.permission_ids = selectedPermissions;
+        if (setRole) setRole(response);
         infoSnackbar('Rol actualizado con exito');
-        navigate(-1);
+        if (closeFormModal) closeFormModal();
       }
     } catch (error) {
       let hasFormError = handleFormErrors(error, setError);
@@ -67,61 +67,32 @@ export const Form = ({ type, role, isUpdate }: Props) => {
           className="name-input"
           label="Nombre"
           name="name"
-          readOnly={type === 'show' ? true : false}
           options={roleValidation.name}
-          style={type !== 'show' ? { maxWidth: '400px' } : {}}
           {...inputCommonProps}
         />
-        {type === 'show' && role ? (
-          <div className="date-input-container">
-            <InputText
-              className="date-input"
-              label="Creado El"
-              name="created_at"
-              value={role.created_at}
-              type="text"
-              readOnly={true}
-            />
-            <InputText
-              className="date-input"
-              label="Actualizado El"
-              name="updated_at"
-              value={role.updated_at}
-              type="text"
-              readOnly={true}
-            />
-          </div>
-        ) : (
-          <></>
-        )}
       </div>
       <PermissionListInput
-        readonly={type === 'show' ? true : false}
+        key={'ctrl'}
+        readonly={false}
         selectedPermissions={selectedPermissions}
         setSelectedPermissions={setSelectedPermissions}
       />
-      {type !== 'show' ? (
-        <div className="role-form-buttons">
-          <MMButton
-            type="button"
-            onClick={() => {
-              if (type === 'update' && isUpdate) {
-                if (!role) return;
-                reset(preloadValues);
-                setSelectedPermissions(role?.permission_ids);
-                isUpdate(false);
-              } else {
-                navigate(-1);
-              }
-            }}
-          >
-            Cancelar
-          </MMButton>
-          <MMButton type="submit">{type === 'create' ? 'Crear Rol' : 'Guardar'}</MMButton>
-        </div>
-      ) : (
-        <></>
-      )}
+
+      <div className="role-form-buttons">
+        <MMButton
+          type="button"
+          onClick={() => {
+            if (type === 'update') {
+              if (!role) return;
+              setSelectedPermissions(role?.permission_ids);
+            }
+            if (closeFormModal) closeFormModal();
+          }}
+        >
+          Cancelar
+        </MMButton>
+        <MMButton type="submit">{type === 'create' ? 'Crear Rol' : 'Guardar'}</MMButton>
+      </div>
     </form>
   );
 };

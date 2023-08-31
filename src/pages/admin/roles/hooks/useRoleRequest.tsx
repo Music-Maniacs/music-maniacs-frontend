@@ -10,11 +10,11 @@ export const useRoleRequests = () => {
         try {
           await adminDeleteRole(roleId);
 
-          infoSnackbar('Usuario eliminado correctamente');
+          infoSnackbar('Rol eliminado correctamente');
 
           successCallback && successCallback();
         } catch (error) {
-          errorSnackbar('Error al eliminar el usuario');
+          errorSnackbar('Error al eliminar el Rol');
         }
       }
     });

@@ -16,32 +16,12 @@
     flex-direction: row;
     gap: 2rem;
 
-    @include lg-breakpoint {
-      display: flex;
-      flex-direction: column;
-    }
-
     .name-input {
       width: 100%;
 
       @include lg-breakpoint {
         display: flex;
         flex-direction: column;
-      }
-    }
-
-    .date-input-container {
-      display: flex;
-      flex-direction: row;
-      gap: 2rem;
-      width: 100%;
-
-      @include sm-breakpoint {
-        display: flex;
-        flex-direction: column;
-      }
-      .date-input {
-        width: 100%;
       }
     }
   }

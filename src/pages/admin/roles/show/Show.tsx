@@ -1,25 +1,28 @@
 import { Stack } from '@mui/material';
 import React, { useEffect, useRef } from 'react';
+import { FaArrowLeft, FaEdit, FaTrash } from 'react-icons/fa';
 import { useNavigate, useParams } from 'react-router-dom';
+import { InputText } from '../../../../components/form/InputText/InputText';
+import { PermissionListInput } from '../../../../components/form/PermissionListInput/PermissionListInput';
+import { useModal } from '../../../../components/hooks/useModal';
 import { MMBox } from '../../../../components/MMBox/MMBox';
 import { MMButton } from '../../../../components/MMButton/MMButton';
+import { MMButtonResponsive } from '../../../../components/MMButton/MMButtonResponsive';
 import { MMContainer } from '../../../../components/MMContainer/MMContainer';
 import { MMTitle } from '../../../../components/MMTitle/MMTitle';
+import { MMModal } from '../../../../components/Modal/MMModal';
 import { errorSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { Role } from '../../../../models/Role';
 import { adminGetRole } from '../../../../services/roleService';
-import { useRoles } from '../context/roleContext';
 import Form from '../form/Form';
 import { useRoleRequests } from '../hooks/useRoleRequest';
-
+import './Show.scss';
 export const Show = () => {
   const { id } = useParams();
   const [role, setRole] = React.useState<Role>();
-  const [update, setUpdate] = React.useState<boolean>(false);
-  const permissions = useRef<string[]>([]);
   const navigate = useNavigate();
   const { handleDeleteRole } = useRoleRequests();
-  const { setRoles, roles } = useRoles();
+  const { openModal, isModalOpen, closeModal } = useModal();
 
   useEffect(() => {
     getRole();
@@ -31,7 +34,6 @@ export const Show = () => {
     try {
       const role = await adminGetRole(id);
       setRole(role);
-      permissions.current = role.permission_ids ? role.permission_ids : [];
     } catch (error) {
       errorSnackbar('Error al obtener el rol. Contacte a soporte.');
       navigate(-1);
@@ -41,9 +43,6 @@ export const Show = () => {
   const handleDeleteButton = (roleId: string | undefined) => {
     if (!roleId) return;
     handleDeleteRole(roleId, () => {
-      const role = roles?.find((role) => role.id === roleId);
-      if (!role) return;
-      setRoles(roles?.filter((item) => item.id !== role.id));
       navigate(-1);
     });
   };
@@ -52,21 +51,57 @@ export const Show = () => {
     <MMContainer maxWidth="xxl">
       <MMBox className="admin-box-container">
         <div className="admin-title-container">
-          <MMTitle content={update ? 'Editar Rol' : 'Rol'} />
-          {update ? (
-            <></>
-          ) : (
-            <Stack direction={'row'} spacing={1} justifyContent={'flex-end'}>
-              <MMButton onClick={() => setUpdate(true)}>Editar</MMButton>
-              <MMButton color="error" onClick={() => handleDeleteButton(role?.id)}>
-                Eliminar
-              </MMButton>
-              <MMButton onClick={() => navigate(-1)}>Volver</MMButton>
-            </Stack>
-          )}
+          <MMTitle content="Rol" />
+          <Stack direction={'row'} spacing={1} justifyContent={'flex-end'}>
+            <MMButtonResponsive Icon={FaEdit} onClick={() => openModal()}>
+              Editar
+            </MMButtonResponsive>
+            <MMButtonResponsive Icon={FaTrash} color="error" onClick={() => handleDeleteButton(role?.id)}>
+              Eliminar
+            </MMButtonResponsive>
+            <MMButtonResponsive Icon={FaArrowLeft} onClick={() => navigate(-1)}>
+              Volver
+            </MMButtonResponsive>
+          </Stack>
         </div>
 
-        {role ? <Form type={update ? 'update' : 'show'} role={role} isUpdate={setUpdate} /> : <></>}
+        {role && (
+          <div className="show-container">
+            <div className="show-text-inputs">
+              <InputText
+                className="name-input"
+                label="Nombre"
+                name="name"
+                readOnly={true}
+                type="text"
+                value={role.name}
+              />
+              <div className="date-input-container">
+                <InputText
+                  className="date-input"
+                  label="Creado El"
+                  name="created_at"
+                  value={role.created_at}
+                  type="text"
+                  readOnly={true}
+                />
+                <InputText
+                  className="date-input"
+                  label="Actualizado El"
+                  name="updated_at"
+                  value={role.updated_at}
+                  type="text"
+                  readOnly={true}
+                />
+              </div>
+            </div>
+            <PermissionListInput readonly={true} selectedPermissions={role.permission_ids} />
+          </div>
+        )}
+
+        <MMModal isModalOpen={isModalOpen} closeModal={closeModal} maxWidth="md" title="Editar Rol">
+          <Form type="update" role={role} closeFormModal={closeModal} setRole={setRole} />
+        </MMModal>
       </MMBox>
     </MMContainer>
   );

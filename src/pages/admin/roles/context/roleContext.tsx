@@ -2,6 +2,7 @@ import React, { Dispatch, MutableRefObject, SetStateAction, createContext, useCo
 import { Role } from '../../../../models/Role';
 import { usePagination } from '../../../../components/searcher/usePagination';
 import { Pagination } from '../../../../models/Generic';
+import { useModal } from '../../../../components/hooks/useModal';
 
 type Props = {
   children: React.ReactNode;
@@ -10,6 +11,9 @@ type Props = {
 type StoreProps = {
   roles?: Role[];
   setRoles: Dispatch<SetStateAction<Role[] | undefined>>;
+  isFormModalOpen: boolean;
+  openFormModal: () => void;
+  closeFormModal: () => void;
   pagination: Pagination;
   setPagination: Dispatch<SetStateAction<Pagination>>;
   queryParams: MutableRefObject<Record<string, string>>;
@@ -22,12 +26,14 @@ export const RolesProvider = ({ children }: Props) => {
   const queryParams = useRef<Record<string, string>>({
     name_cont: ''
   });
+
   const [roles, setRoles] = useState<Role[]>();
   const { pagination, setPagination } = usePagination<Role>({
     url: INDEX_URL,
     requestCallback: (data) => indexRequestCallback(data),
     queryParams: queryParams.current
   });
+  const { isModalOpen: isFormModalOpen, openModal: openFormModal, closeModal: closeFormModal } = useModal();
 
   const indexRequestCallback = (roles: Role[]) => {
     setRoles(roles);
@@ -36,6 +42,9 @@ export const RolesProvider = ({ children }: Props) => {
   const store = {
     roles,
     setRoles,
+    isFormModalOpen,
+    openFormModal,
+    closeFormModal,
     pagination,
     setPagination,
     queryParams
