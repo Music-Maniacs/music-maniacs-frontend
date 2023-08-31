@@ -3,10 +3,6 @@ import { Permission, Role } from '../models/Role';
 
 const adminRolesUrl = `${process.env.REACT_APP_API_URL}/admin/roles`;
 
-export async function adminGetPermissions(): Promise<Permission[]> {
-  return (await axios.get(`${adminRolesUrl}/permissions_select`)).data;
-}
-
 export async function adminCreateRole(name: string, permission_ids: string[]): Promise<Role> {
   const body = {
     role: {
@@ -38,4 +34,8 @@ export async function adminUpdateRole(id: string, name: string, permission_ids: 
 export async function fetchRolesSelect(): Promise<Role[]> {
   const response = await axios.get<Role[]>(`${adminRolesUrl}/roles_select`);
   return response.data;
+}
+
+export async function fetchPermissionsSelect(): Promise<Permission[]> {
+  return (await axios.get(`${adminRolesUrl}/permissions_select`)).data;
 }

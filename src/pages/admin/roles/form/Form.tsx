@@ -73,7 +73,7 @@ export const Form = ({ type, role, setRole, closeFormModal, roleList, setRoleLis
       </div>
       <PermissionListInput
         key={'ctrl'}
-        readonly={false}
+        disabled={false}
         selectedPermissions={selectedPermissions}
         setSelectedPermissions={setSelectedPermissions}
       />

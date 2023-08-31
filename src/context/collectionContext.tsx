@@ -1,14 +1,16 @@
 import React, { createContext, useContext, useMemo, useState } from 'react';
-import { fetchRolesSelect } from '../services/rolesService';
+import { fetchPermissionsSelect, fetchRolesSelect } from '../services/roleService';
 import { errorSnackbar } from '../components/Snackbar/Snackbar';
 import { SelectCollection } from '../models/Generic';
 import { fetchGenresSelect } from '../services/genreService';
 import { Genre } from '../models/Genre';
+import { Permission } from '../models/Role';
 
 type StoreProps = {
   nationalitiesCollection: SelectCollection[];
   getRolesCollection: () => Promise<SelectCollection[]>;
   getGenresCollection: () => Promise<SelectCollection[]>;
+  getPermissionsCollection: () => Promise<Permission[][]>;
   addGenreToCollection: (genre: Genre) => void;
   updateGenreInCollection: (genre: Genre) => void;
 };
@@ -24,6 +26,7 @@ export const CollectionProvider = ({ children }: Props) => {
 
   const [rolesCollection, setRolesCollection] = useState<SelectCollection[]>([]);
   const [genresCollection, setGenresCollection] = useState<SelectCollection[]>([]);
+  const [permissionsCollection, setPermissionsCollection] = useState<Permission[][]>([]);
   const nationalitiesCollection = useMemo(() => {
     const countries = getCountries();
     const countriesCollection = countries.map((country: string) => ({ value: country, label: country }));
@@ -62,6 +65,33 @@ export const CollectionProvider = ({ children }: Props) => {
     }
   };
 
+  const getPermissionsCollection = async (): Promise<Permission[][]> => {
+    if (permissionsCollection.length > 0) return permissionsCollection;
+
+    try {
+      const response = await fetchPermissionsSelect();
+      response.sort((a, b) => a.subject_class.localeCompare(b.subject_class));
+      const sortedPermissions = response.reduce(
+        (function (hash) {
+          return function (r: Permission[][], o) {
+            if (!hash[o.subject_class]) {
+              hash[o.subject_class] = [];
+              r.push(hash[o.subject_class]);
+            }
+            hash[o.subject_class].push(o);
+            return r;
+          };
+        })(Object.create(null)),
+        []
+      );
+      setPermissionsCollection(sortedPermissions);
+      return sortedPermissions;
+    } catch (error) {
+      errorSnackbar('Error al obtener los permisos. Contacte a soporte');
+      return [];
+    }
+  };
+
   const addGenreToCollection = (genre: Genre) => {
     if (genresCollection.length === 0) return;
 
@@ -87,6 +117,7 @@ export const CollectionProvider = ({ children }: Props) => {
     nationalitiesCollection,
     getRolesCollection,
     getGenresCollection,
+    getPermissionsCollection,
     addGenreToCollection,
     updateGenreInCollection
   };

@@ -95,7 +95,7 @@ export const Show = () => {
                 />
               </div>
             </div>
-            <PermissionListInput readonly={true} selectedPermissions={role.permission_ids} />
+            <PermissionListInput disabled={true} selectedPermissions={role.permission_ids} />
           </div>
         )}
 
