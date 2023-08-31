@@ -61,15 +61,9 @@ export const Form = ({ type, role, setRole, closeFormModal, roleList, setRoleLis
 
   const inputCommonProps = { register, errors, type: 'text' };
   return (
-    <form className="form-container" onSubmit={handleSubmit(onSubmit)}>
-      <div className="text-inputs">
-        <InputText
-          className="name-input"
-          label="Nombre"
-          name="name"
-          options={roleValidation.name}
-          {...inputCommonProps}
-        />
+    <form className="role-form-container" onSubmit={handleSubmit(onSubmit)}>
+      <div className="role-text-inputs">
+        <InputText label="Nombre" name="name" options={roleValidation.name} {...inputCommonProps} />
       </div>
       <PermissionListInput
         key={'ctrl'}

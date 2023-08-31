@@ -1,5 +1,5 @@
 @import '/src/styles/main';
-.form-container {
+.role-form-container {
   padding: 2% 4% 4% 4%;
   display: flex;
   flex-direction: column;
@@ -11,12 +11,12 @@
     gap: 1rem;
     justify-content: flex-end;
   }
-  .text-inputs {
+  .role-text-inputs {
     display: flex;
     flex-direction: row;
     gap: 2rem;
 
-    .name-input {
+    input {
       width: 100%;
       max-width: 400px;
 

@@ -66,8 +66,8 @@ export const Show = () => {
         </div>
 
         {role && (
-          <div className="show-container">
-            <div className="show-text-inputs">
+          <div className="role-show-container">
+            <div className="role-show-text-inputs">
               <InputText
                 className="name-input"
                 label="Nombre"
@@ -76,17 +76,9 @@ export const Show = () => {
                 type="text"
                 value={role.name}
               />
-              <div className="date-input-container">
+              <div className="role-date-input-container">
+                <InputText label="Creado El" name="created_at" value={role.created_at} type="text" readOnly={true} />
                 <InputText
-                  className="date-input"
-                  label="Creado El"
-                  name="created_at"
-                  value={role.created_at}
-                  type="text"
-                  readOnly={true}
-                />
-                <InputText
-                  className="date-input"
                   label="Actualizado El"
                   name="updated_at"
                   value={role.updated_at}
