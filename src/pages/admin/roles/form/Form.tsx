@@ -9,6 +9,7 @@ import { MMButton } from '../../../../components/MMButton/MMButton';
 
 import { handleFormErrors } from '../../../../utils/handleFormErrors';
 import { PermissionListInput } from '../../../../components/form/PermissionListInput/PermissionListInput';
+import { useCollection } from '../../../../context/collectionContext';
 
 type FormData = {
   name: string;
@@ -24,7 +25,7 @@ type Props = {
 };
 export const Form = ({ type, role, setRole, closeFormModal, roleList, setRoleList }: Props) => {
   const [selectedPermissions, setSelectedPermissions] = useState<string[]>(role ? role.permission_ids : []);
-
+  const { addRoleToCollection, updateRoleInCollection } = useCollection();
   const preloadValues = {
     name: role?.name
   };
@@ -38,15 +39,17 @@ export const Form = ({ type, role, setRole, closeFormModal, roleList, setRoleLis
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
       if (type === 'create') {
+        const response = await adminCreateRole(data.name, selectedPermissions);
         if (roleList && setRoleList) {
-          const response = await adminCreateRole(data.name, selectedPermissions);
           setRoleList((roleList) => [response, ...(roleList ? roleList : [])]);
         }
+        addRoleToCollection(response);
         infoSnackbar('Rol creado con exito');
         if (closeFormModal) closeFormModal();
       } else {
         if (!role) return;
         const response = await adminUpdateRole(role.id, data.name, selectedPermissions);
+        updateRoleInCollection(response);
         response.permission_ids = selectedPermissions;
         if (setRole) setRole(response);
         infoSnackbar('Rol actualizado con exito');

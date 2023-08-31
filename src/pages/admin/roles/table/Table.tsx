@@ -6,11 +6,13 @@ import { MMButton } from '../../../../components/MMButton/MMButton';
 import { FaSearch, FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useRoleRequests } from '../hooks/useRoleRequest';
+import { useCollection } from '../../../../context/collectionContext';
 
 export const Table = () => {
   const navigate = useNavigate();
   const { roles, pagination, setRoles } = useRoles();
   const { handleDeleteRole } = useRoleRequests();
+  const { removeRoleInCollection } = useCollection();
 
   const handleShowButton = (roleId: string) => {
     navigate(`/admin/roles/${roleId}`);
@@ -22,6 +24,7 @@ export const Table = () => {
       if (!role) return;
 
       setRoles(roles?.filter((item) => item.id !== role.id));
+      removeRoleInCollection(roleId);
     });
   };
 

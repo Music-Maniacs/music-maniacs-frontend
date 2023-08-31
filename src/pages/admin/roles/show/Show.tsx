@@ -12,6 +12,7 @@ import { MMContainer } from '../../../../components/MMContainer/MMContainer';
 import { MMTitle } from '../../../../components/MMTitle/MMTitle';
 import { MMModal } from '../../../../components/Modal/MMModal';
 import { errorSnackbar } from '../../../../components/Snackbar/Snackbar';
+import { useCollection } from '../../../../context/collectionContext';
 import { Role } from '../../../../models/Role';
 import { adminGetRole } from '../../../../services/roleService';
 import Form from '../form/Form';
@@ -23,6 +24,7 @@ export const Show = () => {
   const navigate = useNavigate();
   const { handleDeleteRole } = useRoleRequests();
   const { openModal, isModalOpen, closeModal } = useModal();
+  const { removeRoleInCollection } = useCollection();
 
   useEffect(() => {
     getRole();
@@ -43,6 +45,7 @@ export const Show = () => {
   const handleDeleteButton = (roleId: string | undefined) => {
     if (!roleId) return;
     handleDeleteRole(roleId, () => {
+      removeRoleInCollection(roleId);
       navigate(-1);
     });
   };
