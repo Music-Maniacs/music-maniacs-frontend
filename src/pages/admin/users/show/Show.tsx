@@ -28,7 +28,7 @@ export default function Show() {
   const navigate = useNavigate();
   const [user, setUser] = React.useState<User>();
   const { isModalOpen, openModal, closeModal } = useModal();
-  const { handleDeleteUser } = useUserRequests();
+  const { handleDeleteUser, handleRestoreUser, handleBlockUser, handleUnblockUser } = useUserRequests();
 
   useEffect(() => {
     getUser();
@@ -65,36 +65,26 @@ export default function Show() {
   };
 
   const handleLockButton = () => {
-    sweetAlert({
-      title: '¿Seguro que quieres bloquear el usuario?',
-      html: (
-        <div
-          style={{
-            display: 'flex',
-            width: 'fit-content',
-            flexDirection: 'column',
-            margin: 'auto',
-            alignItems: 'flex-end',
-            gap: ' 5px'
-          }}
-        >
-          <div>
-            <span>Bloquear Usuario Hasta: </span> <input type="date" />
-          </div>
-          <div>
-            <input type="checkbox" />
-            <span>Permanente</span>
-          </div>
-        </div>
-      ),
-      confirmCallback: () => warningSnackbar('FUNCIONALIDAD EN PROCESO')
+    if (!user) return;
+
+    handleBlockUser(user.id, () => {
+      setUser({ ...user, state: 'blocked', blocked_until: new Date().toISOString() });
+    });
+  };
+
+  const handleUnlockButton = () => {
+    if (!user) return;
+
+    handleUnblockUser(user.id, () => {
+      setUser({ ...user, state: user.deleted_at ? 'deleted' : 'active', blocked_until: undefined });
     });
   };
 
   const handleRestoreButton = () => {
-    sweetAlert({
-      title: '¿Seguro que quieres resturar el usuario?',
-      confirmCallback: () => warningSnackbar('FUNCIONALIDAD EN PROCESO')
+    if (!user) return;
+
+    handleRestoreUser(user.id, () => {
+      setUser({ ...user, state: user.blocked_until ? 'blocked' : 'active', deleted_at: undefined });
     });
   };
 
@@ -120,7 +110,7 @@ export default function Show() {
               ) : (
                 <>
                   {user?.blocked_until ? (
-                    <MMButtonResponsive color="error" onClick={() => handleLockButton()} Icon={FaUnlock}>
+                    <MMButtonResponsive color="error" onClick={() => handleUnlockButton()} Icon={FaUnlock}>
                       Desbloquear
                     </MMButtonResponsive>
                   ) : (

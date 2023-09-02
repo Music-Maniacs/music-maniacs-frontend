@@ -1,4 +1,4 @@
-import Swal, { SweetAlertIcon, SweetAlertOptions } from 'sweetalert2';
+import Swal, { SweetAlertIcon, SweetAlertOptions, SweetAlertResult } from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import colors from '../../styles/_colors.scss';
 
@@ -7,7 +7,7 @@ const MySwal = withReactContent(Swal);
 interface Props extends SweetAlertOptions {
   variant?: SweetAlertIcon;
   showCancelButton?: boolean;
-  confirmCallback?: () => void;
+  confirmCallback?: (result?: SweetAlertResult) => void;
 }
 
 export const sweetAlert = ({ variant = 'warning', showCancelButton = true, confirmCallback, ...props }: Props) => {
@@ -26,7 +26,7 @@ export const sweetAlert = ({ variant = 'warning', showCancelButton = true, confi
     ...props
   }).then((result) => {
     if (result.isConfirmed) {
-      confirmCallback && confirmCallback();
+      confirmCallback && confirmCallback(result);
     }
   });
 };
