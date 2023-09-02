@@ -35,6 +35,7 @@ export const CollectionProvider = ({ children }: Props) => {
     const countries = getCountries();
     const countriesCollection = countries.map((country: string) => ({ value: country, label: country }));
     return countriesCollection;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getRolesCollection = async (): Promise<SelectCollection[]> => {
