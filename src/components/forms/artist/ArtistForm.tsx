@@ -127,7 +127,7 @@ export const ArtistForm = ({
       let hasFormError = handleFormErrors(error, setError);
 
       !hasFormError &&
-        errorSnackbar(`Error inesperado al ${isFormEdit ? 'actualizado' : 'creado'} el artista. Contacte a soporte.`);
+        errorSnackbar(`Error inesperado al ${isFormEdit ? 'actualizar' : 'crear'} el artista. Contacte a soporte.`);
     }
   };
   return (

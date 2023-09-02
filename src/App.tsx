@@ -18,6 +18,8 @@ const RoleShow = lazy(() => import('./pages/admin/roles/show/Show'));
 const ArtistsContainer = lazy(() => import('./pages/admin/artists/ArtistsContainer'));
 const ArtistShow = lazy(() => import('./pages/admin/artists/show/Show'));
 const GenresContainer = lazy(() => import('./pages/admin/genres/GenresContainer'));
+const VenuesContainer = lazy(() => import('./pages/admin/venues/VenuesContainer'));
+const VenueShow = lazy(() => import('./pages/admin/venues/show/Show'));
 
 function App() {
   return (
@@ -36,6 +38,8 @@ function App() {
             {/* Admin Module */}
             <Route path="/admin/users" element={<UsersContainer />} />
             <Route path="/admin/users/:id" element={<UserShow />} />
+            <Route path="/admin/venues" element={<VenuesContainer />} />
+            <Route path="/admin/venues/:id" element={<VenueShow />} />
             <Route path="/admin/roles" element={<RolesContainer />} />
             <Route path="/admin/roles/:id" element={<RoleShow />} />
             <Route path="/admin/artists" element={<ArtistsContainer />} />
