@@ -16,9 +16,17 @@ const defaultCenter: LatLngTuple = [-32.89707479647684, -68.85324328925705];
 export const LeafletMap = ({ latitude, longitude, setLatLng, hasClickEvent = true, width = '100%' }: Props) => {
   const [markerPosition, setMarkerPosition] = React.useState<LatLngTuple | undefined>(undefined);
 
+  function isValideLatitude(lat: any) {
+    return isFinite(lat) && Math.abs(lat) <= 90;
+  }
+
+  function isValidLongitude(lng: any) {
+    return isFinite(lng) && Math.abs(lng) <= 180;
+  }
+
   const mapRef = useCallback(
     (map: Map) => {
-      if (map && latitude && longitude) {
+      if (map && latitude && longitude && isValideLatitude(latitude) && isValidLongitude(longitude)) {
         setMarkerPosition([latitude, longitude]);
         map.flyTo([latitude, longitude]);
       }
@@ -44,7 +52,7 @@ export const LeafletMap = ({ latitude, longitude, setLatLng, hasClickEvent = tru
       center={defaultCenter}
       zoom={13}
       scrollWheelZoom={false}
-      style={{ height: '350px', width: width }}
+      style={{ height: '273px', width: width }}
     >
       {hasClickEvent && <MapEvents setMarkerPosition={setMarkerPosition} />}
       <TileLayer

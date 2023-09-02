@@ -13,4 +13,13 @@ export interface Location {
   province: string;
 }
 
-export const locationValidations: Readonly<ModelValidations<Location>> = {};
+export const locationValidations: Readonly<ModelValidations<Location>> = {
+  latitude: {
+    min: { value: -90, message: 'La latitud debe ser mayor a -90' },
+    max: { value: 90, message: 'La latitud debe ser menor a 90' }
+  },
+  longitude: {
+    min: { value: -180, message: 'La longitud debe ser mayor a -180' },
+    max: { value: 180, message: 'La longitud debe ser menor a 180' }
+  }
+};

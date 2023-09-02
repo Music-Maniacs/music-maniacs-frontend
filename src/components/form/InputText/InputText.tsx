@@ -1,6 +1,7 @@
 import { DetailedHTMLProps, HTMLInputTypeAttribute, InputHTMLAttributes, RefObject } from 'react';
-import { FieldErrors, RegisterOptions, UseFormRegister } from 'react-hook-form';
+import { FieldErrors, RegisterOptions, UseFormGetFieldState, UseFormRegister } from 'react-hook-form';
 import { StyledError, StyledInput, StyledInputContainer, StyledLabel } from '../formStyles';
+import { ErrorMessage } from '@hookform/error-message';
 
 interface Props extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
   name?: string;
@@ -11,6 +12,7 @@ interface Props extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>,
   errors?: FieldErrors<any>;
   containerWidth?: string;
   inputRef?: RefObject<HTMLInputElement>;
+  getFieldState?: UseFormGetFieldState<any>;
 }
 
 export const InputText = ({
@@ -22,9 +24,16 @@ export const InputText = ({
   errors,
   containerWidth,
   inputRef,
+  getFieldState,
   ...props
 }: Props) => {
-  const hasErrors = !!errors?.[`${name}`];
+  let hasErrors = false;
+  if (getFieldState && name) {
+    hasErrors = getFieldState(name).invalid;
+  } else {
+    // Deberiamos usar en getFieldState siempre, ahora lo dejo asi para que no se rompan los anteriores
+    hasErrors = !!errors?.[`${name}`];
+  }
 
   return (
     <StyledInputContainer $containerWidth={containerWidth}>
@@ -38,7 +47,9 @@ export const InputText = ({
         {...props}
       />
 
-      {hasErrors && <StyledError>{errors[`${name}`]?.message?.toString()}</StyledError>}
+      {errors && name && (
+        <ErrorMessage errors={errors} name={name} render={({ message }) => <StyledError>{message}</StyledError>} />
+      )}
     </StyledInputContainer>
   );
 };

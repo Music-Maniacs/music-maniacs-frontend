@@ -61,11 +61,13 @@ export const VenuesForm = ({
     reset,
     getValues,
     setValue,
+    watch,
+    getFieldState,
     formState: { errors }
   } = useForm<FormData>();
 
-  const latitudeValue = getValues('location_attributes.latitude');
-  const longitudeValue = getValues('location_attributes.longitude');
+  const latitudeValue = watch('location_attributes.latitude');
+  const longitudeValue = watch('location_attributes.longitude');
 
   const setLatLng = (latitude?: number, longitude?: number) => {
     setValue('location_attributes.latitude', latitude);
@@ -95,7 +97,7 @@ export const VenuesForm = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFormEdit, venueToEdit]);
 
-  const inputCommonProps = { register, errors, type: 'text' };
+  const inputCommonProps = { register, errors, type: 'text', getFieldState };
 
   const gridCommonProps: GridProps = {
     item: true,
@@ -254,19 +256,24 @@ export const VenuesForm = ({
             </Grid>
           </Grid>
 
-          <InputText
-            label="Código Postal"
-            name="location_attributes.zip_code"
-            options={locationValidations.zip_code}
-            {...inputCommonProps}
-          />
-
-          <InputText
-            label="Departamento"
-            name="location_attributes.department"
-            options={locationValidations.department}
-            {...inputCommonProps}
-          />
+          <Grid container spacing={2}>
+            <Grid item xs={8}>
+              <InputText
+                label="Departamento"
+                name="location_attributes.department"
+                options={locationValidations.department}
+                {...inputCommonProps}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <InputText
+                label="Código Postal"
+                name="location_attributes.zip_code"
+                options={locationValidations.zip_code}
+                {...inputCommonProps}
+              />
+            </Grid>
+          </Grid>
 
           <InputText
             label="Localidad"

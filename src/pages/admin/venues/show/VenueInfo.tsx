@@ -51,14 +51,14 @@ export const VenueInfo = ({ venue }: Props) => {
   const mapLocationColumn = [
     {
       content: (
-        <Grid container spacing={1} width={'96%'}>
-          <Grid item xs={6}>
+        <Grid container spacing={0} width={'93%'}>
+          <Grid item xs={8}>
             <StyledDataContainer>
               <StyledBoldText>Dirección</StyledBoldText>
               <InputText disabled value={venue.location?.street} />
             </StyledDataContainer>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={4}>
             <StyledDataContainer>
               <StyledBoldText>Número</StyledBoldText>
               <InputText disabled value={venue.location?.number} />
@@ -68,12 +68,22 @@ export const VenueInfo = ({ venue }: Props) => {
       )
     },
     {
-      label: 'Código Postal',
-      content: <InputText disabled value={venue.location?.zip_code} />
-    },
-    {
-      label: 'Departamento',
-      content: <InputText disabled value={venue.location?.department} />
+      content: (
+        <Grid container spacing={0} width={'93%'}>
+          <Grid item xs={8}>
+            <StyledDataContainer>
+              <StyledBoldText>Departamento</StyledBoldText>
+              <InputText disabled value={venue.location?.department} />
+            </StyledDataContainer>
+          </Grid>
+          <Grid item xs={4}>
+            <StyledDataContainer>
+              <StyledBoldText>Código Postal</StyledBoldText>
+              <InputText disabled value={venue.location?.zip_code} />
+            </StyledDataContainer>
+          </Grid>
+        </Grid>
+      )
     },
     {
       label: 'Localidad',
