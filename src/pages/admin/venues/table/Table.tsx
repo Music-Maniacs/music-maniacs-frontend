@@ -52,7 +52,9 @@ export const Table = () => {
           cellProps: {
             style: {
               overflow: 'hidden',
-              textOverflow: 'ellipsis'
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              maxWidth: '250px'
             }
           }
         },
