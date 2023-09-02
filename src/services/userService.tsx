@@ -136,3 +136,18 @@ export async function adminUpdateUser(
 
   return (await axios.put(`${adminUsersUrl}/${id}`, body)).data;
 }
+
+export async function adminRestoreUser(id: string): Promise<void> {
+  return await axios.put(`${adminUsersUrl}/${id}/restore`);
+}
+
+export async function adminBlockUser(id: string, blockedUntil: Date): Promise<void> {
+  const body = {
+    blocked_until: blockedUntil.toString()
+  };
+  return await axios.put(`${adminUsersUrl}/${id}/block`, body);
+}
+
+export async function adminUnblockUser(id: string): Promise<void> {
+  return await axios.put(`${adminUsersUrl}/${id}/unblock`);
+}
