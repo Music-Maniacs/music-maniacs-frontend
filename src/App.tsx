@@ -13,6 +13,8 @@ const RecoverPassword = lazy(() => import('./pages/auth/RecoverPassword/RecoverP
 // Admin Module
 const UsersContainer = lazy(() => import('./pages/admin/users/UsersContainer'));
 const UserShow = lazy(() => import('./pages/admin/users/show/Show'));
+const EventsContainer = lazy(() => import('./pages/admin/events/EventsContainer'));
+const EventsShow = lazy(() => import('./pages/admin/events/show/Show'));
 const RolesContainer = lazy(() => import('./pages/admin/roles/RolesContainer'));
 const RoleShow = lazy(() => import('./pages/admin/roles/show/Show'));
 const ArtistsContainer = lazy(() => import('./pages/admin/artists/ArtistsContainer'));
@@ -40,6 +42,11 @@ function App() {
             <Route path="users">
               <Route index element={<UsersContainer />} />
               <Route path=":id" element={<UserShow />} />
+            </Route>
+
+            <Route path="events">
+              <Route index element={<EventsContainer />} />
+              <Route path=":id" element={<EventsShow />} />
             </Route>
 
             <Route path="venues">

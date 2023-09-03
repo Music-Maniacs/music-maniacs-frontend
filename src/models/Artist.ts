@@ -1,5 +1,6 @@
 import { ModelValidations } from './Generic';
 import { Genre } from './Genre';
+import { Image } from './Image';
 import { Link } from './Link';
 
 export interface Artist {
@@ -11,9 +12,7 @@ export interface Artist {
   updated_at: string;
   links: Link[];
   genres: Genre[];
-  image?: {
-    url: string;
-  };
+  image?: Image;
 }
 
 export const artistValidations: Readonly<ModelValidations<Artist>> = {

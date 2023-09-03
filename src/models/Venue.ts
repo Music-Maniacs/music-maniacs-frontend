@@ -1,4 +1,5 @@
 import { ModelValidations } from './Generic';
+import { Image } from './Image';
 import { Link } from './Link';
 import { Location } from './Location';
 
@@ -11,9 +12,7 @@ export interface Venue {
   address?: string;
   links: Link[];
   location?: Location;
-  image?: {
-    url: string;
-  };
+  image?: Image;
 }
 
 export const venueValidations: Readonly<ModelValidations<Venue>> = {
