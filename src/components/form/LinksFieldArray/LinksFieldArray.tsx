@@ -90,7 +90,7 @@ export function LinksFieldArray<T extends FieldValues>({
                 options={{
                   required: { value: true, message: 'Debe ingresar el titulo' }
                 }}
-                containerWidth="20%"
+                containerWidth="40%"
                 register={register}
                 errors={errors}
               />
@@ -101,7 +101,7 @@ export function LinksFieldArray<T extends FieldValues>({
                 options={{
                   required: { value: true, message: 'Debe ingresar el enlace' }
                 }}
-                containerWidth="80%"
+                containerWidth="60%"
                 register={register}
                 errors={errors}
               />

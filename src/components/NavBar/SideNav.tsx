@@ -98,7 +98,7 @@ const AdminDropdown = () => {
         <MMLink to={'/'} content="Eventos" />
         <MMLink to={'/admin/artists'} content="Artistas" />
         <MMLink to={'/'} content="Productoras" />
-        <MMLink to={'/'} content="Espacios de eventos" />
+        <MMLink to={'/admin/venues'} content="Espacios de eventos" />
         <MMLink to={'/admin/roles'} content="Roles" />
         <MMLink to={'/admin/genres'} content="Generos Musicales" />
         <MMLink to={'/'} content="Niveles de Confianza" />

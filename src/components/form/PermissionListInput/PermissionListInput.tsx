@@ -18,6 +18,7 @@ export const PermissionListInput = ({ setSelectedPermissions, selectedPermission
   useEffect(() => {
     getPermissionsCollection().then((permissions) => setPermissions(permissions));
     setLoading(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

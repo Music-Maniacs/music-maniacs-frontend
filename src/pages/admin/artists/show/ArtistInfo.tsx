@@ -66,11 +66,16 @@ export const ArtistInfo = ({ artist }: Props) => {
       <Grid item xs={12} sm={6} md={4}>
         <StyledLabel>Portada del Artista</StyledLabel>
 
-        {artist.image && artist.image.url && (
-          <StyledImageContainer>
-            <StyledImageScaledDown alt="Portada del artista" src={`${backendUrl}${artist.image.url}`} />
-          </StyledImageContainer>
-        )}
+        <StyledImageContainer>
+          <StyledImageScaledDown
+            alt="Portada del artista"
+            src={
+              artist.image && artist.image.url
+                ? `${backendUrl}${artist.image.url}`
+                : `${require('../../../../assets/images/no-image.jpg')}`
+            }
+          />
+        </StyledImageContainer>
       </Grid>
 
       <Grid item xs={12} sm={6} md={4}>
