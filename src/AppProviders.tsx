@@ -5,6 +5,7 @@ import { ThemeProvider, createTheme, styled } from '@mui/material';
 import { esES } from '@mui/material/locale';
 import { CollectionProvider } from './context/collectionContext';
 import colors from './styles/_colors.scss';
+import { BrowserRouter } from 'react-router-dom';
 
 type Props = {
   children: React.ReactNode;
@@ -43,7 +44,9 @@ export const AppProviders = ({ children }: Props) => {
           anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
           preventDuplicate
         >
-          <ThemeProvider theme={theme}>{children}</ThemeProvider>
+          <ThemeProvider theme={theme}>
+            <BrowserRouter>{children}</BrowserRouter>
+          </ThemeProvider>
         </SnackbarProvider>
       </CollectionProvider>
     </AuthProvider>
