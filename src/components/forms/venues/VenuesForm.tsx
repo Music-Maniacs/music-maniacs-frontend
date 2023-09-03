@@ -191,7 +191,7 @@ export const VenuesForm = ({
             register={register}
             errors={errors}
             options={venueValidations.description}
-            rows={4}
+            rows={6}
           />
         </Grid>
 
