@@ -22,6 +22,7 @@ const ArtistShow = lazy(() => import('./pages/admin/artists/show/Show'));
 const GenresContainer = lazy(() => import('./pages/admin/genres/GenresContainer'));
 const VenuesContainer = lazy(() => import('./pages/admin/venues/VenuesContainer'));
 const VenueShow = lazy(() => import('./pages/admin/venues/show/Show'));
+const ThresholdsContainer = lazy(() => import('./pages/admin/thresholds/ThresholdContainer'));
 
 function App() {
   return (
@@ -67,6 +68,11 @@ function App() {
             <Route path="genres">
               <Route index element={<GenresContainer />} />
             </Route>
+
+            <Route path="thresholds">
+              <Route index element={<ThresholdsContainer />} />
+            </Route>
+
           </Route>
         </Routes>
       </Suspense>
