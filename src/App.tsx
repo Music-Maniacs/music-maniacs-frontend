@@ -15,6 +15,8 @@ const UsersContainer = lazy(() => import('./pages/admin/users/UsersContainer'));
 const UserShow = lazy(() => import('./pages/admin/users/show/Show'));
 const RolesContainer = lazy(() => import('./pages/admin/roles/RolesContainer'));
 const RoleShow = lazy(() => import('./pages/admin/roles/show/Show'));
+const TrustLevelsContainer = lazy(() => import('./pages/admin/trustLevels/TrustLevelsContainer'));
+const TrustLevelShow = lazy(() => import('./pages/admin/trustLevels/show/Show'));
 const ArtistsContainer = lazy(() => import('./pages/admin/artists/ArtistsContainer'));
 const ArtistShow = lazy(() => import('./pages/admin/artists/show/Show'));
 const GenresContainer = lazy(() => import('./pages/admin/genres/GenresContainer'));
@@ -50,6 +52,11 @@ function App() {
             <Route path="roles">
               <Route index element={<RolesContainer />} />
               <Route path=":id" element={<RoleShow />} />
+            </Route>
+
+            <Route path="trust_levels">
+              <Route index element={<TrustLevelsContainer />} />
+              <Route path=":id" element={<TrustLevelShow />} />
             </Route>
 
             <Route path="artists">

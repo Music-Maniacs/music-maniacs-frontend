@@ -76,7 +76,11 @@ export const Form = ({ type, role, setRole, closeFormModal, roleList, setRoleLis
       />
 
       <div className="role-form-buttons">
+        <MMButton color="primary" type="submit">
+          {type === 'create' ? 'Crear Rol' : 'Guardar'}
+        </MMButton>
         <MMButton
+          color="tertiary"
           type="button"
           onClick={() => {
             if (type === 'update') {
@@ -88,7 +92,6 @@ export const Form = ({ type, role, setRole, closeFormModal, roleList, setRoleLis
         >
           Cancelar
         </MMButton>
-        <MMButton type="submit">{type === 'create' ? 'Crear Rol' : 'Guardar'}</MMButton>
       </div>
     </form>
   );
