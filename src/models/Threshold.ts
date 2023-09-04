@@ -3,7 +3,7 @@ import { ModelValidations } from './Generic';
 export interface Threshold {
   id?: string;
   penalty_score: number;
-  days_blocked: number | undefined | string;
+  days_blocked?: number | string;
   created_at?: string;
   updated_at?: string;
   permanent_block?: boolean;

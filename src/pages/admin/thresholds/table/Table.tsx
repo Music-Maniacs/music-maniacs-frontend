@@ -9,11 +9,13 @@ import { Threshold } from '../../../../models/Threshold';
 import { useThreshold } from '../context/ThresholdProvider';
 
 export const Table = () => {
-  const { thresholds, isLoading, openModal, setThreshold } = useThreshold();
+  const { dispatch, thresholds, isLoading, openModal, setThreshold } = useThreshold();
   const { handleDeleteThreshold } = useThresholdRequests();
 
   const handleDeleteButton = (threshold: Threshold) => {
-    handleDeleteThreshold(threshold, () => {});
+    handleDeleteThreshold(threshold, () => {
+      dispatch({ type: 'remove_threshold', payload: threshold });
+    });
   };
 
   return (

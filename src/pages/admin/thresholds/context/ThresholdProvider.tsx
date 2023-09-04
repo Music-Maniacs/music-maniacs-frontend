@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer, useEffect, useRef, useState, SetStateAction, Dispatch } from 'react';
+import { createContext, useContext, useReducer, useEffect, useState, SetStateAction, Dispatch } from 'react';
 import { useModal } from '../../../../components/hooks/useModal';
 import { Threshold } from '../../../../models/Threshold';
 import { indexThreshold } from '../../../../services/thresholdService';
@@ -20,7 +20,7 @@ interface Store {
   openModal: () => void;
   closeModal: () => void;
   isLoading: boolean;
-  threshold: Threshold | undefined;
+  threshold?: Threshold;
   setThreshold: Dispatch<SetStateAction<Threshold | undefined>>;
 }
 
@@ -54,15 +54,15 @@ export function ThresholdProvider(props: Props) {
 
   const [thresholds, dispatch] = useReducer(reducer, []);
 
-  const isLoading = useRef(false);
+  const [isLoading,setIsLoading] = useState<boolean>(false);
   const [threshold, setThreshold] = useState<Threshold>();
 
   useEffect(() => {
-    isLoading.current = true;
+    setIsLoading(true);
     indexThreshold().then((thresholds) => {
       dispatch({ type: 'index_threshold', payload: thresholds });
     });
-    isLoading.current = false;
+    setIsLoading(false);
   }, []);
 
   const { isModalOpen, openModal, closeModal } = useModal();
@@ -73,7 +73,7 @@ export function ThresholdProvider(props: Props) {
     isModalOpen,
     openModal,
     closeModal,
-    isLoading: isLoading.current,
+    isLoading,
     threshold,
     setThreshold
   };
