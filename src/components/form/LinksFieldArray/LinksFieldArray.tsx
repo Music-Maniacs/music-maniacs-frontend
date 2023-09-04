@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  FieldArrayPath,
   FieldArrayWithId,
   FieldErrors,
   FieldValues,
@@ -22,10 +21,13 @@ import colors from '../../../styles/_colors.scss';
 interface Props<T extends FieldValues> {
   register: UseFormRegister<T>;
   errors: FieldErrors<T>;
-  fields: FieldArrayWithId<T, FieldArrayPath<T>, 'id'>[];
-  append: UseFieldArrayAppend<T, FieldArrayPath<T>>;
+  // @ts-ignore
+  fields: FieldArrayWithId<T, 'links_attributes', 'id'>[];
+  // @ts-ignore
+  append: UseFieldArrayAppend<T, 'links_attributes'>;
   remove: UseFieldArrayRemove;
-  update?: UseFieldArrayUpdate<T>;
+  // @ts-ignore
+  update?: UseFieldArrayUpdate<T, 'links_attributes'>;
   getValues?: UseFormGetValues<T>;
 }
 
@@ -88,7 +90,7 @@ export function LinksFieldArray<T extends FieldValues>({
                 options={{
                   required: { value: true, message: 'Debe ingresar el titulo' }
                 }}
-                containerWidth="20%"
+                containerWidth="40%"
                 register={register}
                 errors={errors}
               />
@@ -99,7 +101,7 @@ export function LinksFieldArray<T extends FieldValues>({
                 options={{
                   required: { value: true, message: 'Debe ingresar el enlace' }
                 }}
-                containerWidth="80%"
+                containerWidth="60%"
                 register={register}
                 errors={errors}
               />

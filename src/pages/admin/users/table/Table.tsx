@@ -1,6 +1,4 @@
 import React from 'react';
-import { sweetAlert } from '../../../../components/SweetAlert/sweetAlert';
-import { warningSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { MMTable } from '../../../../components/MMTable/MMTable';
 import { User, stateColors, stateNames } from '../../../../models/User';
 import { useUsers } from '../context/userContext';
@@ -16,7 +14,7 @@ import { useUserRequests } from '../hooks/useUserRequests';
 export const Table = () => {
   const navigate = useNavigate();
   const { users, pagination, setUsers } = useUsers();
-  const { handleDeleteUser } = useUserRequests();
+  const { handleDeleteUser, handleRestoreUser, handleUnblockUser, handleBlockUser } = useUserRequests();
 
   function getStateColor(state: string): MMColors {
     return stateColors[state] || (colors.primary as MMColors);
@@ -51,44 +49,66 @@ export const Table = () => {
     });
   };
 
-  const handleLockButton = () => {
-    sweetAlert({
-      title: '¿Seguro que quieres bloquear el usuario?',
-      html: (
-        <div
-          style={{
-            display: 'flex',
-            width: 'fit-content',
-            flexDirection: 'column',
-            margin: 'auto',
-            alignItems: 'flex-end',
-            gap: ' 5px'
-          }}
-        >
-          <div>
-            <span>Bloquear Usuario Hasta: </span> <input type="date" />
-          </div>
-          <div>
-            <input type="checkbox" />
-            <span>Permanente</span>
-          </div>
-        </div>
-      ),
-      confirmCallback: () => warningSnackbar('FUNCIONALIDAD EN PROCESO')
+  const handleRestoreButton = (userId: string) => {
+    handleRestoreUser(userId, () => {
+      const user = users?.find((user) => user.id === userId);
+      if (!user) return;
+
+      user.deleted_at = undefined;
+      user.state = user.blocked_until ? 'blocked' : 'active';
+
+      setUsers((users) => {
+        const newUsers = [...(users ? users : [])];
+        const index = newUsers.findIndex((user) => user.id === userId);
+
+        if (index === -1) return users;
+
+        newUsers[index] = user;
+
+        return newUsers;
+      });
     });
   };
 
-  const handleRestoreButton = () => {
-    sweetAlert({
-      title: '¿Seguro que quieres resturar el usuario?',
-      confirmCallback: () => warningSnackbar('FUNCIONALIDAD EN PROCESO')
+  const handleLockButton = (userId: string) => {
+    handleBlockUser(userId, () => {
+      const user = users?.find((user) => user.id === userId);
+      if (!user) return;
+
+      user.blocked_until = new Date().toISOString();
+      user.state = 'blocked';
+
+      setUsers((users) => {
+        const newUsers = [...(users ? users : [])];
+        const index = newUsers.findIndex((user) => user.id === userId);
+
+        if (index === -1) return users;
+
+        newUsers[index] = user;
+
+        return newUsers;
+      });
     });
   };
 
-  const handleUnlockButton = () => {
-    sweetAlert({
-      title: '¿Seguro que quieres desbloquear el usuario?',
-      confirmCallback: () => warningSnackbar('FUNCIONALIDAD EN PROCESO')
+  const handleUnlockButton = (userId: string) => {
+    handleUnblockUser(userId, () => {
+      const user = users?.find((user) => user.id === userId);
+      if (!user) return;
+
+      user.blocked_until = undefined;
+      user.state = user.deleted_at ? 'deleted' : 'active';
+
+      setUsers((users) => {
+        const newUsers = [...(users ? users : [])];
+        const index = newUsers.findIndex((user) => user.id === userId);
+
+        if (index === -1) return users;
+
+        newUsers[index] = user;
+
+        return newUsers;
+      });
     });
   };
 
@@ -127,7 +147,7 @@ export const Table = () => {
         {
           header: 'Rol',
           renderCell: (rowData) => {
-            return rowData.role.name;
+            return rowData.role?.name;
           },
           cellProps: {
             align: 'center'
@@ -150,7 +170,7 @@ export const Table = () => {
                   <MMButton
                     data-tooltip-id="tooltip"
                     data-tooltip-content="Restaurar"
-                    onClick={() => handleRestoreButton()}
+                    onClick={() => handleRestoreButton(rowData.id)}
                   >
                     <FaTrashRestore />
                   </MMButton>
@@ -160,7 +180,7 @@ export const Table = () => {
                       <MMButton
                         data-tooltip-id="tooltip"
                         data-tooltip-content="Desbloquear"
-                        onClick={() => handleUnlockButton()}
+                        onClick={() => handleUnlockButton(rowData.id)}
                       >
                         <FaUnlock />
                       </MMButton>
@@ -168,7 +188,7 @@ export const Table = () => {
                       <MMButton
                         data-tooltip-id="tooltip"
                         data-tooltip-content="Bloquear"
-                        onClick={() => handleLockButton()}
+                        onClick={() => handleLockButton(rowData.id)}
                       >
                         <FaLock />
                       </MMButton>

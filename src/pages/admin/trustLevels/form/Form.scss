@@ -1,0 +1,11 @@
+.trust-level-form {
+  padding: 2% 4% 4% 4%;
+
+  .buttons-container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+}

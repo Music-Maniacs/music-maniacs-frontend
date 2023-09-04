@@ -6,13 +6,16 @@ import { Stack } from '@mui/material';
 import { MMButton } from '../../../../components/MMButton/MMButton';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { useGenreRequests } from '../hooks/useGenreRequests';
+import { useCollection } from '../../../../context/collectionContext';
 
 export const Table = () => {
   const { setGenreToEdit, genres, pagination, setPagination, openFormModal } = useGenres();
   const { handleDeleteGenre } = useGenreRequests();
+  const { removeGenreInCollection } = useCollection();
 
   const handleDeleteButton = (genreId: string) => {
     handleDeleteGenre(genreId, () => {
+      removeGenreInCollection(genreId);
       setPagination((prevPagination) => ({
         ...prevPagination,
         page:

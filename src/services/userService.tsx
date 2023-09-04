@@ -1,6 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
 import { User } from '../models/User';
-import { PaginatedApiResponse } from '../models/Generic';
 
 const userUrl = `${process.env.REACT_APP_API_URL}/users`;
 
@@ -78,14 +77,6 @@ export async function userInfo(token: string): Promise<User> {
   ).data;
 }
 
-export async function index(params: string, page: number, perPage: number): Promise<PaginatedApiResponse<User>> {
-  const response = await axios.get<PaginatedApiResponse<User>>(
-    `${adminUsersUrl}?page=${page}&per_page=${perPage}&${params}`
-  );
-
-  return response.data;
-}
-
 export async function adminCreateUser(
   full_name: string,
   username: string,
@@ -144,4 +135,19 @@ export async function adminUpdateUser(
   };
 
   return (await axios.put(`${adminUsersUrl}/${id}`, body)).data;
+}
+
+export async function adminRestoreUser(id: string): Promise<void> {
+  return await axios.put(`${adminUsersUrl}/${id}/restore`);
+}
+
+export async function adminBlockUser(id: string, blockedUntil: Date): Promise<void> {
+  const body = {
+    blocked_until: blockedUntil.toString()
+  };
+  return await axios.put(`${adminUsersUrl}/${id}/block`, body);
+}
+
+export async function adminUnblockUser(id: string): Promise<void> {
+  return await axios.put(`${adminUsersUrl}/${id}/unblock`);
 }

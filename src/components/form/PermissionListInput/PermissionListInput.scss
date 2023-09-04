@@ -1,0 +1,45 @@
+@import '../../../styles/main';
+.permissions-container {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  overflow-x: scroll;
+  padding-bottom: 1rem;
+  .permissions-subject-class {
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid var(--background, #1e2e2c); //backgroun color
+    padding-left: 0.5rem;
+
+    .title {
+      margin-bottom: 1rem;
+      margin-top: 0;
+    }
+
+    .permissions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      padding-left: 0.5rem;
+
+      .permission {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 0.5rem;
+        gap: 1rem;
+        input {
+          appearance: none;
+          border-radius: 3px;
+          border: 1px solid black;
+          width: 1rem;
+          height: 1rem;
+          background: $input_background;
+          &:checked {
+            background-color: $primary;
+          }
+        }
+      }
+    }
+  }
+}

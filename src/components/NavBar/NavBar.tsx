@@ -48,12 +48,12 @@ export const NavBar = () => {
             <MMLink to={'/'} content="Métricas y Reportes" />
             <MMLink to={'/admin/users'} content="Usuarios" />
             <MMLink to={'/'} content="Eventos" />
-            <MMLink to={'/'} content="Artistas" />
+            <MMLink to={'/admin/artists'} content="Artistas" />
             <MMLink to={'/'} content="Productoras" />
-            <MMLink to={'/'} content="Espacios de eventos" />
-            <MMLink to={'/'} content="Generos Musicales" />
-            <MMLink to={'/'} content="Roles" />
-            <MMLink to={'/'} content="Niveles de Confianza" />
+            <MMLink to={'/admin/venues'} content="Espacios de eventos" />
+            <MMLink to={'/admin/roles'} content="Roles" />
+            <MMLink to={'/admin/genres'} content="Generos Musicales" />
+            <MMLink to={'/admin/trust_levels'} content="Niveles de Confianza" />
             <MMLink to={'/'} content="Copias de Seguridad" />
             <MMLink to={'/'} content="Umbrales Penalizacion" />
           </div>
