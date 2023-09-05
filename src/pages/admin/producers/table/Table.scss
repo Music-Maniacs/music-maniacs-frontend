@@ -1,0 +1,8 @@
+@import './../../../../styles/_main.scss';
+
+.dato {
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* Número de líneas que quieres mostrar (en este caso, 1) */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
