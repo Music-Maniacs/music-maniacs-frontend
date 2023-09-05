@@ -26,7 +26,6 @@ const VenueShow = lazy(() => import('./pages/admin/venues/show/Show'));
 const ProducersContainer = lazy(() => import('./pages/admin/producers/ProducersContainer'));
 const ProducersShow = lazy(() => import('./pages/admin/producers/show/Show'));
 
-
 function App() {
   return (
     <AppProviders>
@@ -76,9 +75,6 @@ function App() {
               <Route index element={<ProducersContainer />} />
               <Route path=":id" element={<ProducersShow />} />
             </Route>
-            
-            
-
           </Route>
         </Routes>
       </Suspense>

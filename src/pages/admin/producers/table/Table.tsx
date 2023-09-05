@@ -44,11 +44,7 @@ export const Table = () => {
         {
           header: 'Descripción',
           renderCell: (rowData) => {
-            return (
-                <div className="dato">
-                  {rowData.description}
-                </div>
-            );
+            return <div className="dato">{rowData.description}</div>;
           }
         },
         {
