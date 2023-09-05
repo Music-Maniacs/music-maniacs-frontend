@@ -30,6 +30,7 @@ export const Show = () => {
 
   useEffect(() => {
     getTrustLevel();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getTrustLevel = async () => {

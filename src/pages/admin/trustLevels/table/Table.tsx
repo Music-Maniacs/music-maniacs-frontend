@@ -1,15 +1,10 @@
 import React from 'react';
-import { sweetAlert } from '../../../../components/SweetAlert/sweetAlert';
-import { warningSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { MMTable } from '../../../../components/MMTable/MMTable';
 import { TrustLevel } from '../../../../models/TrustLevel';
 import { useTrustLevels } from '../context/trustLevelContext';
-import { MMColors } from '../../../../models/Generic';
-import colors from '../../../../styles/_colors.scss';
 import { Stack } from '@mui/material';
 import { MMButton } from '../../../../components/MMButton/MMButton';
-import { FaLock, FaSearch, FaTrash, FaTrashRestore, FaUnlock } from 'react-icons/fa';
-import { MMChip } from '../../../../components/MMChip/MMChip';
+import { FaSearch, FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useTrustLevelRequests } from '../hooks/useTrustLevelRequest';
 

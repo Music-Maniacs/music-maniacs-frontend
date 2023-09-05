@@ -22,6 +22,8 @@ const ArtistShow = lazy(() => import('./pages/admin/artists/show/Show'));
 const GenresContainer = lazy(() => import('./pages/admin/genres/GenresContainer'));
 const VenuesContainer = lazy(() => import('./pages/admin/venues/VenuesContainer'));
 const VenueShow = lazy(() => import('./pages/admin/venues/show/Show'));
+const ProducersContainer = lazy(() => import('./pages/admin/producers/ProducersContainer'));
+const ProducersShow = lazy(() => import('./pages/admin/producers/show/Show'));
 const ThresholdsContainer = lazy(() => import('./pages/admin/thresholds/ThresholdContainer'));
 
 function App() {
@@ -69,10 +71,14 @@ function App() {
               <Route index element={<GenresContainer />} />
             </Route>
 
+            <Route path="producers">
+              <Route index element={<ProducersContainer />} />
+              <Route path=":id" element={<ProducersShow />} />
+            </Route>
+
             <Route path="thresholds">
               <Route index element={<ThresholdsContainer />} />
             </Route>
-
           </Route>
         </Routes>
       </Suspense>
