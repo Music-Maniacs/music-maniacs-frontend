@@ -17,11 +17,16 @@ const EventsContainer = lazy(() => import('./pages/admin/events/EventsContainer'
 const EventsShow = lazy(() => import('./pages/admin/events/show/Show'));
 const RolesContainer = lazy(() => import('./pages/admin/roles/RolesContainer'));
 const RoleShow = lazy(() => import('./pages/admin/roles/show/Show'));
+const TrustLevelsContainer = lazy(() => import('./pages/admin/trustLevels/TrustLevelsContainer'));
+const TrustLevelShow = lazy(() => import('./pages/admin/trustLevels/show/Show'));
 const ArtistsContainer = lazy(() => import('./pages/admin/artists/ArtistsContainer'));
 const ArtistShow = lazy(() => import('./pages/admin/artists/show/Show'));
 const GenresContainer = lazy(() => import('./pages/admin/genres/GenresContainer'));
 const VenuesContainer = lazy(() => import('./pages/admin/venues/VenuesContainer'));
 const VenueShow = lazy(() => import('./pages/admin/venues/show/Show'));
+const ProducersContainer = lazy(() => import('./pages/admin/producers/ProducersContainer'));
+const ProducersShow = lazy(() => import('./pages/admin/producers/show/Show'));
+const ThresholdsContainer = lazy(() => import('./pages/admin/thresholds/ThresholdContainer'));
 
 function App() {
   return (
@@ -59,6 +64,11 @@ function App() {
               <Route path=":id" element={<RoleShow />} />
             </Route>
 
+            <Route path="trust_levels">
+              <Route index element={<TrustLevelsContainer />} />
+              <Route path=":id" element={<TrustLevelShow />} />
+            </Route>
+
             <Route path="artists">
               <Route index element={<ArtistsContainer />} />
               <Route path=":id" element={<ArtistShow />} />
@@ -66,6 +76,15 @@ function App() {
 
             <Route path="genres">
               <Route index element={<GenresContainer />} />
+            </Route>
+
+            <Route path="producers">
+              <Route index element={<ProducersContainer />} />
+              <Route path=":id" element={<ProducersShow />} />
+            </Route>
+
+            <Route path="thresholds">
+              <Route index element={<ThresholdsContainer />} />
             </Route>
           </Route>
         </Routes>
