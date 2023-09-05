@@ -84,6 +84,7 @@ export const StyledInput = styled.input<{ $hasErrors?: boolean }>`
   font-size: 14px;
   background-color: ${colors.input_background};
   color: white;
+  color-scheme: dark;
 
   &::placeholder {
     color: rgba(255, 255, 255, 0.5);
