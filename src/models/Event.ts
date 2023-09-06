@@ -2,16 +2,17 @@ import { Artist } from './Artist';
 import { ModelValidations } from './Generic';
 import { Image } from './Image';
 import { Link } from './Link';
+import { Producer } from './Producer';
 import { Venue } from './Venue';
 
 export interface Event {
   id: string;
   name: string;
-  date: string;
+  datetime: string;
   description: string;
   artist: Artist;
   venue: Venue;
-  // producer: Producer;
+  producer: Producer;
   links: Link[];
   image?: Image;
 }
@@ -30,7 +31,8 @@ export const eventValidations: Readonly<ModelValidations<Event>> = {
     },
     maxLength: { value: 2048, message: 'La descripción debe ser menor a 2048 caracteres' }
   },
-  date: {
+  datetime: {
+    valueAsDate: true,
     required: {
       value: true,
       message: 'Debe ingresar la fecha del evento'
@@ -47,11 +49,11 @@ export const eventValidations: Readonly<ModelValidations<Event>> = {
       value: true,
       message: 'Debe ingresar el lugar del evento'
     }
+  },
+  producer: {
+    required: {
+      value: true,
+      message: 'Debe ingresar la productora del evento'
+    }
   }
-  // producer: {
-  //   required: {
-  //     value: true,
-  //     message: 'Debe ingresar la productora del evento'
-  //   }
-  // }
 };

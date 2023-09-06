@@ -7,6 +7,7 @@ import { Stack } from '@mui/material';
 import { useEventsRequests } from '../hooks/useEventsRequests';
 import { useEvents } from '../context/eventsContext';
 import { Event } from '../../../../models/Event';
+import { formatDate } from '../../../../utils/formatDate';
 
 export const Table = () => {
   const navigate = useNavigate();
@@ -41,7 +42,7 @@ export const Table = () => {
         {
           header: 'Fecha',
           renderCell: (rowData) => {
-            return rowData.date;
+            return formatDate({ date: rowData.datetime, format: 'slashWithTime' });
           }
         },
         {
@@ -56,12 +57,12 @@ export const Table = () => {
             return rowData.venue.name;
           }
         },
-        // {
-        //   header: 'Productora',
-        //   renderCell: (rowData) => {
-        //     return rowData.producer.name;
-        //   }
-        // },
+        {
+          header: 'Productora',
+          renderCell: (rowData) => {
+            return rowData.producer.name;
+          }
+        },
         {
           header: 'Acciones',
           renderCell: (rowData) => {

@@ -26,7 +26,7 @@ type StoreProps = {
 const EventsContext = createContext<StoreProps | null>(null);
 
 export const EventsProvider = ({ children }: Props) => {
-  const INDEX_URL = `${process.env.REACT_APP_API_URL}/admin/eventss`;
+  const INDEX_URL = `${process.env.REACT_APP_API_URL}/admin/events`;
   // Table Data
   const [events, setEvents] = useState<Event[]>();
 

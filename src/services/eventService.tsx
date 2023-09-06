@@ -3,11 +3,30 @@ import { Event } from '../models/Event';
 
 const adminEventsUrl = `${process.env.REACT_APP_API_URL}/admin/events`;
 
-// fixme: agregar atributos
-export async function adminCreateEvent(image?: File): Promise<Event> {
+export async function adminCreateEvent(
+  name: string,
+  datetime: string,
+  description: string,
+  artist_id: string,
+  venue_id: string,
+  producer_id: string,
+  links_attributes: {
+    title: string;
+    url: string;
+  }[],
+  image?: File
+): Promise<Event> {
   const formData = new FormData();
 
-  const eventData = {};
+  const eventData = {
+    name,
+    datetime,
+    description,
+    artist_id,
+    venue_id,
+    producer_id,
+    links_attributes
+  };
 
   formData.append('event', JSON.stringify(eventData));
   image && formData.append('image', image);
@@ -23,11 +42,31 @@ export async function adminDeleteEvent(id: string): Promise<void> {
   return await axios.delete(`${adminEventsUrl}/${id}`);
 }
 
-// fixme: agregar atributos
-export async function adminUpdateEvent(id: string, image?: File): Promise<Event> {
+export async function adminUpdateEvent(
+  id: string,
+  name: string,
+  datetime: string,
+  description: string,
+  artist_id: string,
+  venue_id: string,
+  producer_id: string,
+  links_attributes: {
+    title: string;
+    url: string;
+  }[],
+  image?: File
+): Promise<Event> {
   const formData = new FormData();
 
-  const eventData = {};
+  const eventData = {
+    name,
+    datetime,
+    description,
+    artist_id,
+    venue_id,
+    producer_id,
+    links_attributes
+  };
 
   formData.append('event', JSON.stringify(eventData));
   image && formData.append('image', image);

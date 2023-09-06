@@ -33,15 +33,9 @@ export const InputAsyncSelect = ({
 
   const loadOptions = async (inputValue: string) => {
     try {
-      // fixme ver el parametro de busqueda
-      const response = await axios.get(`${typeaheadUrl}?search=${inputValue}`);
-
-      // fixme: ver si la data esta parsed
-
-      return [
-        { label: 'opcion1', value: 'opcion1' },
-        { label: 'opcion2', value: 'opcion2' }
-      ];
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}${typeaheadUrl}${inputValue}`);
+      console.log(response.data);
+      return response.data;
     } catch (error) {
       errorSnackbar('Error al obtener los datos');
       return [];

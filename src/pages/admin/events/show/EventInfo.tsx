@@ -11,6 +11,7 @@ import { InputText } from '../../../../components/form/InputText/InputText';
 import { StyledLabel } from '../../../../components/form/formStyles';
 import { InputArea } from '../../../../components/form/InputArea/InputArea';
 import { Event } from '../../../../models/Event';
+import { formatDate } from '../../../../utils/formatDate';
 
 type Props = {
   event: Event;
@@ -26,7 +27,7 @@ export const EventInfo = ({ event }: Props) => {
     },
     {
       label: 'Fecha y Hora',
-      content: <InputText disabled value={event.date} />
+      content: <InputText disabled value={formatDate({ date: event.datetime, format: 'slashWithTime' })} />
     },
     {
       label: 'Artista',
@@ -35,11 +36,11 @@ export const EventInfo = ({ event }: Props) => {
     {
       label: 'Espacio de evento',
       content: <InputText disabled value={event.venue.name} />
+    },
+    {
+      label: 'Productora',
+      content: <InputText disabled value={event.producer.name} />
     }
-    // {
-    //   label: 'Productora',
-    //   content: <InputText disabled value={event.producer.name} />
-    // }
   ];
 
   const secondColumn = [

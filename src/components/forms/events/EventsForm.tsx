@@ -14,6 +14,7 @@ import { StyledButtonGroup } from '../../../pages/admin/styles';
 import { MMButton } from '../../MMButton/MMButton';
 import { InputAsyncSelect } from '../../form/InputAsyncSelect/InputAsyncSelect';
 import { InputDate } from '../../form/InputDate/InputDate';
+import moment from 'moment';
 
 type Props = {
   useAdminController?: boolean;
@@ -25,7 +26,7 @@ type Props = {
 
 type FormData = {
   name: string;
-  date: string;
+  datetime: string;
   artist: SelectCollection;
   producer: SelectCollection;
   venue: SelectCollection;
@@ -66,10 +67,11 @@ export const EventsForm = ({
     if (isFormEdit && eventToEdit) {
       reset({
         name: eventToEdit.name,
-        date: eventToEdit.date,
-        artist: { value: eventToEdit.artist.name, label: eventToEdit.artist.name },
-        venue: { value: eventToEdit.venue.name, label: eventToEdit.venue.name },
-        // producer: { value: eventToEdit.producer.name, label: eventToEdit.producer.name },
+        datetime: moment(eventToEdit.datetime).format('YYYY-MM-DDTkk:mm'),
+        description: eventToEdit.description,
+        artist: { value: eventToEdit.artist.id, label: eventToEdit.artist.name },
+        venue: { value: eventToEdit.venue.id, label: eventToEdit.venue.name },
+        producer: { value: eventToEdit.producer.id, label: eventToEdit.producer.name },
         links_attributes: eventToEdit.links.map((link) => ({ id: link.id, title: link.title, url: link.url }))
       });
     } else {
@@ -96,11 +98,29 @@ export const EventsForm = ({
       // todo: cuando tengamos el controlador de eventos, usar la prop para ver que endpoint usar
       let event: Event;
 
-      // fixme: atributos
       if (isFormEdit && eventToEdit) {
-        event = await adminUpdateEvent(eventToEdit.id, data.image);
+        event = await adminUpdateEvent(
+          eventToEdit.id,
+          data.name,
+          data.datetime,
+          data.description,
+          data.artist.value,
+          data.venue.value,
+          data.producer.value,
+          data.links_attributes,
+          data.image
+        );
       } else {
-        event = await adminCreateEvent(data.image);
+        event = await adminCreateEvent(
+          data.name,
+          data.datetime,
+          data.description,
+          data.artist.value,
+          data.venue.value,
+          data.producer.value,
+          data.links_attributes,
+          data.image
+        );
       }
 
       infoSnackbar(`Evento ${isFormEdit ? 'actualizado' : 'creado'} con éxito.`);
@@ -134,34 +154,33 @@ export const EventsForm = ({
 
           <InputDate
             label="Fecha y Hora"
-            name="date"
-            options={eventValidations.date}
+            name="datetime"
+            options={eventValidations.datetime}
             type="datetime-local"
             register={register}
             errors={errors}
             getFieldState={getFieldState}
           />
 
-          {/* fixme: typeaheads URL y ver el name del input */}
           <InputAsyncSelect
             label="Artista"
             name="artist"
             control={control}
             errors={errors}
             getFieldState={getFieldState}
-            typeaheadUrl=".."
+            typeaheadUrl="/admin/artists/search_typeahead?q[name_cont]="
             options={eventValidations.artist}
           />
 
-          {/* <InputAsyncSelect
+          <InputAsyncSelect
             label="Productora"
             name="producer"
             control={control}
             errors={errors}
             getFieldState={getFieldState}
-            typeaheadUrl=".."
+            typeaheadUrl="/admin/producers/search_typeahead?q[name_cont]="
             options={eventValidations.producer}
-          /> */}
+          />
 
           <InputAsyncSelect
             label="Espacio de Evento"
@@ -169,7 +188,7 @@ export const EventsForm = ({
             control={control}
             errors={errors}
             getFieldState={getFieldState}
-            typeaheadUrl=".."
+            typeaheadUrl="/admin/venues/search_typeahead?q[name_cont]="
             options={eventValidations.venue}
           />
         </Grid>
