@@ -5,10 +5,8 @@ import { InputText } from '../../../../components/form/InputText/InputText';
 import { StyledButtonGroup } from '../../styles';
 import { errorSnackbar, infoSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { handleFormErrors } from '../../../../utils/handleFormErrors';
-
 import { Threshold, thresholdValidations } from '../../../../models/Threshold';
 import { useThreshold } from '../context/ThresholdProvider';
-
 import { createThreshold, updateThreshold } from '../../../../services/thresholdService';
 
 export const Form = () => {
@@ -32,6 +30,7 @@ export const Form = () => {
         permanent_block: threshold.permanent_block
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isModalOpen]);
 
   const inputCommonProps = { register, errors, type: 'text' };

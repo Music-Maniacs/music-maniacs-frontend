@@ -84,6 +84,7 @@ export const StyledInput = styled.input<{ $hasErrors?: boolean }>`
   font-size: 14px;
   background-color: ${colors.input_background};
   color: white;
+  color-scheme: dark;
 
   &::placeholder {
     color: rgba(255, 255, 255, 0.5);
@@ -109,7 +110,7 @@ export const StyledError = styled.span`
 export const StyledInputContainer = styled.div<{ $containerWidth?: string }>`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 4px;
   width: ${({ $containerWidth }) => $containerWidth ?? '100%'};
 `;
 
