@@ -110,7 +110,7 @@ export const StyledError = styled.span`
 export const StyledInputContainer = styled.div<{ $containerWidth?: string }>`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 4px;
   width: ${({ $containerWidth }) => $containerWidth ?? '100%'};
 `;
 

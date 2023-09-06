@@ -34,7 +34,7 @@ export const InputAsyncSelect = ({
   const loadOptions = async (inputValue: string) => {
     try {
       const response = await axios.get(`${process.env.REACT_APP_API_URL}${typeaheadUrl}${inputValue}`);
-      console.log(response.data);
+
       return response.data;
     } catch (error) {
       errorSnackbar('Error al obtener los datos');

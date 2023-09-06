@@ -16,8 +16,8 @@ type StoreProps = {
   closeFormModal: () => void;
   isFormEdit: boolean;
   setIsFormEdit: Dispatch<SetStateAction<boolean>>;
-  eventIdToEdit?: string;
-  setEventIdToEdit: Dispatch<SetStateAction<string | undefined>>;
+  eventToEdit?: Event;
+  setEventToEdit: Dispatch<SetStateAction<Event | undefined>>;
   pagination: Pagination;
   setPagination: Dispatch<SetStateAction<Pagination>>;
   queryParams: MutableRefObject<Record<string, string>>;
@@ -32,7 +32,12 @@ export const EventsProvider = ({ children }: Props) => {
 
   // Searceher
   const queryParams = useRef<Record<string, string>>({
-    name_cont: ''
+    name_cont: '',
+    datetime_gteq: '',
+    datetime_lteq: '',
+    artist_id_eq: '',
+    producer_id_eq: '',
+    venue_id_eq: ''
   });
   const { pagination, setPagination } = usePagination<Event>({
     url: INDEX_URL,
@@ -43,7 +48,7 @@ export const EventsProvider = ({ children }: Props) => {
   // Form
   const { isModalOpen: isFormModalOpen, openModal: openFormModal, closeModal: closeFormModal } = useModal();
   const [isFormEdit, setIsFormEdit] = useState<boolean>(false);
-  const [eventIdToEdit, setEventIdToEdit] = useState<string>();
+  const [eventToEdit, setEventToEdit] = useState<Event>();
 
   const indexRequestCallback = (eventss: Event[]) => {
     setEvents(eventss);
@@ -57,8 +62,8 @@ export const EventsProvider = ({ children }: Props) => {
     closeFormModal,
     isFormEdit,
     setIsFormEdit,
-    eventIdToEdit,
-    setEventIdToEdit,
+    eventToEdit,
+    setEventToEdit,
     pagination,
     setPagination,
     queryParams

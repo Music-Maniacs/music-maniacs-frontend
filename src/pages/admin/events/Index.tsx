@@ -20,14 +20,14 @@ export const Index = () => {
     closeFormModal,
     openFormModal,
     setIsFormEdit,
-    setEventIdToEdit,
+    setEventToEdit,
     pagination,
     setPagination
   } = useEvents();
 
   const handleCreateButton = () => {
     setIsFormEdit(false);
-    setEventIdToEdit(undefined);
+    setEventToEdit(undefined);
     openFormModal();
   };
 

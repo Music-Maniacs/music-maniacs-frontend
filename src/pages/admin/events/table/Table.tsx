@@ -11,16 +11,16 @@ import { formatDate } from '../../../../utils/formatDate';
 
 export const Table = () => {
   const navigate = useNavigate();
-  const { events, pagination, setEvents, openFormModal, setIsFormEdit, setEventIdToEdit } = useEvents();
+  const { events, pagination, setEvents, openFormModal, setIsFormEdit, setEventToEdit } = useEvents();
   const { handleDeleteEvent } = useEventsRequests();
 
   const handleShowButton = (eventId: string) => {
     navigate(`/admin/events/${eventId}`);
   };
 
-  const handleEditButton = (eventId: string) => {
+  const handleEditButton = (event: Event) => {
     setIsFormEdit(true);
-    setEventIdToEdit(eventId);
+    setEventToEdit(event);
     openFormModal();
   };
 
@@ -79,7 +79,7 @@ export const Table = () => {
                 <MMButton
                   data-tooltip-id="tooltip"
                   data-tooltip-content="Editar"
-                  onClick={() => handleEditButton(rowData.id)}
+                  onClick={() => handleEditButton(rowData)}
                 >
                   <FaEdit />
                 </MMButton>
