@@ -26,5 +26,52 @@
     &:first-child {
       margin-top: 40px;
     }
+
+    .info-box {
+      @include flex-space-between;
+      flex-direction: row;
+
+      position: relative;
+
+      @include sm-breakpoint {
+        gap: 5px;
+      }
+
+      gap: 30px;
+
+      .image-container {
+        height: 130px;
+        width: 130px;
+
+        .image {
+          height: 100%;
+          width: 100%;
+          object-fit: cover;
+          border-radius: 50%;
+        }
+      }
+
+      .data-container {
+        flex-grow: 1;
+
+        .name {
+          font-size: 25px;
+          font-weight: bold;
+        }
+      }
+
+      .dropdown-container {
+        position: absolute;
+        top: 0;
+        right: -20px;
+      }
+    }
+  }
+}
+
+.events-icon-with-data-container {
+  @include flex-start;
+  svg {
+    width: 25px;
   }
 }

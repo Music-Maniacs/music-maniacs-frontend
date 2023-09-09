@@ -1,7 +1,12 @@
 import axios from 'axios';
 import { Event } from '../models/Event';
 
+const eventsUrl = `${process.env.REACT_APP_API_URL}/events`;
 const adminEventsUrl = `${process.env.REACT_APP_API_URL}/admin/events`;
+
+export async function getEvent(id: string): Promise<Event> {
+  return (await axios.get(`${eventsUrl}/${id}`)).data;
+}
 
 export async function adminCreateEvent(
   name: string,

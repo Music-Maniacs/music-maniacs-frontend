@@ -4,40 +4,37 @@ import { EventsForm } from '../../../components/forms/events/EventsForm';
 import { Event } from '../../../models/Event';
 import { useModal } from '../../../components/hooks/useModal';
 import { MMContainer } from '../../../components/MMContainer/MMContainer';
-import { MMBox } from '../../../components/MMBox/MMBox';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getEvent as serviceGetEvent } from '../../../services/eventService';
+import { errorSnackbar } from '../../../components/Snackbar/Snackbar';
+import { EventInfoBox } from './components/EventInfoBox';
+import { Loader } from '../../../components/Loader/Loader';
+import { EventReviewBox } from './components/EventReviewBox';
+import { EventCommentBox } from './components/EventCommentBox';
 
 const Show = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [event, setEvent] = useState<Event>();
   const { isModalOpen, openModal, closeModal } = useModal();
 
   useEffect(() => {
     if (!id) return;
 
-    getEvent(id);
+    getEvent();
   }, []);
 
-  const getEvent = async (id: string) => {
-    // Fetch Event
+  const getEvent = async () => {
+    if (!id) return;
 
-    const event: Event = {
-      id: '8804034a-b377-4451-8b44-2daf541b2b88',
-      name: 'Evento Nro 1 Evento Nro 1 Evento Nro 1 Evento Nro 1',
-      datetime: '2021-10-10T10:00:00.000Z',
-      description: 'Descripcion numero 1',
-      artist: {
-        name: 'Artista Nro 1'
-      },
-      venue: {
-        name: 'Lugar Nro 1'
-      },
-      producer: {
-        name: 'Productor Nro 1'
-      },
-      links: []
-    };
-    setEvent(event);
+    try {
+      const event = await serviceGetEvent(id);
+
+      setEvent(event);
+    } catch (error) {
+      errorSnackbar('Error al obtener el evento. Contacte a soporte.');
+      navigate(-1);
+    }
   };
 
   return (
@@ -47,16 +44,15 @@ const Show = () => {
       </MMModal>
 
       <MMContainer maxWidth="xxl" className="events-show-boxes-container ">
-        <MMBox className="show-boxes">
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <div>Image</div>
-            <div style={{ flexGrow: 1 }}>Data</div>
-            <div>Opciones</div>
-          </div>
-        </MMBox>
-        <MMBox className="show-boxes">hola</MMBox>
-        <MMBox className="show-boxes">hola</MMBox>
-        <MMBox className="show-boxes">hola</MMBox>
+        {event ? (
+          <>
+            <EventInfoBox event={event} />
+            <EventReviewBox event={event} />
+            <EventCommentBox event={event} />
+          </>
+        ) : (
+          <Loader />
+        )}
       </MMContainer>
     </>
   );

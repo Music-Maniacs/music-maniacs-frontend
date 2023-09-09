@@ -6,6 +6,10 @@ import { esES } from '@mui/material/locale';
 import { CollectionProvider } from './context/collectionContext';
 import colors from './styles/_colors.scss';
 import { BrowserRouter } from 'react-router-dom';
+import moment from 'moment';
+import 'moment/locale/es';
+
+moment.locale('es');
 
 type Props = {
   children: React.ReactNode;
