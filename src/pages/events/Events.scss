@@ -1,0 +1,30 @@
+@import '../../styles/main';
+
+.events-box-container {
+  padding: 20px 30px !important;
+  margin-top: 40px;
+}
+
+.events-title-container {
+  @include flex-space-between;
+  margin: 10px 0px;
+}
+
+.events-form-container {
+  @include flex-column-center;
+  gap: 10px;
+}
+
+.events-show-boxes-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .show-boxes {
+    padding: 15px 30px;
+
+    &:first-child {
+      margin-top: 40px;
+    }
+  }
+}

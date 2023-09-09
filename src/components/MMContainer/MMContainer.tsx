@@ -4,7 +4,8 @@ import './MMContainer.scss';
 type Props = {
   maxWidth?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
   children: React.ReactNode;
+  className?: string;
 };
-export const MMContainer = ({ maxWidth = 'xxl', children }: Props) => {
-  return <div className={`mm-container--${maxWidth}`}>{children}</div>;
+export const MMContainer = ({ maxWidth = 'xxl', children, className }: Props) => {
+  return <div className={`mm-container--${maxWidth} ${className ?? ''}`}>{children}</div>;
 };

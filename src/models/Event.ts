@@ -1,18 +1,24 @@
-import { Artist } from './Artist';
 import { ModelValidations } from './Generic';
 import { Image } from './Image';
 import { Link } from './Link';
-import { Producer } from './Producer';
-import { Venue } from './Venue';
 
 export interface Event {
   id: string;
   name: string;
   datetime: string;
   description: string;
-  artist: Artist;
-  venue: Venue;
-  producer: Producer;
+  artist: {
+    id?: string;
+    name: string;
+  };
+  venue: {
+    id?: string;
+    name: string;
+  };
+  producer: {
+    id?: string;
+    name: string;
+  };
   links: Link[];
   image?: Image;
 }
