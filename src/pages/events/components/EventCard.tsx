@@ -14,11 +14,14 @@ type Props = {
 const StyledCardContainer = styled.div`
   width: 100%;
   height: 100%;
-  border-radius: 3px;
+  min-width: 180px;
+  max-width: 270px;
+  border-radius: 5px;
   background-color: rgb(255, 255, 255, 60%);
   color: black;
+  overflow: hidden;
   cursor: pointer;
-
+  padding-bottom: 2rem;
   &:hover {
     scale: 1.01;
   }
@@ -56,6 +59,10 @@ const StyledIconContainer = styled.div`
   width: 20px;
 `;
 
+const StyledCardTitle = styled.h3`
+  margin: 0.3rem 0 0.3rem 0;
+`;
+
 export const EventCard = ({ event }: Props) => {
   const navigate = useNavigate();
 
@@ -67,7 +74,7 @@ export const EventCard = ({ event }: Props) => {
       </StyledCardImageContainer>
 
       <StyledCardDataContainer>
-        <h3>{event.name}</h3>
+        <StyledCardTitle>{event.name}</StyledCardTitle>
 
         {/* Date */}
         <StyledIconWLabel>

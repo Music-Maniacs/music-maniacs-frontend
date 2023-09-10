@@ -36,7 +36,7 @@ export const NavBar = () => {
     }
     return (
       <div className="links-container">
-        <MMLink to={'/events'} content="Buscar Evento" />
+        <MMLink to={'/events/search'} content="Buscar Evento" />
         <MMLink to={'/'} content="Moderar Contenido" />
 
         <div className="nav-dropdown">

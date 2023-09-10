@@ -14,6 +14,7 @@ type StoreProps = {
   pagination: Pagination;
   setPagination: Dispatch<SetStateAction<Pagination>>;
   queryParams: MutableRefObject<Record<string, string>>;
+  cleanQueryParams: () => void;
 };
 
 const EventsContext = createContext<StoreProps | null>(null);
@@ -42,12 +43,23 @@ export const EventsProvider = ({ children }: Props) => {
     setEvents(eventss);
   };
 
+  const cleanQueryParams = () => {
+    queryParams.current = {
+      name_cont: '',
+      datetime_gteq: '',
+      datetime_lteq: '',
+      artist_id_eq: '',
+      producer_id_eq: '',
+      venue_id_eq: ''
+    };
+  };
   const store: StoreProps = {
     events,
     setEvents,
     pagination,
     setPagination,
-    queryParams
+    queryParams,
+    cleanQueryParams
   };
 
   return <EventsContext.Provider value={store}>{children}</EventsContext.Provider>;

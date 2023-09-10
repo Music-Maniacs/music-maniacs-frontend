@@ -9,6 +9,7 @@ const EventsContainer = lazy(() => import('./pages/events/EventsContainer'));
 const EventsIndex = lazy(() => import('./pages/events/index/Index'));
 const EventsShow = lazy(() => import('./pages/events/show/Show'));
 const EventsReviews = lazy(() => import('./pages/events/reviews/Reviews'));
+const SearchEvents = lazy(() => import('./pages/events/search/SearchEvents'));
 
 // Auth Module
 const Login = lazy(() => import('./pages/auth/Login/Login'));
@@ -47,6 +48,7 @@ function App() {
 
           <Route path="/events" element={<EventsContainer />}>
             <Route index element={<EventsIndex />} />
+            <Route path="search" element={<SearchEvents />} />
             <Route path=":id/reviews" element={<EventsReviews />} />
             <Route path=":id" element={<EventsShow />} />
           </Route>

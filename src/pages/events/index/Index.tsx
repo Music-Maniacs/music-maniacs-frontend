@@ -40,10 +40,20 @@ const Index = () => {
           {pagination.isLoading ? (
             <Loader />
           ) : (
-            <Grid container spacing={2}>
+            <Grid container spacing={4} justifyContent="center" alignItems="center" marginTop={'1rem'}>
               {events &&
                 events.map((e: Event) => (
-                  <Grid key={e.id} item xs={6} sm={3} md={3}>
+                  <Grid
+                    key={e.id}
+                    item
+                    container
+                    xs={12}
+                    sm={4}
+                    md={3}
+                    lg={2}
+                    justifyContent="center"
+                    alignItems="center"
+                  >
                     <EventCard event={e} />
                   </Grid>
                 ))}
