@@ -19,7 +19,7 @@ export const NavBar = () => {
     if (!user) {
       return (
         <div className="links-container">
-          <MMLink to={'/'} content="Buscar Eventos" />
+          <MMLink to={'/events'} content="Buscar Eventos" />
           <MMLink to={'/'} content="Sobre Nosotros" />
           <MMButton
             style={{ textTransform: 'none' }}
@@ -36,7 +36,7 @@ export const NavBar = () => {
     }
     return (
       <div className="links-container">
-        <MMLink to={'/events/search'} content="Buscar Evento" />
+        <MMLink to={'/events'} content="Buscar Evento" />
         <MMLink to={'/'} content="Moderar Contenido" />
 
         <div className="nav-dropdown">

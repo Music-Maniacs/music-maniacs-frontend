@@ -6,7 +6,6 @@ import { Loader } from './components/Loader/Loader';
 
 // Events module
 const EventsContainer = lazy(() => import('./pages/events/EventsContainer'));
-const EventsIndex = lazy(() => import('./pages/events/index/Index'));
 const EventsShow = lazy(() => import('./pages/events/show/Show'));
 const EventsReviews = lazy(() => import('./pages/events/reviews/Reviews'));
 const SearchEvents = lazy(() => import('./pages/events/search/SearchEvents'));
@@ -47,8 +46,7 @@ function App() {
           <Route path="/" element={<Navigate to={'/events'} />} />
 
           <Route path="/events" element={<EventsContainer />}>
-            <Route index element={<EventsIndex />} />
-            <Route path="search" element={<SearchEvents />} />
+            <Route index element={<SearchEvents />} />
             <Route path=":id/reviews" element={<EventsReviews />} />
             <Route path=":id" element={<EventsShow />} />
           </Route>
