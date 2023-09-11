@@ -16,6 +16,7 @@ export const Form = () => {
 
   return (
     <EventsForm
+      useAdminController={true}
       eventToEdit={eventToEdit}
       isFormEdit={isFormEdit}
       closeFormModal={closeFormModal}

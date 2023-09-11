@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Event, eventValidations } from '../../../models/Event';
 import { SelectCollection } from '../../../models/Generic';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
-import { adminCreateEvent, adminUpdateEvent } from '../../../services/eventService';
+import { adminCreateEvent, adminUpdateEvent, createEvent, updateEvent } from '../../../services/eventService';
 import { errorSnackbar, infoSnackbar } from '../../Snackbar/Snackbar';
 import { handleFormErrors } from '../../../utils/handleFormErrors';
 import { Grid, GridProps } from '@mui/material';
@@ -46,6 +46,8 @@ export const EventsForm = ({
   successCallback
 }: Props) => {
   const backendUrl = process.env.REACT_APP_API_URL;
+
+  const isShowEdit = !useAdminController && isFormEdit;
 
   const {
     register,
@@ -99,7 +101,9 @@ export const EventsForm = ({
       let event: Event;
 
       if (isFormEdit && eventToEdit) {
-        event = await adminUpdateEvent(
+        const updateService = useAdminController ? adminUpdateEvent : updateEvent;
+
+        event = await updateService(
           eventToEdit.id,
           data.name,
           data.datetime,
@@ -111,7 +115,9 @@ export const EventsForm = ({
           data.image
         );
       } else {
-        event = await adminCreateEvent(
+        const createService = useAdminController ? adminCreateEvent : createEvent;
+
+        event = await createService(
           data.name,
           data.datetime,
           data.description,
@@ -162,35 +168,49 @@ export const EventsForm = ({
             getFieldState={getFieldState}
           />
 
-          <InputAsyncSelect
-            label="Artista"
-            name="artist"
-            control={control}
-            errors={errors}
-            getFieldState={getFieldState}
-            typeaheadUrl="/admin/artists/search_typeahead?q[name_cont]="
-            options={eventValidations.artist}
-          />
+          {!isShowEdit ? (
+            <>
+              <InputAsyncSelect
+                label="Artista"
+                name="artist"
+                control={control}
+                errors={errors}
+                getFieldState={getFieldState}
+                typeaheadUrl="/admin/artists/search_typeahead?q[name_cont]="
+                options={eventValidations.artist}
+              />
 
-          <InputAsyncSelect
-            label="Productora"
-            name="producer"
-            control={control}
-            errors={errors}
-            getFieldState={getFieldState}
-            typeaheadUrl="/admin/producers/search_typeahead?q[name_cont]="
-            options={eventValidations.producer}
-          />
+              <InputAsyncSelect
+                label="Productora"
+                name="producer"
+                control={control}
+                errors={errors}
+                getFieldState={getFieldState}
+                typeaheadUrl="/admin/producers/search_typeahead?q[name_cont]="
+                options={eventValidations.producer}
+              />
 
-          <InputAsyncSelect
-            label="Espacio de Evento"
-            name="venue"
-            control={control}
-            errors={errors}
-            getFieldState={getFieldState}
-            typeaheadUrl="/admin/venues/search_typeahead?q[name_cont]="
-            options={eventValidations.venue}
-          />
+              <InputAsyncSelect
+                label="Espacio de Evento"
+                name="venue"
+                control={control}
+                errors={errors}
+                getFieldState={getFieldState}
+                typeaheadUrl="/admin/venues/search_typeahead?q[name_cont]="
+                options={eventValidations.venue}
+              />
+            </>
+          ) : (
+            <LinksFieldArray<FormData>
+              register={register}
+              errors={errors}
+              fields={fields}
+              append={append}
+              update={update}
+              remove={remove}
+              getValues={getValues}
+            />
+          )}
         </Grid>
 
         <Grid {...gridCommonProps}>
@@ -200,18 +220,20 @@ export const EventsForm = ({
             register={register}
             errors={errors}
             options={eventValidations.description}
-            rows={8}
+            rows={!isShowEdit ? 8 : 10}
           />
 
-          <LinksFieldArray<FormData>
-            register={register}
-            errors={errors}
-            fields={fields}
-            append={append}
-            update={update}
-            remove={remove}
-            getValues={getValues}
-          />
+          {!isShowEdit && (
+            <LinksFieldArray<FormData>
+              register={register}
+              errors={errors}
+              fields={fields}
+              append={append}
+              update={update}
+              remove={remove}
+              getValues={getValues}
+            />
+          )}
         </Grid>
       </Grid>
 

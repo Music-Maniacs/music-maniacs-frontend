@@ -8,6 +8,69 @@ export async function getEvent(id: string): Promise<Event> {
   return (await axios.get(`${eventsUrl}/${id}`)).data;
 }
 
+export async function createEvent(
+  name: string,
+  datetime: string,
+  description: string,
+  artist_id: string,
+  venue_id: string,
+  producer_id: string,
+  links_attributes: {
+    title: string;
+    url: string;
+  }[],
+  image?: File
+): Promise<Event> {
+  const formData = new FormData();
+
+  const eventData = {
+    name,
+    datetime,
+    description,
+    artist_id,
+    venue_id,
+    producer_id,
+    links_attributes
+  };
+
+  formData.append('event', JSON.stringify(eventData));
+  image && formData.append('image', image);
+
+  return (await axios.post(eventsUrl, formData)).data;
+}
+
+export async function updateEvent(
+  id: string,
+  name: string,
+  datetime: string,
+  description: string,
+  artist_id: string,
+  venue_id: string,
+  producer_id: string,
+  links_attributes: {
+    title: string;
+    url: string;
+  }[],
+  image?: File
+): Promise<Event> {
+  const formData = new FormData();
+
+  const eventData = {
+    name,
+    datetime,
+    description,
+    artist_id,
+    venue_id,
+    producer_id,
+    links_attributes
+  };
+
+  formData.append('event', JSON.stringify(eventData));
+  image && formData.append('image', image);
+
+  return (await axios.put(`${eventsUrl}/${id}`, formData)).data;
+}
+
 export async function adminCreateEvent(
   name: string,
   datetime: string,

@@ -8,15 +8,19 @@ import { MMArtistIcon } from '../../../../components/icons/MMArtistIcon';
 import { MMVenueIcon } from '../../../../components/icons/MMVenueIcon';
 import { MMProducerIcon } from '../../../../components/icons/MMProducerIcon';
 import '../../Events.scss';
-import { Dropdown } from '../../../../components/dropdown/Dropdown';
 import { MMSubTitle } from '../../../../components/MMTitle/MMTitle';
 import MMLink from '../../../../components/MMLink/MMLink';
+import { MMButton } from '../../../../components/MMButton/MMButton';
+import { warningSnackbar } from '../../../../components/Snackbar/Snackbar';
+import { useAuth } from '../../../../context/authContext';
 
 type Props = {
   event: Event;
+  openModal: () => void;
 };
 
-export const EventInfoBox = ({ event }: Props) => {
+export const EventInfoBox = ({ event, openModal }: Props) => {
+  const { user } = useAuth();
   const backendUrl = process.env.REACT_APP_API_URL;
 
   return (
@@ -73,24 +77,29 @@ export const EventInfoBox = ({ event }: Props) => {
             </Grid>
           </div>
 
-          <div className="dropdown-container">
-            <Dropdown />
+          <div className="actions-container">
+            {/* todo: no lo puedo poner al boton, hasta que tengamos en el endpoint si sigue a este evento o no */}
+            {user && <MMButton onClick={() => warningSnackbar('Funcion no implementada')}>Seguir Evento</MMButton>}
+
+            <MMButton onClick={openModal}>Editar Evento</MMButton>
           </div>
         </div>
       </MMBox>
+
+      {/* Description - Links */}
       <MMBox className="show-boxes">
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={8} display={'flex'} flexDirection={'column'} gap={'5px'}>
+        <Grid container spacing={5}>
+          <Grid item xs={12} sm={9} display={'flex'} flexDirection={'column'} gap={'5px'} whiteSpace={'pre-wrap'}>
             <MMSubTitle content="Descripción" />
             {event.description}
           </Grid>
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={3}>
             <MMSubTitle content="Enlaces" />
 
             {event.links && (
               <ul style={{ marginTop: '3px' }}>
                 {event.links.map((link) => (
-                  <li key={link.id}>{link.url}</li>
+                  <li key={link.id}>{`${link.title}: ${link.url}`}</li>
                 ))}
               </ul>
             )}

@@ -10,7 +10,8 @@ import { errorSnackbar } from '../../../components/Snackbar/Snackbar';
 import { EventInfoBox } from './components/EventInfoBox';
 import { Loader } from '../../../components/Loader/Loader';
 import { EventReviewBox } from './components/EventReviewBox';
-import { EventCommentBox } from './components/EventCommentBox';
+import { Breadcrumb } from '../../../components/breadrumb/Breadcrumb';
+import { Tooltip } from 'react-tooltip';
 
 const Show = () => {
   const { id } = useParams();
@@ -40,20 +41,30 @@ const Show = () => {
   return (
     <>
       <MMModal isModalOpen={isModalOpen} closeModal={closeModal} title="Editar Evento" maxWidth="lg">
-        <EventsForm isFormEdit={true} eventToEdit={event} closeFormModal={closeModal} useAdminController={false} />
+        <EventsForm
+          isFormEdit={true}
+          eventToEdit={event}
+          closeFormModal={closeModal}
+          useAdminController={false}
+          successCallback={(event) => setEvent((prevEvent) => ({ ...prevEvent, ...event }))}
+        />
       </MMModal>
 
       <MMContainer maxWidth="xxl" className="events-show-boxes-container ">
         {event ? (
           <>
-            <EventInfoBox event={event} />
-            <EventReviewBox event={event} />
-            <EventCommentBox event={event} />
+            <Breadcrumb items={[{ label: 'Eventos', onClick: () => navigate(-1) }, { label: event.name }]} />
+
+            <EventInfoBox event={event} openModal={openModal} />
+            <EventReviewBox event={event} setEvent={setEvent} />
+            {/* <EventCommentBox event={event} /> */}
           </>
         ) : (
           <Loader />
         )}
       </MMContainer>
+
+      <Tooltip id="tooltip" place="top" />
     </>
   );
 };

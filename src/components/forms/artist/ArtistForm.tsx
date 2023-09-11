@@ -14,6 +14,7 @@ import { InputArea } from '../../form/InputArea/InputArea';
 import { StyledButtonGroup } from '../../../pages/admin/styles';
 import { MMButton } from '../../MMButton/MMButton';
 import { adminCreateArtist, adminUpdateArtist } from '../../../services/artistService';
+import '../Forms.scss';
 
 type Props = {
   useAdminController?: boolean;
@@ -131,7 +132,7 @@ export const ArtistForm = ({
     }
   };
   return (
-    <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" className="admin-form-container">
+    <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" className="artist-form-container">
       <Grid container spacing={2}>
         <Grid {...gridCommonProps}>
           <InputDropzone

@@ -60,10 +60,19 @@
         }
       }
 
-      .dropdown-container {
-        position: absolute;
-        top: 0;
-        right: -20px;
+      .actions-container {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+    }
+
+    .reviews-box {
+      display: flex;
+      flex-direction: column;
+
+      .title-container {
+        @include flex-space-between;
       }
     }
   }
@@ -74,4 +83,9 @@
   svg {
     width: 25px;
   }
+}
+
+.events-reviews-form-container {
+  @include flex-column-center;
+  gap: 10px;
 }

@@ -1,6 +1,7 @@
 import { ModelValidations } from './Generic';
 import { Image } from './Image';
 import { Link } from './Link';
+import { Review } from './Review';
 
 export interface Event {
   id: string;
@@ -21,7 +22,25 @@ export interface Event {
   };
   links: Link[];
   image?: Image;
+  reviews_info?: {
+    artist: {
+      rating: number;
+      reviews_count: number;
+      last_reviews: Review[];
+    };
+    producer: {
+      rating: number;
+      reviews_count: number;
+      last_reviews: Review[];
+    };
+    venue: {
+      rating: number;
+      reviews_count: number;
+      last_reviews: Review[];
+    };
+  };
 }
+
 export const eventValidations: Readonly<ModelValidations<Event>> = {
   name: {
     required: {

@@ -15,7 +15,32 @@ type Props = {
   children: React.ReactNode;
 };
 
-const theme = createTheme({}, esES);
+const theme = createTheme(
+  {
+    palette: {
+      primary: {
+        main: colors.primary
+      },
+      text: {
+        primary: '#ffffff'
+      }
+    },
+    components: {
+      MuiTab: {
+        defaultProps: {
+          sx: {
+            color: '#ffffff',
+            '&.Mui-selected': {
+              color: '#ffffff',
+              fontWeight: 'bold'
+            }
+          }
+        }
+      }
+    }
+  },
+  esES
+);
 
 const StyledMaterialDesignContent = styled(MaterialDesignContent)(() => ({
   '&.notistack-MuiContent-warning': {
