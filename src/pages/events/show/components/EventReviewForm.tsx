@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { BaseSyntheticEvent, ChangeEvent, FormEvent, SyntheticEvent, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { errorSnackbar, infoSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { InputArea } from '../../../../components/form/InputArea/InputArea';
@@ -37,7 +37,7 @@ export const EventReviewForm = ({
   successCallback,
   closeModal
 }: EventReviewFormProps) => {
-  const reviewTo = useRef<'artist' | 'venue' | 'producer'>('artist');
+  const [reviewTo, setReviewTo] = useState<'artist' | 'venue' | 'producer'>('artist');
   const {
     register,
     control,
@@ -53,12 +53,12 @@ export const EventReviewForm = ({
 
   useEffect(() => {
     if (isFormEdit && reviewToEdit) {
-      reviewTo.current = reviewToEdit.reviewable_type as 'artist' | 'venue' | 'producer';
+      setReviewTo(reviewToEdit.reviewable_type.toLowerCase() as 'artist' | 'venue' | 'producer');
       reset({
         ...reviewToEdit
       });
     } else {
-      reviewTo.current = 'artist';
+      setReviewTo('artist');
     }
   }, [isFormEdit, reviewToEdit]);
 
@@ -70,17 +70,17 @@ export const EventReviewForm = ({
 
         response = await updateReview(reviewToEdit.id, data.rating, data.description);
       } else {
-        response = await createReview(data.rating, data.description, eventId, reviewTo.current);
+        response = await createReview(data.rating, data.description, eventId, reviewTo);
       }
 
-      infoSnackbar(`Reseña ${isFormEdit ? 'agregada' : 'creado'} con éxito.`);
+      infoSnackbar(`Reseña ${isFormEdit ? 'editada' : 'agregada'} con éxito.`);
 
       successCallback && successCallback(response);
     } catch (error) {
       let hasFormError = handleFormErrors(error, setError);
 
       !hasFormError &&
-        errorSnackbar(`Error inesperado al ${isFormEdit ? 'agregar' : 'crear'} la reseña. Contacte a soporte.`);
+        errorSnackbar(`Error inesperado al ${isFormEdit ? 'editar' : 'agregar'} la reseña. Contacte a soporte.`);
     }
   };
 
@@ -102,10 +102,10 @@ export const EventReviewForm = ({
               type="radio"
               name="reviewTo"
               value="artist"
-              defaultChecked={!isFormEdit || reviewTo.current === 'artist'}
+              checked={reviewTo === 'artist'}
               disabled={isFormEdit}
-              onClick={() => {
-                reviewTo.current = 'artist';
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                e.target.checked && setReviewTo('artist');
               }}
             />
             <label>{artistName}</label>
@@ -116,10 +116,10 @@ export const EventReviewForm = ({
               type="radio"
               name="reviewTo"
               value="venue"
-              defaultChecked={isFormEdit && reviewTo.current === 'venue'}
+              checked={reviewTo === 'venue'}
               disabled={isFormEdit}
-              onClick={() => {
-                reviewTo.current = 'venue';
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                e.target.checked && setReviewTo('venue');
               }}
             />
             <label>{venueName}</label>
@@ -130,10 +130,10 @@ export const EventReviewForm = ({
               type="radio"
               name="reviewTo"
               value="producer"
-              defaultChecked={isFormEdit && reviewTo.current === 'producer'}
+              checked={reviewTo === 'producer'}
               disabled={isFormEdit}
-              onClick={() => {
-                reviewTo.current = 'producer';
+              onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                e.target.checked && setReviewTo('producer');
               }}
             />
             <label>{producerName}</label>
