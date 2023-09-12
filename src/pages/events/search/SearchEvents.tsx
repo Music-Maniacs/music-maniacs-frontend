@@ -1,4 +1,4 @@
-import React, { FormEvent, useRef } from 'react';
+import React, { FormEvent, useCallback, useRef } from 'react';
 import { MMContainer } from '../../../components/MMContainer/MMContainer';
 import { MMBox } from '../../../components/MMBox/MMBox';
 import { MMTitle } from '../../../components/MMTitle/MMTitle';
@@ -9,7 +9,6 @@ import { useModal } from '../../../components/hooks/useModal';
 import { MMModal } from '../../../components/Modal/MMModal';
 import { EventsForm } from '../../../components/forms/events/EventsForm';
 import { useEvents } from '../context/eventsContext';
-import { Loader } from '../../../components/Loader/Loader';
 import { Grid } from '@mui/material';
 import { EventCard } from '../components/EventCard';
 import '../Events.scss';
@@ -21,7 +20,8 @@ import { MMButton } from '../../../components/MMButton/MMButton';
 import { styled } from 'styled-components';
 import Select from 'react-select/dist/declarations/src/Select';
 import { GroupBase } from 'react-select';
-import MMTablePaginator from '../../../components/MMTable/MMTablePaginator';
+import { SearcherSkeleton } from './Skeleton';
+
 const StyledSearchbarForm = styled.form`
   padding: 1rem 0 2rem 0;
 `;
@@ -51,6 +51,33 @@ const SearchEvents = () => {
     if (producerInputRef.current) producerInputRef.current.clearValue();
     setPagination((prevState) => ({ ...prevState, isLoading: true, page: 1 }));
   };
+
+  // Infinite Scroll
+  const observer = useRef<IntersectionObserver>();
+  const lastIssueElementRef = useCallback(
+    (node: HTMLDivElement) => {
+      if (pagination.isLoading) return;
+      if (observer.current) observer.current.disconnect();
+
+      observer.current = new IntersectionObserver((entries) => {
+        const hasMoreEvents = pagination.total > pagination.page * pagination.perPage;
+
+        if (entries[0].isIntersecting && hasMoreEvents) {
+          setPagination((prevState) => {
+            return {
+              ...prevState,
+              page: prevState.page + 1,
+              isLoading: true
+            };
+          });
+        }
+      });
+
+      if (node && observer.current) observer.current.observe(node);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [pagination.isLoading]
+  );
 
   return (
     <>
@@ -160,14 +187,17 @@ const SearchEvents = () => {
               </Grid>
             </Grid>
           </StyledSearchbarForm>
-          {pagination.isLoading ? (
-            <Loader />
+          {pagination.page === 1 && pagination.isLoading ? (
+            <Grid container spacing={4}>
+              <SearcherSkeleton />
+            </Grid>
           ) : (
             <Grid container spacing={4}>
               {events &&
-                events.map((e: Event) => (
+                events.map((e: Event, index: number) => (
                   <Grid
                     key={e.id}
+                    ref={events.length === index + 1 ? lastIssueElementRef : undefined}
                     item
                     container
                     xs={12}
@@ -180,10 +210,9 @@ const SearchEvents = () => {
                     <EventCard event={e} />
                   </Grid>
                 ))}
+              {pagination.isLoading && <SearcherSkeleton />}
             </Grid>
           )}
-
-          <MMTablePaginator pagination={pagination} setPagination={setPagination} />
         </MMBox>
       </MMContainer>
     </>

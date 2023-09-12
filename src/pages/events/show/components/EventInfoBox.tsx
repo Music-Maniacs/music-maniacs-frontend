@@ -93,6 +93,7 @@ export const EventInfoBox = ({ event, openModal }: Props) => {
             <MMSubTitle content="Descripción" />
             {event.description}
           </Grid>
+
           <Grid item xs={12} sm={3}>
             <MMSubTitle content="Enlaces" />
 

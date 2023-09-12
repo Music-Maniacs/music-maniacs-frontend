@@ -39,8 +39,13 @@ export const EventsProvider = ({ children }: Props) => {
     queryParams: queryParams.current
   });
 
-  const indexRequestCallback = (eventss: Event[]) => {
-    setEvents(eventss);
+  const indexRequestCallback = (events: Event[]) => {
+    if (pagination.page === 1) {
+      setEvents(events);
+    } else {
+      // Infinite Scroll
+      setEvents((prevEvents) => [...(prevEvents ?? []), ...events]);
+    }
   };
 
   const cleanQueryParams = () => {
