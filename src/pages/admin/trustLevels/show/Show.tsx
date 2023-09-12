@@ -18,6 +18,7 @@ import Form from '../form/Form';
 import { useTrustLevelRequests } from '../hooks/useTrustLevelRequest';
 import { Loader } from '../../../../components/Loader/Loader';
 import './Show.scss';
+import '../../Admin.scss';
 
 export const Show = () => {
   const { id } = useParams();
