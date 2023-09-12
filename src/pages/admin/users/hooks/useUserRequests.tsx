@@ -80,6 +80,7 @@ export const useUserRequests = () => {
           </div>
         </div>
       ),
+      confirmButtonText: 'Bloquear',
       preConfirm: () => {
         const dateInput = Swal.getPopup()?.querySelector('#blockedUntil') as HTMLInputElement;
         const permanentInput = Swal.getPopup()?.querySelector('#permanentCheckbox') as HTMLInputElement;

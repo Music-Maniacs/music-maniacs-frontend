@@ -14,14 +14,12 @@ type Props = {
 const StyledCardContainer = styled.div`
   width: 100%;
   height: 100%;
-  min-width: 180px;
-  max-width: 270px;
+  box-sizing: border-box;
   border-radius: 5px;
   background-color: rgb(255, 255, 255, 60%);
   color: black;
   overflow: hidden;
   cursor: pointer;
-  padding-bottom: 2rem;
   &:hover {
     scale: 1.01;
   }
@@ -64,13 +62,20 @@ const StyledCardTitle = styled.h3`
 `;
 
 export const EventCard = ({ event }: Props) => {
+  const backendUrl = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
 
   return (
     <StyledCardContainer onClick={() => navigate(`/events/${event.id}`)}>
       {/* Image */}
       <StyledCardImageContainer>
-        <StyledCardImage src="https://images.pexels.com/photos/2747449/pexels-photo-2747449.jpeg?cs=srgb&dl=pexels-wolfgang-2747449.jpg&fm=jpg" />
+        <StyledCardImage
+          src={
+            event.image && event.image.url
+              ? `${backendUrl}${event.image.url}`
+              : `${require('../../../assets/images/default-event.jpg')}`
+          }
+        />
       </StyledCardImageContainer>
 
       <StyledCardDataContainer>
@@ -99,8 +104,6 @@ export const EventCard = ({ event }: Props) => {
           </StyledIconContainer>
           <span>{event.venue.name}</span>
         </StyledIconWLabel>
-
-        <span>{event.description}</span>
       </StyledCardDataContainer>
     </StyledCardContainer>
   );

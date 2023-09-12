@@ -20,7 +20,6 @@ const MMTablePaginator = ({ pagination, setPagination }: Props) => {
         }}
         rowsPerPage={pagination.perPage}
         onRowsPerPageChange={(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-          console.log(event.target.value);
           setPagination((prevState) => ({
             ...prevState,
             page: 1,

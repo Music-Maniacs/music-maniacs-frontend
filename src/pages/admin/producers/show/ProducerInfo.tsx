@@ -57,7 +57,7 @@ export const ProducerInfo = ({ producer }: Props) => {
     },
     {
       label: 'Descripción',
-      content: <InputArea disabled value={producer.description} rows={8} />
+      content: <InputArea disabled value={producer.description} rows={12} />
     }
   ];
 

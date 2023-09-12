@@ -57,7 +57,7 @@ export const ArtistInfo = ({ artist }: Props) => {
     },
     {
       label: 'Descripción',
-      content: <InputArea disabled value={artist.description} rows={8} />
+      content: <InputArea disabled value={artist.description} rows={12} />
     }
   ];
 

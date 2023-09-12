@@ -36,6 +36,13 @@ const theme = createTheme(
             }
           }
         }
+      },
+      MuiPaper: {
+        defaultProps: {
+          sx: {
+            backgroundColor: '#727272'
+          }
+        }
       }
     }
   },

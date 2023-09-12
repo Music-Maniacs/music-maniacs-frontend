@@ -21,12 +21,13 @@ import { MMButton } from '../../../components/MMButton/MMButton';
 import { styled } from 'styled-components';
 import Select from 'react-select/dist/declarations/src/Select';
 import { GroupBase } from 'react-select';
+import MMTablePaginator from '../../../components/MMTable/MMTablePaginator';
 const StyledSearchbarForm = styled.form`
   padding: 1rem 0 2rem 0;
 `;
 
 const SearchEvents = () => {
-  const { pagination, events, queryParams, setPagination, cleanQueryParams } = useEvents();
+  const { pagination, events, queryParams, setPagination, cleanQueryParams, setEvents } = useEvents();
   const { isModalOpen, openModal, closeModal } = useModal();
   const formRef = useRef<HTMLFormElement>(null);
   const artistInputRef = useRef<Select<any, boolean, GroupBase<any>>>(null);
@@ -54,7 +55,11 @@ const SearchEvents = () => {
   return (
     <>
       <MMModal isModalOpen={isModalOpen} closeModal={closeModal} title="Crear Evento" maxWidth="lg">
-        <EventsForm closeFormModal={closeModal} useAdminController={false} />
+        <EventsForm
+          closeFormModal={closeModal}
+          useAdminController={false}
+          successCallback={(event: Event) => setEvents([event, ...(events ?? [])])}
+        />
       </MMModal>
 
       <MMContainer maxWidth="xxl">
@@ -158,7 +163,7 @@ const SearchEvents = () => {
           {pagination.isLoading ? (
             <Loader />
           ) : (
-            <Grid container spacing={4} justifyContent="center" alignItems="center">
+            <Grid container spacing={4}>
               {events &&
                 events.map((e: Event) => (
                   <Grid
@@ -177,6 +182,8 @@ const SearchEvents = () => {
                 ))}
             </Grid>
           )}
+
+          <MMTablePaginator pagination={pagination} setPagination={setPagination} />
         </MMBox>
       </MMContainer>
     </>
