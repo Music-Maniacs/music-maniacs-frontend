@@ -18,8 +18,6 @@ type Props = {
 };
 
 export const EventInfo = ({ event }: Props) => {
-  const backendUrl = process.env.REACT_APP_API_URL;
-
   const firstColumn = [
     {
       label: 'Nombre del evento',
@@ -83,11 +81,7 @@ export const EventInfo = ({ event }: Props) => {
         <StyledImageContainer>
           <StyledImageScaledDown
             alt="Portada del espacio de evento"
-            src={
-              event.image && event.image.url
-                ? `${backendUrl}${event.image.url}`
-                : `${require('../../../../assets/images/no-image.jpg')}`
-            }
+            src={event.image?.full_url ?? require('../../../../assets/images/no-image.jpg')}
           />
         </StyledImageContainer>
       </Grid>

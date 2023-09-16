@@ -1,5 +1,6 @@
 import { ModelValidations } from './Generic';
 import { Genre } from './Genre';
+import { Image } from './Image';
 import { Link } from './Link';
 
 export interface Producer {
@@ -11,9 +12,7 @@ export interface Producer {
   updated_at: string;
   genres: Genre[];
   links: Link[];
-  image?: {
-    url: string;
-  };
+  image?: Image;
 }
 
 export const producerValidations: Readonly<ModelValidations<Producer>> = {

@@ -42,7 +42,6 @@ export const ProducerForm = ({
   closeFormModal,
   successCallback
 }: Props) => {
-  const backendUrl = process.env.REACT_APP_API_URL;
   const [genresCollection, setGenresCollection] = useState<SelectCollection[]>([]);
 
   const { getGenresCollection, nationalitiesCollection } = useCollection();
@@ -139,7 +138,7 @@ export const ProducerForm = ({
             name="image"
             control={control}
             errors={errors}
-            previewImageUrl={producerToEdit?.image?.url ? `${backendUrl}${producerToEdit.image.url}` : ''}
+            previewImageUrl={producerToEdit?.image?.full_url ?? ''}
             acceptedFileTypes={{ 'image/*': ['.png', '.jpeg', '.jpg'] }}
           />
         </Grid>

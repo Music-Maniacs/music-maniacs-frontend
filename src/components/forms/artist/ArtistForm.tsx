@@ -43,7 +43,6 @@ export const ArtistForm = ({
   closeFormModal,
   successCallback
 }: Props) => {
-  const backendUrl = process.env.REACT_APP_API_URL;
   const [genresCollection, setGenresCollection] = useState<SelectCollection[]>([]);
 
   const { getGenresCollection, nationalitiesCollection } = useCollection();
@@ -140,7 +139,7 @@ export const ArtistForm = ({
             name="image"
             control={control}
             errors={errors}
-            previewImageUrl={artistToEdit?.image?.url ? `${backendUrl}${artistToEdit.image.url}` : ''}
+            previewImageUrl={artistToEdit?.image?.full_url ?? ''}
             acceptedFileTypes={{ 'image/*': ['.png', '.jpeg', '.jpg'] }}
           />
         </Grid>

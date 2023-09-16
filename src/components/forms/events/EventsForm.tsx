@@ -45,8 +45,6 @@ export const EventsForm = ({
   closeFormModal,
   successCallback
 }: Props) => {
-  const backendUrl = process.env.REACT_APP_API_URL;
-
   const isShowEdit = !useAdminController && isFormEdit;
 
   const {
@@ -151,7 +149,7 @@ export const EventsForm = ({
             name="image"
             control={control}
             errors={errors}
-            previewImageUrl={eventToEdit?.image?.url ? `${backendUrl}${eventToEdit.image.url}` : ''}
+            previewImageUrl={eventToEdit?.image?.full_url ?? ''}
             acceptedFileTypes={{ 'image/*': ['.png', '.jpeg', '.jpg'] }}
           />
         </Grid>

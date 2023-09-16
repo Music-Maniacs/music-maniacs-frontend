@@ -62,20 +62,13 @@ const StyledCardTitle = styled.h3`
 `;
 
 export const EventCard = ({ event }: Props) => {
-  const backendUrl = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
 
   return (
     <StyledCardContainer onClick={() => navigate(`/events/${event.id}`)}>
       {/* Image */}
       <StyledCardImageContainer>
-        <StyledCardImage
-          src={
-            event.image && event.image.url
-              ? `${backendUrl}${event.image.url}`
-              : `${require('../../../assets/images/default-event.jpg')}`
-          }
-        />
+        <StyledCardImage src={event.image?.full_url ?? require('../../../assets/images/default-event.jpg')} />
       </StyledCardImageContainer>
 
       <StyledCardDataContainer>

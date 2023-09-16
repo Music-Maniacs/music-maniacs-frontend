@@ -24,6 +24,7 @@ const Show = () => {
     if (!id) return;
 
     getEvent();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getEvent = async () => {

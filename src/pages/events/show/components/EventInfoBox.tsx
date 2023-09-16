@@ -21,7 +21,6 @@ type Props = {
 
 export const EventInfoBox = ({ event, openModal }: Props) => {
   const { user } = useAuth();
-  const backendUrl = process.env.REACT_APP_API_URL;
 
   return (
     <>
@@ -30,11 +29,7 @@ export const EventInfoBox = ({ event, openModal }: Props) => {
           <div className="image-container">
             <img
               alt="Portada del Evento"
-              src={
-                event.image && event.image.url
-                  ? `${backendUrl}${event.image.url}`
-                  : `${require('../../../../assets/images/default-event.jpg')}`
-              }
+              src={event.image?.full_url ?? require('../../../../assets/images/default-event.jpg')}
               className="image"
             />
           </div>
