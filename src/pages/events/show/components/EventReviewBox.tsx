@@ -129,7 +129,7 @@ export const EventReviewBox = ({ event, setEvent }: Props) => {
                   key={review.id}
                   reviewableName={event.artist.name}
                   review={review}
-                  canEdit={user?.id === review.user.id}
+                  canEdit={user?.id === review.user?.id}
                   handleEditReviewButton={handleEditReviewButton}
                 />
               ))}

@@ -12,6 +12,7 @@ import { Loader } from '../../../components/Loader/Loader';
 import { EventReviewBox } from './components/EventReviewBox';
 import { Breadcrumb } from '../../../components/breadrumb/Breadcrumb';
 import { Tooltip } from 'react-tooltip';
+import { EventCommentBox } from './components/EventCommentBox';
 
 const Show = () => {
   const { id } = useParams();
@@ -57,7 +58,7 @@ const Show = () => {
 
             <EventInfoBox event={event} openModal={openModal} />
             <EventReviewBox event={event} setEvent={setEvent} />
-            {/* <EventCommentBox event={event} /> */}
+            <EventCommentBox event={event} />
           </>
         ) : (
           <Loader />

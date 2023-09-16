@@ -1,4 +1,4 @@
-import React, { BaseSyntheticEvent, ChangeEvent, FormEvent, SyntheticEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { errorSnackbar, infoSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { InputArea } from '../../../../components/form/InputArea/InputArea';
@@ -60,6 +60,7 @@ export const EventReviewForm = ({
     } else {
       setReviewTo('artist');
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFormEdit, reviewToEdit]);
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {

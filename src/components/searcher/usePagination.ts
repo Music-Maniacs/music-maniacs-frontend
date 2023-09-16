@@ -7,6 +7,7 @@ type Props<T> = {
   url: string;
   requestCallback: (data: T[]) => void;
   queryParams?: Record<string, string>;
+  perPage?: number;
 };
 
 function buildParams(params: Record<string, string>): string {
@@ -15,10 +16,10 @@ function buildParams(params: Record<string, string>): string {
     .join('&');
 }
 
-export const usePagination = <T>({ url, requestCallback, queryParams, ...props }: Props<T>) => {
+export const usePagination = <T>({ url, requestCallback, queryParams, perPage = 10, ...props }: Props<T>) => {
   const [pagination, setPagination] = React.useState<Pagination>({
     page: 1,
-    perPage: 10,
+    perPage,
     total: 0,
     isLoading: true
   });
