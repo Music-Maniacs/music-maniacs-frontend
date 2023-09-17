@@ -1,4 +1,4 @@
-import React, { FormEvent, useCallback, useRef } from 'react';
+import React, { FormEvent, useRef } from 'react';
 import { MMContainer } from '../../../components/MMContainer/MMContainer';
 import { MMBox } from '../../../components/MMBox/MMBox';
 import { MMTitle } from '../../../components/MMTitle/MMTitle';
@@ -54,30 +54,26 @@ const SearchEvents = () => {
 
   // Infinite Scroll
   const observer = useRef<IntersectionObserver>();
-  const lastIssueElementRef = useCallback(
-    (node: HTMLDivElement) => {
-      if (pagination.isLoading) return;
-      if (observer.current) observer.current.disconnect();
+  const lastElementRef = (node: HTMLDivElement) => {
+    if (pagination.isLoading) return;
+    if (observer.current) observer.current.disconnect();
 
-      observer.current = new IntersectionObserver((entries) => {
-        const hasMoreEvents = pagination.total > pagination.page * pagination.perPage;
+    observer.current = new IntersectionObserver((entries) => {
+      const hasMoreEvents = pagination.total > pagination.page * pagination.perPage;
 
-        if (entries[0].isIntersecting && hasMoreEvents) {
-          setPagination((prevState) => {
-            return {
-              ...prevState,
-              page: prevState.page + 1,
-              isLoading: true
-            };
-          });
-        }
-      });
+      if (entries[0].isIntersecting && hasMoreEvents) {
+        setPagination((prevState) => {
+          return {
+            ...prevState,
+            page: prevState.page + 1,
+            isLoading: true
+          };
+        });
+      }
+    });
 
-      if (node && observer.current) observer.current.observe(node);
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [pagination.isLoading]
-  );
+    if (node && observer.current) observer.current.observe(node);
+  };
 
   return (
     <>
@@ -187,6 +183,7 @@ const SearchEvents = () => {
               </Grid>
             </Grid>
           </StyledSearchbarForm>
+
           {pagination.page === 1 && pagination.isLoading ? (
             <Grid container spacing={4}>
               <SearcherSkeleton />
@@ -197,13 +194,13 @@ const SearchEvents = () => {
                 events.map((e: Event, index: number) => (
                   <Grid
                     key={e.id}
-                    ref={events.length === index + 1 ? lastIssueElementRef : undefined}
+                    ref={events.length === index + 1 ? lastElementRef : undefined}
                     item
                     container
                     xs={12}
-                    sm={4}
+                    sm={6}
                     md={3}
-                    lg={2}
+                    lg={2.4}
                     justifyContent="center"
                     alignItems="center"
                   >
