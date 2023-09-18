@@ -19,10 +19,6 @@ import { useTrustLevelRequests } from '../hooks/useTrustLevelRequest';
 import { Loader } from '../../../../components/Loader/Loader';
 import './Show.scss';
 import '../../Admin.scss';
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
 export const Show = () => {
   const { id } = useParams();
   const [trustLevel, setTrustLevel] = useState<TrustLevel>();
