@@ -64,7 +64,7 @@ export const PermissionListInput = ({ setSelectedPermissions, selectedPermission
                         onChange={handleCeckboxChange}
                         disabled={disabled}
                       />
-                      <span>{perm.action}</span>
+                      <span>{perm.name}</span>
                     </label>
                   );
                 })}

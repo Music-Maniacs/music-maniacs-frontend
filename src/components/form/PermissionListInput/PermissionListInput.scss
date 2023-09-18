@@ -1,10 +1,31 @@
 @import '../../../styles/main';
+/* width */
+::-webkit-scrollbar {
+  height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #1e2e2c;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 .permissions-container {
   display: flex;
   flex-direction: row;
-  gap: 1rem;
-  overflow-x: scroll;
+
+  overflow-x: auto;
   padding-bottom: 1rem;
+
   .permissions-subject-class {
     display: flex;
     flex-direction: column;
@@ -28,12 +49,17 @@
         align-items: center;
         padding: 0.5rem;
         gap: 1rem;
+        max-height: 2rem;
+        min-width: 170px;
+
         input {
           appearance: none;
           border-radius: 3px;
           border: 1px solid black;
-          width: 1rem;
-          height: 1rem;
+          min-width: 1rem;
+          min-height: 1rem;
+          max-width: 1rem;
+          max-height: 1rem;
           background: $input_background;
           &:checked {
             background-color: $primary;
