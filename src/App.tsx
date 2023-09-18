@@ -26,13 +26,18 @@ const RoleShow = lazy(() => import('./pages/admin/roles/show/Show'));
 const TrustLevelsContainer = lazy(() => import('./pages/admin/trustLevels/TrustLevelsContainer'));
 const TrustLevelShow = lazy(() => import('./pages/admin/trustLevels/show/Show'));
 const ArtistsContainer = lazy(() => import('./pages/admin/artists/ArtistsContainer'));
-const ArtistShow = lazy(() => import('./pages/admin/artists/show/Show'));
+const AdminArtistShow = lazy(() => import('./pages/admin/artists/show/Show'));
 const GenresContainer = lazy(() => import('./pages/admin/genres/GenresContainer'));
 const VenuesContainer = lazy(() => import('./pages/admin/venues/VenuesContainer'));
-const VenueShow = lazy(() => import('./pages/admin/venues/show/Show'));
+const AdminVenueShow = lazy(() => import('./pages/admin/venues/show/Show'));
 const ProducersContainer = lazy(() => import('./pages/admin/producers/ProducersContainer'));
-const ProducersShow = lazy(() => import('./pages/admin/producers/show/Show'));
+const AdminProducersShow = lazy(() => import('./pages/admin/producers/show/Show'));
 const ThresholdsContainer = lazy(() => import('./pages/admin/thresholds/ThresholdContainer'));
+
+// Profiles Module
+const ArtistShow = lazy(() => import('./pages/profiles/artist/show/Show'));
+const VenueShow = lazy(() => import('./pages/profiles/venue/show/Show'));
+const ProducerShow = lazy(() => import('./pages/profiles/producer/show/Show'));
 
 function App() {
   return (
@@ -71,7 +76,7 @@ function App() {
 
             <Route path="venues">
               <Route index element={<VenuesContainer />} />
-              <Route path=":id" element={<VenueShow />} />
+              <Route path=":id" element={<AdminVenueShow />} />
             </Route>
 
             <Route path="roles">
@@ -86,7 +91,7 @@ function App() {
 
             <Route path="artists">
               <Route index element={<ArtistsContainer />} />
-              <Route path=":id" element={<ArtistShow />} />
+              <Route path=":id" element={<AdminArtistShow />} />
             </Route>
 
             <Route path="genres">
@@ -95,12 +100,20 @@ function App() {
 
             <Route path="producers">
               <Route index element={<ProducersContainer />} />
-              <Route path=":id" element={<ProducersShow />} />
+              <Route path=":id" element={<AdminProducersShow />} />
             </Route>
 
             <Route path="thresholds">
               <Route index element={<ThresholdsContainer />} />
             </Route>
+          </Route>
+
+          {/* Profiles Module */}
+          <Route path="/profiles">
+            {/* <Route index element={<SearchProfiles />} /> */}
+            <Route path="artists/:id" element={<ArtistShow />} />
+            <Route path="producers/:id" element={<ProducerShow />} />
+            <Route path="venues/:id" element={<VenueShow />} />
           </Route>
 
           {/* Not Found */}

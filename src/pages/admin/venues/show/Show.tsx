@@ -76,6 +76,7 @@ const Show = () => {
           <>
             <MMModal title="Editar Espacio de Evento" isModalOpen={isModalOpen} closeModal={closeModal} maxWidth="lg">
               <VenuesForm
+                useAdminController={true}
                 isFormEdit={true}
                 venueToEdit={venue}
                 closeFormModal={closeModal}

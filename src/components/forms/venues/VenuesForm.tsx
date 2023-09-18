@@ -10,7 +10,7 @@ import { InputArea } from '../../form/InputArea/InputArea';
 import { StyledButtonGroup } from '../../../pages/admin/styles';
 import { MMButton } from '../../MMButton/MMButton';
 import { Venue, venueValidations } from '../../../models/Venue';
-import { adminCreateVenue, adminUpdateVenue } from '../../../services/venueService';
+import { adminCreateVenue, adminUpdateVenue, createVenue, updateVenue } from '../../../services/venueService';
 import { locationValidations } from '../../../models/Location';
 import { LeafletMap } from './LeafletMap';
 
@@ -121,11 +121,12 @@ export const VenuesForm = ({
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
-      // todo: cuando tengamos el controlador de productoras, usar la prop para ver que endpoint usar
       let venue: Venue;
 
       if (isFormEdit && venueToEdit) {
-        venue = await adminUpdateVenue(
+        const updateService = useAdminController ? adminUpdateVenue : updateVenue;
+
+        venue = await updateService(
           venueToEdit.id,
           data.name,
           data.description,
@@ -138,7 +139,9 @@ export const VenuesForm = ({
           data.image
         );
       } else {
-        venue = await adminCreateVenue(
+        const createService = useAdminController ? adminCreateVenue : createVenue;
+
+        venue = await createService(
           data.name,
           data.description,
           {

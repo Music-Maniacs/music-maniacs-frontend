@@ -1,7 +1,67 @@
 import axios from 'axios';
 import { Artist } from '../models/Artist';
 
+const artistsUrl = `${process.env.REACT_APP_API_URL}/artists`;
 const adminArtistsUrl = `${process.env.REACT_APP_API_URL}/admin/artists`;
+
+export async function createArtist(
+  name: string,
+  nationality: string,
+  description: string,
+  genre_ids: string[],
+  links_attributes: {
+    title: string;
+    url: string;
+  }[],
+  image?: File
+): Promise<Artist> {
+  const formData = new FormData();
+
+  const artistData = {
+    name,
+    nationality,
+    description,
+    genre_ids,
+    links_attributes
+  };
+
+  formData.append('artist', JSON.stringify(artistData));
+  image && formData.append('image', image);
+
+  return (await axios.post(artistsUrl, formData)).data;
+}
+
+export async function updateArtist(
+  id: string,
+  name: string,
+  nationality: string,
+  description: string,
+  genre_ids: string[],
+  links_attributes: {
+    title: string;
+    url: string;
+  }[],
+  image?: File
+): Promise<Artist> {
+  const formData = new FormData();
+
+  const artistData = {
+    name,
+    nationality,
+    description,
+    genre_ids,
+    links_attributes
+  };
+
+  formData.append('artist', JSON.stringify(artistData));
+  image && formData.append('image', image);
+
+  return (await axios.put(`${artistsUrl}/${id}`, formData)).data;
+}
+
+export async function getArtist(id: string): Promise<Artist> {
+  return (await axios.get(`${artistsUrl}/${id}`)).data;
+}
 
 export async function adminCreateArtist(
   name: string,

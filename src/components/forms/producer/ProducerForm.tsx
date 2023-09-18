@@ -13,7 +13,12 @@ import { LinksFieldArray } from '../../form/LinksFieldArray/LinksFieldArray';
 import { InputArea } from '../../form/InputArea/InputArea';
 import { StyledButtonGroup } from '../../../pages/admin/styles';
 import { MMButton } from '../../MMButton/MMButton';
-import { adminCreateProducer, adminUpdateProducer } from '../../../services/producerService';
+import {
+  adminCreateProducer,
+  adminUpdateProducer,
+  createProducer,
+  updateProducer
+} from '../../../services/producerService';
 
 type Props = {
   useAdminController?: boolean;
@@ -93,11 +98,12 @@ export const ProducerForm = ({
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
-      // todo: cuando tengamos el controlador de productora, usar la prop para ver que endpoint usar
       let producer: Producer;
 
       if (isFormEdit && producerToEdit) {
-        producer = await adminUpdateProducer(
+        const updateService = useAdminController ? adminUpdateProducer : updateProducer;
+
+        producer = await updateService(
           producerToEdit.id,
           data.name,
           data.nationality.value,
@@ -107,7 +113,9 @@ export const ProducerForm = ({
           data.image
         );
       } else {
-        producer = await adminCreateProducer(
+        const createService = useAdminController ? adminCreateProducer : createProducer;
+
+        producer = await createService(
           data.name,
           data.nationality.value,
           data.description,

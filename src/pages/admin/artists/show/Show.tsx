@@ -76,6 +76,7 @@ const Show = () => {
           <>
             <MMModal title="Editar Artista" isModalOpen={isModalOpen} closeModal={closeModal} maxWidth="lg">
               <ArtistForm
+                useAdminController={true}
                 isFormEdit={true}
                 artistToEdit={artist}
                 closeFormModal={closeModal}

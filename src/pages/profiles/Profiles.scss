@@ -1,0 +1,57 @@
+@import '../../styles/main';
+
+.profiles-show-boxes-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .show-boxes {
+    padding: 15px 30px;
+
+    &:first-child,
+    &:last-child {
+      margin-bottom: 40px;
+    }
+
+    .info-box {
+      @include flex-space-between;
+      flex-direction: row;
+
+      @include sm-breakpoint {
+        gap: 5px;
+      }
+
+      gap: 30px;
+
+      .image-container {
+        height: 130px;
+        width: 130px;
+
+        .image {
+          height: 100%;
+          width: 100%;
+          object-fit: cover;
+          border-radius: 50%;
+        }
+      }
+
+      .data-container {
+        flex-grow: 1;
+
+        .name {
+          font-size: 25px;
+          font-weight: bold;
+        }
+      }
+    }
+
+    .reviews-box {
+      display: flex;
+      flex-direction: column;
+
+      .title-container {
+        @include flex-space-between;
+      }
+    }
+  }
+}

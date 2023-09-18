@@ -1,7 +1,85 @@
 import axios from 'axios';
 import { Venue } from '../models/Venue';
 
+const venuesUrl = `${process.env.REACT_APP_API_URL}/venues`;
 const adminVenuesUrl = `${process.env.REACT_APP_API_URL}/admin/venues`;
+
+export async function getVenue(id: string): Promise<Venue> {
+  return (await axios.get(`${venuesUrl}/${id}`)).data;
+}
+
+export async function createVenue(
+  name: string,
+  description: string,
+  location_attributes: {
+    id: string;
+    zip_code: string;
+    street: string;
+    department: string;
+    locality: string;
+    latitude: string;
+    longitude: string;
+    number: number;
+    country: string;
+    province: string;
+  },
+  links_attributes: {
+    title: string;
+    url: string;
+  }[],
+  image?: File
+): Promise<Venue> {
+  const formData = new FormData();
+
+  const venueData = {
+    name,
+    description,
+    location_attributes,
+    links_attributes
+  };
+
+  formData.append('venue', JSON.stringify(venueData));
+  image && formData.append('image', image);
+
+  return (await axios.post(venuesUrl, formData)).data;
+}
+
+export async function updateVenue(
+  id: string,
+  name: string,
+  description: string,
+  location_attributes: {
+    id: string;
+    zip_code: string;
+    street: string;
+    department: string;
+    locality: string;
+    latitude: string;
+    longitude: string;
+    number: number;
+    country: string;
+    province: string;
+  },
+  links_attributes: {
+    title: string;
+    url: string;
+  }[],
+  image?: File
+): Promise<Venue> {
+  const formData = new FormData();
+
+  const venueData = {
+    name,
+    description,
+    location_attributes,
+    links_attributes
+  };
+
+  formData.append('venue', JSON.stringify(venueData));
+  image && formData.append('image', image);
+
+  return (await axios.put(`${venuesUrl}/${id}`, formData)).data;
+}
 
 export async function adminCreateVenue(
   name: string,

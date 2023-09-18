@@ -76,6 +76,7 @@ const Show = () => {
           <>
             <MMModal title="Editar Productora" isModalOpen={isModalOpen} closeModal={closeModal} maxWidth="lg">
               <ProducerForm
+                useAdminController={true}
                 isFormEdit={true}
                 producerToEdit={producer}
                 closeFormModal={closeModal}
