@@ -37,7 +37,7 @@ export const SideNav = ({ active, setActive }: Props) => {
     if (!user) {
       return (
         <div className="content">
-          <MMLink to={'/'} content="Buscar Eventos" />
+          <MMLink to={'/events'} content="Buscar Eventos" />
           <MMLink to={'/'} content="Sobre Nosotros" />
           <MMButton
             style={{ textTransform: 'none' }}
@@ -56,7 +56,7 @@ export const SideNav = ({ active, setActive }: Props) => {
       <>
         <UserDropdown />
         <div className="content">
-          <MMLink to={'/BuscarEvento'} content="Buscar Evento" />
+          <MMLink to={'/events'} content="Buscar Evento" />
           <MMLink to={'/'} content="Moderar Contenido" />
           <AdminDropdown />
         </div>

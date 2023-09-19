@@ -17,8 +17,6 @@ type Props = {
 };
 
 export const ProducerInfo = ({ producer }: Props) => {
-  const backendUrl = process.env.REACT_APP_API_URL;
-
   const firstColumn = [
     {
       label: 'Nombre',
@@ -57,7 +55,7 @@ export const ProducerInfo = ({ producer }: Props) => {
     },
     {
       label: 'Descripción',
-      content: <InputArea disabled value={producer.description} rows={8} />
+      content: <InputArea disabled value={producer.description} rows={12} />
     }
   ];
 
@@ -69,11 +67,7 @@ export const ProducerInfo = ({ producer }: Props) => {
         <StyledImageContainer>
           <StyledImageScaledDown
             alt="Portada de la productora"
-            src={
-              producer.image && producer.image.url
-                ? `${backendUrl}${producer.image.url}`
-                : `${require('../../../../assets/images/no-image.jpg')}`
-            }
+            src={producer.image?.full_url ?? require('../../../../assets/images/no-image.jpg')}
           />
         </StyledImageContainer>
       </Grid>

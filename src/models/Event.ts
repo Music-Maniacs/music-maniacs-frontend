@@ -1,21 +1,46 @@
-import { Artist } from './Artist';
 import { ModelValidations } from './Generic';
 import { Image } from './Image';
 import { Link } from './Link';
-import { Producer } from './Producer';
-import { Venue } from './Venue';
+import { Review } from './Review';
 
 export interface Event {
   id: string;
   name: string;
   datetime: string;
   description: string;
-  artist: Artist;
-  venue: Venue;
-  producer: Producer;
+  artist: {
+    id?: string;
+    name: string;
+  };
+  venue: {
+    id?: string;
+    name: string;
+  };
+  producer: {
+    id?: string;
+    name: string;
+  };
   links: Link[];
   image?: Image;
+  reviews_info?: {
+    artist: {
+      rating: number;
+      reviews_count: number;
+      last_reviews: Review[];
+    };
+    producer: {
+      rating: number;
+      reviews_count: number;
+      last_reviews: Review[];
+    };
+    venue: {
+      rating: number;
+      reviews_count: number;
+      last_reviews: Review[];
+    };
+  };
 }
+
 export const eventValidations: Readonly<ModelValidations<Event>> = {
   name: {
     required: {

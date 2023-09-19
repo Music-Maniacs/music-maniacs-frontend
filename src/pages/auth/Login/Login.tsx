@@ -34,6 +34,11 @@ const Login = () => {
       handleUserLogin(response.data.user, response.headers.authorization);
       navigate('/');
     } catch (error) {
+      // @ts-ignore
+      if (error.response?.data?.error === 'Your account is blocked.') {
+        return errorSnackbar('Su cuenta se encuentra bloqueada');
+      }
+
       errorSnackbar('Usuario o contraseña incorrectos');
     }
   };

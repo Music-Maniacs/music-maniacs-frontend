@@ -5,3 +5,12 @@
   margin-bottom: 0;
   border-bottom: 2px solid $primary;
 }
+
+.mm-subtitle {
+  margin-top: 0;
+  font-size: 20px;
+  margin-bottom: 5px;
+  border-bottom: 2px solid $primary;
+  width: fit-content;
+  font-weight: 400;
+}

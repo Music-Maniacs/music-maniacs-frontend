@@ -2,12 +2,14 @@
 import axios, { AxiosError } from 'axios';
 import { Dictionary, FormErrors } from '../models/Generic';
 import { FieldValues, UseFormSetError } from 'react-hook-form';
+import { errorSnackbar } from '../components/Snackbar/Snackbar';
 
 const errors: Dictionary = {
   taken: 'está ocupado',
   too_short: 'es demasiado corta',
   confirmation: 'No coincide con la contraseña',
-  not_a_number: 'no es un número'
+  not_a_number: 'no es un número',
+  already_reviewed: 'Ya has realizado una reseña sobre esta opción'
 };
 
 const fieldNames: Dictionary = {
@@ -21,7 +23,7 @@ const fieldNames: Dictionary = {
 };
 
 function formatErrorMessage(error: string, field: string): string {
-  const fieldName = fieldNames[field] || field;
+  const fieldName = fieldNames[field] || '';
   const message = errors[error] || error;
   return `${fieldName} ${message}`;
 }
@@ -40,6 +42,10 @@ export function handleFormErrors<T extends FieldValues>(
   if (axios.isAxiosError<FormErrors<T>>(error) && error.response?.data?.errors) {
     hasErrors = true;
     Object.keys(error.response.data.errors).forEach((key) => {
+      if (key === 'base') {
+        return errorSnackbar(formatErrorMessage(error.response.data.errors[key][0].error));
+      }
+
       setError(key, {
         type: 'custom',
         message: formatErrorMessage(error.response.data.errors[key][0].error, key)

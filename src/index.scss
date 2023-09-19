@@ -1,3 +1,5 @@
+@import './styles/main';
+
 body {
   margin: 0;
   background-color: #1e2e2c;
@@ -6,4 +8,22 @@ body {
     'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+input[type='radio'] {
+  appearance: none;
+  border-radius: 50%;
+  border: 1px solid black;
+  width: 0.8rem;
+  height: 0.8rem;
+  background: $input_background;
+  cursor: pointer;
+
+  &:checked {
+    background-color: $primary;
+  }
+
+  &:disabled {
+    cursor: default;
+  }
 }

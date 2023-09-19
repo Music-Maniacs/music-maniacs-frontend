@@ -1,8 +1,14 @@
 import React, { Suspense, lazy } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { AppProviders } from './AppProviders';
 import NavBar from './components/NavBar/NavBar';
 import { Loader } from './components/Loader/Loader';
+
+// Events module
+const EventsContainer = lazy(() => import('./pages/events/EventsContainer'));
+const EventsShow = lazy(() => import('./pages/events/show/Show'));
+const EventsReviews = lazy(() => import('./pages/events/reviews/Reviews'));
+const SearchEvents = lazy(() => import('./pages/events/search/SearchEvents'));
 
 // Auth Module
 const Login = lazy(() => import('./pages/auth/Login/Login'));
@@ -13,8 +19,8 @@ const RecoverPassword = lazy(() => import('./pages/auth/RecoverPassword/RecoverP
 // Admin Module
 const UsersContainer = lazy(() => import('./pages/admin/users/UsersContainer'));
 const UserShow = lazy(() => import('./pages/admin/users/show/Show'));
-const EventsContainer = lazy(() => import('./pages/admin/events/EventsContainer'));
-const EventsShow = lazy(() => import('./pages/admin/events/show/Show'));
+const AdminEventsContainer = lazy(() => import('./pages/admin/events/EventsContainer'));
+const AdminEventsShow = lazy(() => import('./pages/admin/events/show/Show'));
 const RolesContainer = lazy(() => import('./pages/admin/roles/RolesContainer'));
 const RoleShow = lazy(() => import('./pages/admin/roles/show/Show'));
 const TrustLevelsContainer = lazy(() => import('./pages/admin/trustLevels/TrustLevelsContainer'));
@@ -35,8 +41,17 @@ function App() {
 
       <Suspense fallback={<Loader />}>
         <Routes>
+          {/* Events Module */}
+          {/* todo: Temporal. Hasta que tengamos la vista de descubrir eventos */}
+          <Route path="/" element={<Navigate to={'/events'} />} />
+
+          <Route path="/events" element={<EventsContainer />}>
+            <Route index element={<SearchEvents />} />
+            <Route path=":id/reviews" element={<EventsReviews />} />
+            <Route path=":id" element={<EventsShow />} />
+          </Route>
+
           {/* Auth Module */}
-          <Route path="/" element={<h1>Music Maniacs Home</h1>} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/change-password" element={<ChangePassword />} />
@@ -50,8 +65,8 @@ function App() {
             </Route>
 
             <Route path="events">
-              <Route index element={<EventsContainer />} />
-              <Route path=":id" element={<EventsShow />} />
+              <Route index element={<AdminEventsContainer />} />
+              <Route path=":id" element={<AdminEventsShow />} />
             </Route>
 
             <Route path="venues">
@@ -87,6 +102,9 @@ function App() {
               <Route index element={<ThresholdsContainer />} />
             </Route>
           </Route>
+
+          {/* Not Found */}
+          <Route path="*" element={<Navigate to={'/events'} />} />
         </Routes>
       </Suspense>
     </AppProviders>

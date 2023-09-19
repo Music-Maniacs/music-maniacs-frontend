@@ -18,8 +18,6 @@ type Props = {
 };
 
 export const VenueInfo = ({ venue }: Props) => {
-  const backendUrl = process.env.REACT_APP_API_URL;
-
   const firstColumn = [
     {
       label: 'Nombre',
@@ -130,11 +128,7 @@ export const VenueInfo = ({ venue }: Props) => {
           <StyledImageContainer>
             <StyledImageScaledDown
               alt="Portada del espacio de evento"
-              src={
-                venue.image && venue.image.url
-                  ? `${backendUrl}${venue.image.url}`
-                  : `${require('../../../../assets/images/no-image.jpg')}`
-              }
+              src={venue.image?.full_url ?? require('../../../../assets/images/no-image.jpg')}
             />
           </StyledImageContainer>
         </Grid>

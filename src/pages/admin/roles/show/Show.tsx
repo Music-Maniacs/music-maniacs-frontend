@@ -17,6 +17,8 @@ import { adminGetRole } from '../../../../services/roleService';
 import Form from '../form/Form';
 import { useRoleRequests } from '../hooks/useRoleRequest';
 import './Show.scss';
+import '../../Admin.scss';
+
 export const Show = () => {
   const { id } = useParams();
   const [role, setRole] = React.useState<Role>();

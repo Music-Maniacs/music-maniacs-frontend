@@ -1,0 +1,93 @@
+@import '../../styles/main';
+
+.events-box-container {
+  padding: 20px 30px !important;
+  margin-top: 40px;
+}
+
+.events-title-container {
+  @include flex-space-between;
+  margin: 10px 0px;
+}
+
+.events-form-container {
+  @include flex-column-center;
+  gap: 10px;
+}
+
+.events-reviews-form-container {
+  @include flex-column-center;
+  gap: 10px;
+}
+
+.events-show-boxes-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .show-boxes {
+    padding: 15px 30px;
+
+    &:first-child,
+    &:last-child {
+      margin-bottom: 40px;
+    }
+
+    .info-box {
+      @include flex-space-between;
+      flex-direction: row;
+
+      position: relative;
+
+      @include sm-breakpoint {
+        gap: 5px;
+      }
+
+      gap: 30px;
+
+      .image-container {
+        height: 130px;
+        width: 130px;
+
+        .image {
+          height: 100%;
+          width: 100%;
+          object-fit: cover;
+          border-radius: 50%;
+        }
+      }
+
+      .data-container {
+        flex-grow: 1;
+
+        .name {
+          font-size: 25px;
+          font-weight: bold;
+        }
+      }
+
+      .actions-container {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+    }
+
+    .reviews-box {
+      display: flex;
+      flex-direction: column;
+
+      .title-container {
+        @include flex-space-between;
+      }
+    }
+  }
+}
+
+.events-icon-with-data-container {
+  @include flex-start;
+
+  svg {
+    width: 25px;
+  }
+}

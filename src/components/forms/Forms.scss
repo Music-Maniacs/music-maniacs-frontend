@@ -1,0 +1,6 @@
+@import '../../styles/main';
+
+.artist-form-container {
+  @include flex-column-center;
+  gap: 10px;
+}

@@ -6,12 +6,48 @@ import { esES } from '@mui/material/locale';
 import { CollectionProvider } from './context/collectionContext';
 import colors from './styles/_colors.scss';
 import { BrowserRouter } from 'react-router-dom';
+import moment from 'moment';
+import 'moment/locale/es';
+
+moment.locale('es');
 
 type Props = {
   children: React.ReactNode;
 };
 
-const theme = createTheme({}, esES);
+const theme = createTheme(
+  {
+    palette: {
+      primary: {
+        main: colors.primary
+      },
+      text: {
+        primary: '#ffffff'
+      }
+    },
+    components: {
+      MuiTab: {
+        defaultProps: {
+          sx: {
+            color: '#ffffff',
+            '&.Mui-selected': {
+              color: '#ffffff',
+              fontWeight: 'bold'
+            }
+          }
+        }
+      },
+      MuiPaper: {
+        defaultProps: {
+          sx: {
+            backgroundColor: '#727272'
+          }
+        }
+      }
+    }
+  },
+  esES
+);
 
 const StyledMaterialDesignContent = styled(MaterialDesignContent)(() => ({
   '&.notistack-MuiContent-warning': {

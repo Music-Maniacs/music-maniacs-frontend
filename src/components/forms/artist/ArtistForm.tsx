@@ -14,6 +14,7 @@ import { InputArea } from '../../form/InputArea/InputArea';
 import { StyledButtonGroup } from '../../../pages/admin/styles';
 import { MMButton } from '../../MMButton/MMButton';
 import { adminCreateArtist, adminUpdateArtist } from '../../../services/artistService';
+import '../Forms.scss';
 
 type Props = {
   useAdminController?: boolean;
@@ -42,7 +43,6 @@ export const ArtistForm = ({
   closeFormModal,
   successCallback
 }: Props) => {
-  const backendUrl = process.env.REACT_APP_API_URL;
   const [genresCollection, setGenresCollection] = useState<SelectCollection[]>([]);
 
   const { getGenresCollection, nationalitiesCollection } = useCollection();
@@ -131,7 +131,7 @@ export const ArtistForm = ({
     }
   };
   return (
-    <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" className="admin-form-container">
+    <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" className="artist-form-container">
       <Grid container spacing={2}>
         <Grid {...gridCommonProps}>
           <InputDropzone
@@ -139,7 +139,7 @@ export const ArtistForm = ({
             name="image"
             control={control}
             errors={errors}
-            previewImageUrl={artistToEdit?.image?.url ? `${backendUrl}${artistToEdit.image.url}` : ''}
+            previewImageUrl={artistToEdit?.image?.full_url ?? ''}
             acceptedFileTypes={{ 'image/*': ['.png', '.jpeg', '.jpg'] }}
           />
         </Grid>

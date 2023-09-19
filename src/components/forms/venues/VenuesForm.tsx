@@ -51,8 +51,6 @@ export const VenuesForm = ({
   closeFormModal,
   successCallback
 }: Props) => {
-  const backendUrl = process.env.REACT_APP_API_URL;
-
   const {
     register,
     control,
@@ -178,7 +176,7 @@ export const VenuesForm = ({
             name="image"
             control={control}
             errors={errors}
-            previewImageUrl={venueToEdit?.image?.url ? `${backendUrl}${venueToEdit.image.url}` : ''}
+            previewImageUrl={venueToEdit?.image?.full_url ?? ''}
             acceptedFileTypes={{ 'image/*': ['.png', '.jpeg', '.jpg'] }}
           />
         </Grid>

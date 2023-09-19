@@ -17,8 +17,6 @@ type Props = {
 };
 
 export const ArtistInfo = ({ artist }: Props) => {
-  const backendUrl = process.env.REACT_APP_API_URL;
-
   const firstColumn = [
     {
       label: 'Nombre',
@@ -57,7 +55,7 @@ export const ArtistInfo = ({ artist }: Props) => {
     },
     {
       label: 'Descripción',
-      content: <InputArea disabled value={artist.description} rows={8} />
+      content: <InputArea disabled value={artist.description} rows={12} />
     }
   ];
 
@@ -69,11 +67,7 @@ export const ArtistInfo = ({ artist }: Props) => {
         <StyledImageContainer>
           <StyledImageScaledDown
             alt="Portada del artista"
-            src={
-              artist.image && artist.image.url
-                ? `${backendUrl}${artist.image.url}`
-                : `${require('../../../../assets/images/no-image.jpg')}`
-            }
+            src={artist?.image?.full_url ?? require('../../../../assets/images/no-image.jpg')}
           />
         </StyledImageContainer>
       </Grid>
