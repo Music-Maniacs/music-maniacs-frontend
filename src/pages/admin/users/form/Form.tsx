@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { MMButton } from '../../../../components/MMButton/MMButton';
-import { useUsers } from '../context/userContext';
+import { useUsers } from '../context/usersContext';
 import { InputText } from '../../../../components/form/InputText/InputText';
 import { userValidations } from '../../../../models/User';
 import { LinksFieldArray } from '../../../../components/form/LinksFieldArray/LinksFieldArray';

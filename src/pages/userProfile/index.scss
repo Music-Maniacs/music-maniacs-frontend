@@ -1,0 +1,27 @@
+@import '../../styles/main';
+
+.user-profile-box-container {
+  padding: 20px 30px;
+  margin-top: 40px;
+}
+
+.user-profile-title-container {
+  @include flex-space-between;
+  margin: 10px 0px;
+}
+
+.user-profile-search-container {
+  @include flex-space-between;
+
+  .inputs-container {
+    @include flex-center;
+    margin: 0px 8px;
+    gap: 8px;
+    width: 100%;
+  }
+}
+
+.user-profile-form-container {
+  @include flex-column-center;
+  gap: 10px;
+}

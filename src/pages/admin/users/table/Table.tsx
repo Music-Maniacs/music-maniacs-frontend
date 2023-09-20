@@ -1,7 +1,7 @@
 import React from 'react';
 import { MMTable } from '../../../../components/MMTable/MMTable';
 import { User, stateColors, stateNames } from '../../../../models/User';
-import { useUsers } from '../context/userContext';
+import { useUsers } from '../context/usersContext';
 import { MMColors } from '../../../../models/Generic';
 import colors from '../../../../styles/_colors.scss';
 import { Stack } from '@mui/material';

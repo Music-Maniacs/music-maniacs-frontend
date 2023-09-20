@@ -124,7 +124,7 @@ const UserDropdown = () => {
       </div>
 
       <div className={userDropdownActive ? 'sidenav-user-dropdown active' : 'sidenav-user-dropdown'}>
-        <MMLink to={'/'} content="Mi Perfil" />
+        <MMLink to={'/user/profile'} content="Mi Perfil" />
         <MMLink to={'/change-password'} content="Cambiar Contraseña" />
         <MMLink to={'/recover-password'} content="Recuperar Contraseña" />
         <MMLink to={'/login'} onClick={() => handleUserLogout()} content="Cerrar Sesión" />

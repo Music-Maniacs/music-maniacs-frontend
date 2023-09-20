@@ -34,6 +34,9 @@ const ProducersContainer = lazy(() => import('./pages/admin/producers/ProducersC
 const ProducersShow = lazy(() => import('./pages/admin/producers/show/Show'));
 const ThresholdsContainer = lazy(() => import('./pages/admin/thresholds/ThresholdContainer'));
 
+// User Profile Module
+const UserProfileContainer = lazy(() => import('./pages/userProfile/UserProfileContainer'));
+
 function App() {
   return (
     <AppProviders>
@@ -101,6 +104,11 @@ function App() {
             <Route path="thresholds">
               <Route index element={<ThresholdsContainer />} />
             </Route>
+          </Route>
+
+          {/* User Profile Module */}
+          <Route path="/user/profile">
+            <Route index element={<UserProfileContainer />} />
           </Route>
 
           {/* Not Found */}
