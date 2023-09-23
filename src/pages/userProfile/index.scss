@@ -20,8 +20,3 @@
     width: 100%;
   }
 }
-
-.user-profile-form-container {
-  @include flex-column-center;
-  gap: 10px;
-}
