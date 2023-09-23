@@ -22,11 +22,12 @@ const ProfileSidenavTabDelete = styled.li`
   align-self: stretch;
   border-radius: 10px;
   background: none;
-  border: 1px;
+  border: none;
   color: ${colors.error};
+  cursor: pointer;
 
   &:hover {
-    border: 1px solid ${colors.error};
+    color: ${colors.error_dark};
   }
 `;
 
