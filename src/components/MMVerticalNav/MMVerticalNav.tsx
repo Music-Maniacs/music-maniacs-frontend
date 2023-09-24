@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { styled } from 'styled-components';
 
 const VerticalNavContainer = styled.div`
@@ -24,9 +25,27 @@ type Props = {
   Content: JSX.Element[];
 };
 export const MMVerticalNav = ({ Tabs, Content }: Props) => {
+  const [currentTab, setCurrentTab] = useState<string>(Tabs[0].props?.href?.split('#')[1] || '');
+
+  const onTabChange = (href: string) => {
+    setCurrentTab(href);
+  };
+
+  const renderTabs = () => {
+    return Tabs.map((t, index) => {
+      const href = t.props?.href?.split('#')[1];
+
+      return (
+        <div key={index} onClick={() => href && onTabChange(href)}>
+          {href ? React.cloneElement(t, { active: currentTab === href }) : t}
+        </div>
+      );
+    });
+  };
+
   return (
     <VerticalNavContainer>
-      <VerticalSidenavContainer>{Tabs.map((t) => t)}</VerticalSidenavContainer>
+      <VerticalSidenavContainer>{renderTabs()}</VerticalSidenavContainer>
       <VerticalNavContentContainer>{Content.map((c) => c)}</VerticalNavContentContainer>
     </VerticalNavContainer>
   );

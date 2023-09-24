@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { IconType } from 'react-icons';
 import { styled } from 'styled-components';
 
-const StyledSidenavTabAnchor = styled.a<{ $active: boolean }>`
+const StyledSidenavTabAnchor = styled.a<{ $active?: boolean }>`
   padding: 10px;
   color: white;
   text-decoration: none;
@@ -25,7 +25,7 @@ export interface MMTabProps extends React.AnchorHTMLAttributes<HTMLAnchorElement
   Icon?: IconType;
   label: String;
   chip?: React.ReactNode;
-  active: boolean;
+  active?: boolean;
 }
 export const MMTab = ({ Icon, label, chip, href, active, ...props }: MMTabProps) => {
   const tabRef = useRef<HTMLAnchorElement>(null);

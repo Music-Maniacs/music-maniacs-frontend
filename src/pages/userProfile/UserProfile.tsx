@@ -34,12 +34,13 @@ const UserProfileDeleteUser = styled.li`
 `;
 export const UserProfile = () => {
   const [currentTab, setCurrentTab] = useState('profile');
+
   const tabs = [
     <MMTab
       href="#profile"
       label={'Perfil'}
       Icon={FaUser}
-      active={currentTab === 'profile'}
+      // active={currentTab === 'profile'}
       onClick={() => setCurrentTab('profile')}
       key="profile-tab"
     />,
@@ -47,7 +48,7 @@ export const UserProfile = () => {
       href="#follows"
       label={'Gestionar Seguimientos'}
       Icon={FaStar}
-      active={currentTab === 'follows'}
+      // active={currentTab === 'follows'}
       onClick={() => setCurrentTab('follows')}
       key="follow-tab"
     />,
@@ -55,7 +56,7 @@ export const UserProfile = () => {
       href="#password"
       label={'Cambiar Contraseña'}
       Icon={FaGear}
-      active={currentTab === 'password'}
+      // active={currentTab === 'password'}
       onClick={() => setCurrentTab('password')}
       key="password-tab"
     />,
@@ -63,7 +64,7 @@ export const UserProfile = () => {
       href="#edit"
       label={'Editar Perfil'}
       Icon={FaEdit}
-      active={currentTab === 'edit'}
+      // active={currentTab === 'edit'}
       onClick={() => setCurrentTab('edit')}
       key="edit-tab"
     />,
