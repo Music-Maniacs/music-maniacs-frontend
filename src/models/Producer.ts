@@ -2,6 +2,7 @@ import { ModelValidations } from './Generic';
 import { Genre } from './Genre';
 import { Image } from './Image';
 import { Link } from './Link';
+import { Version } from './Version';
 
 export interface Producer {
   id: string;
@@ -13,6 +14,7 @@ export interface Producer {
   genres: Genre[];
   links: Link[];
   image?: Image;
+  versions: Version[];
 }
 
 export const producerValidations: Readonly<ModelValidations<Producer>> = {

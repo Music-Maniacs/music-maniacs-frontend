@@ -2,6 +2,7 @@ import { ModelValidations } from './Generic';
 import { Genre } from './Genre';
 import { Image } from './Image';
 import { Link } from './Link';
+import { Version } from './Version';
 
 export interface Artist {
   id: string;
@@ -13,6 +14,9 @@ export interface Artist {
   links: Link[];
   genres: Genre[];
   image?: Image;
+  versions: Version[];
+  // fixme: agregar atributos
+  next_events: {};
 }
 
 export const artistValidations: Readonly<ModelValidations<Artist>> = {

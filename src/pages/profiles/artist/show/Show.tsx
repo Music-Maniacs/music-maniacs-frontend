@@ -1,9 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { Artist } from '../../../../models/Artist';
+import React from 'react';
 import { useModal } from '../../../../components/hooks/useModal';
-import { errorSnackbar } from '../../../../components/Snackbar/Snackbar';
-import { getArtist as serviceGetArtist } from '../../../../services/artistService';
 import { MMModal } from '../../../../components/Modal/MMModal';
 import { ArtistForm } from '../../../../components/forms/artist/ArtistForm';
 import { MMContainer } from '../../../../components/MMContainer/MMContainer';
@@ -12,33 +8,13 @@ import { Loader } from '../../../../components/Loader/Loader';
 import { Tooltip } from 'react-tooltip';
 import { ProfileInfoBox } from '../../components/ProfileInfoBox';
 import '../../Profiles.scss';
+import { useArtist } from '../context/artistContext';
+import { VersionBox } from '../../../../components/versions/VersionBox';
+import { ProfileEventsBox } from '../../components/ProfileEventsBox';
 
 const Show = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const [artist, setArtist] = useState<Artist>();
   const { isModalOpen, openModal, closeModal } = useModal();
-
-  useEffect(() => {
-    getArtist();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const getArtist = async () => {
-    if (!id) {
-      navigate('/profiles');
-      return errorSnackbar('No se encontró el artista');
-    }
-
-    try {
-      const artist = await serviceGetArtist(id);
-
-      setArtist(artist);
-    } catch (error) {
-      errorSnackbar('Error al obtener el artista. Contacte a soporte.');
-      navigate('/profiles');
-    }
-  };
+  const { artist, setArtist } = useArtist();
 
   return (
     <>
@@ -55,12 +31,15 @@ const Show = () => {
       <MMContainer maxWidth="xxl" className="profiles-show-boxes-container ">
         {artist ? (
           <>
-            <Breadcrumb items={[{ label: 'Perfiles', onClick: () => navigate('/profiles') }, { label: artist.name }]} />
+            <Breadcrumb items={[{ label: 'Perfiles', to: '/profiles' }, { label: artist.name }]} />
 
             {/* todo: agregar si lo esta siguiendo o no */}
             <ProfileInfoBox profile={artist} openEditModal={openModal} />
 
+            <ProfileEventsBox profile={artist} />
             {/* <EventReviewBox event={event} setEvent={setEvent} /> */}
+
+            <VersionBox versions={artist.versions} />
           </>
         ) : (
           <Loader />

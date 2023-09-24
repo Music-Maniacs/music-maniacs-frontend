@@ -12,6 +12,7 @@ import { Producer } from '../../../../models/Producer';
 import { ProducerForm } from '../../../../components/forms/producer/ProducerForm';
 import { getProducer as serviceGetProducer } from '../../../../services/producerService';
 import '../../Profiles.scss';
+import { VersionBox } from '../../../../components/versions/VersionBox';
 
 const Show = () => {
   const { id } = useParams();
@@ -55,14 +56,14 @@ const Show = () => {
       <MMContainer maxWidth="xxl" className="profiles-show-boxes-container ">
         {producer ? (
           <>
-            <Breadcrumb
-              items={[{ label: 'Perfiles', onClick: () => navigate('/profiles') }, { label: producer.name }]}
-            />
+            <Breadcrumb items={[{ label: 'Perfiles', to: '/profiles' }, { label: producer.name }]} />
 
             {/* todo: agregar si lo esta siguiendo o no */}
             <ProfileInfoBox profile={producer} openEditModal={openModal} />
 
             {/* <EventReviewBox event={event} setEvent={setEvent} /> */}
+
+            <VersionBox versions={producer.versions} />
           </>
         ) : (
           <Loader />

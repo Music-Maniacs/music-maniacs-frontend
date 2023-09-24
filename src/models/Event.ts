@@ -2,6 +2,7 @@ import { ModelValidations } from './Generic';
 import { Image } from './Image';
 import { Link } from './Link';
 import { Review } from './Review';
+import { Version } from './Version';
 
 export interface Event {
   id: string;
@@ -22,6 +23,7 @@ export interface Event {
   };
   links: Link[];
   image?: Image;
+  versions: Version[];
   reviews_info?: {
     artist: {
       rating: number;

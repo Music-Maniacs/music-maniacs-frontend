@@ -2,6 +2,9 @@ import React, { Dispatch, MutableRefObject, SetStateAction, createContext, useCo
 import { Pagination } from '../../../models/Generic';
 import { usePagination } from '../../../components/searcher/usePagination';
 import { Event } from '../../../models/Event';
+import { getEvent } from '../../../services/eventService';
+import { errorSnackbar } from '../../../components/Snackbar/Snackbar';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {
   children: React.ReactNode;
@@ -15,14 +18,19 @@ type StoreProps = {
   setPagination: Dispatch<SetStateAction<Pagination>>;
   queryParams: MutableRefObject<Record<string, string>>;
   cleanQueryParams: () => void;
+  showEvent?: Event;
+  setShowEvent: Dispatch<SetStateAction<Event | undefined>>;
+  getShowEvent: (id: string) => Promise<void>;
 };
 
 const EventsContext = createContext<StoreProps | null>(null);
 
 export const EventsProvider = ({ children }: Props) => {
+  const navigate = useNavigate();
   const INDEX_URL = `${process.env.REACT_APP_API_URL}/events/search`;
   // Table Data
   const [events, setEvents] = useState<Event[]>();
+  const [showEvent, setShowEvent] = useState<Event>();
 
   // Searcher
   const queryParams = useRef<Record<string, string>>({
@@ -33,6 +41,7 @@ export const EventsProvider = ({ children }: Props) => {
     producer_id_eq: '',
     venue_id_eq: ''
   });
+
   const { pagination, setPagination } = usePagination<Event>({
     url: INDEX_URL,
     requestCallback: (data) => indexRequestCallback(data),
@@ -58,13 +67,28 @@ export const EventsProvider = ({ children }: Props) => {
       venue_id_eq: ''
     };
   };
+
+  const getShowEvent = async (id: string) => {
+    try {
+      const event = await getEvent(id);
+
+      setShowEvent(event);
+    } catch (error) {
+      errorSnackbar('Error al obtener el evento. Contacte a soporte.');
+      navigate('/events');
+    }
+  };
+
   const store: StoreProps = {
     events,
     setEvents,
     pagination,
     setPagination,
     queryParams,
-    cleanQueryParams
+    cleanQueryParams,
+    showEvent,
+    setShowEvent,
+    getShowEvent
   };
 
   return <EventsContext.Provider value={store}>{children}</EventsContext.Provider>;

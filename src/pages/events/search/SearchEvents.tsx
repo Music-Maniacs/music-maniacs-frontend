@@ -21,6 +21,7 @@ import { styled } from 'styled-components';
 import Select from 'react-select/dist/declarations/src/Select';
 import { GroupBase } from 'react-select';
 import { SearcherSkeleton } from './Skeleton';
+import { useInfiniteScroll } from '../../../components/hooks/useInfiniteScroll';
 
 const StyledSearchbarForm = styled.form`
   padding: 1rem 0 2rem 0;
@@ -33,6 +34,7 @@ const SearchEvents = () => {
   const artistInputRef = useRef<Select<any, boolean, GroupBase<any>>>(null);
   const venueInputRef = useRef<Select<any, boolean, GroupBase<any>>>(null);
   const producerInputRef = useRef<Select<any, boolean, GroupBase<any>>>(null);
+  const { lastElementRef } = useInfiniteScroll({ pagination, setPagination });
 
   const handleCreateButton = () => {
     openModal();
@@ -50,29 +52,6 @@ const SearchEvents = () => {
     if (venueInputRef.current) venueInputRef.current.clearValue();
     if (producerInputRef.current) producerInputRef.current.clearValue();
     setPagination((prevState) => ({ ...prevState, isLoading: true, page: 1 }));
-  };
-
-  // Infinite Scroll
-  const observer = useRef<IntersectionObserver>();
-  const lastElementRef = (node: HTMLDivElement) => {
-    if (pagination.isLoading) return;
-    if (observer.current) observer.current.disconnect();
-
-    observer.current = new IntersectionObserver((entries) => {
-      const hasMoreEvents = pagination.total > pagination.page * pagination.perPage;
-
-      if (entries[0].isIntersecting && hasMoreEvents) {
-        setPagination((prevState) => {
-          return {
-            ...prevState,
-            page: prevState.page + 1,
-            isLoading: true
-          };
-        });
-      }
-    });
-
-    if (node && observer.current) observer.current.observe(node);
   };
 
   return (

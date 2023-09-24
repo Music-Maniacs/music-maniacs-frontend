@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { RefObject } from 'react';
 import { Review } from '../../models/Review';
 import { Rating } from '@mui/material';
 import { FaEdit } from 'react-icons/fa';
@@ -7,6 +7,7 @@ import { BiUserCircle } from 'react-icons/bi';
 import styled from 'styled-components';
 import colors from '../../styles/_colors.scss';
 import { StyledFlex, StyledFlexColumn } from '../../styles/styledComponents';
+import MMLink from '../MMLink/MMLink';
 
 type ReviewContentProps = {
   review: Review;
@@ -15,6 +16,7 @@ type ReviewContentProps = {
   handleEditReviewButton?: (review: Review) => void;
   canDelete?: boolean;
   handleDeleteReviewButton?: (review: Review) => void;
+  innerRef?: RefObject<HTMLDivElement> | null | ((node: HTMLDivElement) => void);
 };
 
 const StyledUserInfoContainer = styled.div`
@@ -34,19 +36,25 @@ export const ReviewContent = ({
   handleEditReviewButton,
   canDelete = false,
   handleDeleteReviewButton,
-  reviewableName
+  reviewableName,
+  innerRef
 }: ReviewContentProps) => {
-  const { created_at, description, rating, user } = review;
+  const { created_at, description, rating, user, anonymous } = review;
 
   return (
-    <StyledFlexColumn $padding="3px 0px" $margin="3px 0px" $borderBottom={`1px solid ${colors.input_border}`}>
+    <StyledFlexColumn
+      ref={innerRef}
+      $padding="3px 0px"
+      $margin="3px 0px"
+      $borderBottom={`1px solid ${colors.input_border}`}
+    >
       <StyledUserInfoContainer>
         <StyledUserAvatarContainer>
           <BiUserCircle size={'2rem'} />
         </StyledUserAvatarContainer>
 
         <StyledFlexColumn $gap="2px">
-          <span>{user.full_name}</span>
+          {anonymous ? <span>Usuario Eliminado</span> : <MMLink content={user?.full_name} to={`/user/${user?.id}`} />}
           <small>{formatDate({ date: created_at, format: 'slash' })}</small>
         </StyledFlexColumn>
       </StyledUserInfoContainer>

@@ -6,6 +6,7 @@ export interface Review {
   description: string;
   reviewable_type: string;
   created_at: string;
+  anonymous: boolean;
   user: {
     id: string;
     full_name: string;

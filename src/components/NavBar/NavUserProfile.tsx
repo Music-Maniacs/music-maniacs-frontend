@@ -31,7 +31,7 @@ export const NavUserProfile = ({ active }: Props) => {
       <div className="name">
         <span> {user?.username ? user.username : 'User'}</span>
         <div className="rol-dropdown">
-          <span>Rol</span>
+          <span>{user?.role?.name}</span>
           {active ? <IoMdArrowDropup size={20} /> : <IoMdArrowDropdown size={20} />}
         </div>
       </div>

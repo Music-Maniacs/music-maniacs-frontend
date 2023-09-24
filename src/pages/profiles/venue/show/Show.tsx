@@ -12,6 +12,7 @@ import { Venue } from '../../../../models/Venue';
 import { VenuesForm } from '../../../../components/forms/venues/VenuesForm';
 import { getVenue as serviceGetVenue } from '../../../../services/venueService';
 import '../../Profiles.scss';
+import { VersionBox } from '../../../../components/versions/VersionBox';
 
 const Show = () => {
   const { id } = useParams();
@@ -55,12 +56,14 @@ const Show = () => {
       <MMContainer maxWidth="xxl" className="profiles-show-boxes-container ">
         {venue ? (
           <>
-            <Breadcrumb items={[{ label: 'Perfiles', onClick: () => navigate('/profiles') }, { label: venue.name }]} />
+            <Breadcrumb items={[{ label: 'Perfiles', to: '/profiles' }, { label: venue.name }]} />
 
             {/* todo: agregar si lo esta siguiendo o no */}
             <ProfileInfoBox profile={venue} openEditModal={openModal} />
 
             {/* <EventReviewBox event={event} setEvent={setEvent} /> */}
+
+            <VersionBox versions={venue.versions} />
           </>
         ) : (
           <Loader />
