@@ -28,8 +28,14 @@ export interface MMTabProps extends React.AnchorHTMLAttributes<HTMLAnchorElement
   active: boolean;
 }
 export const MMTab = ({ Icon, label, chip, href, active, ...props }: MMTabProps) => {
+  const tabRef = useRef<HTMLAnchorElement>(null);
+
+  useEffect(() => {
+    if (tabRef.current && active) tabRef.current.click();
+  }, [tabRef]);
+
   return (
-    <StyledSidenavTabAnchor $active={active} href={href} {...props}>
+    <StyledSidenavTabAnchor $active={active} href={href} ref={tabRef} {...props}>
       {Icon && <Icon />}
       {label}
       {chip && <ChipSidenavTabAnchor>{chip}</ChipSidenavTabAnchor>}
