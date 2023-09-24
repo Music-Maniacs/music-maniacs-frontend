@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
+import { IconType } from 'react-icons/lib';
 import { styled } from 'styled-components';
+import { MMTab } from '../MMTab/MMTab';
 
 const VerticalNavContainer = styled.div`
   padding: 10px;
@@ -21,11 +23,17 @@ const VerticalNavContentContainer = styled.div`
   padding: 10px;
 `;
 type Props = {
-  Tabs: JSX.Element[];
+  Tabs: {
+    href?: string;
+    label?: string;
+    Icon?: IconType;
+    customTemplate?: JSX.Element;
+  }[];
   Content: JSX.Element[];
 };
+
 export const MMVerticalNav = ({ Tabs, Content }: Props) => {
-  const [currentTab, setCurrentTab] = useState<string>(Tabs[0].props?.href?.split('#')[1] || '');
+  const [currentTab, setCurrentTab] = useState<string>(Tabs[0]?.href?.split('#')[1] || '');
 
   const onTabChange = (href: string) => {
     setCurrentTab(href);
@@ -33,12 +41,21 @@ export const MMVerticalNav = ({ Tabs, Content }: Props) => {
 
   const renderTabs = () => {
     return Tabs.map((t, index) => {
-      const href = t.props?.href?.split('#')[1];
+      const href = t.href?.split('#')[1];
 
       return (
-        <div key={index} onClick={() => href && onTabChange(href)}>
-          {href ? React.cloneElement(t, { active: currentTab === href }) : t}
-        </div>
+        <Fragment key={index}>
+          {t.customTemplate ? (
+            t.customTemplate
+          ) : (
+            <MMTab
+              {...t}
+              label={t.label ?? ''}
+              active={currentTab === href}
+              onClick={() => href && onTabChange(href)}
+            />
+          )}
+        </Fragment>
       );
     });
   };
