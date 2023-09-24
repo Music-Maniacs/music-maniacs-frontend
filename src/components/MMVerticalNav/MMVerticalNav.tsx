@@ -22,6 +22,12 @@ const VerticalSidenavContainer = styled.ul`
 const VerticalNavContentContainer = styled.div`
   padding: 10px;
 `;
+const VerticalSideavContentContainer = styled.div`
+  display: none;
+  &:target {
+    display: block;
+  }
+`;
 type Props = {
   Tabs: {
     href?: string;
@@ -63,7 +69,13 @@ export const MMVerticalNav = ({ Tabs, Content }: Props) => {
   return (
     <VerticalNavContainer>
       <VerticalSidenavContainer>{renderTabs()}</VerticalSidenavContainer>
-      <VerticalNavContentContainer>{Content.map((c) => c)}</VerticalNavContentContainer>
+      <VerticalNavContentContainer>
+        {Content.map((c, i) => (
+          <VerticalSideavContentContainer id={Tabs[i].props?.href?.split('#')[1] || ''} key={`content-${i}`}>
+            {c}
+          </VerticalSideavContentContainer>
+        ))}
+      </VerticalNavContentContainer>
     </VerticalNavContainer>
   );
 };

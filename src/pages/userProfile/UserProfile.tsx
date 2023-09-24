@@ -10,12 +10,6 @@ import { MMVerticalNav } from '../../components/MMVerticalNav/MMVerticalNav';
 import colors from '../../styles/_colors.scss';
 import './index.scss';
 
-const UserProfileContent = styled.div`
-  display: none;
-  &:target {
-    display: block;
-  }
-`;
 const UserProfileDeleteUser = styled.li`
   display: flex;
   align-items: center;
@@ -65,59 +59,7 @@ export const UserProfile = () => {
       )
     }
   ];
-
-  // const tabs = [
-  //   <MMTab
-  //     href="#profile"
-  //     label={'Perfil'}
-  //     Icon={FaUser}
-  //     // active={currentTab === 'profile'}
-  //     onClick={() => setCurrentTab('profile')}
-  //     key="profile-tab"
-  //   />,
-  //   <MMTab
-  //     href="#follows"
-  //     label={'Gestionar Seguimientos'}
-  //     Icon={FaStar}
-  //     // active={currentTab === 'follows'}
-  //     onClick={() => setCurrentTab('follows')}
-  //     key="follow-tab"
-  //   />,
-  //   <MMTab
-  //     href="#password"
-  //     label={'Cambiar Contraseña'}
-  //     Icon={FaGear}
-  //     // active={currentTab === 'password'}
-  //     onClick={() => setCurrentTab('password')}
-  //     key="password-tab"
-  //   />,
-  //   <MMTab
-  //     href="#edit"
-  //     label={'Editar Perfil'}
-  //     Icon={FaEdit}
-  //     // active={currentTab === 'edit'}
-  //     onClick={() => setCurrentTab('edit')}
-  //     key="edit-tab"
-  //   />,
-  //   <UserProfileDeleteUser key="trash-tab">
-  //     <FaTrash />
-  //     Eliminar Cuenta
-  //   </UserProfileDeleteUser>
-  // ];
-  const content = [
-    <UserProfileContent id="profile" key="profile-content">
-      Perfil
-    </UserProfileContent>,
-    <UserProfileContent id="follows" key="follows-content">
-      Seguidos
-    </UserProfileContent>,
-    <UserProfileContent id="password" key="password-content">
-      Contraseña
-    </UserProfileContent>,
-    <UserProfileContent id="edit" key="edit-content">
-      Editar
-    </UserProfileContent>
-  ];
+  const content = [<span>Perfil</span>, <span>Seguidos</span>, <span>Contraseña</span>, <span>Editar</span>];
 
   return (
     <MMContainer maxWidth="xl">
