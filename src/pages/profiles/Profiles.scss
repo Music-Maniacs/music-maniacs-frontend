@@ -46,6 +46,44 @@
       }
     }
 
+    .event-box {
+      display: flex;
+      gap: 10px;
+      padding-right: 5px;
+      border-radius: 5px;
+      &:hover {
+        background-color: $box_background;
+      }
+
+      .event-date {
+        @include flex-column-center;
+        background-color: $primary;
+        padding: 5px;
+        width: 50px;
+
+        .number {
+          font-size: 22px;
+        }
+        .month {
+          font-size: 16px;
+        }
+      }
+
+      .event-info {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-grow: 1;
+        flex-direction: column;
+        gap: 7px;
+
+        .name {
+          font-weight: bold;
+          font-size: 18px;
+        }
+      }
+    }
+
     .reviews-box {
       display: flex;
       flex-direction: column;

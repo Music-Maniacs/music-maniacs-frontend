@@ -11,6 +11,7 @@ import '../../Profiles.scss';
 import { useArtist } from '../context/artistContext';
 import { VersionBox } from '../../../../components/versions/VersionBox';
 import { ProfileEventsBox } from '../../components/ProfileEventsBox';
+import { ProfileReviewsBox } from '../../components/ProfileReviewsBox';
 
 const Show = () => {
   const { isModalOpen, openModal, closeModal } = useModal();
@@ -28,7 +29,7 @@ const Show = () => {
         />
       </MMModal>
 
-      <MMContainer maxWidth="xxl" className="profiles-show-boxes-container ">
+      <MMContainer maxWidth="xxl" className="profiles-show-boxes-container">
         {artist ? (
           <>
             <Breadcrumb items={[{ label: 'Perfiles', to: '/profiles' }, { label: artist.name }]} />
@@ -37,7 +38,8 @@ const Show = () => {
             <ProfileInfoBox profile={artist} openEditModal={openModal} />
 
             <ProfileEventsBox profile={artist} />
-            {/* <EventReviewBox event={event} setEvent={setEvent} /> */}
+
+            <ProfileReviewsBox profile={artist} reviewableKlass="artist" />
 
             <VersionBox versions={artist.versions} />
           </>

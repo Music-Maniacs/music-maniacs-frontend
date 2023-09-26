@@ -69,7 +69,7 @@ export const ReviewContent = ({
         <span>{description}</span>
 
         <StyledFlex>
-          {canEdit && (
+          {!anonymous && canEdit && (
             <StyledFlex $cursor="pointer" onClick={() => handleEditReviewButton && handleEditReviewButton(review)}>
               <FaEdit />
               <span>Editar</span>

@@ -43,6 +43,17 @@ export interface Event {
   };
 }
 
+export interface EventProfilesTab {
+  id: string;
+  name: string;
+  datetime: string;
+  venue: {
+    id: string;
+    name: string;
+    short_address: string;
+  };
+}
+
 export const eventValidations: Readonly<ModelValidations<Event>> = {
   name: {
     required: {

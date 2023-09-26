@@ -15,10 +15,16 @@ import MMAnchor from '../../../components/MMLink/MMAnchor';
 type ProfileInfoBoxProps = {
   profile: Artist | Producer | Venue;
   isFollowingProfile?: boolean;
-  openEditModal: () => void;
+  openEditModal?: () => void;
+  hideActions?: boolean;
 };
 
-export const ProfileInfoBox = ({ profile, isFollowingProfile, openEditModal }: ProfileInfoBoxProps) => {
+export const ProfileInfoBox = ({
+  profile,
+  isFollowingProfile,
+  openEditModal,
+  hideActions = false
+}: ProfileInfoBoxProps) => {
   const { user } = useAuth();
 
   return (
@@ -36,17 +42,34 @@ export const ProfileInfoBox = ({ profile, isFollowingProfile, openEditModal }: P
           <div className="data-container">
             <h1 className="name">{profile.name}</h1>
 
-            {/* todo: no lo puedo poner al boton, hasta que tengamos en el endpoint si sigue a este evento o no */}
-            {user && (
-              <MMButton onClick={() => warningSnackbar('Funcion no implementada')}>
-                {isFollowingProfile ? 'Dejar de seguir' : 'Seguir'}
-              </MMButton>
-            )}
+            <MMButton
+              onClick={() => {
+                if (user) {
+                  // todo: endpoint
+                } else {
+                  warningSnackbar('Debes iniciar sesión para seguir el perfil');
+                }
+              }}
+            >
+              {isFollowingProfile ? 'Dejar de seguir' : 'Seguir'}
+            </MMButton>
           </div>
 
-          <div className="actions-container">
-            <MMButton onClick={openEditModal}>Editar Perfil</MMButton>
-          </div>
+          {!hideActions && (
+            <div className="actions-container">
+              <MMButton
+                onClick={() => {
+                  if (user) {
+                    openEditModal && openEditModal();
+                  } else {
+                    warningSnackbar('Debes iniciar sesión para editar el perfil');
+                  }
+                }}
+              >
+                Editar Perfil
+              </MMButton>
+            </div>
+          )}
         </div>
       </MMBox>
 

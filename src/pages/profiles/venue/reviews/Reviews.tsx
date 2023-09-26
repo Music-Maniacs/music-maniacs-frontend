@@ -1,12 +1,12 @@
 import React from 'react';
-import { useArtist } from '../context/artistContext';
+import { useVenue } from '../context/venueContext';
 import { ProfileAllReviews } from '../../components/ProfileAllReviews';
 import { Loader } from '../../../../components/Loader/Loader';
 
 const Reviews = () => {
-  const { artist } = useArtist();
+  const { venue } = useVenue();
 
-  return artist ? <ProfileAllReviews profile={artist} reviewableKlass="artist" /> : <Loader />;
+  return venue ? <ProfileAllReviews profile={venue} reviewableKlass="venue" /> : <Loader />;
 };
 
 export default Reviews;

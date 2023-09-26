@@ -1,7 +1,9 @@
+import { EventProfilesTab } from './Event';
 import { ModelValidations } from './Generic';
 import { Genre } from './Genre';
 import { Image } from './Image';
 import { Link } from './Link';
+import { Review } from './Review';
 import { Version } from './Version';
 
 export interface Producer {
@@ -15,6 +17,10 @@ export interface Producer {
   links: Link[];
   image?: Image;
   versions: Version[];
+  last_reviews: Review[];
+  rating: number;
+  next_events: EventProfilesTab[];
+  past_events: EventProfilesTab[];
 }
 
 export const producerValidations: Readonly<ModelValidations<Producer>> = {

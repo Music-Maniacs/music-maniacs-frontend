@@ -37,8 +37,13 @@ const ThresholdsContainer = lazy(() => import('./pages/admin/thresholds/Threshol
 // Profiles Module
 const ArtistContainer = lazy(() => import('./pages/profiles/artist/ArtistProfileContainer'));
 const ArtistShow = lazy(() => import('./pages/profiles/artist/show/Show'));
-const VenueShow = lazy(() => import('./pages/profiles/venue/show/Show'));
+const ArtistReviews = lazy(() => import('./pages/profiles/artist/reviews/Reviews'));
+const ProducerContainer = lazy(() => import('./pages/profiles/producer/ProducerProfileContainer'));
 const ProducerShow = lazy(() => import('./pages/profiles/producer/show/Show'));
+const ProducerReviews = lazy(() => import('./pages/profiles/producer/reviews/Reviews'));
+const VenueContainer = lazy(() => import('./pages/profiles/venue/VenueProfileContainer'));
+const VenueShow = lazy(() => import('./pages/profiles/venue/show/Show'));
+const VenueReviews = lazy(() => import('./pages/profiles/venue/reviews/Reviews'));
 
 function App() {
   return (
@@ -115,11 +120,18 @@ function App() {
 
             <Route path="artists/:id" element={<ArtistContainer />}>
               <Route index element={<ArtistShow />} />
-              <Route path="reviews" />
+              <Route path="reviews" element={<ArtistReviews />} />
             </Route>
 
-            <Route path="producers/:id" element={<ProducerShow />} />
-            <Route path="venues/:id" element={<VenueShow />} />
+            <Route path="producers/:id" element={<ProducerContainer />}>
+              <Route index element={<ProducerShow />} />
+              <Route path="reviews" element={<ProducerReviews />} />
+            </Route>
+
+            <Route path="venues/:id" element={<VenueContainer />}>
+              <Route index element={<VenueShow />} />
+              <Route path="reviews" element={<VenueReviews />} />
+            </Route>
           </Route>
 
           {/* Not Found */}

@@ -1,45 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import React from 'react';
 import { useModal } from '../../../../components/hooks/useModal';
-import { errorSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { MMModal } from '../../../../components/Modal/MMModal';
 import { MMContainer } from '../../../../components/MMContainer/MMContainer';
 import { Breadcrumb } from '../../../../components/breadrumb/Breadcrumb';
 import { Loader } from '../../../../components/Loader/Loader';
 import { Tooltip } from 'react-tooltip';
 import { ProfileInfoBox } from '../../components/ProfileInfoBox';
-import { Venue } from '../../../../models/Venue';
 import { VenuesForm } from '../../../../components/forms/venues/VenuesForm';
-import { getVenue as serviceGetVenue } from '../../../../services/venueService';
 import '../../Profiles.scss';
 import { VersionBox } from '../../../../components/versions/VersionBox';
+import { ProfileEventsBox } from '../../components/ProfileEventsBox';
+import { ProfileReviewsBox } from '../../components/ProfileReviewsBox';
+import { useVenue } from '../context/venueContext';
 
 const Show = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const [venue, setVenue] = useState<Venue>();
+  const { venue, setVenue } = useVenue();
   const { isModalOpen, openModal, closeModal } = useModal();
-
-  useEffect(() => {
-    getVenue();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const getVenue = async () => {
-    if (!id) {
-      navigate('/profiles');
-      return errorSnackbar('No se encontró el espacio de evento.');
-    }
-
-    try {
-      const venue = await serviceGetVenue(id);
-
-      setVenue(venue);
-    } catch (error) {
-      errorSnackbar('Error al obtener el espacio de evento. Contacte a soporte.');
-      navigate('/profiles');
-    }
-  };
 
   return (
     <>
@@ -61,7 +37,9 @@ const Show = () => {
             {/* todo: agregar si lo esta siguiendo o no */}
             <ProfileInfoBox profile={venue} openEditModal={openModal} />
 
-            {/* <EventReviewBox event={event} setEvent={setEvent} /> */}
+            <ProfileEventsBox profile={venue} />
+
+            <ProfileReviewsBox profile={venue} reviewableKlass="venue" />
 
             <VersionBox versions={venue.versions} />
           </>

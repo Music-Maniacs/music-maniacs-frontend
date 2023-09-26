@@ -1,7 +1,9 @@
+import { EventProfilesTab } from './Event';
 import { ModelValidations } from './Generic';
 import { Genre } from './Genre';
 import { Image } from './Image';
 import { Link } from './Link';
+import { Review } from './Review';
 import { Version } from './Version';
 
 export interface Artist {
@@ -15,8 +17,10 @@ export interface Artist {
   genres: Genre[];
   image?: Image;
   versions: Version[];
-  // fixme: agregar atributos
-  next_events: {};
+  last_reviews: Review[];
+  rating: number;
+  next_events: EventProfilesTab[];
+  past_events: EventProfilesTab[];
 }
 
 export const artistValidations: Readonly<ModelValidations<Artist>> = {

@@ -1,45 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import React from 'react';
 import { useModal } from '../../../../components/hooks/useModal';
-import { errorSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { MMModal } from '../../../../components/Modal/MMModal';
 import { MMContainer } from '../../../../components/MMContainer/MMContainer';
 import { Breadcrumb } from '../../../../components/breadrumb/Breadcrumb';
 import { Loader } from '../../../../components/Loader/Loader';
 import { Tooltip } from 'react-tooltip';
 import { ProfileInfoBox } from '../../components/ProfileInfoBox';
-import { Producer } from '../../../../models/Producer';
 import { ProducerForm } from '../../../../components/forms/producer/ProducerForm';
-import { getProducer as serviceGetProducer } from '../../../../services/producerService';
 import '../../Profiles.scss';
 import { VersionBox } from '../../../../components/versions/VersionBox';
+import { ProfileEventsBox } from '../../components/ProfileEventsBox';
+import { ProfileReviewsBox } from '../../components/ProfileReviewsBox';
+import { useProducer } from '../context/producerContext';
 
 const Show = () => {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const [producer, setProducer] = useState<Producer>();
   const { isModalOpen, openModal, closeModal } = useModal();
-
-  useEffect(() => {
-    getProducer();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const getProducer = async () => {
-    if (!id) {
-      navigate('/profiles');
-      return errorSnackbar('No se encontró la productora.');
-    }
-
-    try {
-      const producer = await serviceGetProducer(id);
-
-      setProducer(producer);
-    } catch (error) {
-      errorSnackbar('Error al obtener la productora. Contacte a soporte.');
-      navigate('/profiles');
-    }
-  };
+  const { producer, setProducer } = useProducer();
 
   return (
     <>
@@ -61,7 +37,9 @@ const Show = () => {
             {/* todo: agregar si lo esta siguiendo o no */}
             <ProfileInfoBox profile={producer} openEditModal={openModal} />
 
-            {/* <EventReviewBox event={event} setEvent={setEvent} /> */}
+            <ProfileEventsBox profile={producer} />
+
+            <ProfileReviewsBox profile={producer} reviewableKlass="producer" />
 
             <VersionBox versions={producer.versions} />
           </>
