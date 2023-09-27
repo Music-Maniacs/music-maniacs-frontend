@@ -25,6 +25,7 @@ export const ArtistProvider = ({ children }: Props) => {
     if (!id) return navigate('/profiles');
 
     getShowArtist(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getShowArtist = async (id: string) => {

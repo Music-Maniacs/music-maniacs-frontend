@@ -25,6 +25,7 @@ export const VenueProvider = ({ children }: Props) => {
     if (!id) return navigate('/profiles');
 
     getShowVenue(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getShowVenue = async (id: string) => {

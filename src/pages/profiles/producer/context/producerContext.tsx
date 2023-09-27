@@ -25,6 +25,7 @@ export const ProducerProvider = ({ children }: Props) => {
     if (!id) return navigate('/profiles');
 
     getShowProducer(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getShowProducer = async (id: string) => {
