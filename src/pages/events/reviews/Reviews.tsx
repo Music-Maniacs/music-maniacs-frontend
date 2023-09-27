@@ -95,6 +95,7 @@ const Reviews = () => {
       setVenuePagination((prevState) => ({ ...prevState, isLoading: true }));
       setProducerPagination((prevState) => ({ ...prevState, isLoading: true }));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showEvent]);
 
   const handleCreateReviewButton = () => {

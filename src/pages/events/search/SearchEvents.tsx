@@ -162,7 +162,6 @@ const SearchEvents = () => {
               </Grid>
             </Grid>
           </StyledSearchbarForm>
-
           {pagination.page === 1 && pagination.isLoading ? (
             <Grid container spacing={4}>
               <SearcherSkeleton />

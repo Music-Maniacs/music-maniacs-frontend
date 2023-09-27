@@ -41,7 +41,6 @@ export const EventsProvider = ({ children }: Props) => {
     producer_id_eq: '',
     venue_id_eq: ''
   });
-
   const { pagination, setPagination } = usePagination<Event>({
     url: INDEX_URL,
     requestCallback: (data) => indexRequestCallback(data),
