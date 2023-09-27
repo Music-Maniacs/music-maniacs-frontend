@@ -1,7 +1,10 @@
+import { EventProfilesTab } from './Event';
 import { ModelValidations } from './Generic';
 import { Genre } from './Genre';
 import { Image } from './Image';
 import { Link } from './Link';
+import { Review } from './Review';
+import { Version } from './Version';
 
 export interface Artist {
   id: string;
@@ -10,9 +13,15 @@ export interface Artist {
   description: string;
   created_at: string;
   updated_at: string;
+  followed_by_current_user: boolean;
   links: Link[];
   genres: Genre[];
   image?: Image;
+  versions: Version[];
+  last_reviews: Review[];
+  rating: number;
+  next_events: EventProfilesTab[];
+  past_events: EventProfilesTab[];
 }
 
 export const artistValidations: Readonly<ModelValidations<Artist>> = {

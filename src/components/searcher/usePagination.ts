@@ -6,8 +6,10 @@ import { PaginatedApiResponse, Pagination } from '../../models/Generic';
 type Props<T> = {
   url: string;
   requestCallback: (data: T[]) => void;
+  optionalParam?: string;
   queryParams?: Record<string, string>;
   perPage?: number;
+  isLoading?: boolean;
 };
 
 function buildParams(params: Record<string, string>): string {
@@ -16,12 +18,19 @@ function buildParams(params: Record<string, string>): string {
     .join('&');
 }
 
-export const usePagination = <T>({ url, requestCallback, queryParams, perPage = 10, ...props }: Props<T>) => {
+export const usePagination = <T>({
+  url,
+  requestCallback,
+  queryParams,
+  perPage = 10,
+  optionalParam,
+  isLoading = true
+}: Props<T>) => {
   const [pagination, setPagination] = React.useState<Pagination>({
     page: 1,
     perPage,
     total: 0,
-    isLoading: true
+    isLoading
   });
 
   useEffect(() => {
@@ -34,7 +43,7 @@ export const usePagination = <T>({ url, requestCallback, queryParams, perPage = 
       const response = await axios.get<PaginatedApiResponse<T>>(
         `${url}?page=${pagination.page}&per_page=${pagination.perPage}${
           queryParams ? `&${buildParams(queryParams)}` : ''
-        }`
+        }${optionalParam ? `&${optionalParam}` : ''}`
       );
 
       requestCallback(response.data.data);

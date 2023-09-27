@@ -1,65 +1,55 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { MMModal } from '../../../components/Modal/MMModal';
 import { EventsForm } from '../../../components/forms/events/EventsForm';
-import { Event } from '../../../models/Event';
 import { useModal } from '../../../components/hooks/useModal';
 import { MMContainer } from '../../../components/MMContainer/MMContainer';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getEvent as serviceGetEvent } from '../../../services/eventService';
-import { errorSnackbar } from '../../../components/Snackbar/Snackbar';
 import { EventInfoBox } from './components/EventInfoBox';
 import { Loader } from '../../../components/Loader/Loader';
 import { EventReviewBox } from './components/EventReviewBox';
 import { Breadcrumb } from '../../../components/breadrumb/Breadcrumb';
 import { Tooltip } from 'react-tooltip';
 import { EventCommentBox } from './components/EventCommentBox';
+import { useEvents } from '../context/eventsContext';
+import { EventAdvancedInfo } from './components/EventAdvancedInfo';
+import { VersionBox } from '../../../components/versions/VersionBox';
 
 const Show = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [event, setEvent] = useState<Event>();
   const { isModalOpen, openModal, closeModal } = useModal();
+  const { showEvent, getShowEvent, setShowEvent } = useEvents();
 
   useEffect(() => {
-    if (!id) return;
+    if (!id) return navigate(-1);
 
-    getEvent();
+    if (!showEvent || showEvent.id !== id) getShowEvent(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const getEvent = async () => {
-    if (!id) return;
-
-    try {
-      const event = await serviceGetEvent(id);
-
-      setEvent(event);
-    } catch (error) {
-      errorSnackbar('Error al obtener el evento. Contacte a soporte.');
-      navigate(-1);
-    }
-  };
 
   return (
     <>
       <MMModal isModalOpen={isModalOpen} closeModal={closeModal} title="Editar Evento" maxWidth="lg">
         <EventsForm
           isFormEdit={true}
-          eventToEdit={event}
+          eventToEdit={showEvent}
           closeFormModal={closeModal}
           useAdminController={false}
-          successCallback={(event) => setEvent((prevEvent) => ({ ...prevEvent, ...event }))}
+          successCallback={(event) => setShowEvent((prevEvent) => ({ ...prevEvent, ...event }))}
         />
       </MMModal>
 
       <MMContainer maxWidth="xxl" className="events-show-boxes-container ">
-        {event ? (
+        {showEvent ? (
           <>
-            <Breadcrumb items={[{ label: 'Eventos', onClick: () => navigate(-1) }, { label: event.name }]} />
+            <Breadcrumb items={[{ label: 'Eventos', to: '/events' }, { label: showEvent.name }]} />
 
-            <EventInfoBox event={event} openModal={openModal} />
-            <EventReviewBox event={event} setEvent={setEvent} />
-            <EventCommentBox event={event} />
+            <EventInfoBox event={showEvent} openModal={openModal} setEvent={setShowEvent} />
+            <EventAdvancedInfo event={showEvent} />
+            <EventReviewBox event={showEvent} />
+            <EventCommentBox event={showEvent} />
+
+            <VersionBox versions={showEvent.versions} />
           </>
         ) : (
           <Loader />

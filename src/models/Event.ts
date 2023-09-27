@@ -2,12 +2,14 @@ import { ModelValidations } from './Generic';
 import { Image } from './Image';
 import { Link } from './Link';
 import { Review } from './Review';
+import { Version } from './Version';
 
 export interface Event {
   id: string;
   name: string;
   datetime: string;
   description: string;
+  followed_by_current_user: boolean;
   artist: {
     id?: string;
     name: string;
@@ -22,6 +24,7 @@ export interface Event {
   };
   links: Link[];
   image?: Image;
+  versions: Version[];
   reviews_info?: {
     artist: {
       rating: number;
@@ -38,6 +41,17 @@ export interface Event {
       reviews_count: number;
       last_reviews: Review[];
     };
+  };
+}
+
+export interface EventProfilesTab {
+  id: string;
+  name: string;
+  datetime: string;
+  venue: {
+    id: string;
+    name: string;
+    short_address: string;
   };
 }
 

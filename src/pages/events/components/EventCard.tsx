@@ -97,8 +97,6 @@ export const EventCard = ({ event }: Props) => {
           </StyledIconContainer>
           <span>{event.venue.name}</span>
         </StyledIconWLabel>
-
-        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{event.description}</span>
       </StyledCardDataContainer>
     </StyledCardContainer>
   );

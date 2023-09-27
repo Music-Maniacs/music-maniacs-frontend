@@ -71,6 +71,14 @@ export async function updateEvent(
   return (await axios.put(`${eventsUrl}/${id}`, formData)).data;
 }
 
+export async function followEvent(id: string) {
+  return (await axios.post(`${eventsUrl}/${id}/follow`)).data;
+}
+
+export async function unfollowEvent(id: string) {
+  return (await axios.post(`${eventsUrl}/${id}/unfollow`)).data;
+}
+
 export async function adminCreateEvent(
   name: string,
   datetime: string,
