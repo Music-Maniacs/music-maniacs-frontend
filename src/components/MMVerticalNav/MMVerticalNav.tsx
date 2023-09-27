@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import { IconType } from 'react-icons/lib';
 import { styled } from 'styled-components';
-import { MMTab } from '../MMTab/MMTab';
+import { MMTab } from './MMTab';
 
 const VerticalNavContainer = styled.div`
   padding: 10px;
@@ -21,8 +21,10 @@ const VerticalSidenavContainer = styled.ul`
 `;
 const VerticalNavContentContainer = styled.div`
   padding: 10px;
+  width: 100%;
 `;
 const VerticalSideavContentContainer = styled.div`
+  width: 100%;
   display: none;
   &:target {
     display: block;
@@ -71,7 +73,7 @@ export const MMVerticalNav = ({ Tabs, Content }: Props) => {
       <VerticalSidenavContainer>{renderTabs()}</VerticalSidenavContainer>
       <VerticalNavContentContainer>
         {Content.map((c, i) => (
-          <VerticalSideavContentContainer id={Tabs[i].props?.href?.split('#')[1] || ''} key={`content-${i}`}>
+          <VerticalSideavContentContainer id={Tabs[i].href?.split('#')[1] || ''} key={`content-${i}`}>
             {c}
           </VerticalSideavContentContainer>
         ))}

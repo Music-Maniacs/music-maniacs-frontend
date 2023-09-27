@@ -77,6 +77,40 @@ export async function userInfo(token: string): Promise<User> {
   ).data;
 }
 
+export async function getUserProfile(): Promise<User> {
+  return (await axios.get(`${userUrl}/current`)).data;
+}
+
+export async function updateProfile(
+  full_name: string,
+  username: string,
+  email: string,
+  biography: string,
+  links_attributes: { id?: string; title: string; url: string; _destroy?: boolean }[],
+  images_attributes: { id: string; _destroy: boolean },
+  profile_image?: File,
+  cover_image?: File
+): Promise<User> {
+  const body = {
+    user: {
+      full_name,
+      username,
+      email,
+      biography,
+      links_attributes,
+      images_attributes //imagenes a borrar
+    }
+  };
+  const formData = new FormData();
+
+  formData.append('user', JSON.stringify(body));
+
+  profile_image && formData.append('images[profile]', profile_image);
+  cover_image && formData.append('images[cover]', cover_image);
+
+  return (await axios.put(`${userUrl}/current`, formData)).data;
+}
+
 export async function adminCreateUser(
   full_name: string,
   username: string,

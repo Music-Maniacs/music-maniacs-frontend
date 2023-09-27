@@ -8,7 +8,6 @@ const StyledSidenavTabAnchor = styled.a<{ $active?: boolean }>`
   text-decoration: none;
   display: flex;
   gap: 10px;
-  height: 100%;
   align-self: stretch;
   border-radius: 10px;
   background: ${({ $active }) => ($active ? '#4e504e' : 'none')};

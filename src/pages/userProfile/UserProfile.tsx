@@ -4,11 +4,15 @@ import { FaGear } from 'react-icons/fa6';
 import { styled } from 'styled-components';
 import { MMBox } from '../../components/MMBox/MMBox';
 import { MMContainer } from '../../components/MMContainer/MMContainer';
-import { MMTab } from '../../components/MMTab/MMTab';
+import { MMTab } from '../../components/MMVerticalNav/MMTab';
 import { MMTitle } from '../../components/MMTitle/MMTitle';
 import { MMVerticalNav } from '../../components/MMVerticalNav/MMVerticalNav';
 import colors from '../../styles/_colors.scss';
 import './index.scss';
+import { Profile } from './pages/profile/Profile';
+import { EditProfile } from './pages/edit/EditProfile';
+import { useUser } from './context/userContext';
+import { Loader } from '../../components/Loader/Loader';
 
 const UserProfileDeleteUser = styled.li`
   display: flex;
@@ -27,8 +31,7 @@ const UserProfileDeleteUser = styled.li`
   }
 `;
 export const UserProfile = () => {
-  const [currentTab, setCurrentTab] = useState('profile');
-
+  const { userProfile } = useUser();
   const tabs = [
     {
       href: '#profile',
@@ -59,7 +62,12 @@ export const UserProfile = () => {
       )
     }
   ];
-  const content = [<span>Perfil</span>, <span>Seguidos</span>, <span>Contraseña</span>, <span>Editar</span>];
+  const content = [
+    <Profile />,
+    <span>Seguidos</span>,
+    <span>Contraseña</span>,
+    userProfile ? <EditProfile /> : <Loader />
+  ];
 
   return (
     <MMContainer maxWidth="xl">
