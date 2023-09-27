@@ -34,8 +34,7 @@ const Show = () => {
           <>
             <Breadcrumb items={[{ label: 'Perfiles', to: '/profiles' }, { label: venue.name }]} />
 
-            {/* todo: agregar si lo esta siguiendo o no */}
-            <ProfileInfoBox profile={venue} openEditModal={openModal} />
+            <ProfileInfoBox profile={venue} openEditModal={openModal} setProfile={setVenue} reviewableKlass="venue" />
 
             <ProfileEventsBox profile={venue} />
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { MMBox } from '../../../../components/MMBox/MMBox';
 import { Event } from '../../../../models/Event';
 import { Grid } from '@mui/material';
@@ -10,17 +10,39 @@ import { MMProducerIcon } from '../../../../components/icons/MMProducerIcon';
 import '../../Events.scss';
 import MMLink from '../../../../components/MMLink/MMLink';
 import { MMButton } from '../../../../components/MMButton/MMButton';
-import { warningSnackbar } from '../../../../components/Snackbar/Snackbar';
+import { errorSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { useAuth } from '../../../../context/authContext';
+import { followEvent, unfollowEvent } from '../../../../services/eventService';
 
 type Props = {
   event: Event;
+  setEvent: Dispatch<SetStateAction<Event | undefined>>;
   openModal?: () => void;
   hideActions?: boolean;
 };
 
-export const EventInfoBox = ({ event, openModal, hideActions = false }: Props) => {
+export const EventInfoBox = ({ event, setEvent, openModal, hideActions = false }: Props) => {
   const { user } = useAuth();
+
+  const handleFollow = () => {
+    try {
+      followEvent(event.id);
+
+      setEvent((prevEvent) => (prevEvent ? { ...prevEvent, followed_by_current_user: true } : undefined));
+    } catch (error) {
+      errorSnackbar('Error al seguir el evento. Contacte a soporte.');
+    }
+  };
+
+  const handleUnfollow = () => {
+    try {
+      unfollowEvent(event.id);
+
+      setEvent((prevEvent) => (prevEvent ? { ...prevEvent, followed_by_current_user: false } : undefined));
+    } catch (error) {
+      errorSnackbar('Error al dejar de seguir el evento. Contacte a soporte.');
+    }
+  };
 
   return (
     <MMBox className="show-boxes info-box">
@@ -73,8 +95,20 @@ export const EventInfoBox = ({ event, openModal, hideActions = false }: Props) =
 
         {!hideActions && (
           <div className="actions-container">
-            {/* todo: no lo puedo poner al boton, hasta que tengamos en el endpoint si sigue a este evento o no */}
-            {user && <MMButton onClick={() => warningSnackbar('Funcion no implementada')}>Seguir Evento</MMButton>}
+            {user && (
+              <MMButton
+                onClick={() => {
+                  if (event.followed_by_current_user) {
+                    handleUnfollow();
+                  } else {
+                    handleFollow();
+                  }
+                }}
+              >
+                {`${event.followed_by_current_user ? 'Dejar de seguir ' : 'Seguir '}`}
+                Evento
+              </MMButton>
+            )}
 
             <MMButton onClick={openModal}>Editar Evento</MMButton>
           </div>

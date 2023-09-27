@@ -97,7 +97,7 @@ export const ProfileAllReviews = ({ profile, reviewableKlass }: ProfileAllReview
               ]}
             />
 
-            <ProfileInfoBox profile={profile} hideActions />
+            <ProfileInfoBox profile={profile} reviewableKlass={reviewableKlass} hideActions />
 
             <MMBox className="show-boxes">
               <div className="reviews-box">

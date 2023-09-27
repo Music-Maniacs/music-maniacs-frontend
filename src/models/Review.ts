@@ -4,7 +4,7 @@ export interface Review {
   id: string;
   rating: number;
   description: string;
-  reviewable_type: string;
+  reviewable_type: 'Artist' | 'Venue' | 'Producer';
   created_at: string;
   anonymous: boolean;
   user: {

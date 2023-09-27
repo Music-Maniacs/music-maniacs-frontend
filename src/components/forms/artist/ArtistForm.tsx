@@ -94,7 +94,6 @@ export const ArtistForm = ({
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
-      // todo: cuando tengamos el controlador de artistas, usar la prop para ver que endpoint usar
       let artist: Artist;
 
       if (isFormEdit && artistToEdit) {

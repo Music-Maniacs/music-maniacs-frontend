@@ -44,7 +44,7 @@ const Show = () => {
           <>
             <Breadcrumb items={[{ label: 'Eventos', to: '/events' }, { label: showEvent.name }]} />
 
-            <EventInfoBox event={showEvent} openModal={openModal} />
+            <EventInfoBox event={showEvent} openModal={openModal} setEvent={setShowEvent} />
             <EventAdvancedInfo event={showEvent} />
             <EventReviewBox event={showEvent} />
             <EventCommentBox event={showEvent} />

@@ -7,25 +7,67 @@ import { MMBox } from '../../../components/MMBox/MMBox';
 import '../Profiles.scss';
 import { Grid } from '@mui/material';
 import { MMButton } from '../../../components/MMButton/MMButton';
-import { warningSnackbar } from '../../../components/Snackbar/Snackbar';
+import { errorSnackbar, warningSnackbar } from '../../../components/Snackbar/Snackbar';
 import { MMSubTitle } from '../../../components/MMTitle/MMTitle';
 import { Genre } from '../../../models/Genre';
 import MMAnchor from '../../../components/MMLink/MMAnchor';
+import { followArtist, unfollowArtist } from '../../../services/artistService';
+import { followProducer, unfollowProducer } from '../../../services/producerService';
+import { followVenue, unfollowVenue } from '../../../services/venueService';
 
 type ProfileInfoBoxProps = {
   profile: Artist | Producer | Venue;
-  isFollowingProfile?: boolean;
+  setProfile?: any;
   openEditModal?: () => void;
   hideActions?: boolean;
+  reviewableKlass: 'artist' | 'venue' | 'producer';
+};
+
+const followEndpointByReviewable = {
+  artist: followArtist,
+  producer: followProducer,
+  venue: followVenue
+};
+
+const unfollowEndpointByReviewable = {
+  artist: unfollowArtist,
+  producer: unfollowProducer,
+  venue: unfollowVenue
 };
 
 export const ProfileInfoBox = ({
   profile,
-  isFollowingProfile,
+  setProfile,
   openEditModal,
-  hideActions = false
+  hideActions = false,
+  reviewableKlass
 }: ProfileInfoBoxProps) => {
   const { user } = useAuth();
+
+  const followEndpoint = followEndpointByReviewable[reviewableKlass];
+  const unfollowEndpoint = unfollowEndpointByReviewable[reviewableKlass];
+
+  const handleFollow = () => {
+    try {
+      followEndpoint(profile.id);
+
+      // @ts-ignore
+      setProfile((prevProfile) => ({ ...prevProfile, followed_by_current_user: true }));
+    } catch (error) {
+      errorSnackbar('Error al seguir el perfil. Contacte a soporte.');
+    }
+  };
+
+  const handleUnfollow = () => {
+    try {
+      unfollowEndpoint(profile.id);
+
+      // @ts-ignore
+      setProfile((prevProfile) => ({ ...prevProfile, followed_by_current_user: false }));
+    } catch (error) {
+      errorSnackbar('Error al dejar de seguir el perfil. Contacte a soporte.');
+    }
+  };
 
   return (
     <>
@@ -45,13 +87,17 @@ export const ProfileInfoBox = ({
             <MMButton
               onClick={() => {
                 if (user) {
-                  // todo: endpoint
+                  if (profile.followed_by_current_user) {
+                    handleUnfollow();
+                  } else {
+                    handleFollow();
+                  }
                 } else {
                   warningSnackbar('Debes iniciar sesión para seguir el perfil');
                 }
               }}
             >
-              {isFollowingProfile ? 'Dejar de seguir' : 'Seguir'}
+              {profile.followed_by_current_user ? 'Dejar de seguir' : 'Seguir'}
             </MMButton>
           </div>
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEvents } from '../context/eventsContext';
 import { MMModal } from '../../../components/Modal/MMModal';
@@ -20,6 +20,7 @@ import { usePagination } from '../../../components/searcher/usePagination';
 import { ReviewContent } from '../../../components/Reviews/ReviewContent';
 import { useInfiniteScroll } from '../../../components/hooks/useInfiniteScroll';
 import { Pagination } from '../../../models/Generic';
+import { ReviewsSkeleton } from '../../../components/Reviews/ReviewsSkeleton';
 
 const Reviews = () => {
   const { id } = useParams();
@@ -27,7 +28,7 @@ const Reviews = () => {
   const [isFormEdit, setIsFormEdit] = useState<boolean>(false);
   const [reviewToEdit, setReviewToEdit] = useState<Review>();
   const { isModalOpen, openModal, closeModal } = useModal();
-  const { showEvent, getShowEvent } = useEvents();
+  const { showEvent, setShowEvent, getShowEvent } = useEvents();
 
   const [artistReviews, setArtistReviews] = useState<Review[]>([]);
   const [venueReviews, setVenueReviews] = useState<Review[]>([]);
@@ -35,24 +36,36 @@ const Reviews = () => {
 
   const { pagination: artistPagination, setPagination: setArtistPagination } = usePagination<Review>({
     url: `${process.env.REACT_APP_API_URL}/events/${showEvent?.id}/reviews`,
-    requestCallback: (reviews) => setArtistReviews(reviews),
+    requestCallback: (reviews) => reviewsRequestCallback(reviews, setArtistReviews, artistPagination),
     optionalParam: 'reviewable_klass=artist',
     isLoading: false
   });
 
   const { pagination: venuePagination, setPagination: setVenuePagination } = usePagination<Review>({
     url: `${process.env.REACT_APP_API_URL}/events/${showEvent?.id}/reviews`,
-    requestCallback: (reviews) => setVenueReviews(reviews),
+    requestCallback: (reviews) => reviewsRequestCallback(reviews, setVenueReviews, venuePagination),
     optionalParam: 'reviewable_klass=venue',
     isLoading: false
   });
 
   const { pagination: producerPagination, setPagination: setProducerPagination } = usePagination<Review>({
     url: `${process.env.REACT_APP_API_URL}/events/${showEvent?.id}/reviews`,
-    requestCallback: (reviews) => setProducerReviews(reviews),
+    requestCallback: (reviews) => reviewsRequestCallback(reviews, setProducerReviews, producerPagination),
     optionalParam: 'reviewable_klass=producer',
     isLoading: false
   });
+
+  function reviewsRequestCallback(
+    reviews: Review[],
+    setReviews: Dispatch<SetStateAction<Review[]>>,
+    pagination: Pagination
+  ) {
+    if (pagination.page === 1) {
+      setReviews(reviews);
+    } else {
+      setReviews((prevState) => [...(prevState ?? []), ...reviews]);
+    }
+  }
 
   const { lastElementRef: artistLastElementRef } = useInfiniteScroll({
     pagination: artistPagination,
@@ -96,19 +109,31 @@ const Reviews = () => {
     openModal();
   };
 
+  const reviewsByReviewable = {
+    artist: artistReviews,
+    producer: producerReviews,
+    venue: venueReviews
+  };
+
+  const setReviewsByReviewable = {
+    artist: setArtistReviews,
+    producer: setProducerReviews,
+    venue: setVenueReviews
+  };
+
   const updateReview = (review: Review) => {
-    if (!showEvent || !showEvent.reviews_info) return;
+    const reviewableType = review.reviewable_type.toLowerCase() as 'artist' | 'venue' | 'producer';
 
-    const reviewable_type = review.reviewable_type.toLowerCase() as 'artist' | 'venue' | 'producer';
+    const reviews: Review[] = reviewsByReviewable[reviewableType];
+    const setReviews = setReviewsByReviewable[reviewableType];
 
-    const last_reviewes_by_reviewable = showEvent.reviews_info?.[reviewable_type].last_reviews ?? [];
+    if (isFormEdit) {
+      const index = reviews.findIndex((r) => r.id === review.id);
 
-    if (!isFormEdit) {
-      last_reviewes_by_reviewable.unshift(review);
+      reviews[index] = review;
+      setReviews(reviews);
     } else {
-      const reviewIndex = last_reviewes_by_reviewable.findIndex((r) => r.id === review.id);
-
-      last_reviewes_by_reviewable[reviewIndex] = review;
+      setReviews([review, ...reviews]);
     }
 
     closeModal();
@@ -126,7 +151,6 @@ const Reviews = () => {
             producerName={showEvent.producer.name}
             venueName={showEvent.venue.name}
             closeModal={closeModal}
-            // fixme: ver como actualizo porque tengo distintas tablas
             successCallback={(review) => updateReview(review)}
           />
         )}
@@ -143,7 +167,7 @@ const Reviews = () => {
               ]}
             />
 
-            <EventInfoBox event={showEvent} openModal={openModal} hideActions />
+            <EventInfoBox event={showEvent} openModal={openModal} setEvent={setShowEvent} hideActions />
 
             <MMBox className="show-boxes ">
               <div className="reviews-box">
@@ -261,9 +285,10 @@ const ReviewsByReviewable = ({
 }: ReviewByReviewableProps) => {
   const { user } = useAuth();
 
-  // todo: agregar skeleton
   return (
     <>
+      {pagination.isLoading && pagination.page === 1 && <ReviewsSkeleton />}
+
       {reviews.map((review: Review, index) => (
         <ReviewContent
           key={review.id}
@@ -274,6 +299,8 @@ const ReviewsByReviewable = ({
           handleEditReviewButton={handleEditReviewButton}
         />
       ))}
+
+      {pagination.isLoading && pagination.page > 1 && <ReviewsSkeleton />}
     </>
   );
 };

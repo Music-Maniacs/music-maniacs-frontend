@@ -63,6 +63,14 @@ export async function getArtist(id: string): Promise<Artist> {
   return (await axios.get(`${artistsUrl}/${id}`)).data;
 }
 
+export async function followArtist(id: string) {
+  return (await axios.post(`${artistsUrl}/${id}/follow`)).data;
+}
+
+export async function unfollowArtist(id: string) {
+  return (await axios.post(`${artistsUrl}/${id}/unfollow`)).data;
+}
+
 export async function adminCreateArtist(
   name: string,
   nationality: string,

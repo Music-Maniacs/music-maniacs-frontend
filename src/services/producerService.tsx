@@ -63,6 +63,14 @@ export async function updateProducer(
   return (await axios.put(`${producersUrl}/${id}`, formData)).data;
 }
 
+export async function followProducer(id: string) {
+  return (await axios.post(`${producersUrl}/${id}/follow`)).data;
+}
+
+export async function unfollowProducer(id: string) {
+  return (await axios.post(`${producersUrl}/${id}/unfollow`)).data;
+}
+
 export async function adminCreateProducer(
   name: string,
   nationality: string,

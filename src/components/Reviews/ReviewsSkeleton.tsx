@@ -6,7 +6,7 @@ export const ReviewsSkeleton = () => {
   const range = Array.from(Array(5).keys());
 
   return (
-    <StyledFlexColumn>
+    <StyledFlexColumn $gap="20px">
       {range.map((index) => (
         <StyledFlexColumn key={index} $gap="10px">
           <StyledFlex $gap={'5px'}>

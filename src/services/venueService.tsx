@@ -81,6 +81,14 @@ export async function updateVenue(
   return (await axios.put(`${venuesUrl}/${id}`, formData)).data;
 }
 
+export async function followVenue(id: string) {
+  return (await axios.post(`${venuesUrl}/${id}/follow`)).data;
+}
+
+export async function unfollowVenue(id: string) {
+  return (await axios.post(`${venuesUrl}/${id}/unfollow`)).data;
+}
+
 export async function adminCreateVenue(
   name: string,
   description: string,

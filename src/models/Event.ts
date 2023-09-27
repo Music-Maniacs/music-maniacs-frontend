@@ -9,6 +9,7 @@ export interface Event {
   name: string;
   datetime: string;
   description: string;
+  followed_by_current_user: boolean;
   artist: {
     id?: string;
     name: string;
