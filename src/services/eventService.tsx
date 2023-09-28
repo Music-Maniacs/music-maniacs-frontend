@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Event } from '../models/Event';
+import { Video } from '../models/Video';
 
 const eventsUrl = `${process.env.REACT_APP_API_URL}/events`;
 const adminEventsUrl = `${process.env.REACT_APP_API_URL}/admin/events`;
@@ -69,6 +70,27 @@ export async function updateEvent(
   image && formData.append('image', image);
 
   return (await axios.put(`${eventsUrl}/${id}`, formData)).data;
+}
+
+export async function getVideos(id: string): Promise<Video[]> {
+  return (await axios.get(`${eventsUrl}/${id}/videos`)).data;
+}
+
+export async function uploadVideo(id: string, name: string, video: File, recorded_at?: string): Promise<Video> {
+  const formData = new FormData();
+
+  formData.append('name', name);
+
+  // es opcional
+  recorded_at && formData.append('recorded_at', recorded_at);
+
+  formData.append('video', video);
+
+  return (await axios.post(`${eventsUrl}/${id}/videos/add_video`, formData)).data;
+}
+
+export async function removeVideo(eventId: string, videoId: string): Promise<void> {
+  return (await axios.post(`${eventsUrl}/${eventId}/videos/delete_video/${videoId}`)).data;
 }
 
 export async function followEvent(id: string) {
