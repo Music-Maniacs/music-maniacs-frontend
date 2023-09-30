@@ -8,6 +8,7 @@ import { Loader } from './components/Loader/Loader';
 const EventsContainer = lazy(() => import('./pages/events/EventsContainer'));
 const EventsShow = lazy(() => import('./pages/events/show/Show'));
 const EventsReviews = lazy(() => import('./pages/events/reviews/Reviews'));
+const EventsMultimedia = lazy(() => import('./pages/events/multimedia/Multimedia'));
 const SearchEvents = lazy(() => import('./pages/events/search/SearchEvents'));
 
 // Auth Module
@@ -58,8 +59,9 @@ function App() {
 
           <Route path="/events" element={<EventsContainer />}>
             <Route index element={<SearchEvents />} />
-            <Route path=":id/reviews" element={<EventsReviews />} />
             <Route path=":id" element={<EventsShow />} />
+            <Route path=":id/reviews" element={<EventsReviews />} />
+            <Route path=":id/multimedia" element={<EventsMultimedia />} />
           </Route>
 
           {/* Auth Module */}
