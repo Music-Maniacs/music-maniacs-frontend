@@ -5,12 +5,15 @@ import colors from '../../styles/_colors.scss';
 import { Comment } from '../../models/Comment';
 import moment from 'moment';
 import { StyledFlex, StyledFlexColumn } from '../../styles/styledComponents';
-import { FaEdit } from 'react-icons/fa';
+import { FaEdit, FaThumbsUp } from 'react-icons/fa';
+import { useAuth } from '../../context/authContext';
+import { warningSnackbar } from '../Snackbar/Snackbar';
 
 type CommentContentProps = {
   comment: Comment;
   canEdit?: boolean;
   handleEditCommentButton: (comment: Comment) => void;
+  handleLikeComment: (commentId: string, likedByCurrentUser: boolean) => void;
 };
 
 const StyledUserInfoContainer = styled.div`
@@ -24,7 +27,13 @@ const StyledUserAvatarContainer = styled.div`
   justify-content: center;
 `;
 
-export const CommentContent = ({ comment, canEdit = false, handleEditCommentButton }: CommentContentProps) => {
+export const CommentContent = ({
+  comment,
+  canEdit = false,
+  handleEditCommentButton,
+  handleLikeComment
+}: CommentContentProps) => {
+  const { user: currentUser } = useAuth();
   const { body, user, created_at } = comment;
 
   return (
@@ -48,7 +57,23 @@ export const CommentContent = ({ comment, canEdit = false, handleEditCommentButt
       <StyledFlexColumn $gap="7px">
         <span>{body}</span>
 
-        <StyledFlex>
+        <StyledFlex $gap="15px">
+          {/* Like */}
+          <StyledFlex
+            $cursor="pointer"
+            onClick={() => {
+              if (!currentUser) {
+                warningSnackbar('Debe iniciar sesión para dar like');
+              } else {
+                handleLikeComment(comment.id, comment.liked_by_current_user);
+              }
+            }}
+            style={{ color: comment.liked_by_current_user ? colors.primary_ligth : 'white' }}
+          >
+            <FaThumbsUp />
+            {comment.likes_count}
+          </StyledFlex>
+
           {canEdit && (
             <StyledFlex $cursor="pointer" onClick={() => handleEditCommentButton && handleEditCommentButton(comment)}>
               <FaEdit />
