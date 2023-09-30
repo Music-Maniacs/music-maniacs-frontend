@@ -2,6 +2,7 @@
 interface ColorsScss {
   primary: string;
   primary_dark: string;
+  primary_ligth: string;
   secondary: string;
   secondary_dark: string;
   tertiary: string;

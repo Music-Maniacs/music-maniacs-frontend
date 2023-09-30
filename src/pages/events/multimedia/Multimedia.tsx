@@ -21,9 +21,10 @@ import { useAuth } from '../../../context/authContext';
 import MMLink from '../../../components/MMLink/MMLink';
 import { StyledInputContainer, StyledLabel, reactSelectCustomStyles } from '../../../components/form/formStyles';
 import Select from 'react-select';
-import { FaTrash, FaVideo } from 'react-icons/fa';
+import { FaThumbsUp, FaTrash, FaVideo } from 'react-icons/fa';
 import colors from '../../../styles/_colors.scss';
 import { sweetAlert } from '../../../components/SweetAlert/sweetAlert';
+import { likeVideo, removeLikeVideo } from '../../../services/videoService';
 
 const Multimedia = () => {
   const { id } = useParams();
@@ -102,6 +103,30 @@ const Multimedia = () => {
       setVideos(videosTmp);
     } catch (error) {
       errorSnackbar('Error al eliminar el video. Contacte a Soporte.');
+    }
+  };
+
+  const handleLikeVideo = async (videoId: string, likedByCurrentUser: boolean) => {
+    const likeService = likedByCurrentUser ? removeLikeVideo : likeVideo;
+
+    try {
+      await likeService(videoId);
+
+      const videosTmp = videos.map((video) => {
+        if (video.id === videoId) {
+          return {
+            ...video,
+            liked_by_current_user: !likedByCurrentUser,
+            likes_count: likedByCurrentUser ? video.likes_count - 1 : video.likes_count + 1
+          };
+        }
+
+        return video;
+      });
+
+      setVideos(videosTmp);
+    } catch (error) {
+      errorSnackbar('Error al dar like al video. Contacte a Soporte.');
     }
   };
 
@@ -241,6 +266,7 @@ const Multimedia = () => {
                           handleCardClick={(video) => setVideoToPreview(video)}
                           canDelete={user?.id === video.user?.id}
                           handleDelete={handleVideoDelete}
+                          handleLikeVideo={handleLikeVideo}
                         />
                       </Grid>
                     ))}
@@ -264,9 +290,12 @@ type VideoCardProps = {
   handleCardClick: (video: Video) => void;
   canDelete: boolean;
   handleDelete: (videoId: string) => void;
+  handleLikeVideo: (videoId: string, likedByCurrentUser: boolean) => void;
 };
 
-const VideoCard = ({ video, canDelete, handleDelete, handleCardClick }: VideoCardProps) => {
+const VideoCard = ({ video, canDelete = false, handleDelete, handleCardClick, handleLikeVideo }: VideoCardProps) => {
+  const { user } = useAuth();
+
   return (
     <Grid container spacing={1} onClick={() => handleCardClick(video)} className="multimedia-video-card">
       <Grid
@@ -291,7 +320,26 @@ const VideoCard = ({ video, canDelete, handleDelete, handleCardClick }: VideoCar
             <span>Grabado el: {formatDate({ date: video.recorded_at, format: 'slashWithTime' })}</span>
           )}
 
-          <StyledFlex>
+          <StyledFlex $gap="5px">
+            {/* Like */}
+            <StyledFlex
+              $cursor="pointer"
+              onClick={(e) => {
+                e.stopPropagation();
+
+                if (!user) {
+                  warningSnackbar('Debe iniciar sesión para dar like');
+                } else {
+                  handleLikeVideo(video.id, video.liked_by_current_user);
+                }
+              }}
+              style={{ color: video.liked_by_current_user ? colors.primary_ligth : 'white' }}
+            >
+              <FaThumbsUp />
+              {video.likes_count}
+            </StyledFlex>
+
+            {/* Delete */}
             {canDelete && (
               <StyledFlex
                 $cursor="pointer"
