@@ -29,11 +29,12 @@ const Multimedia = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { isModalOpen, openModal, closeModal } = useModal();
-  const { showEvent, setShowEvent, getShowEvent } = useEvents();
+  const { showEvent, getShowEvent } = useEvents();
   const [isRequestLoading, setIsRequestLoading] = useState(true);
   const [videos, setVideos] = useState<Video[]>([]);
   const [videoToPreview, setVideoToPreview] = useState<Video | null>(null);
   const videoRef = React.useRef<HTMLVideoElement>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sort, setSort] = useState<'recorded_at desc' | 'created_at desc'>('recorded_at desc');
   const { user } = useAuth();
 
@@ -48,6 +49,7 @@ const Multimedia = () => {
     if (!showEvent || !id) return;
 
     fetchVideos(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showEvent, sort]);
 
   useEffect(() => {
