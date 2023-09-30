@@ -93,6 +93,14 @@ export async function removeVideo(eventId: string, videoId: string): Promise<voi
   return (await axios.post(`${eventsUrl}/${eventId}/videos/delete_video/${videoId}`)).data;
 }
 
+export async function likeVideo(eventId: string, videoId: string): Promise<void> {
+  return (await axios.post(`${eventsUrl}/${eventId}/videos/${videoId}/like`)).data;
+}
+
+export async function removeLikeVideo(eventId: string, videoId: string): Promise<void> {
+  return (await axios.post(`${eventsUrl}/${eventId}/videos/${videoId}/remove_like`)).data;
+}
+
 export async function followEvent(id: string) {
   return (await axios.post(`${eventsUrl}/${id}/follow`)).data;
 }

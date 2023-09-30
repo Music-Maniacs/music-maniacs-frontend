@@ -1,5 +1,6 @@
 $primary: #6c26ed;
 $primary_dark: darken($primary, 15%);
+$primary_ligth: lighten($primary, 15%);
 
 $secondary: #d12eee;
 $secondary_dark: darken($secondary, 15%);
@@ -29,6 +30,7 @@ $sweet_alert_background: #383838;
 :export {
   primary: $primary;
   primary_dark: $primary_dark;
+  primary_ligth: $primary_ligth;
   secondary: $secondary;
   secondary_dark: $secondary_dark;
   tertiary: $tertiary;
