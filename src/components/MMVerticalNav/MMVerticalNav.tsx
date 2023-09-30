@@ -10,6 +10,9 @@ const VerticalNavContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 10px;
+  @media screen and (max-width: ${breakpoints.sm}) {
+    flex-direction: column;
+  }
 `;
 const VerticalSidenavContainer = styled.ul`
   display: flex;
@@ -20,6 +23,13 @@ const VerticalSidenavContainer = styled.ul`
   align-self: stretch;
   border-right: 3px solid var(--Modal-Background, #4e504e);
   margin: 0;
+  @media screen and (max-width: ${breakpoints.sm}) {
+    border-bottom: 3px solid var(--Modal-Background, #4e504e);
+    border-right: none;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px 0px;
+  }
   @media screen and (max-width: ${breakpoints.md}) {
     gap: 13px;
   }
