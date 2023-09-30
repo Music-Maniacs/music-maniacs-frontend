@@ -1,9 +1,19 @@
 import axios from 'axios';
 import { Event } from '../models/Event';
 import { Video } from '../models/Video';
+import { UserLocation } from '../components/hooks/useUserLocation';
+import { DiscoverEventsResponse } from '../pages/events/home/Home';
 
 const eventsUrl = `${process.env.REACT_APP_API_URL}/events`;
 const adminEventsUrl = `${process.env.REACT_APP_API_URL}/admin/events`;
+
+export async function discoverEvents(userLocation: UserLocation): Promise<DiscoverEventsResponse> {
+  return (
+    await axios.get(
+      `${eventsUrl}/discover?country=${userLocation.country}&province=${userLocation.province}&locality=${userLocation.locality}&department=${userLocation.department}`
+    )
+  ).data;
+}
 
 export async function getEvent(id: string): Promise<Event> {
   return (await axios.get(`${eventsUrl}/${id}`)).data;
