@@ -5,6 +5,7 @@ import NavBar from './components/NavBar/NavBar';
 import { Loader } from './components/Loader/Loader';
 
 // Events module
+const Home = lazy(() => import('./pages/events/home/Home'));
 const EventsContainer = lazy(() => import('./pages/events/EventsContainer'));
 const EventsShow = lazy(() => import('./pages/events/show/Show'));
 const EventsReviews = lazy(() => import('./pages/events/reviews/Reviews'));
@@ -54,8 +55,7 @@ function App() {
       <Suspense fallback={<Loader />}>
         <Routes>
           {/* Events Module */}
-          {/* todo: Temporal. Hasta que tengamos la vista de descubrir eventos */}
-          <Route path="/" element={<Navigate to={'/events'} />} />
+          <Route path="/" element={<Home />} />
 
           <Route path="/events" element={<EventsContainer />}>
             <Route index element={<SearchEvents />} />
