@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Accept, useDropzone } from 'react-dropzone';
+import { useDropzone } from 'react-dropzone';
 import { Control, Controller, FieldErrors, RegisterOptions, UseFormSetValue } from 'react-hook-form';
 import {
   StyledDropzoneBox,
@@ -22,7 +22,6 @@ interface Props {
   errors: FieldErrors<any>;
   containerWidth?: string;
   previewImageUrl?: string;
-  acceptedFileTypes?: Accept;
   setValue: UseFormSetValue<any>;
 }
 
@@ -33,7 +32,6 @@ export const VideoDropzone = ({
   control,
   errors,
   previewImageUrl,
-  acceptedFileTypes,
   containerWidth = '100%',
   setValue
 }: Props) => {
@@ -62,7 +60,6 @@ export const VideoDropzone = ({
                 onChange(acceptedFiles[0]);
               }}
               previewImageUrl={previewImageUrl}
-              acceptedFileTypes={acceptedFileTypes}
               {...props}
             />
           );
@@ -78,7 +75,6 @@ type DropzoneProps = {
   onChange: (acceptedFiles: File[]) => void;
   previewImageUrl?: string;
   [x: string]: unknown;
-  acceptedFileTypes?: Accept;
 };
 
 const Dropzone = ({ onChange, previewImageUrl, acceptedFileTypes, ...props }: DropzoneProps) => {
@@ -86,7 +82,9 @@ const Dropzone = ({ onChange, previewImageUrl, acceptedFileTypes, ...props }: Dr
   const videoRef = React.useRef<HTMLVideoElement>(null);
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: acceptedFileTypes,
+    accept: {
+      'video/mp4': ['.mp4', '.MP4']
+    },
     onDrop: (acceptedFiles, fileRejections) => {
       if (fileRejections.length > 0) {
         errorSnackbar('El tipo de archivo no es válido');

@@ -23,3 +23,13 @@
   bottom: 0;
   margin: auto;
 }
+
+.multimedia-video-card {
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 5px;
+
+  &:hover {
+    background-color: $box_background;
+  }
+}

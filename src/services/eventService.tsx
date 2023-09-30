@@ -72,8 +72,8 @@ export async function updateEvent(
   return (await axios.put(`${eventsUrl}/${id}`, formData)).data;
 }
 
-export async function getVideos(id: string): Promise<Video[]> {
-  return (await axios.get(`${eventsUrl}/${id}/videos`)).data;
+export async function getVideos(id: string, sort: 'recorded_at desc' | 'created_at desc'): Promise<Video[]> {
+  return (await axios.get(`${eventsUrl}/${id}/videos?sort=${sort}`)).data;
 }
 
 export async function uploadVideo(id: string, name: string, video: File, recorded_at?: string): Promise<Video> {

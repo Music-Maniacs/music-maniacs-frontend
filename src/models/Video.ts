@@ -3,6 +3,7 @@ import { ModelValidations } from './Generic';
 export interface Video {
   id: string;
   recorded_at: string;
+  created_at: string;
   name: string;
   full_url: string;
   user: {
