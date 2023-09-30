@@ -1,6 +1,8 @@
 import React, { Fragment, useState } from 'react';
 import { IconType } from 'react-icons/lib';
 import { styled } from 'styled-components';
+import { MMColors } from '../../models/Generic';
+import breakpoints from '../../styles/_breakpoints.scss';
 import { MMTab } from './MMTab';
 
 const VerticalNavContainer = styled.div`
@@ -18,6 +20,9 @@ const VerticalSidenavContainer = styled.ul`
   align-self: stretch;
   border-right: 3px solid var(--Modal-Background, #4e504e);
   margin: 0;
+  @media screen and (max-width: ${breakpoints.md}) {
+    gap: 13px;
+  }
 `;
 const VerticalNavContentContainer = styled.div`
   padding: 10px;
@@ -30,17 +35,22 @@ const VerticalSideavContentContainer = styled.div`
     display: block;
   }
 `;
-type Props = {
-  Tabs: {
-    href?: string;
-    label?: string;
-    Icon?: IconType;
-    customTemplate?: JSX.Element;
-  }[];
+export type MMNavTabProps = {
+  href?: string;
+  label?: string;
+  Icon?: IconType;
+  chip?: {
+    color?: MMColors;
+    value: number;
+  };
+  customTemplate?: JSX.Element;
+};
+export type MMVerticalNavProps = {
+  Tabs: MMNavTabProps[];
   Content: JSX.Element[];
 };
 
-export const MMVerticalNav = ({ Tabs, Content }: Props) => {
+export const MMVerticalNav = ({ Tabs, Content }: MMVerticalNavProps) => {
   const [currentTab, setCurrentTab] = useState<string>(Tabs[0]?.href?.split('#')[1] || '');
 
   const onTabChange = (href: string) => {
@@ -58,6 +68,7 @@ export const MMVerticalNav = ({ Tabs, Content }: Props) => {
           ) : (
             <MMTab
               {...t}
+              chip={t.chip}
               label={t.label ?? ''}
               active={currentTab === href}
               onClick={() => href && onTabChange(href)}

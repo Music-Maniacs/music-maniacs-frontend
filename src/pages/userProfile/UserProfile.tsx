@@ -6,13 +6,14 @@ import { MMBox } from '../../components/MMBox/MMBox';
 import { MMContainer } from '../../components/MMContainer/MMContainer';
 import { MMTab } from '../../components/MMVerticalNav/MMTab';
 import { MMTitle } from '../../components/MMTitle/MMTitle';
-import { MMVerticalNav } from '../../components/MMVerticalNav/MMVerticalNav';
+import { MMNavTabProps, MMVerticalNav } from '../../components/MMVerticalNav/MMVerticalNav';
 import colors from '../../styles/_colors.scss';
 import './index.scss';
 import { Profile } from './pages/profile/Profile';
 import { EditProfile } from './pages/edit/EditProfile';
 import { useUser } from './context/userContext';
 import { Loader } from '../../components/Loader/Loader';
+import breakpoints from '../../styles/_breakpoints.scss';
 
 const UserProfileDeleteUser = styled.li`
   display: flex;
@@ -29,14 +30,22 @@ const UserProfileDeleteUser = styled.li`
   &:hover {
     color: ${colors.error_dark};
   }
+
+  @media screen and (max-width: ${breakpoints.md}) {
+    align-self: center;
+    span {
+      display: none;
+    }
+  }
 `;
 export const UserProfile = () => {
   const { userProfile } = useUser();
-  const tabs = [
+  const tabs: MMNavTabProps[] = [
     {
       href: '#profile',
       label: 'Perfil',
-      Icon: FaUser
+      Icon: FaUser,
+      chip: { color: 'primary', value: 10 }
     },
     {
       href: '#follows',
@@ -46,18 +55,20 @@ export const UserProfile = () => {
     {
       href: '#password',
       label: 'Cambiar Contraseña',
-      Icon: FaGear
+      Icon: FaGear,
+      chip: { color: 'primary', value: 10 }
     },
     {
       href: '#edit',
       label: 'Editar Perfil',
-      Icon: FaEdit
+      Icon: FaEdit,
+      chip: { color: 'primary', value: 10 }
     },
     {
       customTemplate: (
         <UserProfileDeleteUser key="trash-tab">
           <FaTrash />
-          Eliminar Cuenta
+          <span>Eliminar Cuenta</span>
         </UserProfileDeleteUser>
       )
     }
@@ -70,7 +81,7 @@ export const UserProfile = () => {
   ];
 
   return (
-    <MMContainer maxWidth="xl">
+    <MMContainer maxWidth="xxl">
       <MMBox className="user-profile-box-container">
         <div className="user-profile-title-container">
           <MMTitle content="Mi Perfil" />

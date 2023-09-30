@@ -1,6 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { Fragment, useEffect, useRef } from 'react';
 import { IconType } from 'react-icons';
 import { styled } from 'styled-components';
+import { MMColors } from '../../models/Generic';
+import breakpoints from '../../styles/_breakpoints.scss';
+import { MMChip } from '../MMChip/MMChip';
 
 const StyledSidenavTabAnchor = styled.a<{ $active?: boolean }>`
   padding: 10px;
@@ -9,21 +12,51 @@ const StyledSidenavTabAnchor = styled.a<{ $active?: boolean }>`
   display: flex;
   gap: 10px;
   align-self: stretch;
+  align-items: center;
   border-radius: 10px;
   background: ${({ $active }) => ($active ? '#4e504e' : 'none')};
   border: none;
   list-style-type: none;
+  position: relative;
+  svg {
+    min-width: 0.5rem;
+  }
   &:hover {
     background: ${({ $active }) => ($active ? '#4e504e' : 'rgba(255, 255, 255, 0.1)')};
   }
+  .tab-text {
+    width: 70%;
+  }
+
+  @media screen and (max-width: ${breakpoints.md}) {
+    align-self: center;
+    .tab-text {
+      display: none;
+    }
+  }
 `;
 const ChipSidenavTabAnchor = styled.div`
+  display: block:
+  width: fit-content;
+  height: fit-content;
+  border: none;
   margin-left: auto;
+  @media screen and (max-width: ${breakpoints.md}) {
+    position: absolute;
+    top: -10px;
+    right:-10px;
+  }
+  
+
 `;
+
 export interface MMTabProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   Icon?: IconType;
   label: String;
-  chip?: React.ReactNode;
+  chip?: {
+    color?: MMColors;
+    value: number;
+  };
   active?: boolean;
 }
 export const MMTab = ({ Icon, label, chip, href, active, ...props }: MMTabProps) => {
@@ -36,8 +69,13 @@ export const MMTab = ({ Icon, label, chip, href, active, ...props }: MMTabProps)
   return (
     <StyledSidenavTabAnchor $active={active} href={href} ref={tabRef} {...props}>
       {Icon && <Icon />}
-      {label}
-      {chip && <ChipSidenavTabAnchor>{chip}</ChipSidenavTabAnchor>}
+      <span className="tab-text">{label}</span>
+
+      {chip && (
+        <ChipSidenavTabAnchor>
+          <MMChip color={chip.color}>{chip.value.toString()}</MMChip>
+        </ChipSidenavTabAnchor>
+      )}
     </StyledSidenavTabAnchor>
   );
 };
