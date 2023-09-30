@@ -10,7 +10,7 @@ import { MMBox } from '../../../components/MMBox/MMBox';
 import { MMSubTitle } from '../../../components/MMTitle/MMTitle';
 import { StyledFlex, StyledFlexColumn } from '../../../styles/styledComponents';
 import { MMButton } from '../../../components/MMButton/MMButton';
-import { getVideos, likeVideo, removeLikeVideo, removeVideo } from '../../../services/eventService';
+import { getVideos, removeVideo } from '../../../services/eventService';
 import { errorSnackbar, warningSnackbar } from '../../../components/Snackbar/Snackbar';
 import { Video } from '../../../models/Video';
 import './Multimedia.scss';
@@ -24,6 +24,7 @@ import Select from 'react-select';
 import { FaThumbsUp, FaTrash, FaVideo } from 'react-icons/fa';
 import colors from '../../../styles/_colors.scss';
 import { sweetAlert } from '../../../components/SweetAlert/sweetAlert';
+import { likeVideo, removeLikeVideo } from '../../../services/videoService';
 
 const Multimedia = () => {
   const { id } = useParams();
@@ -106,12 +107,10 @@ const Multimedia = () => {
   };
 
   const handleLikeVideo = async (videoId: string, likedByCurrentUser: boolean) => {
-    if (!id) return;
-
     const likeService = likedByCurrentUser ? removeLikeVideo : likeVideo;
 
     try {
-      await likeService(id, videoId);
+      await likeService(videoId);
 
       const videosTmp = videos.map((video) => {
         if (video.id === videoId) {
