@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { MMContainer } from '../../../components/MMContainer/MMContainer';
-import { StyledFlexColumn } from '../../../styles/styledComponents';
+import { StyledFlex, StyledFlexColumn } from '../../../styles/styledComponents';
 import { useUserLocation } from '../../../components/hooks/useUserLocation';
 import { MMBox } from '../../../components/MMBox/MMBox';
 import { MMTitle } from '../../../components/MMTitle/MMTitle';
 import { discoverEvents } from '../../../services/eventService';
 import { errorSnackbar } from '../../../components/Snackbar/Snackbar';
 import { Loader } from '../../../components/Loader/Loader';
+import { Event } from '../../../models/Event';
+import { EventCard } from '../components/EventCard';
+import { FaArrowRight } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import colors from '../../../styles/_colors.scss';
+import './Home.scss';
 
 export type DiscoverEventsResponse = {
   by_location: Event[];
@@ -26,6 +32,7 @@ const Home = () => {
       // Se obtuvo la direccion del usuario. Pedir los datos
       getEvents();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userLocation]);
 
   const getEvents = async () => {
@@ -43,37 +50,98 @@ const Home = () => {
   };
 
   return (
-    <MMContainer maxWidth="xxl">
-      <StyledFlexColumn $gap="10px">
-        {isLoading ? (
-          <div>
-            <Loader />
-          </div>
-        ) : (
-          <span>{JSON.stringify(discoveredEvents)}</span>
-        )}
-        {/* <MMBox>
-          <MMTitle content="Eventos En <Ciudad>" />
-        </MMBox>
+    <MMContainer maxWidth="xxl" className="home-container">
+      {isLoading ? (
+        <div>
+          <Loader />
+        </div>
+      ) : (
+        <>
+          {discoveredEvents?.by_location && discoveredEvents.by_location.length > 0 && (
+            <MMBox className="home-boxes">
+              <MMTitle content={`Eventos En ${userLocation?.province}, ${userLocation?.country}`} />
 
-        <MMBox>
-          <MMTitle content="Eventos Artistas Seguidos" />
-        </MMBox>
+              <EventsCarrousel events={discoveredEvents.by_location} />
+            </MMBox>
+          )}
 
-        <MMBox>
-          <MMTitle content="Eventos Espacio de Eventos Seguidos" />
-        </MMBox>
+          {discoveredEvents?.by_followed_venues && discoveredEvents.by_followed_venues.length > 0 && (
+            <MMBox className="home-boxes">
+              <MMTitle content={`Eventos Espacio de Eventos Seguidos`} />
 
-        <MMBox>
-          <MMTitle content="Eventos Productoras" />
-        </MMBox>
+              <EventsCarrousel events={discoveredEvents.by_followed_venues} />
+            </MMBox>
+          )}
 
-        <MMBox>
-          <MMTitle content="Eventos Populares" />
-        </MMBox> */}
-      </StyledFlexColumn>
+          {discoveredEvents?.by_followed_artists && discoveredEvents.by_followed_artists.length > 0 && (
+            <MMBox className="home-boxes">
+              <MMTitle content={`Eventos Artistas Seguidos`} />
+
+              <EventsCarrousel events={discoveredEvents.by_followed_artists} />
+            </MMBox>
+          )}
+
+          {discoveredEvents?.by_followed_producers && discoveredEvents.by_followed_producers.length > 0 && (
+            <MMBox className="home-boxes">
+              <MMTitle content={`Eventos Productoras Seguidas`} />
+
+              <EventsCarrousel events={discoveredEvents.by_followed_producers} />
+            </MMBox>
+          )}
+
+          {discoveredEvents?.most_popular && discoveredEvents.most_popular.length > 0 && (
+            <MMBox className="home-boxes">
+              <MMTitle content={`Eventos Populares`} />
+
+              <EventsCarrousel events={discoveredEvents.most_popular} />
+            </MMBox>
+          )}
+        </>
+      )}
     </MMContainer>
   );
 };
 
 export default Home;
+
+type EventsCarrouselProps = {
+  events: Event[];
+};
+
+const EventsCarrousel = ({ events }: EventsCarrouselProps) => {
+  const navigate = useNavigate();
+
+  return (
+    <StyledFlex $gap="20px" $overflowY="hidden" $overflowX="auto" $padding="25px 0 5px 0">
+      {events.map((event) => (
+        <div style={{ width: '270px', minWidth: '270px' }}>
+          <EventCard key={event.id} event={event} />
+        </div>
+      ))}
+
+      <StyledFlex $justifyContent="center" $alignItems="center" $width="120px" $minWidth="120px">
+        <StyledFlexColumn
+          $justifyContent="center"
+          $alignItems="center"
+          $cursor="pointer"
+          $gap="5px"
+          onClick={() => navigate('/events')}
+        >
+          <StyledFlex
+            $height="20px"
+            $width="20px"
+            $justifyContent="center"
+            $alignItems="center"
+            $padding="5px"
+            $borderRadius="50%"
+            $backgroundColor={colors.box_background}
+            $cursor="pointer"
+          >
+            <FaArrowRight />
+          </StyledFlex>
+          <span>Ver Más</span>
+        </StyledFlexColumn>
+      </StyledFlex>
+    </StyledFlex>
+  );
+};

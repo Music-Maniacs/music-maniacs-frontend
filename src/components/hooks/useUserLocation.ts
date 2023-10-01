@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { errorSnackbar } from '../Snackbar/Snackbar';
 
@@ -27,11 +27,8 @@ export const useUserLocation = () => {
       // SI el navegador no soporta pedir permiso. Obtengo la ubicacion por la IP.
       getLocationWithIp();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    if (userLocation) console.log(userLocation);
-  }, [userLocation]);
 
   const getLocationWithLatLong = (lat: string, long: string) => {
     axios

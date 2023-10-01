@@ -1,0 +1,19 @@
+@import '../../../styles/main';
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .home-boxes {
+    padding: 15px 20px;
+
+    &:first-child {
+      margin-top: 20px;
+    }
+
+    &:last-child {
+      margin-bottom: 20px;
+    }
+  }
+}
