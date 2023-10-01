@@ -99,10 +99,6 @@ export async function uploadVideo(id: string, name: string, video: File, recorde
   return (await axios.post(`${eventsUrl}/${id}/videos/add_video`, formData)).data;
 }
 
-export async function removeVideo(eventId: string, videoId: string): Promise<void> {
-  return (await axios.post(`${eventsUrl}/${eventId}/videos/delete_video/${videoId}`)).data;
-}
-
 export async function followEvent(id: string) {
   return (await axios.post(`${eventsUrl}/${id}/follow`)).data;
 }

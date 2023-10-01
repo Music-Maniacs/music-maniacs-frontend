@@ -10,7 +10,7 @@ import { MMBox } from '../../../components/MMBox/MMBox';
 import { MMSubTitle } from '../../../components/MMTitle/MMTitle';
 import { StyledFlex, StyledFlexColumn } from '../../../styles/styledComponents';
 import { MMButton } from '../../../components/MMButton/MMButton';
-import { getVideos, removeVideo } from '../../../services/eventService';
+import { getVideos } from '../../../services/eventService';
 import { errorSnackbar, warningSnackbar } from '../../../components/Snackbar/Snackbar';
 import { Video } from '../../../models/Video';
 import './Multimedia.scss';
@@ -24,7 +24,7 @@ import Select from 'react-select';
 import { FaThumbsUp, FaTrash, FaVideo } from 'react-icons/fa';
 import colors from '../../../styles/_colors.scss';
 import { sweetAlert } from '../../../components/SweetAlert/sweetAlert';
-import { likeVideo, removeLikeVideo } from '../../../services/videoService';
+import { deleteVideo, likeVideo, removeLikeVideo } from '../../../services/videoService';
 
 const Multimedia = () => {
   const { id } = useParams();
@@ -88,10 +88,8 @@ const Multimedia = () => {
   };
 
   const handleVideoDelete = async (videoId: string) => {
-    if (!showEvent) return;
-
     try {
-      await removeVideo(showEvent.id, videoId);
+      await deleteVideo(videoId);
 
       const videosTmp = videos.filter((video) => video.id !== videoId);
 
@@ -225,6 +223,10 @@ const Multimedia = () => {
                                   {formatDate({ date: videoToPreview.recorded_at, format: 'slashWithTime' })}
                                 </span>
                               )}
+                              <span>
+                                Fecha de Subida:{' '}
+                                {formatDate({ date: videoToPreview.created_at, format: 'slashWithTime' })}
+                              </span>
                             </StyledFlexColumn>
                           </div>
                         </StyledFlexColumn>
