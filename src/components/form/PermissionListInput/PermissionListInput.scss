@@ -1,23 +1,4 @@
 @import '../../../styles/main';
-/* width */
-::-webkit-scrollbar {
-  height: 10px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #1e2e2c;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
 
 .permissions-container {
   display: flex;
