@@ -139,8 +139,18 @@ export const StyledDropzoneBox = styled.div`
 export const StyledDropzoneImagePreviewContainer = styled.div`
   max-height: 250px;
 `;
-export const StyledDropzoneImagePreview = styled.img`
+export const StyledDropzoneImagePreview = styled.img<{ $type?: 'cover' | 'profile' }>`
   width: 100%;
   height: 100%;
   object-fit: scale-down;
+  border-radius: ${({ $type }) => {
+    if ($type) {
+      if ($type === 'profile') {
+        return '50%';
+      } else {
+        return '0';
+      }
+    }
+    return '0';
+  }};
 `;

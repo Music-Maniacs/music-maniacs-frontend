@@ -8,12 +8,24 @@ import { InputArea } from '../../../../components/form/InputArea/InputArea';
 import { LinksFieldArray } from '../../../../components/form/LinksFieldArray/LinksFieldArray';
 import { StyledButtonGroup } from '../../../admin/styles';
 import { MMButton } from '../../../../components/MMButton/MMButton';
-import { adminUpdateUser, updateProfile } from '../../../../services/userService';
 import { InputSelect } from '../../../../components/form/InputSelect/InputSelect';
 import { useUser } from '../../context/userContext';
-import { Grid } from '@mui/material';
+import { Grid, GridProps } from '@mui/material';
 import { InputDropzone } from '../../../../components/form/InputDropzone/InputDropzone';
+import { styled } from 'styled-components';
+import breakpoints from '../../../../styles/_breakpoints.scss';
+import { updateProfile } from '../../../../services/userProfileService';
 
+const StyledImageDropzoneContainer = styled.div`
+  /* padding: 0px 60px 0px 60px;
+
+  @media screen and (max-width: ${breakpoints.md}) {
+    padding: 0px 30px 0px 30px;
+  }
+  @media screen and (max-width: ${breakpoints.sm}) {
+    padding: 0px;
+  } */
+`;
 type FormData = {
   full_name: string;
   username: string;
@@ -40,11 +52,14 @@ export const EditProfile = () => {
     control,
     handleSubmit,
     setError,
+    reset,
     getValues,
     formState: { errors }
   } = useForm<FormData>({
     defaultValues: {
       ...userProfile,
+      profile_image: undefined,
+      cover_image: undefined,
       ...(userProfile && userProfile.links && userProfile.links.length > 0
         ? { links_attributes: userProfile.links.map((link) => ({ id: link.id, title: link.title, url: link.url })) }
         : {})
@@ -60,16 +75,19 @@ export const EditProfile = () => {
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
-      // const response = await updateProfile(
-      //   data.full_name,
-      //   data.username,
-      //   data.email,
-      //   data.biography,
-      //   data.links_attributes,
-      //   data.z
-      // );
+      console.log(data);
+      const response = await updateProfile(
+        data.full_name,
+        data.username,
+        data.email,
+        data.biography,
+        data.links_attributes,
+        data.images_attributes,
+        data.profile_image,
+        data.cover_image
+      );
 
-      // setUser(response);
+      setUserProfile(response);
 
       infoSnackbar('Perfil actualizado con exito');
     } catch (error) {
@@ -79,54 +97,82 @@ export const EditProfile = () => {
     }
   };
 
-  console.log(userProfile);
+  const gridCommonProps: GridProps = {
+    item: true,
+    xs: 12,
+    sm: 12,
+    md: 6,
+    lg: 6,
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px'
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" className="admin-form-container">
-      <InputDropzone
-        label="Imaen de Perfil"
-        name="profile_image"
-        control={control}
-        errors={errors}
-        previewImageUrl={userProfile?.images[0]?.full_url ?? ''}
-        acceptedFileTypes={{ 'image/*': ['.png', '.jpeg', '.jpg'] }}
-      />
-      <InputDropzone
-        label="Imagen de portada"
-        name="cover_image"
-        control={control}
-        errors={errors}
-        previewImageUrl={userProfile?.images[0]?.full_url ?? ''}
-        acceptedFileTypes={{ 'image/*': ['.png', '.jpeg', '.jpg'] }}
-      />
-      <InputText label="Nombre Completo" name="full_name" options={userValidations.full_name} {...inputCommonProps} />
+      <Grid container spacing={2}>
+        <Grid container item {...gridCommonProps}>
+          <StyledImageDropzoneContainer>
+            <InputDropzone
+              label="Imagen de Perfil"
+              name="profile_image"
+              control={control}
+              errors={errors}
+              containerWidth={'70%'}
+              type="profile"
+              previewImageUrl={userProfile && userProfile.profile_image ? userProfile.profile_image.full_url : ''}
+              acceptedFileTypes={{ 'image/*': ['.png', '.jpeg', '.jpg'] }}
+            />
+            <InputDropzone
+              label="Imagen de portada"
+              name="cover_image"
+              control={control}
+              errors={errors}
+              containerWidth={'70%'}
+              type="cover"
+              previewImageUrl={userProfile && userProfile.cover_image ? userProfile.cover_image.full_url : ''}
+              acceptedFileTypes={{ 'image/*': ['.png', '.jpeg', '.jpg'] }}
+            />
+          </StyledImageDropzoneContainer>
+        </Grid>
+        <Grid container item {...gridCommonProps}>
+          <InputText
+            label="Nombre Completo"
+            name="full_name"
+            options={userValidations.full_name}
+            {...inputCommonProps}
+          />
 
-      <InputText label="Usuario" name="username" options={userValidations.username} {...inputCommonProps} />
+          <InputText label="Usuario" name="username" options={userValidations.username} {...inputCommonProps} />
 
-      <InputText label="Email" name="email" options={userValidations.email} {...inputCommonProps} />
+          <InputText label="Email" name="email" options={userValidations.email} {...inputCommonProps} />
 
-      <InputArea
-        label="Biografía"
-        name="biography"
-        register={register}
-        errors={errors}
-        options={userValidations.biography}
-      />
+          <InputArea
+            label="Biografía"
+            name="biography"
+            register={register}
+            errors={errors}
+            options={userValidations.biography}
+          />
 
-      <LinksFieldArray<FormData>
-        register={register}
-        errors={errors}
-        fields={fields}
-        append={append}
-        update={update}
-        remove={remove}
-        getValues={getValues}
-      />
-
-      <input type="submit" hidden />
+          <LinksFieldArray<FormData>
+            register={register}
+            errors={errors}
+            fields={fields}
+            append={append}
+            update={update}
+            remove={remove}
+            getValues={getValues}
+          />
+        </Grid>
+      </Grid>
 
       <StyledButtonGroup>
+        <MMButton type="button" color="primary" onClick={() => reset()}>
+          Cancelar
+        </MMButton>
         <MMButton type="submit" color="primary">
-          Editar
+          Confirmar Cambios
         </MMButton>
       </StyledButtonGroup>
     </form>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Control, Controller, FieldErrors, RegisterOptions } from 'react-hook-form';
 import {
   StyledDropzoneBox,
@@ -14,6 +14,10 @@ import { FaCloudUploadAlt } from 'react-icons/fa';
 import colors from '../../../styles/_colors.scss';
 import { MMButton } from '../../MMButton/MMButton';
 import { errorSnackbar } from '../../Snackbar/Snackbar';
+import { useModal } from '../../hooks/useModal';
+import { MMModal } from '../../Modal/MMModal';
+import { Loader } from '../../Loader/Loader';
+import { ImageCropper } from './ImageCropper';
 
 interface Props {
   name: string;
@@ -24,6 +28,7 @@ interface Props {
   containerWidth?: string;
   previewImageUrl?: string;
   acceptedFileTypes?: Accept;
+  type?: 'profile' | 'cover';
 }
 
 export const InputDropzone = ({
@@ -34,10 +39,10 @@ export const InputDropzone = ({
   errors,
   previewImageUrl,
   acceptedFileTypes,
-  containerWidth = '100%'
+  containerWidth = '100%',
+  type
 }: Props) => {
   const hasErrors = !!errors?.[`${name}`];
-
   return (
     <StyledInputContainer $containerWidth={containerWidth}>
       {label && <StyledLabel>{label}</StyledLabel>}
@@ -54,6 +59,7 @@ export const InputDropzone = ({
               }}
               previewImageUrl={previewImageUrl}
               acceptedFileTypes={acceptedFileTypes}
+              type={type}
               {...props}
             />
           );
@@ -70,10 +76,13 @@ type DropzoneProps = {
   previewImageUrl?: string;
   [x: string]: unknown;
   acceptedFileTypes?: Accept;
+  type?: 'profile' | 'cover';
 };
 
-const Dropzone = ({ onChange, previewImageUrl, acceptedFileTypes, ...props }: DropzoneProps) => {
+const Dropzone = ({ onChange, previewImageUrl, acceptedFileTypes, type, ...props }: DropzoneProps) => {
+  const { closeModal, openModal, isModalOpen } = useModal();
   const [preview, setPreview] = useState<string | undefined>(previewImageUrl);
+  const [image, setImage] = useState<File>();
   const { getRootProps, getInputProps } = useDropzone({
     accept: acceptedFileTypes,
     onDrop: (acceptedFiles, fileRejections) => {
@@ -81,8 +90,13 @@ const Dropzone = ({ onChange, previewImageUrl, acceptedFileTypes, ...props }: Dr
         errorSnackbar('El tipo de archivo no es válido');
       }
       if (acceptedFiles.length > 0) {
-        setPreview(URL.createObjectURL(acceptedFiles[0]));
-        onChange(acceptedFiles);
+        if (type !== undefined) {
+          setImage(acceptedFiles[0]);
+          openModal();
+        } else {
+          setPreview(URL.createObjectURL(acceptedFiles[0]));
+          onChange(acceptedFiles);
+        }
       }
     },
     ...props
@@ -92,7 +106,7 @@ const Dropzone = ({ onChange, previewImageUrl, acceptedFileTypes, ...props }: Dr
     <>
       {preview && (
         <StyledDropzoneImagePreviewContainer>
-          <StyledDropzoneImagePreview src={preview} />
+          <StyledDropzoneImagePreview $type={type} src={preview} />
         </StyledDropzoneImagePreviewContainer>
       )}
       <StyledDropzoneContainer {...getRootProps()}>
@@ -108,6 +122,25 @@ const Dropzone = ({ onChange, previewImageUrl, acceptedFileTypes, ...props }: Dr
         </MMButton>
         <input {...getInputProps()} />
       </StyledDropzoneContainer>
+      {type && (
+        <MMModal title="Recortar Imagen" isModalOpen={isModalOpen} closeModal={closeModal} maxWidth="lg">
+          <>
+            <div>
+              {image ? (
+                <ImageCropper
+                  image={image}
+                  setImage={setPreview}
+                  closeModal={closeModal}
+                  type={type === 'cover' ? 'cover' : 'profile'}
+                  onChange={onChange}
+                />
+              ) : (
+                <Loader />
+              )}
+            </div>
+          </>
+        </MMModal>
+      )}
     </>
   );
 };

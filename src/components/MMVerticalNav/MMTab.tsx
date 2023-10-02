@@ -18,6 +18,8 @@ const StyledSidenavTabAnchor = styled.a<{ $active?: boolean }>`
   border: none;
   list-style-type: none;
   position: relative;
+  overflow-anchor: none;
+
   svg {
     min-width: 0.5rem;
   }
@@ -36,7 +38,7 @@ const StyledSidenavTabAnchor = styled.a<{ $active?: boolean }>`
   }
 `;
 const ChipSidenavTabAnchor = styled.div`
-  display: block:
+  display: block;
   width: fit-content;
   height: fit-content;
   border: none;
@@ -44,10 +46,8 @@ const ChipSidenavTabAnchor = styled.div`
   @media screen and (max-width: ${breakpoints.md}) {
     position: absolute;
     top: -10px;
-    right:-10px;
+    right: -10px;
   }
-  
-
 `;
 
 export interface MMTabProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {

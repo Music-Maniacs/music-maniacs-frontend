@@ -14,6 +14,9 @@ import { EditProfile } from './pages/edit/EditProfile';
 import { useUser } from './context/userContext';
 import { Loader } from '../../components/Loader/Loader';
 import breakpoints from '../../styles/_breakpoints.scss';
+import { useUserProfileRequest } from './hooks/useUserProfileRequest';
+import { useAuth } from '../../context/authContext';
+import { useNavigate } from 'react-router-dom';
 
 const UserProfileDeleteUser = styled.li`
   display: flex;
@@ -40,6 +43,9 @@ const UserProfileDeleteUser = styled.li`
 `;
 export const UserProfile = () => {
   const { userProfile } = useUser();
+  const { handleDeleteUserProfile } = useUserProfileRequest();
+  const { handleUserLogout } = useAuth();
+  const navigate = useNavigate();
   const tabs: MMNavTabProps[] = [
     {
       href: '#profile',
@@ -66,7 +72,15 @@ export const UserProfile = () => {
     },
     {
       customTemplate: (
-        <UserProfileDeleteUser key="trash-tab">
+        <UserProfileDeleteUser
+          key="trash-tab"
+          onClick={() =>
+            handleDeleteUserProfile(() => {
+              handleUserLogout();
+              navigate('/login');
+            })
+          }
+        >
           <FaTrash />
           <span>Eliminar Cuenta</span>
         </UserProfileDeleteUser>

@@ -19,7 +19,8 @@ export interface User {
   deleted_at?: string;
   blocked_until?: string;
   reviews: Review[];
-  images: Image[];
+  profile_image: Image;
+  cover_image: Image;
 }
 
 export const stateColors: Record<string, MMColors> = {
