@@ -1,0 +1,61 @@
+@import '../../../styles/main';
+
+.profiles-search-box {
+  margin-top: 20px;
+  padding: 15px 30px !important;
+
+  .profile-search-item {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 5px;
+    border: 2px solid $box_background;
+
+    cursor: pointer;
+    padding: 5px;
+    margin-bottom: 5px;
+
+    span {
+      font-weight: bold;
+      flex-grow: 1;
+    }
+
+    &:hover {
+      background-color: $box_background;
+    }
+  }
+
+  .profile-search-bar {
+    border-radius: 10px;
+    background: #dfdfdf;
+    padding: 0.4rem;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    display: flex;
+    width: 100%;
+
+    i {
+      width: auto;
+    }
+
+    input {
+      background: inherit;
+      font-weight: 400;
+      line-height: normal;
+      border: none;
+      border-radius: inherit;
+      flex: 2;
+      width: 100%;
+
+      &:active,
+      &:hover,
+      &:focus,
+      &:target {
+        outline: none;
+      }
+    }
+  }
+}

@@ -9,6 +9,7 @@ type Props<T> = {
   optionalParam?: string;
   queryParams?: Record<string, string>;
   perPage?: number;
+  page?: number;
   isLoading?: boolean;
 };
 
@@ -23,11 +24,12 @@ export const usePagination = <T>({
   requestCallback,
   queryParams,
   perPage = 10,
+  page = 1,
   optionalParam,
   isLoading = true
 }: Props<T>) => {
   const [pagination, setPagination] = React.useState<Pagination>({
-    page: 1,
+    page,
     perPage,
     total: 0,
     isLoading

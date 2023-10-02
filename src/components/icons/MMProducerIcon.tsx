@@ -1,7 +1,7 @@
 import React from 'react';
-import { FaBuilding } from 'react-icons/fa';
 import { IconBaseProps } from 'react-icons/lib';
+import { PiVinylRecordFill } from 'react-icons/pi';
 
 export const MMProducerIcon = (props: IconBaseProps) => {
-  return <FaBuilding {...props} />;
+  return <PiVinylRecordFill {...props} />;
 };

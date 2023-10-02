@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
 import './NavBar.scss';
 import MMLink from '../MMLink/MMLink';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authContext';
 import { MMButton } from '../MMButton/MMButton';
 import { FaSearch } from 'react-icons/fa';
@@ -14,6 +14,15 @@ export const NavBar = () => {
   const { user, handleUserLogout } = useAuth();
   const [sidenavAcive, setSidenavActive] = useState(false);
   const navigate = useNavigate();
+  const [inputValue, setInputValue] = useState('');
+  const location = useLocation();
+  const isOnProfiles = location.pathname.includes('/profiles');
+
+  useEffect(() => {
+    if (isOnProfiles) {
+      setInputValue('');
+    }
+  }, [isOnProfiles]);
 
   const NavContent = () => {
     if (!user) {
@@ -85,10 +94,17 @@ export const NavBar = () => {
         </Link>
 
         <div className="search-bar">
-          <i>
-            <FaSearch color="black" />
-          </i>
-          <input placeholder="Buscar Artistas, Espacios de Eventos y Productoras"></input>
+          <FaSearch color="black" onClick={() => navigate('/profiles', { state: { inputValue } })} />
+
+          <input
+            placeholder="Buscar Artistas, Espacios de Eventos y Productoras"
+            value={inputValue}
+            disabled={isOnProfiles}
+            onChange={(e: ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
+            onKeyUp={(e: KeyboardEvent<HTMLInputElement>) => {
+              e.key === 'Enter' && navigate('/profiles', { state: { inputValue } });
+            }}
+          ></input>
         </div>
 
         <NavContent />
