@@ -19,7 +19,7 @@ import { MMProducerIcon } from '../../../components/icons/MMProducerIcon';
 import { useInfiniteScroll } from '../../../components/hooks/useInfiniteScroll';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { MMButtonResponsive } from '../../../components/MMButton/MMButtonResponsive';
-import { FaSearch, FaSearchPlus } from 'react-icons/fa';
+import { FaPlus, FaSearch, FaSearchPlus } from 'react-icons/fa';
 import { Loader } from '../../../components/Loader/Loader';
 import { MMModal } from '../../../components/Modal/MMModal';
 import { useModal } from '../../../components/hooks/useModal';
@@ -158,16 +158,33 @@ const Search = () => {
 
       <MMContainer maxWidth="xxl">
         <MMBox className="profiles-search-box ">
-          <StyledFlex $justifyContent="space-between" $alignItems="center">
+          <div className="profiles-title-container">
             <MMTitle content="Perfiles" />
 
-            <StyledFlex>
-              {/* todo: hacerlo responsive */}
-              <MMButton onClick={handleCreateArtist}>Crear Artista</MMButton>
-              <MMButton onClick={handleCreateVenue}>Crear Espacio de Evento</MMButton>
-              <MMButton onClick={handleCreateProducer}>Crear Productora</MMButton>
+            <StyledFlex $justifyContent="flex-end">
+              <MMButton onClick={handleCreateArtist} className="profile-create-button">
+                <span className="icons">
+                  <FaPlus />
+                  <MMArtistIcon />
+                </span>
+                <span className="label">Crear Artista</span>
+              </MMButton>
+              <MMButton onClick={handleCreateVenue} className="profile-create-button">
+                <span className="icons">
+                  <FaPlus />
+                  <MMVenueIcon />
+                </span>
+                <span className="label">Crear Espacio de Evento</span>
+              </MMButton>
+              <MMButton onClick={handleCreateProducer} className="profile-create-button">
+                <span className="icons">
+                  <FaPlus />
+                  <MMProducerIcon />
+                </span>
+                <span className="label">Crear Productora</span>
+              </MMButton>
             </StyledFlex>
-          </StyledFlex>
+          </div>
 
           <form
             onSubmit={(e: SyntheticEvent) => {

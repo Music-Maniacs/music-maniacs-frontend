@@ -58,4 +58,43 @@
       }
     }
   }
+
+  .profiles-title-container {
+    display: flex;
+    justify-content: space-between;
+
+    @include sm-breakpoint {
+      flex-direction: column-reverse;
+    }
+  }
+
+  .profile-create-button {
+    .icons {
+      display: none;
+
+      @include md-breakpoint {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        justify-content: center;
+      }
+
+      @include sm-breakpoint {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    .label {
+      @include md-breakpoint {
+        display: none;
+      }
+
+      @include sm-breakpoint {
+        display: none;
+      }
+    }
+  }
 }
