@@ -37,6 +37,7 @@ const AdminProducersShow = lazy(() => import('./pages/admin/producers/show/Show'
 const ThresholdsContainer = lazy(() => import('./pages/admin/thresholds/ThresholdContainer'));
 
 // Profiles Module
+const ProfilesSearch = lazy(() => import('./pages/profiles/search/Search'));
 const ArtistContainer = lazy(() => import('./pages/profiles/artist/ArtistProfileContainer'));
 const ArtistShow = lazy(() => import('./pages/profiles/artist/show/Show'));
 const ArtistReviews = lazy(() => import('./pages/profiles/artist/reviews/Reviews'));
@@ -118,7 +119,7 @@ function App() {
 
           {/* Profiles Module */}
           <Route path="/profiles">
-            {/* <Route index element={<SearchProfiles />} /> */}
+            <Route index element={<ProfilesSearch />} />
 
             <Route path="artists/:id" element={<ArtistContainer />}>
               <Route index element={<ArtistShow />} />

@@ -16,8 +16,8 @@ const StyledCardContainer = styled.div`
   height: 100%;
   box-sizing: border-box;
   border-radius: 5px;
-  background-color: rgb(255, 255, 255, 60%);
-  color: black;
+  background-color: #0000004d;
+  color: white;
   overflow: hidden;
   cursor: pointer;
   &:hover {
@@ -28,7 +28,7 @@ const StyledCardContainer = styled.div`
 // Image
 const StyledCardImageContainer = styled.div`
   width: 100%;
-  height: 150px;
+  height: 170px;
 `;
 
 const StyledCardImage = styled.img`

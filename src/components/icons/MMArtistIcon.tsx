@@ -1,7 +1,7 @@
 import React from 'react';
+import { FaMicrophone } from 'react-icons/fa';
 import { IconBaseProps } from 'react-icons/lib';
-import { PiMicrophoneStageThin } from 'react-icons/pi';
 
 export const MMArtistIcon = (props: IconBaseProps) => {
-  return <PiMicrophoneStageThin {...props} />;
+  return <FaMicrophone {...props} />;
 };

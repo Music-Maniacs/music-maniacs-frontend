@@ -114,8 +114,8 @@ const EventsCarrousel = ({ events }: EventsCarrouselProps) => {
   return (
     <StyledFlex $gap="20px" $overflowY="hidden" $overflowX="auto" $padding="25px 0 5px 0">
       {events.map((event) => (
-        <div style={{ width: '270px', minWidth: '270px' }}>
-          <EventCard key={event.id} event={event} />
+        <div style={{ width: '270px', minWidth: '270px' }} key={event.id}>
+          <EventCard event={event} />
         </div>
       ))}
 
