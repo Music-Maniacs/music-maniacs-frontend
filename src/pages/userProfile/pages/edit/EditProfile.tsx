@@ -6,7 +6,6 @@ import { InputText } from '../../../../components/form/InputText/InputText';
 import { User, userValidations } from '../../../../models/User';
 import { InputArea } from '../../../../components/form/InputArea/InputArea';
 import { LinksFieldArray } from '../../../../components/form/LinksFieldArray/LinksFieldArray';
-import { StyledButtonGroup } from '../../../admin/styles';
 import { MMButton } from '../../../../components/MMButton/MMButton';
 import { InputSelect } from '../../../../components/form/InputSelect/InputSelect';
 import { useUser } from '../../context/userContext';
@@ -25,6 +24,16 @@ const StyledImageDropzoneContainer = styled.div`
   @media screen and (max-width: ${breakpoints.sm}) {
     padding: 0px;
   } */
+`;
+
+const UserProfileEditButtonGroup = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin: 1rem 0rem;
+  gap: 0.5rem;
+  justify-self: stretch;
+  width: 100%;
 `;
 type FormData = {
   full_name: string;
@@ -110,71 +119,73 @@ export const EditProfile = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" className="admin-form-container">
-      <Grid container spacing={2}>
-        <Grid container item {...gridCommonProps}>
-          <StyledImageDropzoneContainer>
-            <InputDropzone
-              label="Imagen de Perfil"
-              name="profile_image"
-              control={control}
-              errors={errors}
-              containerWidth={'70%'}
-              type="profile"
-              previewImageUrl={userProfile && userProfile.profile_image ? userProfile.profile_image.full_url : ''}
-              acceptedFileTypes={{ 'image/*': ['.png', '.jpeg', '.jpg'] }}
-            />
-            <InputDropzone
-              label="Imagen de portada"
-              name="cover_image"
-              control={control}
-              errors={errors}
-              containerWidth={'70%'}
-              type="cover"
-              previewImageUrl={userProfile && userProfile.cover_image ? userProfile.cover_image.full_url : ''}
-              acceptedFileTypes={{ 'image/*': ['.png', '.jpeg', '.jpg'] }}
-            />
-          </StyledImageDropzoneContainer>
+      <Grid container direction={'row'} spacing={2}>
+        <Grid item style={{ width: '100%' }}>
+          <InputDropzone
+            label="Imagen de portada"
+            name="cover_image"
+            control={control}
+            errors={errors}
+            type="cover"
+            previewImageUrl={userProfile && userProfile.cover_image ? userProfile.cover_image.full_url : ''}
+            acceptedFileTypes={{ 'image/*': ['.png', '.jpeg', '.jpg'] }}
+          />
         </Grid>
-        <Grid container item {...gridCommonProps}>
-          <InputText
-            label="Nombre Completo"
-            name="full_name"
-            options={userValidations.full_name}
-            {...inputCommonProps}
-          />
+        <Grid container item spacing={2}>
+          <Grid container item {...gridCommonProps}>
+            <StyledImageDropzoneContainer>
+              <InputDropzone
+                label="Imagen de Perfil"
+                name="profile_image"
+                control={control}
+                errors={errors}
+                type="profile"
+                width={'200px'}
+                previewImageUrl={userProfile && userProfile.profile_image ? userProfile.profile_image.full_url : ''}
+                acceptedFileTypes={{ 'image/*': ['.png', '.jpeg', '.jpg'] }}
+              />
+            </StyledImageDropzoneContainer>
+          </Grid>
+          <Grid container item {...gridCommonProps}>
+            <InputText
+              label="Nombre Completo"
+              name="full_name"
+              options={userValidations.full_name}
+              {...inputCommonProps}
+            />
 
-          <InputText label="Usuario" name="username" options={userValidations.username} {...inputCommonProps} />
+            <InputText label="Usuario" name="username" options={userValidations.username} {...inputCommonProps} />
 
-          <InputText label="Email" name="email" options={userValidations.email} {...inputCommonProps} />
+            <InputText label="Email" name="email" options={userValidations.email} {...inputCommonProps} />
 
-          <InputArea
-            label="Biografía"
-            name="biography"
-            register={register}
-            errors={errors}
-            options={userValidations.biography}
-          />
+            <InputArea
+              label="Biografía"
+              name="biography"
+              register={register}
+              errors={errors}
+              options={userValidations.biography}
+            />
 
-          <LinksFieldArray<FormData>
-            register={register}
-            errors={errors}
-            fields={fields}
-            append={append}
-            update={update}
-            remove={remove}
-            getValues={getValues}
-          />
+            <LinksFieldArray<FormData>
+              register={register}
+              errors={errors}
+              fields={fields}
+              append={append}
+              update={update}
+              remove={remove}
+              getValues={getValues}
+            />
+          </Grid>
         </Grid>
       </Grid>
-
-      <StyledButtonGroup>
+      <UserProfileEditButtonGroup>
         <MMButton type="button" color="primary" onClick={() => reset()}>
           Cancelar
         </MMButton>
         <MMButton type="submit" color="primary">
           Confirmar Cambios
         </MMButton>
-      </StyledButtonGroup>
+      </UserProfileEditButtonGroup>
     </form>
   );
 };

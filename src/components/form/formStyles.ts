@@ -137,12 +137,25 @@ export const StyledDropzoneBox = styled.div`
 `;
 
 export const StyledDropzoneImagePreviewContainer = styled.div`
-  max-height: 250px;
+  display: flex;
+  justify-content: center;
 `;
-export const StyledDropzoneImagePreview = styled.img<{ $type?: 'cover' | 'profile' }>`
-  width: 100%;
-  height: 100%;
-  object-fit: scale-down;
+export const StyledDropzoneImagePreview = styled.img<{ $type?: 'cover' | 'profile'; $width?: string }>`
+  width: ${({ $width }) => ($width ? $width : '100%')};
+  height: ${({ $width, $type }) => {
+    console.log(`width: ${$width}, profile: ${$type}`);
+    if ($width) {
+      if (!$type) return $width;
+      if ($type === 'cover') {
+        const [value, unit] = $width.split(/(?=\D)(?<=\d)/);
+        return +value / 7 + unit;
+      } else {
+        return $width;
+      }
+    }
+    return '100%';
+  }};
+  object-fit: fill;
   border-radius: ${({ $type }) => {
     if ($type) {
       if ($type === 'profile') {

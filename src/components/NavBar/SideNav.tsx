@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { IoMdArrowDropdown, IoMdArrowDropup, IoMdClose } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authContext';
+import breakpoints from '../../styles/_breakpoints.scss';
 import { MMButton } from '../MMButton/MMButton';
 import MMLink from '../MMLink/MMLink';
 import { NavUserProfile } from './NavUserProfile';
@@ -17,7 +18,7 @@ export const SideNav = ({ active, setActive }: Props) => {
   let sideNavRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
-  const md_breakpoint = 798;
+  const md_breakpoint: number = +breakpoints.md.split('px')[0];
 
   useEffect(() => {
     const handler = (e: Event) => {

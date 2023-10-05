@@ -29,6 +29,7 @@ interface Props {
   previewImageUrl?: string;
   acceptedFileTypes?: Accept;
   type?: 'profile' | 'cover';
+  width?: string;
 }
 
 export const InputDropzone = ({
@@ -40,7 +41,8 @@ export const InputDropzone = ({
   previewImageUrl,
   acceptedFileTypes,
   containerWidth = '100%',
-  type
+  type,
+  width
 }: Props) => {
   const hasErrors = !!errors?.[`${name}`];
   return (
@@ -60,6 +62,7 @@ export const InputDropzone = ({
               previewImageUrl={previewImageUrl}
               acceptedFileTypes={acceptedFileTypes}
               type={type}
+              width={width}
               {...props}
             />
           );
@@ -77,9 +80,10 @@ type DropzoneProps = {
   [x: string]: unknown;
   acceptedFileTypes?: Accept;
   type?: 'profile' | 'cover';
+  width?: string;
 };
 
-const Dropzone = ({ onChange, previewImageUrl, acceptedFileTypes, type, ...props }: DropzoneProps) => {
+const Dropzone = ({ onChange, previewImageUrl, acceptedFileTypes, type, width, ...props }: DropzoneProps) => {
   const { closeModal, openModal, isModalOpen } = useModal();
   const [preview, setPreview] = useState<string | undefined>(previewImageUrl);
   const [image, setImage] = useState<File>();
@@ -106,7 +110,7 @@ const Dropzone = ({ onChange, previewImageUrl, acceptedFileTypes, type, ...props
     <>
       {preview && (
         <StyledDropzoneImagePreviewContainer>
-          <StyledDropzoneImagePreview $type={type} src={preview} />
+          <StyledDropzoneImagePreview $type={type} $width={width} src={preview} />
         </StyledDropzoneImagePreviewContainer>
       )}
       <StyledDropzoneContainer {...getRootProps()}>

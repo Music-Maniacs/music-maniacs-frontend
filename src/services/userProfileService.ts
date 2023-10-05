@@ -40,3 +40,13 @@ export async function updateProfile(
 export async function deleteUserProfile(): Promise<void> {
   return await axios.delete(`${profileUrl}`);
 }
+
+export async function changePasswordUserProfile(password: string, passwordConfirmation: string): Promise<void> {
+  const body = {
+    user: {
+      password: password,
+      password_confirmation: passwordConfirmation
+    }
+  };
+  return await axios.put(`${profileUrl}/change_password`, body);
+}

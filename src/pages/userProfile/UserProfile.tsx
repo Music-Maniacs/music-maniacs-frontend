@@ -17,6 +17,7 @@ import breakpoints from '../../styles/_breakpoints.scss';
 import { useUserProfileRequest } from './hooks/useUserProfileRequest';
 import { useAuth } from '../../context/authContext';
 import { useNavigate } from 'react-router-dom';
+import { ChangePasswordUserProfile } from './pages/password/ChangePasswordUserProfile';
 
 const UserProfileDeleteUser = styled.li`
   display: flex;
@@ -50,8 +51,7 @@ export const UserProfile = () => {
     {
       href: '#profile',
       label: 'Perfil',
-      Icon: FaUser,
-      chip: { color: 'primary', value: 10 }
+      Icon: FaUser
     },
     {
       href: '#follows',
@@ -61,14 +61,12 @@ export const UserProfile = () => {
     {
       href: '#password',
       label: 'Cambiar Contraseña',
-      Icon: FaGear,
-      chip: { color: 'primary', value: 10 }
+      Icon: FaGear
     },
     {
       href: '#edit',
       label: 'Editar Perfil',
-      Icon: FaEdit,
-      chip: { color: 'primary', value: 10 }
+      Icon: FaEdit
     },
     {
       customTemplate: (
@@ -90,7 +88,7 @@ export const UserProfile = () => {
   const content = [
     <Profile />,
     <span>Seguidos</span>,
-    <span>Contraseña</span>,
+    <ChangePasswordUserProfile />,
     userProfile ? <EditProfile /> : <Loader />
   ];
 
