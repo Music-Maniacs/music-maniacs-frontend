@@ -68,4 +68,15 @@
 }
 
 .user-profile-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  .user-profile-stat-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .user-profile-stat-text {
+    font-weight: 600;
+  }
 }

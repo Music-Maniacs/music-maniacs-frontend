@@ -14,16 +14,12 @@ import { InputDropzone } from '../../../../components/form/InputDropzone/InputDr
 import { styled } from 'styled-components';
 import breakpoints from '../../../../styles/_breakpoints.scss';
 import { updateProfile } from '../../../../services/userProfileService';
+import colors from '../../../../styles/_colors.scss';
 
 const StyledImageDropzoneContainer = styled.div`
-  /* padding: 0px 60px 0px 60px;
-
-  @media screen and (max-width: ${breakpoints.md}) {
-    padding: 0px 30px 0px 30px;
-  }
-  @media screen and (max-width: ${breakpoints.sm}) {
-    padding: 0px;
-  } */
+  border: 1px #1e2e2c solid;
+  padding: 10px;
+  border-radius: 5px;
 `;
 
 const UserProfileEditButtonGroup = styled.div`

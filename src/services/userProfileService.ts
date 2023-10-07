@@ -18,14 +18,12 @@ export async function updateProfile(
   cover_image?: File
 ): Promise<User> {
   const body = {
-    user: {
-      full_name,
-      username,
-      email,
-      biography,
-      links_attributes,
-      images_attributes //imagenes a borrar
-    }
+    full_name,
+    username,
+    email,
+    biography,
+    links_attributes,
+    images_attributes //imagenes a borrar
   };
   const formData = new FormData();
 
