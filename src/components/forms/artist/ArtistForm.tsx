@@ -13,7 +13,7 @@ import { LinksFieldArray } from '../../form/LinksFieldArray/LinksFieldArray';
 import { InputArea } from '../../form/InputArea/InputArea';
 import { StyledButtonGroup } from '../../../pages/admin/styles';
 import { MMButton } from '../../MMButton/MMButton';
-import { adminCreateArtist, adminUpdateArtist } from '../../../services/artistService';
+import { adminCreateArtist, adminUpdateArtist, createArtist, updateArtist } from '../../../services/artistService';
 import '../Forms.scss';
 
 type Props = {
@@ -94,11 +94,12 @@ export const ArtistForm = ({
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
-      // todo: cuando tengamos el controlador de artistas, usar la prop para ver que endpoint usar
       let artist: Artist;
 
       if (isFormEdit && artistToEdit) {
-        artist = await adminUpdateArtist(
+        const updateService = useAdminController ? adminUpdateArtist : updateArtist;
+
+        artist = await updateService(
           artistToEdit.id,
           data.name,
           data.nationality.value,
@@ -108,7 +109,9 @@ export const ArtistForm = ({
           data.image
         );
       } else {
-        artist = await adminCreateArtist(
+        const createService = useAdminController ? adminCreateArtist : createArtist;
+
+        artist = await createService(
           data.name,
           data.nationality.value,
           data.description,

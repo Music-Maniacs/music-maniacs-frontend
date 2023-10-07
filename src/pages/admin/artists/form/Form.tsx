@@ -16,6 +16,7 @@ export const Form = () => {
 
   return (
     <ArtistForm
+      useAdminController={true}
       artistToEdit={artistToEdit}
       isFormEdit={isFormEdit}
       closeFormModal={closeFormModal}

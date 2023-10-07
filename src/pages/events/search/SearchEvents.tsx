@@ -1,4 +1,4 @@
-import React, { FormEvent, useCallback, useRef } from 'react';
+import React, { FormEvent, useRef } from 'react';
 import { MMContainer } from '../../../components/MMContainer/MMContainer';
 import { MMBox } from '../../../components/MMBox/MMBox';
 import { MMTitle } from '../../../components/MMTitle/MMTitle';
@@ -21,6 +21,7 @@ import { styled } from 'styled-components';
 import Select from 'react-select/dist/declarations/src/Select';
 import { GroupBase } from 'react-select';
 import { SearcherSkeleton } from './Skeleton';
+import { useInfiniteScroll } from '../../../components/hooks/useInfiniteScroll';
 
 const StyledSearchbarForm = styled.form`
   padding: 1rem 0 2rem 0;
@@ -33,6 +34,7 @@ const SearchEvents = () => {
   const artistInputRef = useRef<Select<any, boolean, GroupBase<any>>>(null);
   const venueInputRef = useRef<Select<any, boolean, GroupBase<any>>>(null);
   const producerInputRef = useRef<Select<any, boolean, GroupBase<any>>>(null);
+  const { lastElementRef } = useInfiniteScroll({ pagination, setPagination });
 
   const handleCreateButton = () => {
     openModal();
@@ -51,33 +53,6 @@ const SearchEvents = () => {
     if (producerInputRef.current) producerInputRef.current.clearValue();
     setPagination((prevState) => ({ ...prevState, isLoading: true, page: 1 }));
   };
-
-  // Infinite Scroll
-  const observer = useRef<IntersectionObserver>();
-  const lastIssueElementRef = useCallback(
-    (node: HTMLDivElement) => {
-      if (pagination.isLoading) return;
-      if (observer.current) observer.current.disconnect();
-
-      observer.current = new IntersectionObserver((entries) => {
-        const hasMoreEvents = pagination.total > pagination.page * pagination.perPage;
-
-        if (entries[0].isIntersecting && hasMoreEvents) {
-          setPagination((prevState) => {
-            return {
-              ...prevState,
-              page: prevState.page + 1,
-              isLoading: true
-            };
-          });
-        }
-      });
-
-      if (node && observer.current) observer.current.observe(node);
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [pagination.isLoading]
-  );
 
   return (
     <>
@@ -197,13 +172,13 @@ const SearchEvents = () => {
                 events.map((e: Event, index: number) => (
                   <Grid
                     key={e.id}
-                    ref={events.length === index + 1 ? lastIssueElementRef : undefined}
+                    ref={events.length === index + 1 ? lastElementRef : undefined}
                     item
                     container
                     xs={12}
-                    sm={4}
+                    sm={6}
                     md={3}
-                    lg={2}
+                    lg={2.4}
                     justifyContent="center"
                     alignItems="center"
                   >

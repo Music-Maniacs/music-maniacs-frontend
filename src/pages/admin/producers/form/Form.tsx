@@ -16,6 +16,7 @@ export const Form = () => {
 
   return (
     <ProducerForm
+      useAdminController={true}
       producerToEdit={producerToEdit}
       isFormEdit={isFormEdit}
       closeFormModal={closeFormModal}

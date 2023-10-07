@@ -1,7 +1,10 @@
+import { EventProfilesTab } from './Event';
 import { ModelValidations } from './Generic';
 import { Image } from './Image';
 import { Link } from './Link';
 import { Location } from './Location';
+import { Review } from './Review';
+import { Version } from './Version';
 
 export interface Venue {
   id: string;
@@ -9,10 +12,16 @@ export interface Venue {
   description: string;
   created_at: string;
   updated_at: string;
+  followed_by_current_user: boolean;
   address?: string;
   links: Link[];
   location?: Location;
   image?: Image;
+  versions: Version[];
+  last_reviews: Review[];
+  rating: number;
+  next_events: EventProfilesTab[];
+  past_events: EventProfilesTab[];
 }
 
 export const venueValidations: Readonly<ModelValidations<Venue>> = {

@@ -1,0 +1,96 @@
+@import '../../styles/main';
+
+.profiles-show-boxes-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .show-boxes {
+    padding: 15px 30px;
+
+    &:first-child,
+    &:last-child {
+      margin-bottom: 40px;
+    }
+
+    .info-box {
+      @include flex-space-between;
+      flex-direction: row;
+
+      @include sm-breakpoint {
+        gap: 5px;
+      }
+
+      gap: 30px;
+
+      .image-container {
+        height: 130px;
+        width: 130px;
+
+        .image {
+          height: 100%;
+          width: 100%;
+          object-fit: cover;
+          border-radius: 50%;
+        }
+      }
+
+      .data-container {
+        flex-grow: 1;
+
+        .name {
+          font-size: 25px;
+          font-weight: bold;
+          margin-bottom: 5px;
+        }
+      }
+    }
+
+    .event-box {
+      display: flex;
+      gap: 10px;
+      padding-right: 5px;
+      border-radius: 5px;
+      &:hover {
+        background-color: $box_background;
+      }
+
+      .event-date {
+        @include flex-column-center;
+        background-color: $primary;
+        padding: 5px;
+        width: 50px;
+
+        .number {
+          font-size: 22px;
+        }
+        .month {
+          font-size: 16px;
+        }
+      }
+
+      .event-info {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-grow: 1;
+        flex-direction: column;
+        gap: 7px;
+
+        .name {
+          font-weight: bold;
+          font-size: 18px;
+        }
+      }
+    }
+
+    .reviews-box {
+      display: flex;
+      flex-direction: column;
+
+      .title-container {
+        @include flex-space-between;
+      }
+    }
+  }
+}

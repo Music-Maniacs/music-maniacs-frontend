@@ -7,9 +7,11 @@ export const StyledFlex = styled.div<{
   $borderBottom?: string;
   $cursor?: string;
   $justifyContent?: string;
+  $alignItems?: string;
 }>`
   display: flex;
   justify-content: ${({ $justifyContent }) => $justifyContent ?? 'normal'};
+  align-items: ${({ $alignItems }) => $alignItems ?? 'normal'};
   gap: ${({ $gap }) => $gap ?? '5px'};
   padding: ${({ $padding }) => $padding ?? '0'};
   margin: ${({ $margin }) => $margin ?? '0'};

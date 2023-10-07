@@ -16,6 +16,7 @@ const StyledChip = styled.span<{ $bg?: string }>`
   padding: 3px 6px;
   background-color: ${({ $bg }) => $bg ?? colors.primary};
   width: fit-content;
+  height: fit-content;
 `;
 
 export const MMChip = ({ children, color }: Props) => {

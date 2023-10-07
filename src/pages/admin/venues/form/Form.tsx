@@ -44,6 +44,7 @@ export const Form = () => {
     <Loader />
   ) : (
     <VenuesForm
+      useAdminController={true}
       venueToEdit={venueToEdit}
       isFormEdit={isFormEdit}
       closeFormModal={closeFormModal}

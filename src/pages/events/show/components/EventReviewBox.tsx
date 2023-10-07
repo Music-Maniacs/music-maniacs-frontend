@@ -1,31 +1,27 @@
-import React, { Dispatch, SetStateAction, SyntheticEvent, useState } from 'react';
+import React, { useState } from 'react';
 import { MMBox } from '../../../../components/MMBox/MMBox';
 import { Event } from '../../../../models/Event';
 import { MMSubTitle } from '../../../../components/MMTitle/MMTitle';
 import { MMButton } from '../../../../components/MMButton/MMButton';
-import { Grid, Rating, Tab, Tabs } from '@mui/material';
+import { Grid, Rating } from '@mui/material';
 import { useModal } from '../../../../components/hooks/useModal';
 import { MMModal } from '../../../../components/Modal/MMModal';
 import { Review } from '../../../../models/Review';
 import { EventReviewForm } from './EventReviewForm';
-import { ReviewContent } from '../../../../components/ReviewContent/ReviewContent';
+import { ReviewContent } from '../../../../components/Reviews/ReviewContent';
 import { useAuth } from '../../../../context/authContext';
+import { Navtab } from '../../../../components/Navtab/Navtab';
+import MMLink from '../../../../components/MMLink/MMLink';
 
 type Props = {
   event: Event;
-  setEvent: Dispatch<SetStateAction<Event | undefined>>;
 };
 
-export const EventReviewBox = ({ event, setEvent }: Props) => {
+export const EventReviewBox = ({ event }: Props) => {
   const { user } = useAuth();
-  const [tabValue, setTabValue] = useState<'artist' | 'venue' | 'producer'>('artist');
   const [isFormEdit, setIsFormEdit] = useState<boolean>(false);
   const [reviewToEdit, setReviewToEdit] = useState<Review>();
   const { isModalOpen, openModal, closeModal } = useModal();
-
-  const handleTabChange = (_event: SyntheticEvent, newValue: 'artist' | 'venue' | 'producer') => {
-    setTabValue(newValue);
-  };
 
   const handleCreateReviewButton = () => {
     setIsFormEdit(false);
@@ -116,66 +112,65 @@ export const EventReviewBox = ({ event, setEvent }: Props) => {
 
           <h4>Últimas Reseñas</h4>
 
-          <Tabs value={tabValue} onChange={handleTabChange}>
-            <Tab value="artist" label="Artista" />
-            <Tab value="venue" label="Espacio de Evento" />
-            <Tab value="producer" label="Productora" />
-          </Tabs>
+          <Navtab
+            items={[
+              {
+                label: 'Artista',
+                content: () => (
+                  <>
+                    {event.reviews_info &&
+                      event.reviews_info.artist.last_reviews.map((review: Review) => (
+                        <ReviewContent
+                          key={review.id}
+                          reviewableName={event.artist.name}
+                          review={review}
+                          canEdit={user?.id === review.user?.id}
+                          handleEditReviewButton={handleEditReviewButton}
+                        />
+                      ))}
+                  </>
+                )
+              },
+              {
+                label: 'Espacio de Evento',
+                content: () => (
+                  <>
+                    {event.reviews_info &&
+                      event.reviews_info.venue.last_reviews.map((review: Review) => (
+                        <ReviewContent
+                          key={review.id}
+                          reviewableName={event.venue.name}
+                          review={review}
+                          canEdit={user?.id === review.user?.id}
+                          handleEditReviewButton={handleEditReviewButton}
+                        />
+                      ))}
+                  </>
+                )
+              },
+              {
+                label: 'Productora',
+                content: () => (
+                  <>
+                    {event.reviews_info &&
+                      event.reviews_info.producer.last_reviews.map((review: Review) => (
+                        <ReviewContent
+                          key={review.id}
+                          reviewableName={event.producer.name}
+                          review={review}
+                          canEdit={user?.id === review.user?.id}
+                          handleEditReviewButton={handleEditReviewButton}
+                        />
+                      ))}
+                  </>
+                )
+              }
+            ]}
+          />
 
-          <TabContentContainer index={tabValue} value="artist">
-            {event.reviews_info &&
-              event.reviews_info.artist.last_reviews.map((review: Review) => (
-                <ReviewContent
-                  key={review.id}
-                  reviewableName={event.artist.name}
-                  review={review}
-                  canEdit={user?.id === review.user?.id}
-                  handleEditReviewButton={handleEditReviewButton}
-                />
-              ))}
-          </TabContentContainer>
-
-          <TabContentContainer index={tabValue} value="venue">
-            {event.reviews_info &&
-              event.reviews_info.venue.last_reviews.map((review: Review) => (
-                <ReviewContent
-                  key={review.id}
-                  reviewableName={event.venue.name}
-                  review={review}
-                  canEdit={user?.id === review.user.id}
-                  handleEditReviewButton={handleEditReviewButton}
-                />
-              ))}
-          </TabContentContainer>
-
-          <TabContentContainer index={tabValue} value="producer">
-            {event.reviews_info &&
-              event.reviews_info.producer.last_reviews.map((review: Review) => (
-                <ReviewContent
-                  key={review.id}
-                  reviewableName={event.producer.name}
-                  review={review}
-                  canEdit={user?.id === review.user.id}
-                  handleEditReviewButton={handleEditReviewButton}
-                />
-              ))}
-          </TabContentContainer>
+          <MMLink content="Ver Todas" to={`/events/${event.id}/reviews`} />
         </div>
       </MMBox>
     </>
-  );
-};
-
-interface TabContenyProps {
-  children?: React.ReactNode;
-  index: 'artist' | 'venue' | 'producer';
-  value: 'artist' | 'venue' | 'producer';
-}
-
-const TabContentContainer = ({ children, index, value }: TabContenyProps) => {
-  return (
-    <div role="tabpanel" hidden={value !== index} id={`tabpanel-${index}`} aria-labelledby={`simple-tab-${index}`}>
-      {value === index && <div>{children}</div>}
-    </div>
   );
 };
