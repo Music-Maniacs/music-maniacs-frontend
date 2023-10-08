@@ -8,11 +8,15 @@ import { MMTitle } from '../../../components/MMTitle/MMTitle';
 import { StyledFlex } from '../../../styles/styledComponents';
 import { MMButton } from '../../../components/MMButton/MMButton';
 import '../Moderation.scss';
+import { MMModal } from '../../../components/Modal/MMModal';
+import { ResolveReportForm } from '../../../components/forms/report/ResolveReportForm';
+import { useModal } from '../../../components/hooks/useModal';
 
 const Show = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { showReport, getShowReport, setShowReport } = useReports();
+  const { isModalOpen: isReportModalOpen, openModal: openReportModal, closeModal: closeReportModal } = useModal();
 
   useEffect(() => {
     if (!id) return navigate(-1);
@@ -22,27 +26,42 @@ const Show = () => {
   }, []);
 
   return (
-    <MMContainer maxWidth="xxl">
-      <MMBox className="moderation-box-container">
-        {showReport ? (
-          <>
-            <StyledFlex $justifyContent="space-between">
-              <MMTitle content="Reporte" />
+    <>
+      <MMModal closeModal={closeReportModal} isModalOpen={isReportModalOpen} maxWidth="sm">
+        <ResolveReportForm
+          reportId={showReport?.id || ''}
+          closeModal={closeReportModal}
+          // todo: actualizarlo tambien en al tabla del index
+          successCallback={(report) => showReport && setShowReport({ ...showReport, ...report })}
+        />
+      </MMModal>
 
-              <StyledFlex>
-                {showReport.status === 'pending' && <MMButton color="tertiary">Resolver</MMButton>}
+      <MMContainer maxWidth="xxl">
+        <MMBox className="moderation-box-container">
+          {showReport ? (
+            <>
+              <StyledFlex $justifyContent="space-between">
+                <MMTitle content="Reporte" />
 
-                <MMButton onClick={() => navigate(-1)}> Volver</MMButton>
+                <StyledFlex>
+                  {showReport.status === 'pending' && (
+                    <MMButton color="tertiary" onClick={() => openReportModal()}>
+                      Resolver
+                    </MMButton>
+                  )}
+
+                  <MMButton onClick={() => navigate(-1)}> Volver</MMButton>
+                </StyledFlex>
               </StyledFlex>
-            </StyledFlex>
 
-            <p>{JSON.stringify(showReport)} </p>
-          </>
-        ) : (
-          <Loader />
-        )}
-      </MMBox>
-    </MMContainer>
+              <p>{JSON.stringify(showReport)} </p>
+            </>
+          ) : (
+            <Loader />
+          )}
+        </MMBox>
+      </MMContainer>
+    </>
   );
 };
 

@@ -41,6 +41,19 @@ export const reportValidations: Readonly<ModelValidations<Report>> = {
       value: true,
       message: 'Debe ingresar el comentario del reporte'
     },
-    maxLength: { value: 2048, message: 'EL comentario debe ser menor a 2048 caracteres' }
+    maxLength: { value: 2048, message: 'El comentario debe ser menor a 2048 caracteres' }
+  },
+  moderator_comment: {
+    required: {
+      value: true,
+      message: 'Debe ingresar el comentario del reporte'
+    },
+    maxLength: { value: 2048, message: 'El comentario debe ser menor a 2048 caracteres' }
+  },
+  penalization_score: {
+    required: {
+      value: true,
+      message: 'Debe ingresar el puntaje de penalización'
+    }
   }
 };
