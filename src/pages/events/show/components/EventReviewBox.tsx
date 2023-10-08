@@ -12,6 +12,8 @@ import { ReviewContent } from '../../../../components/Reviews/ReviewContent';
 import { useAuth } from '../../../../context/authContext';
 import { Navtab } from '../../../../components/Navtab/Navtab';
 import MMLink from '../../../../components/MMLink/MMLink';
+import { ReportForm } from '../../../../components/forms/report/ReportForm';
+import { reportReview } from '../../../../services/reviewsService';
 
 type Props = {
   event: Event;
@@ -22,6 +24,8 @@ export const EventReviewBox = ({ event }: Props) => {
   const [isFormEdit, setIsFormEdit] = useState<boolean>(false);
   const [reviewToEdit, setReviewToEdit] = useState<Review>();
   const { isModalOpen, openModal, closeModal } = useModal();
+  const [reviewToReport, setReviewToReport] = useState<Review>();
+  const { isModalOpen: isReportModalOpen, openModal: openReportModal, closeModal: closeReportModal } = useModal();
 
   const handleCreateReviewButton = () => {
     setIsFormEdit(false);
@@ -33,6 +37,11 @@ export const EventReviewBox = ({ event }: Props) => {
     setIsFormEdit(true);
     setReviewToEdit(review);
     openModal();
+  };
+
+  const handleReportReviewButton = (review: Review) => {
+    setReviewToReport(review);
+    openReportModal();
   };
 
   const updateReview = (review: Review) => {
@@ -65,6 +74,15 @@ export const EventReviewBox = ({ event }: Props) => {
           venueName={event.venue.name}
           closeModal={closeModal}
           successCallback={(review) => updateReview(review)}
+        />
+      </MMModal>
+
+      <MMModal closeModal={closeReportModal} isModalOpen={isReportModalOpen} maxWidth="sm">
+        <ReportForm
+          reportableId={reviewToReport?.id || ''}
+          service={reportReview}
+          closeModal={closeReportModal}
+          reportTitleText="la reseña"
         />
       </MMModal>
 
@@ -126,6 +144,7 @@ export const EventReviewBox = ({ event }: Props) => {
                           review={review}
                           canEdit={user?.id === review.user?.id}
                           handleEditReviewButton={handleEditReviewButton}
+                          handleReportReviewButton={handleReportReviewButton}
                         />
                       ))}
                   </>
@@ -143,6 +162,7 @@ export const EventReviewBox = ({ event }: Props) => {
                           review={review}
                           canEdit={user?.id === review.user?.id}
                           handleEditReviewButton={handleEditReviewButton}
+                          handleReportReviewButton={handleReportReviewButton}
                         />
                       ))}
                   </>
@@ -160,6 +180,7 @@ export const EventReviewBox = ({ event }: Props) => {
                           review={review}
                           canEdit={user?.id === review.user?.id}
                           handleEditReviewButton={handleEditReviewButton}
+                          handleReportReviewButton={handleReportReviewButton}
                         />
                       ))}
                   </>

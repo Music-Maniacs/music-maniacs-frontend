@@ -14,8 +14,9 @@ import { useModal } from '../../../../components/hooks/useModal';
 import { MMModal } from '../../../../components/Modal/MMModal';
 import { EventCommentForm } from './EventCommentForm';
 import { Event } from '../../../../models/Event';
-import { likeComment, removeLikeComment } from '../../../../services/commentService';
+import { likeComment, removeLikeComment, reportComment } from '../../../../services/commentService';
 import { errorSnackbar } from '../../../../components/Snackbar/Snackbar';
+import { ReportForm } from '../../../../components/forms/report/ReportForm';
 
 type Props = {
   event: Event;
@@ -28,6 +29,8 @@ export const EventCommentBox = ({ event }: Props) => {
   const [isFormEdit, setIsFormEdit] = useState<boolean>(false);
   const [commentToEdit, setCommentToEdit] = useState<Comment>();
   const { isModalOpen, openModal, closeModal } = useModal();
+  const [commentToReport, setCommentToReport] = useState<Comment>();
+  const { isModalOpen: isReportModalOpen, openModal: openReportModal, closeModal: closeReportModal } = useModal();
 
   const { pagination, setPagination } = usePagination<Comment>({
     url: `${process.env.REACT_APP_API_URL}/events/${id}/comments`,
@@ -73,6 +76,11 @@ export const EventCommentBox = ({ event }: Props) => {
     openModal();
   };
 
+  const handleReportCommentButton = (comment: Comment) => {
+    setCommentToReport(comment);
+    openReportModal();
+  };
+
   const handleLikeComment = async (commentId: string, likedByCurrentUser: boolean) => {
     const likeService = likedByCurrentUser ? removeLikeComment : likeComment;
 
@@ -111,7 +119,17 @@ export const EventCommentBox = ({ event }: Props) => {
           closeModal={closeModal}
           successCallback={(comment) => updateCommentTable(comment)}
         />
-      </MMModal>{' '}
+      </MMModal>
+
+      <MMModal closeModal={closeReportModal} isModalOpen={isReportModalOpen} maxWidth="sm">
+        <ReportForm
+          reportableId={commentToReport?.id || ''}
+          service={reportComment}
+          closeModal={closeReportModal}
+          reportTitleText="el comentario"
+        />
+      </MMModal>
+
       <MMBox className="show-boxes">
         <StyledFlex $justifyContent="space-between">
           <MMSubTitle content="Comentarios" />
@@ -130,6 +148,7 @@ export const EventCommentBox = ({ event }: Props) => {
                 canEdit={user?.id === comment.user?.id}
                 handleEditCommentButton={handleEditCommentButton}
                 handleLikeComment={handleLikeComment}
+                handleReportComment={handleReportCommentButton}
               />
             ))
           )}

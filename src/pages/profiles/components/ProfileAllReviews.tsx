@@ -21,6 +21,8 @@ import { ReviewContent } from '../../../components/Reviews/ReviewContent';
 import { ReviewsSkeleton } from '../../../components/Reviews/ReviewsSkeleton';
 import { Loader } from '../../../components/Loader/Loader';
 import { Tooltip } from 'react-tooltip';
+import { ReportForm } from '../../../components/forms/report/ReportForm';
+import { reportReview } from '../../../services/reviewsService';
 
 type ProfileAllReviewsProps = {
   profile: Artist | Producer | Venue;
@@ -33,6 +35,8 @@ export const ProfileAllReviews = ({ profile, reviewableKlass }: ProfileAllReview
   const [reviewToEdit, setReviewToEdit] = useState<Review>();
   const { isModalOpen, openModal, closeModal } = useModal();
   const [reviews, setReviews] = useState<Review[]>([]);
+  const [reviewToReport, setReviewToReport] = useState<Review>();
+  const { isModalOpen: isReportModalOpen, openModal: openReportModal, closeModal: closeReportModal } = useModal();
 
   const { pagination, setPagination } = usePagination<Review>({
     url: `${process.env.REACT_APP_API_URL}/${reviewableKlass}s/${id}/reviews`,
@@ -56,6 +60,11 @@ export const ProfileAllReviews = ({ profile, reviewableKlass }: ProfileAllReview
   const handleEditReviewButton = (review: Review) => {
     setReviewToEdit(review);
     openModal();
+  };
+
+  const handleReportReviewButton = (review: Review) => {
+    setReviewToReport(review);
+    openReportModal();
   };
 
   const updateReview = (review: Review) => {
@@ -84,6 +93,15 @@ export const ProfileAllReviews = ({ profile, reviewableKlass }: ProfileAllReview
             successCallback={(review) => updateReview(review)}
           />
         )}
+      </MMModal>
+
+      <MMModal closeModal={closeReportModal} isModalOpen={isReportModalOpen} maxWidth="sm">
+        <ReportForm
+          reportableId={reviewToReport?.id || ''}
+          service={reportReview}
+          closeModal={closeReportModal}
+          reportTitleText="la reseña"
+        />
       </MMModal>
 
       <MMContainer maxWidth="xxl" className="profiles-show-boxes-container">
@@ -120,6 +138,7 @@ export const ProfileAllReviews = ({ profile, reviewableKlass }: ProfileAllReview
                     review={review}
                     canEdit={user?.id === review.user?.id}
                     handleEditReviewButton={handleEditReviewButton}
+                    handleReportReviewButton={handleReportReviewButton}
                   />
                 ))}
 

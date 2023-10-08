@@ -13,6 +13,8 @@ import { useAuth } from '../../../context/authContext';
 import { useModal } from '../../../components/hooks/useModal';
 import { MMModal } from '../../../components/Modal/MMModal';
 import { ReviewForm } from '../../../components/forms/reviews/ReviewForm';
+import { ReportForm } from '../../../components/forms/report/ReportForm';
+import { reportReview } from '../../../services/reviewsService';
 
 type ProfileReviewsBoxProps = {
   profile: Artist | Producer | Venue;
@@ -23,10 +25,17 @@ export const ProfileReviewsBox = ({ profile, reviewableKlass }: ProfileReviewsBo
   const { user } = useAuth();
   const [reviewToEdit, setReviewToEdit] = useState<Review>();
   const { isModalOpen, openModal, closeModal } = useModal();
+  const [reviewToReport, setReviewToReport] = useState<Review>();
+  const { isModalOpen: isReportModalOpen, openModal: openReportModal, closeModal: closeReportModal } = useModal();
 
   const handleEditReviewButton = (review: Review) => {
     setReviewToEdit(review);
     openModal();
+  };
+
+  const handleReportReviewButton = (review: Review) => {
+    setReviewToReport(review);
+    openReportModal();
   };
 
   const updateReviewList = (review: Review) => {
@@ -54,6 +63,15 @@ export const ProfileReviewsBox = ({ profile, reviewableKlass }: ProfileReviewsBo
         />
       </MMModal>
 
+      <MMModal closeModal={closeReportModal} isModalOpen={isReportModalOpen} maxWidth="sm">
+        <ReportForm
+          reportableId={reviewToReport?.id || ''}
+          service={reportReview}
+          closeModal={closeReportModal}
+          reportTitleText="la reseña"
+        />
+      </MMModal>
+
       <MMBox className="show-boxes ">
         <div className="reviews-box">
           <MMSubTitle content="Reseñas" />
@@ -74,6 +92,7 @@ export const ProfileReviewsBox = ({ profile, reviewableKlass }: ProfileReviewsBo
               review={review}
               canEdit={user?.id === review.user?.id}
               handleEditReviewButton={handleEditReviewButton}
+              handleReportReviewButton={handleReportReviewButton}
             />
           ))}
 

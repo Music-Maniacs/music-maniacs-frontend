@@ -95,7 +95,6 @@ export const EventsForm = ({
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
-      // todo: cuando tengamos el controlador de eventos, usar la prop para ver que endpoint usar
       let event: Event;
 
       if (isFormEdit && eventToEdit) {

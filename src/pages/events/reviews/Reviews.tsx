@@ -21,6 +21,8 @@ import { ReviewContent } from '../../../components/Reviews/ReviewContent';
 import { useInfiniteScroll } from '../../../components/hooks/useInfiniteScroll';
 import { Pagination } from '../../../models/Generic';
 import { ReviewsSkeleton } from '../../../components/Reviews/ReviewsSkeleton';
+import { ReportForm } from '../../../components/forms/report/ReportForm';
+import { reportReview } from '../../../services/reviewsService';
 
 const Reviews = () => {
   const { id } = useParams();
@@ -29,6 +31,8 @@ const Reviews = () => {
   const [reviewToEdit, setReviewToEdit] = useState<Review>();
   const { isModalOpen, openModal, closeModal } = useModal();
   const { showEvent, setShowEvent, getShowEvent } = useEvents();
+  const [reviewToReport, setReviewToReport] = useState<Review>();
+  const { isModalOpen: isReportModalOpen, openModal: openReportModal, closeModal: closeReportModal } = useModal();
 
   const [artistReviews, setArtistReviews] = useState<Review[]>([]);
   const [venueReviews, setVenueReviews] = useState<Review[]>([]);
@@ -110,6 +114,11 @@ const Reviews = () => {
     openModal();
   };
 
+  const handleReportReviewButton = (review: Review) => {
+    setReviewToReport(review);
+    openReportModal();
+  };
+
   const reviewsByReviewable = {
     artist: artistReviews,
     producer: producerReviews,
@@ -155,6 +164,15 @@ const Reviews = () => {
             successCallback={(review) => updateReview(review)}
           />
         )}
+      </MMModal>
+
+      <MMModal closeModal={closeReportModal} isModalOpen={isReportModalOpen} maxWidth="sm">
+        <ReportForm
+          reportableId={reviewToReport?.id || ''}
+          service={reportReview}
+          closeModal={closeReportModal}
+          reportTitleText="la reseña"
+        />
       </MMModal>
 
       <MMContainer maxWidth="xxl" className="events-show-boxes-container ">
@@ -223,6 +241,7 @@ const Reviews = () => {
                           pagination={artistPagination}
                           reviews={artistReviews}
                           handleEditReviewButton={handleEditReviewButton}
+                          handleReportReviewButton={handleReportReviewButton}
                           reviewableName={showEvent.artist.name}
                           lastElementRef={artistLastElementRef}
                         />
@@ -235,6 +254,7 @@ const Reviews = () => {
                           pagination={venuePagination}
                           reviews={venueReviews}
                           handleEditReviewButton={handleEditReviewButton}
+                          handleReportReviewButton={handleReportReviewButton}
                           reviewableName={showEvent.venue.name}
                           lastElementRef={venueLastElementRef}
                         />
@@ -247,6 +267,7 @@ const Reviews = () => {
                           pagination={producerPagination}
                           reviews={producerReviews}
                           handleEditReviewButton={handleEditReviewButton}
+                          handleReportReviewButton={handleReportReviewButton}
                           reviewableName={showEvent.producer.name}
                           lastElementRef={producerLastElementRef}
                         />
@@ -272,6 +293,7 @@ export default Reviews;
 type ReviewByReviewableProps = {
   pagination: Pagination;
   handleEditReviewButton: (review: Review) => void;
+  handleReportReviewButton: (review: Review) => void;
   reviews: Review[];
   reviewableName: string;
   lastElementRef: (node: HTMLDivElement) => void;
@@ -280,6 +302,7 @@ type ReviewByReviewableProps = {
 const ReviewsByReviewable = ({
   pagination,
   handleEditReviewButton,
+  handleReportReviewButton,
   reviews,
   reviewableName,
   lastElementRef
@@ -298,6 +321,7 @@ const ReviewsByReviewable = ({
           review={review}
           canEdit={user?.id === review?.user?.id}
           handleEditReviewButton={handleEditReviewButton}
+          handleReportReviewButton={handleReportReviewButton}
         />
       ))}
 

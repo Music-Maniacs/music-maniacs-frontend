@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Review } from '../models/Review';
+import { ReportCategory } from '../models/Report';
 
 const eventsUrl = `${process.env.REACT_APP_API_URL}/events`;
 const reviewsUrl = `${process.env.REACT_APP_API_URL}/reviews`;
@@ -29,4 +30,15 @@ export async function updateReview(id: string, rating: number, description: stri
   };
 
   return (await axios.put(`${reviewsUrl}/${id}`, body)).data;
+}
+
+export async function reportReview(id: string, user_comment: string, category: ReportCategory): Promise<void> {
+  const requestBody = {
+    report: {
+      user_comment,
+      category
+    }
+  };
+
+  return (await axios.post(`${reviewsUrl}/${id}/report`, requestBody)).data;
 }

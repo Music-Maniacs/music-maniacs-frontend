@@ -1,7 +1,7 @@
 import React, { RefObject } from 'react';
 import { Review } from '../../models/Review';
 import { Rating } from '@mui/material';
-import { FaEdit } from 'react-icons/fa';
+import { FaEdit, FaFlag } from 'react-icons/fa';
 import { formatDate } from '../../utils/formatDate';
 import { BiUserCircle } from 'react-icons/bi';
 import styled from 'styled-components';
@@ -16,6 +16,7 @@ type ReviewContentProps = {
   handleEditReviewButton?: (review: Review) => void;
   canDelete?: boolean;
   handleDeleteReviewButton?: (review: Review) => void;
+  handleReportReviewButton?: (review: Review) => void;
   innerRef?: RefObject<HTMLDivElement> | null | ((node: HTMLDivElement) => void);
 };
 
@@ -37,7 +38,8 @@ export const ReviewContent = ({
   canDelete = false,
   handleDeleteReviewButton,
   reviewableName,
-  innerRef
+  innerRef,
+  handleReportReviewButton
 }: ReviewContentProps) => {
   const { created_at, description, rating, user, anonymous } = review;
 
@@ -73,6 +75,13 @@ export const ReviewContent = ({
             <StyledFlex $cursor="pointer" onClick={() => handleEditReviewButton && handleEditReviewButton(review)}>
               <FaEdit />
               <span>Editar</span>
+            </StyledFlex>
+          )}
+
+          {handleReportReviewButton && (
+            <StyledFlex $cursor="pointer" onClick={() => handleReportReviewButton(review)}>
+              <FaFlag />
+              <span>Reportar</span>
             </StyledFlex>
           )}
         </StyledFlex>
