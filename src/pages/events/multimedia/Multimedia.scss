@@ -33,3 +33,8 @@
     background-color: $box_background;
   }
 }
+
+.multimedia-form-container {
+  @include flex-column-center;
+  gap: 10px;
+}

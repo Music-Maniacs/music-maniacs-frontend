@@ -48,17 +48,9 @@ export const Form = ({ eventId, successCallback, closeFormModal }: FormProps) =>
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" className="artist-form-container">
+    <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" className="multimedia-form-container">
       <StyledFlexColumn $gap="10px">
-        <VideoDropzone
-          label="Video"
-          name="video"
-          control={control}
-          errors={errors}
-          setValue={setValue}
-          // todo: ver accepted filetypes
-          // acceptedFileTypes={{ 'image/*': ['.png', '.jpeg', '.jpg'] }}
-        />
+        <VideoDropzone label="Video" name="video" control={control} errors={errors} setValue={setValue} />
 
         <InputText label="Título" name="name" options={videoValidations.name} register={register} />
 
