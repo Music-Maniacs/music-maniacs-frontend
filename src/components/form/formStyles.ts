@@ -143,7 +143,6 @@ export const StyledDropzoneImagePreviewContainer = styled.div`
 export const StyledDropzoneImagePreview = styled.img<{ $type?: 'cover' | 'profile'; $width?: string }>`
   width: ${({ $width }) => ($width ? $width : '100%')};
   height: ${({ $width, $type }) => {
-    console.log(`width: ${$width}, profile: ${$type}`);
     if ($width) {
       if (!$type) return $width;
       if ($type === 'cover') {

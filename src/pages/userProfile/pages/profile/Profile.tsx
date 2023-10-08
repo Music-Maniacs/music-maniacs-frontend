@@ -10,12 +10,15 @@ import { MMChip } from '../../../../components/MMChip/MMChip';
 import { useEffect, useState } from 'react';
 import { Review } from '../../../../models/Review';
 import { MMModal } from '../../../../components/Modal/MMModal';
-import { EventReviewForm } from '../../../events/show/components/EventReviewForm';
+import { ReviewContent } from '../../../../components/ReviewContent/ReviewContent';
+import { ReviewForm } from '../../../../components/forms/reviews/ReviewForm';
+import { useModal } from '../../../../components/hooks/useModal';
 
 export const Profile = () => {
-  const { userProfile } = useUser();
-  const [stats, setStats] = useState<{ label: string; value: string }[][] | null>(null);
-
+  const { userProfile, reviews, setReviews } = useUser();
+  const [stats, setStats] = useState<{ label: string; value: string }[][]>([[]]);
+  const { closeModal, isModalOpen, openModal } = useModal();
+  const [reviewToEdit, setReviewToEdit] = useState<Review>();
   const formatISODate = (date: string) => {
     const newDate = new Date(date);
 
@@ -60,10 +63,10 @@ export const Profile = () => {
     if (!stats) return <></>;
     return stats.map((subarray, index1) => {
       return (
-        <Grid item direction={'column'} sm={12} md={6}>
-          {subarray.map((stat) => {
+        <Grid item sm={12} md={6} key={`statsCol-${index1}`}>
+          {subarray.map((stat, index2) => {
             return (
-              <div className="user-profile-stat-container">
+              <div className="user-profile-stat-container" key={`statCol-${index1}-stat-${index2}`}>
                 <span className="user-profile-stat-text">{stat.label}</span>
                 <span className="user-profile-stat-text">{stat.value}</span>
               </div>
@@ -72,6 +75,21 @@ export const Profile = () => {
         </Grid>
       );
     });
+  };
+
+  const updateReviewList = (review: Review) => {
+    closeModal();
+    if (!reviews) return;
+    const index = reviews.findIndex((r) => r.id === review.id);
+    if (index === -1) return;
+    let updatedReviews = reviews;
+    updatedReviews[index] = review;
+    setReviews(updatedReviews);
+  };
+
+  const handleEditReviewButton = (review: Review) => {
+    setReviewToEdit(review);
+    openModal();
   };
 
   return (
@@ -129,19 +147,28 @@ export const Profile = () => {
         <div>
           <MMSubTitle content="Reseñas" />
           <h3>Ultimas Reseñas:</h3>
-          {/* {userProfile &&
-            userProfile.reviews &&
-            userProfile.reviews.map((review: Review) => (
-              <ReviewContent
-                key={review.id}
-                reviewableName={''}
-                review={review}
-                canEdit={userProfile?.id === review.user?.id}
-                handleEditReviewButton={handleEditReviewButton}
-              />
-            ))} */}
+          <div className="user-profile-reviews-container">
+            {reviews &&
+              reviews.map((review: Review) => (
+                <ReviewContent
+                  key={review.id}
+                  reviewableName={review.reviewable_name}
+                  review={review}
+                  canEdit={true}
+                  handleEditReviewButton={handleEditReviewButton}
+                />
+              ))}
+          </div>
         </div>
       </Grid>
+      <MMModal closeModal={closeModal} isModalOpen={isModalOpen} title={'Editar Reseña'}>
+        <ReviewForm
+          isFormEdit={true}
+          reviewToEdit={reviewToEdit}
+          closeModal={closeModal}
+          successCallback={(review) => updateReviewList(review)}
+        />
+      </MMModal>
     </Grid>
   );
 };

@@ -80,7 +80,6 @@ export const EditProfile = () => {
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
-      console.log(data);
       const response = await updateProfile(
         data.full_name,
         data.username,

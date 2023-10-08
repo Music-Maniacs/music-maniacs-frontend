@@ -17,7 +17,6 @@ export const ImageCropper = ({ image, setImage, closeModal, type, onChange }: Im
   const lastCroppedAreaPixels = useRef<Area>({ width: 376, height: 376, x: 0, y: 0 });
   const onCropComplete = (croppedArea: Area, croppedAreaPixels: Area) => {
     lastCroppedAreaPixels.current = croppedAreaPixels;
-    console.log(croppedArea, croppedAreaPixels);
   };
 
   return (

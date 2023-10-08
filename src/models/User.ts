@@ -18,7 +18,6 @@ export interface User {
   links?: Link[];
   deleted_at?: string;
   blocked_until?: string;
-  reviews: Review[];
   profile_image: Image;
   cover_image: Image;
   user_stat: {

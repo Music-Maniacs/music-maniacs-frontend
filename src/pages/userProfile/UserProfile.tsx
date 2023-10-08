@@ -18,6 +18,7 @@ import { useUserProfileRequest } from './hooks/useUserProfileRequest';
 import { useAuth } from '../../context/authContext';
 import { useNavigate } from 'react-router-dom';
 import { ChangePasswordUserProfile } from './pages/password/ChangePasswordUserProfile';
+import { UserFollows } from './pages/follows/UserFollows';
 
 const UserProfileDeleteUser = styled.li`
   display: flex;
@@ -87,7 +88,7 @@ export const UserProfile = () => {
   ];
   const content = [
     <Profile />,
-    <span>Seguidos</span>,
+    <UserFollows />,
     <ChangePasswordUserProfile />,
     userProfile ? <EditProfile /> : <Loader />
   ];

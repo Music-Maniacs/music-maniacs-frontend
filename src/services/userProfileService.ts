@@ -1,10 +1,21 @@
 import axios from 'axios';
+import { Artist } from '../models/Artist';
+import { Producer } from '../models/Producer';
+import { Review } from '../models/Review';
 import { User } from '../models/User';
+import { Venue } from '../models/Venue';
 
 const profileUrl = `${process.env.REACT_APP_API_URL}/profile`;
 
-export async function getUserProfile(id: string): Promise<User> {
-  return (await axios.get(`${profileUrl}/${id}`)).data;
+type ProfileRes = {
+  user: User;
+  reviews: Review[];
+};
+export async function getUserProfile(id: string): Promise<ProfileRes> {
+  const res = (await axios.get(`${profileUrl}/${id}`)).data;
+  const user: User = res;
+  const reviews: Review[] = res.last_reviews;
+  return { user, reviews };
 }
 
 export async function updateProfile(
@@ -47,4 +58,21 @@ export async function changePasswordUserProfile(password: string, passwordConfir
     }
   };
   return await axios.put(`${profileUrl}/change_password`, body);
+}
+
+export type Follow = {
+  id: string;
+  name: string;
+};
+export async function getFollowedArtists(): Promise<Follow[]> {
+  return await axios.get(`${profileUrl}/show_followed_artists`);
+}
+export async function getFollowedEvents(): Promise<Follow[]> {
+  return await axios.get(`${profileUrl}/show_followed_events`);
+}
+export async function getFollowedProducers(): Promise<Follow[]> {
+  return await axios.get(`${profileUrl}/show_followed_producers`);
+}
+export async function getFollowedVenues(): Promise<Follow[]> {
+  return await axios.get(`${profileUrl}/show_followed_venues`);
 }
