@@ -10,6 +10,7 @@ import { StyledFlex, StyledFlexColumn } from '../../../styles/styledComponents';
 import { useNavigate } from 'react-router-dom';
 import { MMButton } from '../../../components/MMButton/MMButton';
 import moment from 'moment';
+import { NoData } from '../../../components/NoData/NoData';
 
 type ProfileEventsBoxProps = {
   profile: Artist | Producer | Venue;
@@ -24,9 +25,11 @@ export const ProfileEventsBox = ({ profile }: ProfileEventsBoxProps) => {
             label: 'Próximos Eventos',
             content: () => (
               <StyledFlexColumn>
-                {profile.next_events.map((event) => (
-                  <EventInfo key={event.id} event={event} />
-                ))}
+                {profile.next_events.length === 0 ? (
+                  <NoData message="No hay eventos para mostrar" />
+                ) : (
+                  profile.next_events.map((event) => <EventInfo key={event.id} event={event} />)
+                )}
               </StyledFlexColumn>
             )
           },
@@ -34,9 +37,11 @@ export const ProfileEventsBox = ({ profile }: ProfileEventsBoxProps) => {
             label: 'Eventos Pasados',
             content: () => (
               <StyledFlexColumn>
-                {profile.past_events.map((event) => (
-                  <EventInfo key={event.id} event={event} />
-                ))}
+                {profile.past_events.length === 0 ? (
+                  <NoData message="No hay eventos para mostrar" />
+                ) : (
+                  profile.past_events.map((event) => <EventInfo key={event.id} event={event} />)
+                )}
               </StyledFlexColumn>
             )
           }

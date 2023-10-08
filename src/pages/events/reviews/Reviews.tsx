@@ -23,6 +23,7 @@ import { Pagination } from '../../../models/Generic';
 import { ReviewsSkeleton } from '../../../components/Reviews/ReviewsSkeleton';
 import { ReportForm } from '../../../components/forms/report/ReportForm';
 import { reportReview } from '../../../services/reviewsService';
+import { NoData } from '../../../components/NoData/NoData';
 
 const Reviews = () => {
   const { id } = useParams();
@@ -313,17 +314,21 @@ const ReviewsByReviewable = ({
     <>
       {pagination.isLoading && pagination.page === 1 && <ReviewsSkeleton />}
 
-      {reviews.map((review: Review, index) => (
-        <ReviewContent
-          key={review.id}
-          innerRef={reviews.length === index + 1 ? lastElementRef : undefined}
-          reviewableName={reviewableName}
-          review={review}
-          canEdit={user?.id === review?.user?.id}
-          handleEditReviewButton={handleEditReviewButton}
-          handleReportReviewButton={handleReportReviewButton}
-        />
-      ))}
+      {reviews.length === 0 ? (
+        <NoData message="No hay reseñas para mostrar" />
+      ) : (
+        reviews.map((review: Review, index) => (
+          <ReviewContent
+            key={review.id}
+            innerRef={reviews.length === index + 1 ? lastElementRef : undefined}
+            reviewableName={reviewableName}
+            review={review}
+            canEdit={user?.id === review?.user?.id}
+            handleEditReviewButton={handleEditReviewButton}
+            handleReportReviewButton={handleReportReviewButton}
+          />
+        ))
+      )}
 
       {pagination.isLoading && pagination.page > 1 && <ReviewsSkeleton />}
     </>

@@ -25,6 +25,7 @@ import { FaThumbsUp, FaTrash, FaVideo } from 'react-icons/fa';
 import colors from '../../../styles/_colors.scss';
 import { sweetAlert } from '../../../components/SweetAlert/sweetAlert';
 import { deleteVideo, likeVideo, removeLikeVideo } from '../../../services/videoService';
+import { NoData } from '../../../components/NoData/NoData';
 
 const Multimedia = () => {
   const { id } = useParams();
@@ -231,9 +232,7 @@ const Multimedia = () => {
                           </div>
                         </StyledFlexColumn>
                       ) : (
-                        <StyledFlex $justifyContent="center" $alignItems="center">
-                          <h3>No hay video para mostrar</h3>
-                        </StyledFlex>
+                        <NoData message="No hay videos para mostrar" />
                       )}
                     </>
                   )}
@@ -261,17 +260,23 @@ const Multimedia = () => {
 
                   <br />
                   <Grid container spacing={2}>
-                    {videos.map((video) => (
-                      <Grid item xs={12} sm={6} md={4} lg={12} key={video.id}>
-                        <VideoCard
-                          video={video}
-                          handleCardClick={(video) => setVideoToPreview(video)}
-                          canDelete={user?.id === video.user?.id}
-                          handleDelete={handleVideoDelete}
-                          handleLikeVideo={handleLikeVideo}
-                        />
+                    {videos.length === 0 ? (
+                      <Grid item xs={12}>
+                        <NoData message="No hay videos" />
                       </Grid>
-                    ))}
+                    ) : (
+                      videos.map((video) => (
+                        <Grid item xs={12} sm={6} md={4} lg={12} key={video.id}>
+                          <VideoCard
+                            video={video}
+                            handleCardClick={(video) => setVideoToPreview(video)}
+                            canDelete={user?.id === video.user?.id}
+                            handleDelete={handleVideoDelete}
+                            handleLikeVideo={handleLikeVideo}
+                          />
+                        </Grid>
+                      ))
+                    )}
                   </Grid>
                 </MMBox>
               </Grid>

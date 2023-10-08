@@ -26,6 +26,7 @@ import { useModal } from '../../../components/hooks/useModal';
 import { ArtistForm } from '../../../components/forms/artist/ArtistForm';
 import { ProducerForm } from '../../../components/forms/producer/ProducerForm';
 import { VenuesForm } from '../../../components/forms/venues/VenuesForm';
+import { NoData } from '../../../components/NoData/NoData';
 
 type ProfileSearchApiResponse = {
   artists: PaginatedApiResponse<Artist>;
@@ -270,20 +271,24 @@ const ProfileTabContent = ({ profileKlass, data, lastElementRef }: ProfileTabCon
 
   return (
     <StyledFlexColumn>
-      {data.map((profile, index) => (
-        <div
-          key={profile.id}
-          ref={data.length === index + 1 ? lastElementRef : undefined}
-          className="profile-search-item"
-          onClick={() => navigate(`${profileKlass}s/${profile.id}`)}
-        >
-          <Icon size={'1.5rem'} />
+      {data.length === 0 ? (
+        <NoData message="No hay perfiles para mostrar" />
+      ) : (
+        data.map((profile, index) => (
+          <div
+            key={profile.id}
+            ref={data.length === index + 1 ? lastElementRef : undefined}
+            className="profile-search-item"
+            onClick={() => navigate(`${profileKlass}s/${profile.id}`)}
+          >
+            <Icon size={'1.5rem'} />
 
-          <span>{profile.name}</span>
+            <span>{profile.name}</span>
 
-          <MMButtonResponsive Icon={FaSearch}>Consultar Perfil</MMButtonResponsive>
-        </div>
-      ))}
+            <MMButtonResponsive Icon={FaSearch}>Consultar Perfil</MMButtonResponsive>
+          </div>
+        ))
+      )}
     </StyledFlexColumn>
   );
 };
