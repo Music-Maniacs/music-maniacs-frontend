@@ -16,6 +16,7 @@ import { EventCommentForm } from './EventCommentForm';
 import { Event } from '../../../../models/Event';
 import { likeComment, removeLikeComment } from '../../../../services/commentService';
 import { errorSnackbar } from '../../../../components/Snackbar/Snackbar';
+import { NoData } from '../../../../components/NoData/NoData';
 
 type Props = {
   event: Event;
@@ -122,6 +123,8 @@ export const EventCommentBox = ({ event }: Props) => {
         <StyledFlexColumn $gap="10px">
           {pagination.isLoading && pagination.page === 1 ? (
             <CommentsSkeleton />
+          ) : comments.length === 0 ? (
+            <NoData message="No hay comentarios para mostrar" />
           ) : (
             comments.map((comment: Comment) => (
               <CommentContent

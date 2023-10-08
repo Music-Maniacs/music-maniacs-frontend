@@ -21,6 +21,7 @@ import { ReviewContent } from '../../../components/Reviews/ReviewContent';
 import { ReviewsSkeleton } from '../../../components/Reviews/ReviewsSkeleton';
 import { Loader } from '../../../components/Loader/Loader';
 import { Tooltip } from 'react-tooltip';
+import { NoData } from '../../../components/NoData/NoData';
 
 type ProfileAllReviewsProps = {
   profile: Artist | Producer | Venue;
@@ -112,16 +113,20 @@ export const ProfileAllReviews = ({ profile, reviewableKlass }: ProfileAllReview
 
                 {pagination.isLoading && pagination.page === 1 && <ReviewsSkeleton />}
 
-                {reviews.map((review: Review, index) => (
-                  <ReviewContent
-                    key={review.id}
-                    innerRef={reviews.length === index + 1 ? lastElementRef : undefined}
-                    reviewableName={profile.name}
-                    review={review}
-                    canEdit={user?.id === review.user?.id}
-                    handleEditReviewButton={handleEditReviewButton}
-                  />
-                ))}
+                {reviews.length === 0 ? (
+                  <NoData message="No hay reseñas para mostrar" />
+                ) : (
+                  reviews.map((review: Review, index) => (
+                    <ReviewContent
+                      key={review.id}
+                      innerRef={reviews.length === index + 1 ? lastElementRef : undefined}
+                      reviewableName={profile.name}
+                      review={review}
+                      canEdit={user?.id === review.user?.id}
+                      handleEditReviewButton={handleEditReviewButton}
+                    />
+                  ))
+                )}
 
                 {pagination.isLoading && pagination.page > 1 && <ReviewsSkeleton />}
               </div>

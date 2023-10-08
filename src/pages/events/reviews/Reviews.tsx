@@ -21,6 +21,7 @@ import { ReviewContent } from '../../../components/Reviews/ReviewContent';
 import { useInfiniteScroll } from '../../../components/hooks/useInfiniteScroll';
 import { Pagination } from '../../../models/Generic';
 import { ReviewsSkeleton } from '../../../components/Reviews/ReviewsSkeleton';
+import { NoData } from '../../../components/NoData/NoData';
 
 const Reviews = () => {
   const { id } = useParams();
@@ -290,16 +291,20 @@ const ReviewsByReviewable = ({
     <>
       {pagination.isLoading && pagination.page === 1 && <ReviewsSkeleton />}
 
-      {reviews.map((review: Review, index) => (
-        <ReviewContent
-          key={review.id}
-          innerRef={reviews.length === index + 1 ? lastElementRef : undefined}
-          reviewableName={reviewableName}
-          review={review}
-          canEdit={user?.id === review?.user?.id}
-          handleEditReviewButton={handleEditReviewButton}
-        />
-      ))}
+      {reviews.length === 0 ? (
+        <NoData message="No hay reseñas para mostrar" />
+      ) : (
+        reviews.map((review: Review, index) => (
+          <ReviewContent
+            key={review.id}
+            innerRef={reviews.length === index + 1 ? lastElementRef : undefined}
+            reviewableName={reviewableName}
+            review={review}
+            canEdit={user?.id === review?.user?.id}
+            handleEditReviewButton={handleEditReviewButton}
+          />
+        ))
+      )}
 
       {pagination.isLoading && pagination.page > 1 && <ReviewsSkeleton />}
     </>
