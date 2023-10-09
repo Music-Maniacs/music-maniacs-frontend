@@ -7,6 +7,7 @@ import { usePagination } from '../../../../components/searcher/usePagination';
 import { Pagination } from '../../../../models/Generic';
 import { Follow } from '../../../../services/userProfileService';
 import { FollowContent, FollowTypes } from './FollowContent';
+import { NoData } from '../../../../components/NoData/NoData';
 
 const FollowsListContainer = styled.div`
   display: flex;
@@ -14,7 +15,6 @@ const FollowsListContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
-  width: ;
 `;
 export const UserFollows = () => {
   const [followedEvents, setFollowedEvents] = useState<Follow[]>([]);
@@ -149,16 +149,20 @@ const FollowsByFollowable = ({ pagination, follows, lastElementRef, type, setFol
     <FollowsListContainer>
       {pagination.isLoading && pagination.page === 1 && <Loader />}
 
-      {follows.map((follow: Follow, index) => (
-        <FollowContent
-          key={follow.id}
-          innerRef={follows.length === index + 1 ? lastElementRef : undefined}
-          follow={follow}
-          canUnfollow={true}
-          type={type}
-          setFollows={setFollows}
-        />
-      ))}
+      {follows.length === 0 ? (
+        <NoData message="No hay seguidos para mostrar" style={{ width: '100%' }} />
+      ) : (
+        follows.map((follow: Follow, index) => (
+          <FollowContent
+            key={follow.id}
+            innerRef={follows.length === index + 1 ? lastElementRef : undefined}
+            follow={follow}
+            canUnfollow={true}
+            type={type}
+            setFollows={setFollows}
+          />
+        ))
+      )}
 
       {pagination.isLoading && pagination.page > 1 && <Loader />}
     </FollowsListContainer>

@@ -4,6 +4,7 @@ import colors from '../../styles/_colors.scss';
 
 type NoDataProps = {
   message: string;
+  style?: React.CSSProperties;
 };
 
 const NoDataContainer = styled.div`
@@ -14,9 +15,9 @@ const NoDataContainer = styled.div`
   color: #ffffffc3;
 `;
 
-export const NoData = ({ message }: NoDataProps) => {
+export const NoData = ({ message, style }: NoDataProps) => {
   return (
-    <NoDataContainer>
+    <NoDataContainer style={style}>
       <h3>{message}</h3>
     </NoDataContainer>
   );

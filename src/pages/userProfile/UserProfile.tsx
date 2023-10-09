@@ -87,7 +87,7 @@ export const UserProfile = () => {
     }
   ];
   const content = [
-    <Profile />,
+    userProfile ? <Profile /> : <Loader />,
     <UserFollows />,
     <ChangePasswordUserProfile />,
     userProfile ? <EditProfile /> : <Loader />
