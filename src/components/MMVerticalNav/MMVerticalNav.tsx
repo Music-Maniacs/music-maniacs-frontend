@@ -5,6 +5,7 @@ import { MMColors } from '../../models/Generic';
 import breakpoints from '../../styles/_breakpoints.scss';
 import { MMTab } from './MMTab';
 import colors from '../../styles/_colors.scss';
+import { IconBaseProps } from 'react-icons';
 
 const VerticalNavContainer = styled.div`
   padding: 10px;
@@ -49,7 +50,7 @@ const VerticalSideavContentContainer = styled.div`
 export type MMNavTabProps = {
   href?: string;
   label?: string;
-  Icon?: IconType;
+  Icon?: IconType | ((props: IconBaseProps) => JSX.Element);
   chip?: {
     color?: MMColors;
     value: number;

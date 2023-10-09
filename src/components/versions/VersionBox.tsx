@@ -32,7 +32,7 @@ export const VersionBox = ({ versions }: Props) => {
       <MMSubTitle content="Versiones" />
 
       <StyledFlexColumn $gap="10px">
-        {versions.map((version) => (
+        {[...versions].reverse().map((version) => (
           <StyledFlexColumn
             $padding="3px 0px"
             $margin="3px 0px"
@@ -55,8 +55,8 @@ export const VersionBox = ({ versions }: Props) => {
               </MMChip>
             </StyledFlex>
 
-            {Object.keys(version.object_changes).length > 0 &&
-              Object.entries(version.object_changes).map(([key, value]) => (
+            {Object.keys(version.named_object_changes).length > 0 &&
+              Object.entries(version.named_object_changes).map(([key, value]) => (
                 <Grid container key={key}>
                   <Grid item sm={12} md={2}>
                     <span>

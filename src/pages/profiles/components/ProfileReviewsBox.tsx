@@ -13,6 +13,7 @@ import { useAuth } from '../../../context/authContext';
 import { useModal } from '../../../components/hooks/useModal';
 import { MMModal } from '../../../components/Modal/MMModal';
 import { ReviewForm } from '../../../components/forms/reviews/ReviewForm';
+import { NoData } from '../../../components/NoData/NoData';
 
 type ProfileReviewsBoxProps = {
   profile: Artist | Producer | Venue;
@@ -67,17 +68,23 @@ export const ProfileReviewsBox = ({ profile, reviewableKlass }: ProfileReviewsBo
 
           <h4>Últimas Reseñas</h4>
 
-          {profile.last_reviews.map((review: Review) => (
-            <ReviewContent
-              key={review.id}
-              reviewableName={profile.name}
-              review={review}
-              canEdit={user?.id === review.user?.id}
-              handleEditReviewButton={handleEditReviewButton}
-            />
-          ))}
+          {profile.last_reviews.length === 0 ? (
+            <NoData message="No hay reseñas para mostrar" />
+          ) : (
+            profile.last_reviews.map((review: Review) => (
+              <ReviewContent
+                key={review.id}
+                reviewableName={profile.name}
+                review={review}
+                canEdit={user?.id === review.user?.id}
+                handleEditReviewButton={handleEditReviewButton}
+              />
+            ))
+          )}
 
-          <MMLink content="Ver Todas" to={`reviews`} />
+          <br />
+
+          <MMLink content="Ver todas las reseñas" to={`reviews`} />
         </div>
       </MMBox>
     </>

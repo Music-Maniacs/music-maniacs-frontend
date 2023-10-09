@@ -12,6 +12,7 @@ import { ReviewContent } from '../../../../components/Reviews/ReviewContent';
 import { useAuth } from '../../../../context/authContext';
 import { Navtab } from '../../../../components/Navtab/Navtab';
 import MMLink from '../../../../components/MMLink/MMLink';
+import { NoData } from '../../../../components/NoData/NoData';
 
 type Props = {
   event: Event;
@@ -119,14 +120,18 @@ export const EventReviewBox = ({ event }: Props) => {
                 content: () => (
                   <>
                     {event.reviews_info &&
-                      event.reviews_info.artist.last_reviews.map((review: Review) => (
-                        <ReviewContent
-                          key={review.id}
-                          reviewableName={event.artist.name}
-                          review={review}
-                          canEdit={user?.id === review.user?.id}
-                          handleEditReviewButton={handleEditReviewButton}
-                        />
+                      (event.reviews_info.artist.last_reviews.length === 0 ? (
+                        <NoData message="No hay reseñas para mostrar" />
+                      ) : (
+                        event.reviews_info.artist.last_reviews.map((review: Review) => (
+                          <ReviewContent
+                            key={review.id}
+                            reviewableName={event.artist.name}
+                            review={review}
+                            canEdit={user?.id === review.user?.id}
+                            handleEditReviewButton={handleEditReviewButton}
+                          />
+                        ))
                       ))}
                   </>
                 )
@@ -136,14 +141,18 @@ export const EventReviewBox = ({ event }: Props) => {
                 content: () => (
                   <>
                     {event.reviews_info &&
-                      event.reviews_info.venue.last_reviews.map((review: Review) => (
-                        <ReviewContent
-                          key={review.id}
-                          reviewableName={event.venue.name}
-                          review={review}
-                          canEdit={user?.id === review.user?.id}
-                          handleEditReviewButton={handleEditReviewButton}
-                        />
+                      (event.reviews_info.venue.last_reviews.length === 0 ? (
+                        <NoData message="No hay reseñas para mostrar" />
+                      ) : (
+                        event.reviews_info.venue.last_reviews.map((review: Review) => (
+                          <ReviewContent
+                            key={review.id}
+                            reviewableName={event.venue.name}
+                            review={review}
+                            canEdit={user?.id === review.user?.id}
+                            handleEditReviewButton={handleEditReviewButton}
+                          />
+                        ))
                       ))}
                   </>
                 )
@@ -153,14 +162,18 @@ export const EventReviewBox = ({ event }: Props) => {
                 content: () => (
                   <>
                     {event.reviews_info &&
-                      event.reviews_info.producer.last_reviews.map((review: Review) => (
-                        <ReviewContent
-                          key={review.id}
-                          reviewableName={event.producer.name}
-                          review={review}
-                          canEdit={user?.id === review.user?.id}
-                          handleEditReviewButton={handleEditReviewButton}
-                        />
+                      (event.reviews_info.producer.last_reviews.length === 0 ? (
+                        <NoData message="No hay reseñas para mostrar" />
+                      ) : (
+                        event.reviews_info.producer.last_reviews.map((review: Review) => (
+                          <ReviewContent
+                            key={review.id}
+                            reviewableName={event.producer.name}
+                            review={review}
+                            canEdit={user?.id === review.user?.id}
+                            handleEditReviewButton={handleEditReviewButton}
+                          />
+                        ))
                       ))}
                   </>
                 )
@@ -168,7 +181,9 @@ export const EventReviewBox = ({ event }: Props) => {
             ]}
           />
 
-          <MMLink content="Ver Todas" to={`/events/${event.id}/reviews`} />
+          <br />
+
+          <MMLink content="Ver todas las reseñas" to={`/events/${event.id}/reviews`} />
         </div>
       </MMBox>
     </>

@@ -67,9 +67,10 @@ export async function recoverPassword(
   return await axios.patch(`${userUrl}/password`, body);
 }
 
+// todo: esto pasarlo el de profiles
 export async function userInfo(token: string): Promise<User> {
   return (
-    await axios.get(`${userUrl}/user_info`, {
+    await axios.get(`${process.env.REACT_APP_API_URL}/profile/info`, {
       headers: {
         Authorization: token
       }

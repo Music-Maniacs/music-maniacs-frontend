@@ -14,6 +14,9 @@ import { useModal } from '../../../../components/hooks/useModal';
 import { MMModal } from '../../../../components/Modal/MMModal';
 import { EventCommentForm } from './EventCommentForm';
 import { Event } from '../../../../models/Event';
+import { likeComment, removeLikeComment } from '../../../../services/commentService';
+import { errorSnackbar } from '../../../../components/Snackbar/Snackbar';
+import { NoData } from '../../../../components/NoData/NoData';
 
 type Props = {
   event: Event;
@@ -71,6 +74,30 @@ export const EventCommentBox = ({ event }: Props) => {
     openModal();
   };
 
+  const handleLikeComment = async (commentId: string, likedByCurrentUser: boolean) => {
+    const likeService = likedByCurrentUser ? removeLikeComment : likeComment;
+
+    try {
+      await likeService(commentId);
+
+      const commentsTmp = comments.map((comment) => {
+        if (comment.id === commentId) {
+          return {
+            ...comment,
+            liked_by_current_user: !likedByCurrentUser,
+            likes_count: likedByCurrentUser ? comment.likes_count - 1 : comment.likes_count + 1
+          };
+        }
+
+        return comment;
+      });
+
+      setComments(commentsTmp);
+    } catch (error) {
+      errorSnackbar('Error al dar like al comentario. Contacte a Soporte.');
+    }
+  };
+
   return (
     <>
       <MMModal
@@ -96,6 +123,8 @@ export const EventCommentBox = ({ event }: Props) => {
         <StyledFlexColumn $gap="10px">
           {pagination.isLoading && pagination.page === 1 ? (
             <CommentsSkeleton />
+          ) : comments.length === 0 ? (
+            <NoData message="No hay comentarios para mostrar" />
           ) : (
             comments.map((comment: Comment) => (
               <CommentContent
@@ -103,6 +132,7 @@ export const EventCommentBox = ({ event }: Props) => {
                 comment={comment}
                 canEdit={user?.id === comment.user?.id}
                 handleEditCommentButton={handleEditCommentButton}
+                handleLikeComment={handleLikeComment}
               />
             ))
           )}

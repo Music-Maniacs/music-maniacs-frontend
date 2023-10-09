@@ -23,3 +23,11 @@ export async function updateComment(id: string, body: string): Promise<Comment> 
 
   return (await axios.put(`${commentsUrl}/${id}`, requestBody)).data;
 }
+
+export async function likeComment(commentId: string): Promise<void> {
+  return (await axios.post(`${commentsUrl}/${commentId}/like`)).data;
+}
+
+export async function removeLikeComment(commentId: string): Promise<void> {
+  return (await axios.post(`${commentsUrl}/${commentId}/remove_like`)).data;
+}

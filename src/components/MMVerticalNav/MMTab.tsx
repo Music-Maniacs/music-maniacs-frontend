@@ -1,5 +1,5 @@
-import React, { Fragment, useEffect, useRef } from 'react';
-import { IconType } from 'react-icons';
+import React, { useEffect, useRef } from 'react';
+import { IconBaseProps, IconType } from 'react-icons';
 import { styled } from 'styled-components';
 import { MMColors } from '../../models/Generic';
 import breakpoints from '../../styles/_breakpoints.scss';
@@ -51,7 +51,7 @@ const ChipSidenavTabAnchor = styled.div`
 `;
 
 export interface MMTabProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
-  Icon?: IconType;
+  Icon?: IconType | ((props: IconBaseProps) => JSX.Element);
   label: String;
   chip?: {
     color?: MMColors;

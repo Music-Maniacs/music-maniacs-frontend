@@ -5,9 +5,11 @@ import NavBar from './components/NavBar/NavBar';
 import { Loader } from './components/Loader/Loader';
 
 // Events module
+const Home = lazy(() => import('./pages/events/home/Home'));
 const EventsContainer = lazy(() => import('./pages/events/EventsContainer'));
 const EventsShow = lazy(() => import('./pages/events/show/Show'));
 const EventsReviews = lazy(() => import('./pages/events/reviews/Reviews'));
+const EventsMultimedia = lazy(() => import('./pages/events/multimedia/Multimedia'));
 const SearchEvents = lazy(() => import('./pages/events/search/SearchEvents'));
 
 // Auth Module
@@ -38,6 +40,7 @@ const ThresholdsContainer = lazy(() => import('./pages/admin/thresholds/Threshol
 const UserProfileContainer = lazy(() => import('./pages/userProfile/UserProfileContainer'));
 const UserProfile = lazy(() => import('./pages/userProfile/show/ShowUserProfile'));
 // Profiles Module
+const ProfilesSearch = lazy(() => import('./pages/profiles/search/Search'));
 const ArtistContainer = lazy(() => import('./pages/profiles/artist/ArtistProfileContainer'));
 const ArtistShow = lazy(() => import('./pages/profiles/artist/show/Show'));
 const ArtistReviews = lazy(() => import('./pages/profiles/artist/reviews/Reviews'));
@@ -56,13 +59,13 @@ function App() {
       <Suspense fallback={<Loader />}>
         <Routes>
           {/* Events Module */}
-          {/* todo: Temporal. Hasta que tengamos la vista de descubrir eventos */}
-          <Route path="/" element={<Navigate to={'/events'} />} />
+          <Route path="/" element={<Home />} />
 
           <Route path="/events" element={<EventsContainer />}>
             <Route index element={<SearchEvents />} />
-            <Route path=":id/reviews" element={<EventsReviews />} />
             <Route path=":id" element={<EventsShow />} />
+            <Route path=":id/reviews" element={<EventsReviews />} />
+            <Route path=":id/multimedia" element={<EventsMultimedia />} />
           </Route>
 
           {/* Auth Module */}
@@ -119,7 +122,7 @@ function App() {
 
           {/* Profiles Module */}
           <Route path="/profiles">
-            {/* <Route index element={<SearchProfiles />} /> */}
+            <Route index element={<ProfilesSearch />} />
 
             <Route path="artists/:id" element={<ArtistContainer />}>
               <Route index element={<ArtistShow />} />

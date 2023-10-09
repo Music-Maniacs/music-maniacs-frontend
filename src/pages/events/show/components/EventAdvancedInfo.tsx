@@ -3,13 +3,17 @@ import { MMBox } from '../../../../components/MMBox/MMBox';
 import { Grid } from '@mui/material';
 import { MMSubTitle } from '../../../../components/MMTitle/MMTitle';
 import { Event } from '../../../../models/Event';
+import { MMButton } from '../../../../components/MMButton/MMButton';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {
   event: Event;
 };
 
 export const EventAdvancedInfo = ({ event }: Props) => {
-  /* Description - Links */
+  const navigate = useNavigate();
+
+  /* Description - Links - Multimedia */
   return (
     <MMBox className="show-boxes">
       <Grid container spacing={5}>
@@ -28,6 +32,10 @@ export const EventAdvancedInfo = ({ event }: Props) => {
               ))}
             </ul>
           )}
+
+          <MMSubTitle content="Multimedia" />
+
+          <MMButton onClick={() => navigate(`multimedia`)}>Ver Multimedia</MMButton>
         </Grid>
       </Grid>
     </MMBox>
