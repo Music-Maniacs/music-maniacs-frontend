@@ -31,10 +31,10 @@ export type ReportableType = 'Comment' | 'Venue' | 'Artist' | 'Producer' | 'Even
 
 export const reportCollectionByType: Readonly<Record<ReportableType, ReportCategory[]>> = {
   Comment: ['inappropriate_content', 'spam', 'other'],
-  Venue: ['duplicated', 'inappropriate_content', 'spam', 'other'],
-  Artist: ['duplicated', 'inappropriate_content', 'spam', 'other'],
-  Producer: ['duplicated', 'inappropriate_content', 'spam', 'other'],
-  Event: ['duplicated', 'inappropriate_content', 'spam', 'other'],
+  Venue: ['duplicated', 'fake', 'spam', 'other'],
+  Artist: ['duplicated', 'fake', 'spam', 'other'],
+  Producer: ['duplicated', 'fake', 'spam', 'other'],
+  Event: ['duplicated', 'fake', 'spam', 'other'],
   Video: ['inappropriate_content', 'spam', 'other'],
   Review: ['inappropriate_content', 'spam', 'other']
 };
