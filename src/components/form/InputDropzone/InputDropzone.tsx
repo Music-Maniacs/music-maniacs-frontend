@@ -127,7 +127,7 @@ const Dropzone = ({ onChange, previewImageUrl, acceptedFileTypes, type, width, .
         <input {...getInputProps()} />
       </StyledDropzoneContainer>
       {type && (
-        <MMModal title="Recortar Imagen" isModalOpen={isModalOpen} closeModal={closeModal} maxWidth="lg">
+        <MMModal title="Recortar Imagen" isModalOpen={isModalOpen} closeModal={closeModal} maxWidth="md">
           <>
             <div>
               {image ? (

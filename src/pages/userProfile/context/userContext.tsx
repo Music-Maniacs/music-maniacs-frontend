@@ -22,13 +22,6 @@ type StoreProps = {
   setReviews: React.Dispatch<React.SetStateAction<Review[] | undefined>>;
 };
 
-// type Follows = {
-//   events: Follow;
-//   venues: Follow;
-//   producers: Follow;
-//   artists: Follow;
-// };
-
 const UserContext = createContext<StoreProps | null>(null);
 
 type Props = {

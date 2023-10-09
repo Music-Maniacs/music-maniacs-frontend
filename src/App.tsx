@@ -36,6 +36,7 @@ const ThresholdsContainer = lazy(() => import('./pages/admin/thresholds/Threshol
 
 // User Profile Module
 const UserProfileContainer = lazy(() => import('./pages/userProfile/UserProfileContainer'));
+const UserProfile = lazy(() => import('./pages/userProfile/show/ShowUserProfile'));
 // Profiles Module
 const ArtistContainer = lazy(() => import('./pages/profiles/artist/ArtistProfileContainer'));
 const ArtistShow = lazy(() => import('./pages/profiles/artist/show/Show'));
@@ -137,8 +138,9 @@ function App() {
           </Route>
 
           {/* User Profile Module */}
-          <Route path="/user/profile">
-            <Route index element={<UserProfileContainer />} />
+          <Route path="/user">
+            <Route path="profile" element={<UserProfileContainer />} />
+            <Route path=":id" element={<UserProfile />} />
           </Route>
 
           {/* Not Found */}

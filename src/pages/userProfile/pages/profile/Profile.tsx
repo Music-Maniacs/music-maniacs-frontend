@@ -13,6 +13,9 @@ import { MMModal } from '../../../../components/Modal/MMModal';
 import { ReviewContent } from '../../../../components/ReviewContent/ReviewContent';
 import { ReviewForm } from '../../../../components/forms/reviews/ReviewForm';
 import { useModal } from '../../../../components/hooks/useModal';
+import { CoverImage } from '../../components/CoverImage';
+import { UserInfo } from '../../components/UserInfo';
+import { UserLinks } from '../../components/UserLinks';
 
 export const Profile = () => {
   const { userProfile, reviews, setReviews } = useUser();
@@ -83,6 +86,8 @@ export const Profile = () => {
     const index = reviews.findIndex((r) => r.id === review.id);
     if (index === -1) return;
     let updatedReviews = reviews;
+    const reviewableName = updatedReviews[index].reviewable_name;
+    review.reviewable_name = reviewableName;
     updatedReviews[index] = review;
     setReviews(updatedReviews);
   };
@@ -95,36 +100,17 @@ export const Profile = () => {
   return (
     <Grid container direction={'column'} className="user-profile-page-container">
       {/* User cover image */}
-      {userProfile?.cover_image && (
-        <Grid item className="user-profile-cover">
-          <img src={userProfile?.cover_image.full_url} />
-        </Grid>
-      )}
+      <CoverImage coverImage={userProfile?.cover_image} />
 
       <Grid item>
         <div className="first-row-container">
-          <div className="user-profile-info">
-            <div className="user-profile-image">
-              {userProfile?.profile_image ? <img src={userProfile.profile_image.full_url} /> : <FiUser />}
-            </div>
-            <div className="user-profile-user-data">
-              <span className="user-profile-fullname">{userProfile?.full_name}</span>
-              {userProfile && <MMChip color="primary">{userProfile?.role.name}</MMChip>}
-              <span className="user-profile-username">{`@${userProfile?.username}`}</span>
-            </div>
-          </div>
-
-          <div className="user-profile-links">
-            <MMSubTitle content="Enlaces" />
-
-            {userProfile?.links && (
-              <ul style={{ marginTop: '3px' }}>
-                {userProfile?.links.map((link) => (
-                  <li key={link.id}>{`${link.title}: ${link.url}`}</li>
-                ))}
-              </ul>
-            )}
-          </div>
+          <UserInfo
+            fullName={userProfile?.full_name}
+            profileImage={userProfile?.profile_image}
+            username={userProfile?.username}
+            role={userProfile?.role}
+          />
+          <UserLinks links={userProfile?.links} />
         </div>
       </Grid>
       <Grid item>

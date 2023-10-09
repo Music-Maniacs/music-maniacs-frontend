@@ -21,7 +21,7 @@ export const ImageCropper = ({ image, setImage, closeModal, type, onChange }: Im
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <div style={{ position: 'relative', width: '100%', height: '200px' }}>
+      <div style={{ position: 'relative', width: '100%', height: '400px' }}>
         <Cropper
           image={imageUrl.current}
           crop={crop}
@@ -35,6 +35,7 @@ export const ImageCropper = ({ image, setImage, closeModal, type, onChange }: Im
       </div>
       <div>
         <MMButton
+          style={{ marginTop: '1rem' }}
           onClick={async () => {
             try {
               const croppedImage = await getCroppedImg(image, lastCroppedAreaPixels.current);
@@ -44,7 +45,7 @@ export const ImageCropper = ({ image, setImage, closeModal, type, onChange }: Im
               }
               closeModal();
             } catch (error) {
-              // TODO: handel error (alert?)
+              // TODO: handle error (alert?)
             }
           }}
         >
