@@ -30,7 +30,10 @@ export const reportCategories = [
   'other',
   'fake',
   'duplicated',
-  'doesnt_belong_to_event'
+  'doesnt_belong_to_event',
+  'incorrect_artist',
+  'incorrect_producer',
+  'incorrect_venue'
 ] as const;
 
 export type ReportCategory = (typeof reportCategories)[number];
@@ -46,7 +49,7 @@ export const reportCollectionByType: Readonly<Record<ReportableType, ReportCateg
 
   Producer: ['duplicated', 'fake', 'spam', 'other'],
 
-  Event: ['duplicated', 'fake', 'spam', 'other'],
+  Event: ['incorrect_artist', 'incorrect_producer', 'incorrect_venue', 'duplicated', 'fake', 'spam', 'other'],
 
   Video: ['inappropriate_content', 'spam', 'doesnt_belong_to_event', 'other'],
 
