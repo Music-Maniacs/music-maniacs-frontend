@@ -21,11 +21,12 @@ import { useAuth } from '../../../context/authContext';
 import MMLink from '../../../components/MMLink/MMLink';
 import { StyledInputContainer, StyledLabel, reactSelectCustomStyles } from '../../../components/form/formStyles';
 import Select from 'react-select';
-import { FaThumbsUp, FaTrash, FaVideo } from 'react-icons/fa';
+import { FaFlag, FaThumbsUp, FaTrash, FaVideo } from 'react-icons/fa';
 import colors from '../../../styles/_colors.scss';
 import { sweetAlert } from '../../../components/SweetAlert/sweetAlert';
-import { deleteVideo, likeVideo, removeLikeVideo } from '../../../services/videoService';
+import { deleteVideo, likeVideo, removeLikeVideo, reportVideo } from '../../../services/videoService';
 import { NoData } from '../../../components/NoData/NoData';
+import { ReportForm } from '../../../components/forms/report/ReportForm';
 
 const Multimedia = () => {
   const { id } = useParams();
@@ -39,6 +40,8 @@ const Multimedia = () => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [sort, setSort] = useState<'recorded_at desc' | 'created_at desc'>('recorded_at desc');
   const { user } = useAuth();
+  const [videoToReport, setVideoToReport] = useState<Video>();
+  const { isModalOpen: isReportModalOpen, openModal: openReportModal, closeModal: closeReportModal } = useModal();
 
   useEffect(() => {
     if (!id) return navigate('/events');
@@ -157,6 +160,11 @@ const Multimedia = () => {
     }
   };
 
+  const handleReportVideo = (video: Video) => {
+    setVideoToReport(video);
+    openReportModal();
+  };
+
   return (
     <>
       {showEvent && (
@@ -164,6 +172,16 @@ const Multimedia = () => {
           <Form successCallback={handleFormSuccess} closeFormModal={closeModal} eventId={showEvent.id} />
         </MMModal>
       )}
+
+      <MMModal closeModal={closeReportModal} isModalOpen={isReportModalOpen} maxWidth="sm">
+        <ReportForm
+          reportableId={videoToReport?.id || ''}
+          service={reportVideo}
+          closeModal={closeReportModal}
+          reportTitleText="el video"
+          reportableType="Video"
+        />
+      </MMModal>
 
       <MMContainer maxWidth="xxl" className="events-show-boxes-container ">
         {showEvent ? (
@@ -273,6 +291,7 @@ const Multimedia = () => {
                             canDelete={user?.id === video.user?.id}
                             handleDelete={handleVideoDelete}
                             handleLikeVideo={handleLikeVideo}
+                            handleReportVideo={handleReportVideo}
                           />
                         </Grid>
                       ))
@@ -298,9 +317,17 @@ type VideoCardProps = {
   canDelete: boolean;
   handleDelete: (videoId: string) => void;
   handleLikeVideo: (videoId: string, likedByCurrentUser: boolean) => void;
+  handleReportVideo: (video: Video) => void;
 };
 
-const VideoCard = ({ video, canDelete = false, handleDelete, handleCardClick, handleLikeVideo }: VideoCardProps) => {
+const VideoCard = ({
+  video,
+  canDelete = false,
+  handleDelete,
+  handleCardClick,
+  handleLikeVideo,
+  handleReportVideo
+}: VideoCardProps) => {
   const { user } = useAuth();
 
   return (
@@ -344,6 +371,23 @@ const VideoCard = ({ video, canDelete = false, handleDelete, handleCardClick, ha
             >
               <FaThumbsUp />
               {video.likes_count}
+            </StyledFlex>
+
+            {/* Report */}
+            <StyledFlex
+              $cursor="pointer"
+              onClick={(e) => {
+                e.stopPropagation();
+
+                if (!user) {
+                  warningSnackbar('Debe iniciar sesión para reportar');
+                } else {
+                  handleReportVideo(video);
+                }
+              }}
+            >
+              <FaFlag />
+              Reportar
             </StyledFlex>
 
             {/* Delete */}

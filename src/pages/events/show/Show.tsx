@@ -52,16 +52,6 @@ const Show = () => {
         />
       </MMModal>
 
-      <MMModal isModalOpen={isModalOpen} closeModal={closeModal} title="Editar Evento" maxWidth="lg">
-        <EventsForm
-          isFormEdit={true}
-          eventToEdit={showEvent}
-          closeFormModal={closeModal}
-          useAdminController={false}
-          successCallback={(event) => setShowEvent((prevEvent) => ({ ...prevEvent, ...event }))}
-        />
-      </MMModal>
-
       <MMContainer maxWidth="xxl" className="events-show-boxes-container ">
         {showEvent ? (
           <>

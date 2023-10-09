@@ -8,6 +8,8 @@ import styled from 'styled-components';
 import colors from '../../styles/_colors.scss';
 import { StyledFlex, StyledFlexColumn } from '../../styles/styledComponents';
 import MMLink from '../MMLink/MMLink';
+import { useAuth } from '../../context/authContext';
+import { warningSnackbar } from '../Snackbar/Snackbar';
 
 type ReviewContentProps = {
   review: Review;
@@ -42,6 +44,7 @@ export const ReviewContent = ({
   handleReportReviewButton
 }: ReviewContentProps) => {
   const { created_at, description, rating, user, anonymous } = review;
+  const { user: currentUser } = useAuth();
 
   return (
     <StyledFlexColumn
@@ -79,7 +82,16 @@ export const ReviewContent = ({
           )}
 
           {handleReportReviewButton && (
-            <StyledFlex $cursor="pointer" onClick={() => handleReportReviewButton(review)}>
+            <StyledFlex
+              $cursor="pointer"
+              onClick={() => {
+                if (!currentUser) {
+                  warningSnackbar('Debe iniciar sesión para reportar');
+                } else {
+                  handleReportReviewButton(review);
+                }
+              }}
+            >
               <FaFlag />
               <span>Reportar</span>
             </StyledFlex>

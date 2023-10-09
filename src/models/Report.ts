@@ -24,18 +24,32 @@ export type Report = {
 
 type ReportStatus = 'pending' | 'resolved' | 'ignored';
 
-export const reportCategories = ['inappropriate_content', 'spam', 'other', 'fake', 'duplicated'] as const;
+export const reportCategories = [
+  'inappropriate_content',
+  'spam',
+  'other',
+  'fake',
+  'duplicated',
+  'doesnt_belong_to_event'
+] as const;
+
 export type ReportCategory = (typeof reportCategories)[number];
 
 export type ReportableType = 'Comment' | 'Venue' | 'Artist' | 'Producer' | 'Event' | 'Video' | 'Review';
 
 export const reportCollectionByType: Readonly<Record<ReportableType, ReportCategory[]>> = {
   Comment: ['inappropriate_content', 'spam', 'other'],
+
   Venue: ['duplicated', 'fake', 'spam', 'other'],
+
   Artist: ['duplicated', 'fake', 'spam', 'other'],
+
   Producer: ['duplicated', 'fake', 'spam', 'other'],
+
   Event: ['duplicated', 'fake', 'spam', 'other'],
-  Video: ['inappropriate_content', 'spam', 'other'],
+
+  Video: ['inappropriate_content', 'spam', 'doesnt_belong_to_event', 'other'],
+
   Review: ['inappropriate_content', 'spam', 'other']
 };
 
