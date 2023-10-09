@@ -1,5 +1,7 @@
 import { Dictionary, MMColors, ModelValidations } from './Generic';
+import { Image } from './Image';
 import { Link } from './Link';
+import { Review } from './Review';
 import { Role } from './Role';
 
 export interface User {
@@ -16,6 +18,18 @@ export interface User {
   links?: Link[];
   deleted_at?: string;
   blocked_until?: string;
+  profile_image: Image;
+  cover_image: Image;
+  user_stat: {
+    comments_count: number;
+    days_visited: number;
+    last_day_visited: string;
+    last_session: string;
+    likes_given: number;
+    likes_received: number;
+    penalty_score: number;
+    viewed_events: number;
+  };
 }
 
 export const stateColors: Record<string, MMColors> = {

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { IoMdArrowDropdown, IoMdArrowDropup, IoMdClose } from 'react-icons/io';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authContext';
+import breakpoints from '../../styles/_breakpoints.scss';
 import { MMButton } from '../MMButton/MMButton';
 import MMLink from '../MMLink/MMLink';
 import { NavUserProfile } from './NavUserProfile';
@@ -17,7 +18,7 @@ export const SideNav = ({ active, setActive }: Props) => {
   let sideNavRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
-  const md_breakpoint = 798;
+  const md_breakpoint: number = +breakpoints.md.split('px')[0];
 
   useEffect(() => {
     const handler = (e: Event) => {
@@ -124,7 +125,7 @@ const UserDropdown = () => {
       </div>
 
       <div className={userDropdownActive ? 'sidenav-user-dropdown active' : 'sidenav-user-dropdown'}>
-        <MMLink to={'/'} content="Mi Perfil" />
+        <MMLink to={'/user/profile'} content="Mi Perfil" />
         <MMLink to={'/change-password'} content="Cambiar Contraseña" />
         <MMLink to={'/recover-password'} content="Recuperar Contraseña" />
         <MMLink to={'/login'} onClick={() => handleUserLogout()} content="Cerrar Sesión" />

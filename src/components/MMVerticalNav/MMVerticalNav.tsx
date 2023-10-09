@@ -4,6 +4,7 @@ import { styled } from 'styled-components';
 import { MMColors } from '../../models/Generic';
 import breakpoints from '../../styles/_breakpoints.scss';
 import { MMTab } from './MMTab';
+import colors from '../../styles/_colors.scss';
 import { IconBaseProps } from 'react-icons';
 
 const VerticalNavContainer = styled.div`
@@ -22,10 +23,10 @@ const VerticalSidenavContainer = styled.ul`
   align-items: flex-start;
   gap: 10px;
   align-self: stretch;
-  border-right: 3px solid var(--Modal-Background, #4e504e);
+  border-right: 3px solid ${colors.box_background};
   margin: 0;
   @media screen and (max-width: ${breakpoints.sm}) {
-    border-bottom: 3px solid var(--Modal-Background, #4e504e);
+    border-bottom: 3px solid ${colors.box_background};
     border-right: none;
     flex-direction: row;
     justify-content: space-between;
