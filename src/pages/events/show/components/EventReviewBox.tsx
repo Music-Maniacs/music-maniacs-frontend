@@ -84,6 +84,7 @@ export const EventReviewBox = ({ event }: Props) => {
           service={reportReview}
           closeModal={closeReportModal}
           reportTitleText="la reseña"
+          reportableType="Review"
         />
       </MMModal>
 

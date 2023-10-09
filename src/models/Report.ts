@@ -27,7 +27,17 @@ type ReportStatus = 'pending' | 'resolved' | 'ignored';
 export const reportCategories = ['inappropriate_content', 'spam', 'other', 'fake', 'duplicated'] as const;
 export type ReportCategory = (typeof reportCategories)[number];
 
-type ReportableType = 'Comment' | 'Venue' | 'Artist' | 'Producer' | 'Event' | 'Video' | 'Reviews';
+export type ReportableType = 'Comment' | 'Venue' | 'Artist' | 'Producer' | 'Event' | 'Video' | 'Review';
+
+export const reportCollectionByType: Readonly<Record<ReportableType, ReportCategory[]>> = {
+  Comment: ['inappropriate_content', 'spam', 'other'],
+  Venue: ['duplicated', 'inappropriate_content', 'spam', 'other'],
+  Artist: ['duplicated', 'inappropriate_content', 'spam', 'other'],
+  Producer: ['duplicated', 'inappropriate_content', 'spam', 'other'],
+  Event: ['duplicated', 'inappropriate_content', 'spam', 'other'],
+  Video: ['inappropriate_content', 'spam', 'other'],
+  Review: ['inappropriate_content', 'spam', 'other']
+};
 
 export const reportValidations: Readonly<ModelValidations<Report>> = {
   category: {

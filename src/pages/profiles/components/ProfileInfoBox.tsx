@@ -11,9 +11,15 @@ import { errorSnackbar, warningSnackbar } from '../../../components/Snackbar/Sna
 import { MMSubTitle } from '../../../components/MMTitle/MMTitle';
 import { Genre } from '../../../models/Genre';
 import MMAnchor from '../../../components/MMLink/MMAnchor';
-import { followArtist, unfollowArtist } from '../../../services/artistService';
-import { followProducer, unfollowProducer } from '../../../services/producerService';
-import { followVenue, unfollowVenue } from '../../../services/venueService';
+import { followArtist, reportArtist, unfollowArtist } from '../../../services/artistService';
+import { followProducer, reportProducer, unfollowProducer } from '../../../services/producerService';
+import { followVenue, reportVenue, unfollowVenue } from '../../../services/venueService';
+import { ReportForm } from '../../../components/forms/report/ReportForm';
+import { MMModal } from '../../../components/Modal/MMModal';
+import { ReportCategory, ReportableType } from '../../../models/Report';
+import { useModal } from '../../../components/hooks/useModal';
+import { StyledFlex } from '../../../styles/styledComponents';
+import { FaFlag } from 'react-icons/fa';
 
 type ProfileInfoBoxProps = {
   profile: Artist | Producer | Venue;
@@ -35,6 +41,18 @@ const unfollowEndpointByReviewable = {
   venue: unfollowVenue
 };
 
+type Text = {
+  reportTitleText: string;
+  reportableType: ReportableType;
+  service: (id: string, userComment: string, category: ReportCategory, originalReportableId?: string) => Promise<any>;
+};
+
+const reportFormPropsByType: Record<'artist' | 'venue' | 'producer', Text> = {
+  venue: { service: reportVenue, reportTitleText: 'el espacio de evento', reportableType: 'Venue' },
+  artist: { service: reportArtist, reportTitleText: 'el artista', reportableType: 'Artist' },
+  producer: { service: reportProducer, reportTitleText: 'la productora', reportableType: 'Producer' }
+};
+
 export const ProfileInfoBox = ({
   profile,
   setProfile,
@@ -43,6 +61,7 @@ export const ProfileInfoBox = ({
   reviewableKlass
 }: ProfileInfoBoxProps) => {
   const { user } = useAuth();
+  const { isModalOpen: isReportModalOpen, openModal: openReportModal, closeModal: closeReportModal } = useModal();
 
   const followEndpoint = followEndpointByReviewable[reviewableKlass];
   const unfollowEndpoint = unfollowEndpointByReviewable[reviewableKlass];
@@ -69,8 +88,20 @@ export const ProfileInfoBox = ({
     }
   };
 
+  const handleReportProfile = () => {
+    openReportModal();
+  };
+
   return (
     <>
+      <MMModal closeModal={closeReportModal} isModalOpen={isReportModalOpen} maxWidth="sm">
+        <ReportForm
+          reportableId={profile.id}
+          closeModal={closeReportModal}
+          {...reportFormPropsByType[reviewableKlass]}
+        />
+      </MMModal>
+
       <MMBox className="show-boxes info-box">
         <div className="info-box">
           <div className="image-container">
@@ -103,6 +134,11 @@ export const ProfileInfoBox = ({
 
           {!hideActions && (
             <div className="actions-container">
+              <StyledFlex $cursor="pointer" onClick={handleReportProfile}>
+                <FaFlag />
+                <span>Reportar</span>
+              </StyledFlex>
+
               <MMButton
                 onClick={() => {
                   if (user) {

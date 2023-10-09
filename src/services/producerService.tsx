@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Producer } from '../models/Producer';
+import { ReportCategory } from '../models/Report';
 
 const producersUrl = `${process.env.REACT_APP_API_URL}/producers`;
 const adminProducersUrl = `${process.env.REACT_APP_API_URL}/admin/producers`;
@@ -61,6 +62,23 @@ export async function updateProducer(
   image && formData.append('image', image);
 
   return (await axios.put(`${producersUrl}/${id}`, formData)).data;
+}
+
+export async function reportProducer(
+  id: string,
+  userComment: string,
+  category: ReportCategory,
+  originalReportableId?: string
+): Promise<void> {
+  const requestBody = {
+    report: {
+      user_comment: userComment,
+      category,
+      original_reportable_id: originalReportableId
+    }
+  };
+
+  return (await axios.post(`${producersUrl}/${id}/report`, requestBody)).data;
 }
 
 export async function followProducer(id: string) {

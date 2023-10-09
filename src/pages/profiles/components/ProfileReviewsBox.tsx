@@ -52,6 +52,11 @@ export const ProfileReviewsBox = ({ profile, reviewableKlass }: ProfileReviewsBo
     [`${reviewableKlass}Name`]: profile.name
   };
 
+  const reportableType = (reviewableKlass.charAt(0).toUpperCase() + reviewableKlass.slice(1)) as
+    | 'Venue'
+    | 'Artist'
+    | 'Producer';
+
   return (
     <>
       <MMModal closeModal={closeModal} isModalOpen={isModalOpen} title={'Editar Reseña'}>
@@ -70,6 +75,7 @@ export const ProfileReviewsBox = ({ profile, reviewableKlass }: ProfileReviewsBo
           service={reportReview}
           closeModal={closeReportModal}
           reportTitleText="la reseña"
+          reportableType={reportableType}
         />
       </MMModal>
 

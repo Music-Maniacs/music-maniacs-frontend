@@ -89,7 +89,8 @@ export const EventReviewForm = ({
     item: true,
     xs: 12,
     sm: 12,
-    md: 4
+    md: 4,
+    display: 'flex'
   };
 
   return (

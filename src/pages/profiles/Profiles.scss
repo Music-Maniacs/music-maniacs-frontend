@@ -44,6 +44,12 @@
           margin-bottom: 5px;
         }
       }
+
+      .actions-container {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
     }
 
     .event-box {

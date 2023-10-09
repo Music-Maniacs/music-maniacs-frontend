@@ -13,15 +13,18 @@ import { MMButton } from '../../../../components/MMButton/MMButton';
 import { errorSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { useAuth } from '../../../../context/authContext';
 import { followEvent, unfollowEvent } from '../../../../services/eventService';
+import { StyledFlex } from '../../../../styles/styledComponents';
+import { FaFlag } from 'react-icons/fa';
 
 type Props = {
   event: Event;
   setEvent: Dispatch<SetStateAction<Event | undefined>>;
   openModal?: () => void;
+  openReportModal?: () => void;
   hideActions?: boolean;
 };
 
-export const EventInfoBox = ({ event, setEvent, openModal, hideActions = false }: Props) => {
+export const EventInfoBox = ({ event, setEvent, openModal, openReportModal, hideActions = false }: Props) => {
   const { user } = useAuth();
 
   const handleFollow = () => {
@@ -44,6 +47,10 @@ export const EventInfoBox = ({ event, setEvent, openModal, hideActions = false }
     }
   };
 
+  const handleReportEvent = () => {
+    openReportModal && openReportModal();
+  };
+
   return (
     <MMBox className="show-boxes info-box">
       <div className="info-box">
@@ -58,7 +65,21 @@ export const EventInfoBox = ({ event, setEvent, openModal, hideActions = false }
         <div className="data-container">
           <h1 className="name">{event.name}</h1>
 
-          <Grid container spacing={2}>
+          {user && (
+            <MMButton
+              onClick={() => {
+                if (event.followed_by_current_user) {
+                  handleUnfollow();
+                } else {
+                  handleFollow();
+                }
+              }}
+            >
+              {`${event.followed_by_current_user ? 'Dejar de seguir' : 'Seguir'}`}
+            </MMButton>
+          )}
+
+          <Grid container spacing={2} paddingTop={'10px'}>
             {/* Date */}
             <Grid item xs={12} sm={6}>
               <div className="events-icon-with-data-container">
@@ -95,19 +116,11 @@ export const EventInfoBox = ({ event, setEvent, openModal, hideActions = false }
 
         {!hideActions && (
           <div className="actions-container">
-            {user && (
-              <MMButton
-                onClick={() => {
-                  if (event.followed_by_current_user) {
-                    handleUnfollow();
-                  } else {
-                    handleFollow();
-                  }
-                }}
-              >
-                {`${event.followed_by_current_user ? 'Dejar de seguir ' : 'Seguir '}`}
-                Evento
-              </MMButton>
+            {openReportModal && (
+              <StyledFlex $cursor="pointer" onClick={handleReportEvent}>
+                <FaFlag />
+                <span>Reportar</span>
+              </StyledFlex>
             )}
 
             <MMButton onClick={openModal}>Editar Evento</MMButton>

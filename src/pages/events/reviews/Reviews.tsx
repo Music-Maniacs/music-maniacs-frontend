@@ -96,9 +96,9 @@ const Reviews = () => {
 
   useEffect(() => {
     if (showEvent) {
-      setArtistPagination((prevState) => ({ ...prevState, isLoading: true }));
-      setVenuePagination((prevState) => ({ ...prevState, isLoading: true }));
-      setProducerPagination((prevState) => ({ ...prevState, isLoading: true }));
+      artistReviews.length === 0 && setArtistPagination((prevState) => ({ ...prevState, isLoading: true }));
+      venueReviews.length === 0 && setVenuePagination((prevState) => ({ ...prevState, isLoading: true }));
+      producerReviews.length === 0 && setProducerPagination((prevState) => ({ ...prevState, isLoading: true }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showEvent]);
@@ -173,6 +173,7 @@ const Reviews = () => {
           service={reportReview}
           closeModal={closeReportModal}
           reportTitleText="la reseña"
+          reportableType="Review"
         />
       </MMModal>
 

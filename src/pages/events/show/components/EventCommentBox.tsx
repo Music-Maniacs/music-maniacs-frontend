@@ -128,6 +128,7 @@ export const EventCommentBox = ({ event }: Props) => {
           service={reportComment}
           closeModal={closeReportModal}
           reportTitleText="el comentario"
+          reportableType="Comment"
         />
       </MMModal>
 

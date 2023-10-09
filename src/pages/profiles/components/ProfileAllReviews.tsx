@@ -102,6 +102,7 @@ export const ProfileAllReviews = ({ profile, reviewableKlass }: ProfileAllReview
           service={reportReview}
           closeModal={closeReportModal}
           reportTitleText="la reseña"
+          reportableType="Review"
         />
       </MMModal>
 
