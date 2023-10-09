@@ -8,7 +8,7 @@ import MMTablePaginator from '../../../components/MMTable/MMTablePaginator';
 import { MMModal } from '../../../components/Modal/MMModal';
 import { Table } from './table/Table';
 import { Form } from './form/Form';
-import { useUsers } from './context/userContext';
+import { useUsers } from './context/usersContext';
 import { Searcher } from './searcher/Searcher';
 import { FaPlus } from 'react-icons/fa';
 import { MMButtonResponsive } from '../../../components/MMButton/MMButtonResponsive';

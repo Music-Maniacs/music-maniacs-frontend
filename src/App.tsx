@@ -36,6 +36,9 @@ const ProducersContainer = lazy(() => import('./pages/admin/producers/ProducersC
 const AdminProducersShow = lazy(() => import('./pages/admin/producers/show/Show'));
 const ThresholdsContainer = lazy(() => import('./pages/admin/thresholds/ThresholdContainer'));
 
+// User Profile Module
+const UserProfileContainer = lazy(() => import('./pages/userProfile/UserProfileContainer'));
+const UserProfile = lazy(() => import('./pages/userProfile/show/ShowUserProfile'));
 // Profiles Module
 const ProfilesSearch = lazy(() => import('./pages/profiles/search/Search'));
 const ArtistContainer = lazy(() => import('./pages/profiles/artist/ArtistProfileContainer'));
@@ -146,6 +149,12 @@ function App() {
           <Route path="/moderation" element={<ModerationContainer />}>
             <Route index element={<ModerationIndex />} />
             <Route path=":id" element={<ModerationShow />} />
+          </Route>
+
+          {/* User Profile Module */}
+          <Route path="/user">
+            <Route path="profile" element={<UserProfileContainer />} />
+            <Route path=":id" element={<UserProfile />} />
           </Route>
 
           {/* Not Found */}

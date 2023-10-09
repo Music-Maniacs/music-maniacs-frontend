@@ -18,6 +18,8 @@ const StyledSidenavTabAnchor = styled.a<{ $active?: boolean }>`
   border: none;
   list-style-type: none;
   position: relative;
+  overflow-anchor: none;
+
   svg {
     min-width: 0.5rem;
   }

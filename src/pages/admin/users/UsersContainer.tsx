@@ -1,5 +1,5 @@
 import React from 'react';
-import { UsersProvider } from './context/userContext';
+import { UsersProvider } from './context/usersContext';
 import { Index } from './Index';
 
 export const UsersContainer = () => {

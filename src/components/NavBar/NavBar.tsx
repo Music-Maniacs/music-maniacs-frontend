@@ -73,7 +73,7 @@ export const NavBar = () => {
             <NavUserProfile active={false} />
           </div>
           <div className="nav-dropdown-content">
-            <MMLink to={'/'} content="Mi Perfil" />
+            <MMLink to={'/user/profile'} content="Mi Perfil" />
             <MMLink to={'/'} content="Cerrar Sesión" onClick={() => handleUserLogout()} />
           </div>
         </div>

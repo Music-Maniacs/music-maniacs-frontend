@@ -6,7 +6,7 @@ export interface Version {
   whodunnit: string;
   anonymous: boolean;
   created_at: string;
-  object_changes: {
+  named_object_changes: {
     [key: string]: [string | null, string];
   }[];
   user?: {

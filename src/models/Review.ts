@@ -7,6 +7,7 @@ export interface Review {
   reviewable_type: 'Artist' | 'Venue' | 'Producer';
   created_at: string;
   anonymous: boolean;
+  reviewable_name: string;
   user: {
     id: string;
     full_name: string;

@@ -1,7 +1,7 @@
 import React, { FormEvent } from 'react';
 import { MMButton } from '../../../../components/MMButton/MMButton';
 import { FaSearchPlus } from 'react-icons/fa';
-import { useUsers } from '../context/userContext';
+import { useUsers } from '../context/usersContext';
 import { SearchInputText } from '../../../../components/searcher/InputText/SearchInputText';
 import { SearchInputSelect } from '../../../../components/searcher/InputSelect/SearchInputSelect';
 import { Grid } from '@mui/material';
