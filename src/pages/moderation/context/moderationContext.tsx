@@ -30,8 +30,13 @@ export const ReportsProvider = ({ children }: Props) => {
   const [reports, setReports] = useState<Report[]>();
   const [showReport, setShowReport] = useState<Report>();
 
-  // TODO: VER LOS PARAMS
-  const queryParams = useRef<Record<string, string>>({});
+  const queryParams = useRef<Record<string, string>>({
+    category_eq: '',
+    reportable_type_eq: '',
+    status_eq: '',
+    created_at_gteq: '',
+    created_at_lteq: ''
+  });
 
   const { pagination, setPagination } = usePagination<Report>({
     url: INDEX_URL,

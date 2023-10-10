@@ -1,12 +1,14 @@
 import React from 'react';
 import { MMTable } from '../../../../components/MMTable/MMTable';
-import { Report } from '../../../../models/Report';
+import { Report, ReportStatus, statusColors, statusNames } from '../../../../models/Report';
 import { useReports } from '../../context/moderationContext';
 import { Stack } from '@mui/material';
 import { MMButton } from '../../../../components/MMButton/MMButton';
 import { FaSearch } from 'react-icons/fa';
 import { formatDate } from '../../../../utils/formatDate';
 import { useNavigate } from 'react-router-dom';
+import { MMColors } from '../../../../models/Generic';
+import { MMChip } from '../../../../components/MMChip/MMChip';
 
 export const Table = () => {
   const navigate = useNavigate();
@@ -15,6 +17,14 @@ export const Table = () => {
   const handleShowReport = (id: string) => {
     navigate(`/moderation/${id}`);
   };
+
+  function getStatusColor(status: ReportStatus): MMColors {
+    return statusColors[status];
+  }
+
+  function getStatusName(status: ReportStatus): string {
+    return statusNames[status];
+  }
 
   return (
     <MMTable<Report>
@@ -42,7 +52,7 @@ export const Table = () => {
         {
           header: 'Creado El',
           renderCell: (rowData) => {
-            return formatDate({ date: rowData.created_at });
+            return formatDate({ date: rowData.created_at, format: 'slashWithTime' });
           }
         },
         {
@@ -54,7 +64,7 @@ export const Table = () => {
         {
           header: 'Estado',
           renderCell: (rowData) => {
-            return rowData.status;
+            return <MMChip color={getStatusColor(rowData.status)}>{getStatusName(rowData.status)}</MMChip>;
           }
         },
         {

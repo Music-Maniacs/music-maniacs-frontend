@@ -1,4 +1,4 @@
-import { ModelValidations } from './Generic';
+import { MMColors, ModelValidations } from './Generic';
 
 export type Report = {
   id: string;
@@ -22,7 +22,19 @@ export type Report = {
   updated_at: string;
 };
 
-type ReportStatus = 'pending' | 'resolved' | 'ignored';
+export const statusColors: Record<ReportStatus, MMColors> = {
+  resolved: 'success',
+  pending: 'tertiary',
+  ignored: 'error'
+};
+
+export const statusNames: Record<ReportStatus, string> = {
+  pending: 'Pendiente',
+  resolved: 'Resuelto',
+  ignored: 'Ignorado'
+};
+
+export type ReportStatus = 'pending' | 'resolved' | 'ignored';
 
 export const reportCategories = [
   'inappropriate_content',
@@ -38,7 +50,7 @@ export const reportCategories = [
 
 export type ReportCategory = (typeof reportCategories)[number];
 
-export type ReportableType = 'Comment' | 'Venue' | 'Artist' | 'Producer' | 'Event' | 'Video' | 'Review';
+export type ReportableType = 'Comment' | 'Venue' | 'Artist' | 'Producer' | 'Event' | 'Video' | 'Review' | 'Version';
 
 export const reportCollectionByType: Readonly<Record<ReportableType, ReportCategory[]>> = {
   Comment: ['inappropriate_content', 'spam', 'other'],
@@ -53,7 +65,9 @@ export const reportCollectionByType: Readonly<Record<ReportableType, ReportCateg
 
   Video: ['inappropriate_content', 'spam', 'doesnt_belong_to_event', 'other'],
 
-  Review: ['inappropriate_content', 'spam', 'other']
+  Review: ['inappropriate_content', 'spam', 'other'],
+
+  Version: []
 };
 
 export const reportValidations: Readonly<ModelValidations<Report>> = {
