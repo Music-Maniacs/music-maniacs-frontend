@@ -5,6 +5,7 @@ import { MMSubTitle } from '../../../../components/MMTitle/MMTitle';
 import { Event } from '../../../../models/Event';
 import { MMButton } from '../../../../components/MMButton/MMButton';
 import { useNavigate } from 'react-router-dom';
+import MMAnchor from '../../../../components/MMLink/MMAnchor';
 
 type Props = {
   event: Event;
@@ -28,7 +29,12 @@ export const EventAdvancedInfo = ({ event }: Props) => {
           {event.links && (
             <ul style={{ marginTop: '3px' }}>
               {event.links.map((link) => (
-                <li key={link.id}>{`${link.title}: ${link.url}`}</li>
+                <MMAnchor
+                  key={link.id}
+                  style={{ wordBreak: 'break-all' }}
+                  href={link.url ?? '#'}
+                  content={link.title}
+                />
               ))}
             </ul>
           )}

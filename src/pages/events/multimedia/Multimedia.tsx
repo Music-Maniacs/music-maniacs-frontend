@@ -213,11 +213,17 @@ const Multimedia = () => {
                           <div>
                             <h4>{videoToPreview.name}</h4>
                             <StyledFlexColumn>
-                              {videoToPreview.user && (
-                                <span>
-                                  Subido Por: <MMLink to={`/user/${user?.id}`} content={videoToPreview.user.username} />
-                                </span>
-                              )}
+                              <span>
+                                Subido Por:{' '}
+                                {videoToPreview.anonymous ? (
+                                  <span>Usuario Eliminado</span>
+                                ) : (
+                                  <MMLink
+                                    to={`/user/${videoToPreview.user.id}`}
+                                    content={videoToPreview.user.username}
+                                  />
+                                )}
+                              </span>
                               {videoToPreview.recorded_at && (
                                 <span>
                                   Fecha de Grabacion:{' '}
@@ -259,7 +265,8 @@ const Multimedia = () => {
                   </StyledInputContainer>
 
                   <br />
-                  <Grid container spacing={2}>
+                  {/* todo: ver el maxHeigh */}
+                  <Grid container spacing={2} maxHeight={'566px'} overflow={'auto scroll'}>
                     {videos.length === 0 ? (
                       <Grid item xs={12}>
                         <NoData message="No hay videos" />
@@ -321,7 +328,11 @@ const VideoCard = ({ video, canDelete = false, handleDelete, handleCardClick, ha
             <b>{video.name}</b>
           </span>
 
-          <span>{video?.user?.username}</span>
+          {video.anonymous ? (
+            <span>Usuario Eliminado</span>
+          ) : (
+            <MMLink content={video?.user?.username} to={`/user/${video?.user?.id}`} />
+          )}
 
           {video.recorded_at && (
             <span>Grabado el: {formatDate({ date: video.recorded_at, format: 'slashWithTime' })}</span>

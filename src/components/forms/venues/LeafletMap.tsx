@@ -51,7 +51,7 @@ export const LeafletMap = ({ latitude, longitude, setLatLng, hasClickEvent = tru
       ref={mapRef}
       center={defaultCenter}
       zoom={13}
-      scrollWheelZoom={false}
+      scrollWheelZoom={true}
       style={{ height: '273px', width: width }}
     >
       {hasClickEvent && <MapEvents setMarkerPosition={setMarkerPosition} />}
