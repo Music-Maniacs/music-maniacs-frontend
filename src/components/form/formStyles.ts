@@ -25,15 +25,16 @@ export const reactSelectCustomStyles = (hasErrors = false, isMultiSelect = false
     }),
     menu: (styles) => ({
       ...styles,
-      backgroundColor: colors.sweet_alert_background
+      backgroundColor: colors.dropdown_background
     }),
     option: (styles, { isFocused }) => ({
       ...styles,
-      backgroundColor: isFocused ? colors.primary : 'transparent'
+      color: isFocused ? 'white' : `var(--text_color)`,
+      backgroundColor: isFocused ? 'var(--primary)' : 'transparent'
     }),
     singleValue: (styles) => ({
       ...styles,
-      color: 'white'
+      color: `var(--text_color)`
     }),
     valueContainer: (provided) => ({
       ...provided,
@@ -43,7 +44,7 @@ export const reactSelectCustomStyles = (hasErrors = false, isMultiSelect = false
     }),
     input: (provided) => ({
       ...provided,
-      color: 'white',
+      color: `var(--text_color)`,
       margin: '0px'
     }),
     indicatorSeparator: () => ({
@@ -61,11 +62,11 @@ export const reactSelectCustomStyles = (hasErrors = false, isMultiSelect = false
     }),
     multiValueLabel: (provided) => ({
       ...provided,
-      color: 'white'
+      color: `white`
     }),
     multiValueRemove: (provided) => ({
       ...provided,
-      '&:hover': { backgroundColor: colors.primary_dark, color: 'white' }
+      '&:hover': { backgroundColor: colors.primary_dark, color: `white`, cursor: 'pointer' }
     })
   };
   return styles;
@@ -129,8 +130,8 @@ export const StyledDropzoneBox = styled.div`
   align-items: center;
   justify-content: center;
   padding: 30px 10px;
-  background-color: white;
-  color: black;
+  background-color: var(--input_background);
+  color: var(--text_color);
   font-weight: 400;
   border-radius: 3px;
   box-sizing: border-box;
@@ -141,6 +142,7 @@ export const StyledDropzoneImagePreviewContainer = styled.div`
   display: flex;
   justify-content: center;
 `;
+
 export const StyledDropzoneImagePreview = styled.img<{ $type?: 'cover' | 'profile'; $width?: string }>`
   width: ${({ $width }) => ($width ? $width : '100%')};
   height: ${({ $width, $type }) => {
