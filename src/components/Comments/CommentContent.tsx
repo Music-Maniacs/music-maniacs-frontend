@@ -71,7 +71,7 @@ export const CommentContent = ({
                 handleLikeComment(comment.id, comment.liked_by_current_user);
               }
             }}
-            style={{ color: comment.liked_by_current_user ? colors.primary_ligth : 'white' }}
+            style={{ color: comment.liked_by_current_user ? colors.primary : colors.text_color }}
           >
             <FaThumbsUp />
             {comment.likes_count}

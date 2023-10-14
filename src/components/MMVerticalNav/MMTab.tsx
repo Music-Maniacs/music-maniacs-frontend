@@ -7,14 +7,14 @@ import { MMChip } from '../MMChip/MMChip';
 
 const StyledSidenavTabAnchor = styled.a<{ $active?: boolean }>`
   padding: 10px;
-  color: white;
+  color: var(--text_color);
   text-decoration: none;
   display: flex;
   gap: 10px;
   align-self: stretch;
   align-items: center;
   border-radius: 10px;
-  background: ${({ $active }) => ($active ? '#4e504e' : 'none')};
+  background: ${({ $active }) => ($active ? `var(--highlight)` : 'none')};
   border: none;
   list-style-type: none;
   position: relative;
@@ -24,7 +24,7 @@ const StyledSidenavTabAnchor = styled.a<{ $active?: boolean }>`
     min-width: 0.5rem;
   }
   &:hover {
-    background: ${({ $active }) => ($active ? '#4e504e' : 'rgba(255, 255, 255, 0.1)')};
+    background: var(--highlight);
   }
   .tab-text {
     width: 70%;

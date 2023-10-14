@@ -20,7 +20,7 @@ export const reactSelectCustomStyles = (hasErrors = false, isMultiSelect = false
     }),
     placeholder: (styles) => ({
       ...styles,
-      color: 'rgba(255, 255, 255, 0.5)',
+      color: 'rgba(var(--text_color), 0.5)',
       fontSize: '14px'
     }),
     menu: (styles) => ({
@@ -72,6 +72,7 @@ export const reactSelectCustomStyles = (hasErrors = false, isMultiSelect = false
 };
 
 export const StyledLabel = styled.label`
+  color: var(--text_color);
   font-size: 16px;
 `;
 
@@ -83,11 +84,11 @@ export const StyledInput = styled.input<{ $hasErrors?: boolean }>`
   padding: 7px 5px;
   font-size: 14px;
   background-color: ${colors.input_background};
-  color: white;
+  color: var(--text_color);
   color-scheme: dark;
 
   &::placeholder {
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(var(--text_color), 0.5);
   }
 
   &:active,
