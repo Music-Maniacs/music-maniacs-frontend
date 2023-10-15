@@ -9,12 +9,13 @@ import { MMTable } from '../../../components/MMTable/MMTable';
 import { formatDate } from '../../../utils/formatDate';
 import { StyledFlex } from '../../../styles/styledComponents';
 import { MMButton } from '../../../components/MMButton/MMButton';
-import { FaBackward, FaTrash } from 'react-icons/fa';
+import { FaBackward, FaPlus, FaTrash } from 'react-icons/fa';
 import { errorSnackbar, infoSnackbar } from '../../../components/Snackbar/Snackbar';
-import { deleteBackup } from '../../../services/backupService';
+import { createBackup, deleteBackup } from '../../../services/backupService';
 import { sweetAlert } from '../../../components/SweetAlert/sweetAlert';
 import { usePagination } from '../../../components/searcher/usePagination';
 import MMTablePaginator from '../../../components/MMTable/MMTablePaginator';
+import { MMButtonResponsive } from '../../../components/MMButton/MMButtonResponsive';
 
 const Index = () => {
   const [backups, setBackups] = useState<Backup[]>([]);
@@ -28,6 +29,7 @@ const Index = () => {
   const handleRestoreButton = (backup: Backup) => {
     sweetAlert({
       title: '¿Seguro que quieres restaurar la copia de seguridad?',
+      confirmButtonText: 'Restaurar',
       confirmCallback: async () => {
         try {
           await deleteBackup(backup.name);
@@ -61,11 +63,34 @@ const Index = () => {
     });
   };
 
+  const handleCreateButton = () => {
+    sweetAlert({
+      title: '¿Seguro que quieres crear una copia de seguridad?',
+      text: 'Las copias de seguirdad se crean automaticamente por el sistema',
+      confirmButtonText: 'Crear',
+      confirmCallback: async () => {
+        try {
+          await createBackup();
+
+          infoSnackbar('Copia de seguridad creada correctamente');
+        } catch (error: any) {
+          const errorMessage = error.response?.data?.error || 'Error al crear la copia de seguridad';
+
+          errorSnackbar(errorMessage);
+        }
+      }
+    });
+  };
+
   return (
     <MMContainer maxWidth="xxl">
       <MMBox className="admin-box-container">
         <div className="admin-title-container">
           <MMTitle content="Copias de Seguridad" />
+
+          <MMButtonResponsive Icon={FaPlus} onClick={handleCreateButton}>
+            Crear Copia de Seguridad
+          </MMButtonResponsive>
         </div>
 
         <MMTable<Backup>
