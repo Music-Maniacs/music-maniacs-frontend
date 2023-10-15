@@ -318,9 +318,9 @@ const VideoCard = ({ video, canDelete = false, handleDelete, handleCardClick, ha
         display={'flex'}
         alignItems={'center'}
         justifyContent={'center'}
-        style={{ backgroundColor: colors.box_background }}
+        style={{ backgroundColor: colors.input_background }}
       >
-        <FaVideo size={'1.5rem'} color={colors.sweet_alert_background} />
+        <FaVideo size={'1.5rem'} color={'var(--text_color)'} />
       </Grid>
       <Grid item xs={10}>
         <StyledFlexColumn>
@@ -351,7 +351,7 @@ const VideoCard = ({ video, canDelete = false, handleDelete, handleCardClick, ha
                   handleLikeVideo(video.id, video.liked_by_current_user);
                 }
               }}
-              style={{ color: video.liked_by_current_user ? colors.primary_ligth : 'white' }}
+              style={{ color: video.liked_by_current_user ? colors.primary_ligth : 'var(--text_color)' }}
             >
               <FaThumbsUp />
               {video.likes_count}
