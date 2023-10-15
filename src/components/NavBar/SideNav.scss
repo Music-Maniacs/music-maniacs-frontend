@@ -14,6 +14,11 @@
   transition: 0.5s linear;
   gap: 10rem;
   backdrop-filter: blur(5px);
+  color: white;
+
+  a {
+    color: white !important;
+  }
 
   &.active {
     width: 250px;

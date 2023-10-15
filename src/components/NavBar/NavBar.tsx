@@ -93,7 +93,11 @@ export const NavBar = () => {
       <nav>
         <MMContainer maxWidth="xxl" className="nav-container">
           <div className="hamburguer">
-            <BiMenu size={40} onClick={() => setSidenavActive(true)} color={sidenavAcive ? '#1e2e2c' : 'white'} />
+            <BiMenu
+              size={40}
+              onClick={() => setSidenavActive(true)}
+              color={sidenavAcive ? '#1e2e2c' : 'var(--text_color)'}
+            />
           </div>
 
           <Link to={'/'} style={{ textDecoration: 'none' }} className="logo-container">
