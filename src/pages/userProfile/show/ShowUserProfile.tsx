@@ -31,6 +31,7 @@ export const ShowUserProfile = () => {
       if (id === user?.id) navigate('/user/profile');
       fetchUserProfile(id);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
   const fetchUserProfile = async (userId: string) => {
     try {

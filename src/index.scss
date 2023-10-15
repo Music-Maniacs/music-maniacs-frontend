@@ -33,7 +33,6 @@
 
   --body_bg: #11121b;
 
-  // $sweet_alert_background: #383838;
   --sweet_alert_background: #212539;
 
   --text_color: #fff;
@@ -124,13 +123,14 @@ input[type='radio'] {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #1e2e2c78;
+  // background: #1e2e2c78;
+  background: var(--input_background);
   border-radius: 5px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: var(--highlight);
   border-radius: 5px;
 }
 

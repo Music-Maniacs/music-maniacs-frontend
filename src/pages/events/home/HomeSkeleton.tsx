@@ -9,8 +9,8 @@ export const HomeSkeleton = () => {
   return (
     <StyledFlexColumn $gap="20px">
       {range.map((_v, index: number) => (
-        <StyledFlexColumn>
-          <Skeleton key={index} variant="rectangular" width={500} height={50} sx={{ bgcolor: 'var(--highlight)' }} />
+        <StyledFlexColumn key={index}>
+          <Skeleton variant="rectangular" width={500} height={50} sx={{ bgcolor: 'var(--highlight)' }} />
 
           <StyledFlex $gap="20px" $overflowY="hidden" $overflowX="hidden" $padding="25px 0 5px 0" $height={'370px'}>
             {range2.map((_v, index: number) => (
