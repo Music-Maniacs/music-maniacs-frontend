@@ -132,7 +132,7 @@ const EventsCarrousel = ({ events }: EventsCarrouselProps) => {
             $alignItems="center"
             $padding="5px"
             $borderRadius="50%"
-            $backgroundColor={colors.box_background}
+            $backgroundColor={colors.input_background}
             $cursor="pointer"
           >
             <FaArrowRight />

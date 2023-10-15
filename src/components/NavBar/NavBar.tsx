@@ -11,13 +11,20 @@ import { NavUserProfile } from './NavUserProfile';
 import { MMContainer } from '../MMContainer/MMContainer';
 import './NavBar.scss';
 import { ToggleThemeIcon } from './ToggleThemeIcon';
+import { Loader } from '../Loader/Loader';
 
 export const NavBar = () => {
-  const { user, handleUserLogout } = useAuth();
+  const { user, handleUserLogout, isUserLoading } = useAuth();
   const [sidenavAcive, setSidenavActive] = useState(false);
   const navigate = useNavigate();
 
   const NavContent = () => {
+    if (isUserLoading)
+      return (
+        <div className="links-container">
+          <Loader height={56} width={200} />
+        </div>
+      );
     if (!user) {
       return (
         <div className="links-container">

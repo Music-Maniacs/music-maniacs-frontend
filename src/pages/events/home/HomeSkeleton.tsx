@@ -12,7 +12,7 @@ export const HomeSkeleton = () => {
         <StyledFlexColumn>
           <Skeleton key={index} variant="rectangular" width={500} height={50} sx={{ bgcolor: 'var(--highlight)' }} />
 
-          <StyledFlex $gap="20px" $overflowY="hidden" $overflowX="hidden" $padding="25px 0 5px 0" $height={'400px'}>
+          <StyledFlex $gap="20px" $overflowY="hidden" $overflowX="hidden" $padding="25px 0 5px 0" $height={'370px'}>
             {range2.map((_v, index: number) => (
               <div style={{ width: '270px', minWidth: '270px' }} key={index}>
                 <Skeleton variant="rectangular" width={'100%'} height={'100%'} sx={{ bgcolor: 'var(--highlight)' }} />
