@@ -11,7 +11,7 @@ import { StyledFlex } from '../../../styles/styledComponents';
 import { MMButton } from '../../../components/MMButton/MMButton';
 import { FaBackward, FaPlus, FaTrash } from 'react-icons/fa';
 import { errorSnackbar, infoSnackbar } from '../../../components/Snackbar/Snackbar';
-import { createBackup, deleteBackup } from '../../../services/backupService';
+import { createBackup, deleteBackup, restoreBackup } from '../../../services/backupService';
 import { usePagination } from '../../../components/searcher/usePagination';
 import MMTablePaginator from '../../../components/MMTable/MMTablePaginator';
 import { MMButtonResponsive } from '../../../components/MMButton/MMButtonResponsive';
@@ -34,7 +34,7 @@ const Index = () => {
       confirmButtonText: 'Restaurar',
       preConfirm: async () => {
         try {
-          await deleteBackup(backup.name);
+          await restoreBackup(backup.name);
 
           infoSnackbar('Copia de seguridad restaurada correctamente');
         } catch (error: any) {
@@ -108,6 +108,10 @@ const Index = () => {
             {
               header: 'Tamaño [MB]',
               renderCell: (rowData) => <span>{rowData.size_megabytes}</span>
+            },
+            {
+              header: 'Ruta',
+              renderCell: (rowData) => <span>{rowData.path}</span>
             },
             {
               header: 'Acciones',
