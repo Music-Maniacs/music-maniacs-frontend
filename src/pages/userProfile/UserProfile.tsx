@@ -1,10 +1,8 @@
-import { useState } from 'react';
 import { FaEdit, FaStar, FaTrash, FaUser } from 'react-icons/fa';
 import { FaGear } from 'react-icons/fa6';
 import { styled } from 'styled-components';
 import { MMBox } from '../../components/MMBox/MMBox';
 import { MMContainer } from '../../components/MMContainer/MMContainer';
-import { MMTab } from '../../components/MMVerticalNav/MMTab';
 import { MMTitle } from '../../components/MMTitle/MMTitle';
 import { MMNavTabProps, MMVerticalNav } from '../../components/MMVerticalNav/MMVerticalNav';
 import colors from '../../styles/_colors.scss';

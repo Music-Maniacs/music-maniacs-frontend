@@ -1,35 +1,39 @@
-import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './NavBar.scss';
 import MMLink from '../MMLink/MMLink';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authContext';
 import { MMButton } from '../MMButton/MMButton';
-import { FaSearch } from 'react-icons/fa';
 import { BiMenu } from 'react-icons/bi';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import { SideNav } from './SideNav';
 import { NavUserProfile } from './NavUserProfile';
+import { MMContainer } from '../MMContainer/MMContainer';
+import './NavBar.scss';
+import { ToggleThemeIcon } from './ToggleThemeIcon';
+import { Loader } from '../Loader/Loader';
 
 export const NavBar = () => {
-  const { user, handleUserLogout } = useAuth();
+  const { user, handleUserLogout, isUserLoading } = useAuth();
   const [sidenavAcive, setSidenavActive] = useState(false);
   const navigate = useNavigate();
-  const [inputValue, setInputValue] = useState('');
-  const location = useLocation();
-  const isOnProfiles = location.pathname.includes('/profiles');
-
-  useEffect(() => {
-    if (isOnProfiles) {
-      setInputValue('');
-    }
-  }, [isOnProfiles]);
 
   const NavContent = () => {
+    if (isUserLoading)
+      return (
+        <div className="links-container">
+          <Loader height={56} width={200} />
+        </div>
+      );
     if (!user) {
       return (
         <div className="links-container">
+          <MMLink to={'/profiles'} content="Buscar Perfiles" />
           <MMLink to={'/events'} content="Buscar Eventos" />
           <MMLink to={'/'} content="Sobre Nosotros" />
+
+          <ToggleThemeIcon />
+
           <MMButton
             style={{ textTransform: 'none' }}
             color="secondary"
@@ -45,12 +49,13 @@ export const NavBar = () => {
     }
     return (
       <div className="links-container">
+        <MMLink to={'/profiles'} content="Buscar Perfiles" />
         <MMLink to={'/events'} content="Buscar Evento" />
-        <MMLink to={'/moderation'} content="Moderar Contenido" />
+        <MMLink to={'/moderation'} content="Moderar" />
 
         <div className="nav-dropdown">
           <div className="nav-admin-container">
-            <span>Administrar Contenido</span>
+            <span>Administrar</span>
             <IoMdArrowDropdown size={20} />
           </div>
           <div className="nav-dropdown-content">
@@ -68,6 +73,8 @@ export const NavBar = () => {
           </div>
         </div>
 
+        <ToggleThemeIcon />
+
         <div className="nav-dropdown">
           <div className="nav-admin-container">
             <NavUserProfile active={false} />
@@ -82,35 +89,27 @@ export const NavBar = () => {
   };
 
   return (
-    <div>
+    <>
       <nav>
-        <div className="hamburguer">
-          <BiMenu size={40} onClick={() => setSidenavActive(true)} color={sidenavAcive ? '#1e2e2c' : 'white'} />
-        </div>
+        <MMContainer maxWidth="xxl" className="nav-container">
+          <div className="hamburguer">
+            <BiMenu
+              size={40}
+              onClick={() => setSidenavActive(true)}
+              color={sidenavAcive ? '#1e2e2c' : 'var(--text_color)'}
+            />
+          </div>
 
-        <Link to={'/'} style={{ textDecoration: 'none' }} className="logo-container">
-          <img className="logo" alt="music-maniacs-logo" src={require('../../assets/logos/MMlogo.png')} />
-          <h1 className="title">MUSIC MANIACS</h1>
-        </Link>
+          <Link to={'/'} style={{ textDecoration: 'none' }} className="logo-container">
+            <img className="logo" alt="music-maniacs-logo" src={require('../../assets/logos/MMlogo.png')} />
+            <h1 className="title">MUSIC MANIACS</h1>
+          </Link>
 
-        <div className="search-bar">
-          <FaSearch color="black" onClick={() => navigate('/profiles', { state: { inputValue } })} />
-
-          <input
-            placeholder="Buscar Artistas, Espacios de Eventos y Productoras"
-            value={inputValue}
-            disabled={isOnProfiles}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
-            onKeyUp={(e: KeyboardEvent<HTMLInputElement>) => {
-              e.key === 'Enter' && navigate('/profiles', { state: { inputValue } });
-            }}
-          ></input>
-        </div>
-
-        <NavContent />
+          <NavContent />
+        </MMContainer>
       </nav>
       <SideNav active={sidenavAcive} setActive={setSidenavActive} />
-    </div>
+    </>
   );
 };
 

@@ -8,6 +8,7 @@ import { StyledFlex, StyledFlexColumn } from '../../styles/styledComponents';
 import { FaEdit, FaFlag, FaThumbsUp } from 'react-icons/fa';
 import { useAuth } from '../../context/authContext';
 import { warningSnackbar } from '../Snackbar/Snackbar';
+import MMLink from '../MMLink/MMLink';
 
 type CommentContentProps = {
   comment: Comment;
@@ -36,7 +37,7 @@ export const CommentContent = ({
   handleReportComment
 }: CommentContentProps) => {
   const { user: currentUser } = useAuth();
-  const { body, user, created_at } = comment;
+  const { body, user, created_at, anonymous } = comment;
 
   return (
     <StyledFlexColumn
@@ -51,7 +52,9 @@ export const CommentContent = ({
         </StyledUserAvatarContainer>
 
         <StyledFlexColumn $gap="2px">
-          <span>{user.full_name}</span>
+          {anonymous ? <span>Usuario Eliminado</span> : <MMLink content={user?.full_name} to={`/user/${user?.id}`} />}
+
+          {/* <span>{user.full_name}</span> */}
           <small>{moment(created_at).fromNow()}</small>
         </StyledFlexColumn>
       </StyledUserInfoContainer>
@@ -70,7 +73,7 @@ export const CommentContent = ({
                 handleLikeComment(comment.id, comment.liked_by_current_user);
               }
             }}
-            style={{ color: comment.liked_by_current_user ? colors.primary_ligth : 'white' }}
+            style={{ color: comment.liked_by_current_user ? colors.primary : colors.text_color }}
           >
             <FaThumbsUp />
             {comment.likes_count}

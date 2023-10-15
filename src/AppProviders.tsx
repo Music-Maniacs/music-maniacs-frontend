@@ -8,6 +8,7 @@ import colors from './styles/_colors.scss';
 import { BrowserRouter } from 'react-router-dom';
 import moment from 'moment';
 import 'moment/locale/es';
+import { MMThemeProvider } from './context/themeContext';
 
 moment.locale('es');
 
@@ -15,23 +16,25 @@ type Props = {
   children: React.ReactNode;
 };
 
+const cssVar = (name: string) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+
 const theme = createTheme(
   {
     palette: {
       primary: {
-        main: colors.primary
+        main: cssVar('--primary') || '#6c26ed'
       },
       text: {
-        primary: '#ffffff'
+        primary: cssVar('--text_color') || '#fff'
       }
     },
     components: {
       MuiTab: {
         defaultProps: {
           sx: {
-            color: '#ffffff',
+            color: colors.text_color,
             '&.Mui-selected': {
-              color: '#ffffff',
+              color: colors.text_color,
               fontWeight: 'bold'
             }
           }
@@ -40,7 +43,15 @@ const theme = createTheme(
       MuiPaper: {
         defaultProps: {
           sx: {
-            backgroundColor: '#727272'
+            color: colors.text_color,
+            backgroundColor: colors.dropdown_background
+          }
+        }
+      },
+      MuiTablePagination: {
+        defaultProps: {
+          sx: {
+            color: colors.text_color
           }
         }
       }
@@ -67,24 +78,26 @@ const StyledMaterialDesignContent = styled(MaterialDesignContent)(() => ({
 export const AppProviders = ({ children }: Props) => {
   return (
     <AuthProvider>
-      <CollectionProvider>
-        <SnackbarProvider
-          Components={{
-            warning: StyledMaterialDesignContent,
-            info: StyledMaterialDesignContent,
-            success: StyledMaterialDesignContent,
-            error: StyledMaterialDesignContent
-          }}
-          maxSnack={3}
-          autoHideDuration={3000}
-          anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-          preventDuplicate
-        >
-          <ThemeProvider theme={theme}>
-            <BrowserRouter>{children}</BrowserRouter>
-          </ThemeProvider>
-        </SnackbarProvider>
-      </CollectionProvider>
+      <MMThemeProvider>
+        <CollectionProvider>
+          <SnackbarProvider
+            Components={{
+              warning: StyledMaterialDesignContent,
+              info: StyledMaterialDesignContent,
+              success: StyledMaterialDesignContent,
+              error: StyledMaterialDesignContent
+            }}
+            maxSnack={3}
+            autoHideDuration={3000}
+            anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+            preventDuplicate
+          >
+            <ThemeProvider theme={theme}>
+              <BrowserRouter>{children}</BrowserRouter>
+            </ThemeProvider>
+          </SnackbarProvider>
+        </CollectionProvider>
+      </MMThemeProvider>
     </AuthProvider>
   );
 };

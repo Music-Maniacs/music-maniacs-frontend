@@ -177,8 +177,8 @@ const SearchEvents = () => {
                     container
                     xs={12}
                     sm={6}
-                    md={3}
-                    lg={2.4}
+                    md={4}
+                    lg={3}
                     justifyContent="center"
                     alignItems="center"
                   >

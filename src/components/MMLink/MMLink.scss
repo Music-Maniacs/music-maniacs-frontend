@@ -1,11 +1,14 @@
+@import '../../styles/main';
+
 .mm-link {
   position: relative;
-  color: white;
+  color: var(--text_color);
+
   text-decoration: none;
   width: fit-content;
 
   &:hover {
-    color: white;
+    color: var(--text_color);
   }
 
   &::before {
@@ -16,7 +19,7 @@
     height: 1px;
     bottom: 0;
     left: 0;
-    background-color: white;
+    background-color: var(--text_color);
     transform: scaleX(0);
     transform-origin: top left;
     transition: transform 0.2s ease;

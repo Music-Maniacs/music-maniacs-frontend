@@ -117,7 +117,7 @@ export function LinksFieldArray<T extends FieldValues>({
                   }
                 }}
               >
-                <FaTrashAlt size={'0.7rem'} />
+                <FaTrashAlt color="white" size={'0.7rem'} />
               </StyledIconContainer>
             </StyledInputsContainer>
 
@@ -141,7 +141,7 @@ export function LinksFieldArray<T extends FieldValues>({
         }}
       >
         <StyledIconContainer>
-          <FaPlus size={'0.7rem'} />
+          <FaPlus color="white" size={'0.7rem'} />
         </StyledIconContainer>
 
         <span>Agregar Link</span>

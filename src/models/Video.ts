@@ -8,6 +8,7 @@ export interface Video {
   full_url: string;
   likes_count: number;
   liked_by_current_user: boolean;
+  anonymous: boolean;
   user: {
     id: string;
     username: string;

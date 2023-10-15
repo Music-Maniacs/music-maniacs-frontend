@@ -2,7 +2,7 @@
 
 .mm-box {
   padding: 5px;
-  background-color: $box_background;
+  background-color: var(--box_background);
   border-radius: 3px;
   box-shadow: -2px 2px 20px 0px #00000040;
 }

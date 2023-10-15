@@ -1,13 +1,101 @@
 @import './styles/main';
 
+// dark theme palette
+:root {
+  --primary: #6c26ed;
+  --primary_dark: color-mix(in srgb, var(--primary), #000 40%);
+  --primary_ligth: color-mix(in srgb, var(--primary), #fff 40%);
+
+  --secondary: #d12eee;
+  --secondary_dark: color-mix(in srgb, var(--secondary), #000 40%);
+
+  --tertiary: #70327b;
+  --tertiary_dark: color-mix(in srgb, var(--tertiary), #000 40%);
+
+  --info: #1e90ff;
+  --info_dark: color-mix(in srgb, var(--info), #000 40%);
+
+  --success: #738a80;
+  --success_dark: color-mix(in srgb, var(--success), #000 40%);
+
+  --warning: #f17a48;
+  --warning_dark: color-mix(in srgb, var(--warning), #000 40%);
+
+  --error: #f44336;
+  --error_dark: color-mix(in srgb, var(--error), #000 40%);
+
+  --input_border: #00000091;
+  --input_background: rgba(255, 255, 255, 0.15);
+
+  --highlight: #ffffff26;
+
+  --box_background: #1e202e;
+
+  --body_bg: #11121b;
+
+  --sweet_alert_background: #212539;
+
+  --text_color: #fff;
+
+  --dropdown_background: #2b2b2b;
+}
+
+// light theme palette
+html.theme--light {
+  --primary: #6c26ed;
+  --primary_dark: color-mix(in srgb, var(--primary), #000 40%);
+  --primary_ligth: color-mix(in srgb, var(--primary), #fff 40%);
+
+  --secondary: #d12eee;
+  --secondary_dark: color-mix(in srgb, var(--secondary), #000 40%);
+
+  --tertiary: #70327b;
+  --tertiary_dark: color-mix(in srgb, var(--tertiary), #000 40%);
+
+  --info: #1e90ff;
+  --info_dark: color-mix(in srgb, var(--info), #000 40%);
+
+  --success: #738a80;
+  --success_dark: color-mix(in srgb, var(--success), #000 40%);
+
+  --warning: #f17a48;
+  --warning_dark: color-mix(in srgb, var(--warning), #000 40%);
+
+  --error: #f44336;
+  --error_dark: color-mix(in srgb, var(--error), #000 40%);
+
+  --input_border: #00000091;
+  --input_background: rgba(0, 0, 0, 0.06);
+
+  --highlight: #27272726;
+
+  --box_background: #fdf7ff;
+
+  --body_bg: #fff;
+
+  --sweet_alert_background: #fff;
+
+  --text_color: #39364f;
+
+  --dropdown_background: #dfdddd;
+}
+
 body {
+  padding-top: 70px;
   margin: 0;
-  background-color: #1e2e2c;
-  color: white;
+  background-color: var(--body_bg);
+  color: var(--text_color);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
     'Droid Sans', 'Helvetica Neue', sans-serif;
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+// Animate theme change
+* {
+  transition: color 0.3s;
+  transition: background-color 0.3s;
 }
 
 input[type='radio'] {
@@ -35,12 +123,15 @@ input[type='radio'] {
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #1e2e2c;
+  // background: #1e2e2c78;
+  background: var(--input_background);
+  border-radius: 5px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: var(--highlight);
+  border-radius: 5px;
 }
 
 /* Handle on hover */

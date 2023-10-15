@@ -20,20 +20,21 @@ export const reactSelectCustomStyles = (hasErrors = false, isMultiSelect = false
     }),
     placeholder: (styles) => ({
       ...styles,
-      color: 'rgba(255, 255, 255, 0.5)',
+      color: 'rgba(var(--text_color), 0.5)',
       fontSize: '14px'
     }),
     menu: (styles) => ({
       ...styles,
-      backgroundColor: colors.sweet_alert_background
+      backgroundColor: colors.dropdown_background
     }),
     option: (styles, { isFocused }) => ({
       ...styles,
-      backgroundColor: isFocused ? colors.primary : 'transparent'
+      color: isFocused ? 'white' : `var(--text_color)`,
+      backgroundColor: isFocused ? 'var(--primary)' : 'transparent'
     }),
     singleValue: (styles) => ({
       ...styles,
-      color: 'white'
+      color: `var(--text_color)`
     }),
     valueContainer: (provided) => ({
       ...provided,
@@ -43,7 +44,7 @@ export const reactSelectCustomStyles = (hasErrors = false, isMultiSelect = false
     }),
     input: (provided) => ({
       ...provided,
-      color: 'white',
+      color: `var(--text_color)`,
       margin: '0px'
     }),
     indicatorSeparator: () => ({
@@ -61,17 +62,18 @@ export const reactSelectCustomStyles = (hasErrors = false, isMultiSelect = false
     }),
     multiValueLabel: (provided) => ({
       ...provided,
-      color: 'white'
+      color: `white`
     }),
     multiValueRemove: (provided) => ({
       ...provided,
-      '&:hover': { backgroundColor: colors.primary_dark, color: 'white' }
+      '&:hover': { backgroundColor: colors.primary_dark, color: `white`, cursor: 'pointer' }
     })
   };
   return styles;
 };
 
 export const StyledLabel = styled.label`
+  color: var(--text_color);
   font-size: 16px;
 `;
 
@@ -83,11 +85,11 @@ export const StyledInput = styled.input<{ $hasErrors?: boolean }>`
   padding: 7px 5px;
   font-size: 14px;
   background-color: ${colors.input_background};
-  color: white;
+  color: var(--text_color);
   color-scheme: dark;
 
   &::placeholder {
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(var(--text_color), 0.5);
   }
 
   &:active,
@@ -128,8 +130,8 @@ export const StyledDropzoneBox = styled.div`
   align-items: center;
   justify-content: center;
   padding: 30px 10px;
-  background-color: white;
-  color: black;
+  background-color: var(--input_background);
+  color: var(--text_color);
   font-weight: 400;
   border-radius: 3px;
   box-sizing: border-box;
@@ -140,6 +142,7 @@ export const StyledDropzoneImagePreviewContainer = styled.div`
   display: flex;
   justify-content: center;
 `;
+
 export const StyledDropzoneImagePreview = styled.img<{ $type?: 'cover' | 'profile'; $width?: string }>`
   width: ${({ $width }) => ($width ? $width : '100%')};
   height: ${({ $width, $type }) => {

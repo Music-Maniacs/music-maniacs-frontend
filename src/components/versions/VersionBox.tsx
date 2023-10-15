@@ -57,7 +57,7 @@ export const VersionBox = ({ versions }: Props) => {
 
             {Object.keys(version.named_object_changes).length > 0 &&
               Object.entries(version.named_object_changes).map(([key, value]) => (
-                <Grid container key={key}>
+                <Grid container key={key} spacing={2}>
                   <Grid item sm={12} md={2}>
                     <span>
                       Atributo: <b>{key}</b>

@@ -4,7 +4,6 @@ import { styled } from 'styled-components';
 import { MMColors } from '../../models/Generic';
 import breakpoints from '../../styles/_breakpoints.scss';
 import { MMTab } from './MMTab';
-import colors from '../../styles/_colors.scss';
 import { IconBaseProps } from 'react-icons';
 
 const VerticalNavContainer = styled.div`
@@ -16,6 +15,7 @@ const VerticalNavContainer = styled.div`
     flex-direction: column;
   }
 `;
+
 const VerticalSidenavContainer = styled.ul`
   display: flex;
   padding: 0px 20px;
@@ -23,10 +23,10 @@ const VerticalSidenavContainer = styled.ul`
   align-items: flex-start;
   gap: 10px;
   align-self: stretch;
-  border-right: 3px solid ${colors.box_background};
+  border-right: 3px solid var(--highlight);
   margin: 0;
   @media screen and (max-width: ${breakpoints.sm}) {
-    border-bottom: 3px solid ${colors.box_background};
+    border-bottom: 3px solid var(--highlight);
     border-right: none;
     flex-direction: row;
     justify-content: space-between;
@@ -36,10 +36,12 @@ const VerticalSidenavContainer = styled.ul`
     gap: 13px;
   }
 `;
+
 const VerticalNavContentContainer = styled.div`
   padding: 10px;
   width: 100%;
 `;
+
 const VerticalSideavContentContainer = styled.div`
   width: 100%;
   display: none;
@@ -47,6 +49,7 @@ const VerticalSideavContentContainer = styled.div`
     display: block;
   }
 `;
+
 export type MMNavTabProps = {
   href?: string;
   label?: string;

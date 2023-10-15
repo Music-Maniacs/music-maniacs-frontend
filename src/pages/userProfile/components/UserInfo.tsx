@@ -32,7 +32,6 @@ const UserProfileData = styled.div`
   gap: 0.5rem;
 
   h3 {
-    color: white;
     font-size: 25px;
     font-style: normal;
     font-weight: 700;
@@ -40,7 +39,6 @@ const UserProfileData = styled.div`
     margin: 0;
   }
   span {
-    color: #fff;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;

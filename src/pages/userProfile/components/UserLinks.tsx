@@ -1,11 +1,12 @@
 import { styled } from 'styled-components';
 import { MMSubTitle } from '../../../components/MMTitle/MMTitle';
 import { Link } from '../../../models/Link';
+import MMAnchor from '../../../components/MMLink/MMAnchor';
 
 const UserProfileLinksContainer = styled.div`
-  display: flex;
+  /* display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 20px; */
 `;
 
 type UserLinksProps = {
@@ -16,14 +17,14 @@ export const UserLinks = ({ links }: UserLinksProps) => {
     <UserProfileLinksContainer>
       <MMSubTitle content="Enlaces" />
 
-      {links ? (
-        <ul style={{ marginTop: '3px' }}>
+      {links && (
+        <ul style={{ marginTop: '3px', display: 'flex', flexDirection: 'column' }}>
           {links.map((link) => (
-            <li key={link.id}>{`${link.title}: ${link.url}`}</li>
+            <li key={link.id}>
+              <MMAnchor style={{ wordBreak: 'break-all' }} href={link.url ?? '#'} content={link.title} />
+            </li>
           ))}
         </ul>
-      ) : (
-        <span>-</span>
       )}
     </UserProfileLinksContainer>
   );

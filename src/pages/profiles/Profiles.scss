@@ -58,12 +58,13 @@
       padding-right: 5px;
       border-radius: 5px;
       &:hover {
-        background-color: $box_background;
+        background-color: var(--highlight);
       }
 
       .event-date {
         @include flex-column-center;
         background-color: $primary;
+        color: white;
         padding: 5px;
         width: 50px;
 

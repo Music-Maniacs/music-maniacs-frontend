@@ -19,7 +19,7 @@ export const sweetAlert = ({
 }: Props) => {
   MySwal.fire({
     icon: variant,
-    color: 'white',
+    color: 'var(--text_color)',
     background: colors.sweet_alert_background,
 
     confirmButtonText: confirmButtonText,

@@ -11,7 +11,6 @@ const MMTablePaginator = ({ pagination, setPagination }: Props) => {
   return (
     <div>
       <TablePagination
-        sx={{ color: 'white' }}
         component="div"
         count={pagination.total ?? 0}
         page={pagination.page - 1 ?? 0}
