@@ -29,12 +29,9 @@ export const EventAdvancedInfo = ({ event }: Props) => {
           {event.links && (
             <ul style={{ marginTop: '3px' }}>
               {event.links.map((link) => (
-                <MMAnchor
-                  key={link.id}
-                  style={{ wordBreak: 'break-all' }}
-                  href={link.url ?? '#'}
-                  content={link.title}
-                />
+                <li key={link.id}>
+                  <MMAnchor style={{ wordBreak: 'break-all' }} href={link.url ?? '#'} content={link.title} />
+                </li>
               ))}
             </ul>
           )}

@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import colors from '../../styles/_colors.scss';
 
 type NoDataProps = {
   message: string;
@@ -10,9 +9,10 @@ type NoDataProps = {
 const NoDataContainer = styled.div`
   display: flex;
   justify-content: center;
-  background-color: ${colors.box_background};
+  background-color: var(--highlight);
   margin: 0.5rem;
-  color: #ffffffc3;
+  color: var(--text_color);
+  opacity: 0.7;
 `;
 
 export const NoData = ({ message, style }: NoDataProps) => {

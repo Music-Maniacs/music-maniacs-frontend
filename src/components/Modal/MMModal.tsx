@@ -20,7 +20,7 @@ export const MMModal = ({ isModalOpen, closeModal, title, maxWidth = 'sm', child
       sx={{
         '& .MuiPaper-root': {
           backgroundColor: colors.sweet_alert_background,
-          color: 'white'
+          color: colors.text_color
         }
       }}
     >

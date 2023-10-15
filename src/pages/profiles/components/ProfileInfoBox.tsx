@@ -131,14 +131,11 @@ export const ProfileInfoBox = ({
             <MMSubTitle content="Enlaces" />
 
             {profile.links && (
-              <ul style={{ marginTop: '3px' }}>
+              <ul style={{ marginTop: '3px', display: 'flex', flexDirection: 'column' }}>
                 {profile.links.map((link) => (
-                  <MMAnchor
-                    key={link.id}
-                    style={{ wordBreak: 'break-all' }}
-                    href={link.url ?? '#'}
-                    content={link.title}
-                  />
+                  <li key={link.id}>
+                    <MMAnchor style={{ wordBreak: 'break-all' }} href={link.url ?? '#'} content={link.title} />
+                  </li>
                 ))}
               </ul>
             )}

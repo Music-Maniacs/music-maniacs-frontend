@@ -15,7 +15,6 @@ import { getUserProfile } from '../../../services/userProfileService';
 import { CoverImage } from '../components/CoverImage';
 import { UserInfo } from '../components/UserInfo';
 import { UserLinks } from '../components/UserLinks';
-import './show.scss';
 
 const MMBoxPaddding = styled(MMBox)`
   padding: 30px !important;
@@ -32,6 +31,7 @@ export const ShowUserProfile = () => {
       if (id === user?.id) navigate('/user/profile');
       fetchUserProfile(id);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
   const fetchUserProfile = async (userId: string) => {
     try {

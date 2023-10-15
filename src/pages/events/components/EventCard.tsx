@@ -16,12 +16,15 @@ const StyledCardContainer = styled.div`
   height: 100%;
   box-sizing: border-box;
   border-radius: 5px;
-  background-color: #0000004d;
-  color: white;
+  color: var(--text-color);
   overflow: hidden;
   cursor: pointer;
+
+  transition: box-shadow linear 0.1s;
+
   &:hover {
     scale: 1.01;
+    box-shadow: 0px 0px 17px var(--highlight);
   }
 `;
 
