@@ -1,31 +1,38 @@
-$primary: #6c26ed;
-$primary_dark: darken($primary, 15%);
-$primary_ligth: lighten($primary, 15%);
+// No pongamos mas colores aca, usemos las variables de CSS
+// Ahora los usamos porque ya lo veniamos usando asi.
 
-$secondary: #d12eee;
-$secondary_dark: darken($secondary, 15%);
+$primary: var(--primary);
+$primary_dark: var(--primary_dark);
+$primary_ligth: var(--primary_ligth);
 
-$tertiary: #70327b;
-$tertiary_dark: darken($tertiary, 15%);
+$secondary: var(--secondary);
+$secondary_dark: var(--secondary_dark);
 
-$info: #1e90ff;
-$info_dark: darken($info, 15%);
+$tertiary: var(--tertiary);
+$tertiary_dark: var(--tertiary_dark);
 
-$success: #738a80;
-$success_dark: darken($success, 15%);
+$info: var(--info);
+$info_dark: var(--info_dark);
 
-$warning: #f17a48;
-$warning_dark: darken($warning, 15%);
+$success: var(--success);
+$success_dark: var(--success_dark);
 
-$error: #f44336;
-$error_dark: darken($error, 15%);
+$warning: var(--warning);
+$warning_dark: var(--warning_dark);
 
-$input_border: #00000091;
-$input_background: rgba(255, 255, 255, 0.15);
+$error: var(--error);
+$error_dark: var(--error_dark);
 
-$box_background: rgba(255, 255, 255, 0.1);
+$input_border: var(--input_border);
+$input_background: var(--input_background);
 
-$sweet_alert_background: #383838;
+$box_background: var(--box_background);
+
+$sweet_alert_background: var(--sweet_alert_background);
+
+$text_color: var(--text_color);
+
+$dropdown_background: var(--dropdown_background);
 
 :export {
   primary: $primary;
@@ -50,4 +57,8 @@ $sweet_alert_background: #383838;
   box_background: $box_background;
 
   sweet_alert_background: $sweet_alert_background;
+
+  text_color: $text_color;
+
+  dropdown_background: $dropdown_background;
 }

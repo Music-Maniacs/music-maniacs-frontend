@@ -7,6 +7,8 @@ import { MMButton } from '../MMButton/MMButton';
 import MMLink from '../MMLink/MMLink';
 import { NavUserProfile } from './NavUserProfile';
 import './SideNav.scss';
+import { ToggleThemeIcon } from './ToggleThemeIcon';
+import { StyledFlex } from '../../styles/styledComponents';
 
 type Props = {
   active: boolean;
@@ -38,6 +40,7 @@ export const SideNav = ({ active, setActive }: Props) => {
     if (!user) {
       return (
         <div className="content">
+          <MMLink to={'/profiles'} content="Buscar Perfiles" />
           <MMLink to={'/events'} content="Buscar Eventos" />
           <MMLink to={'/'} content="Sobre Nosotros" />
           <MMButton
@@ -57,8 +60,9 @@ export const SideNav = ({ active, setActive }: Props) => {
       <>
         <UserDropdown />
         <div className="content">
+          <MMLink to={'/profiles'} content="Buscar Perfiles" />
           <MMLink to={'/events'} content="Buscar Evento" />
-          <MMLink to={'/'} content="Moderar Contenido" />
+          <MMLink to={'/'} content="Moderar" />
           <AdminDropdown />
         </div>
       </>
@@ -67,13 +71,19 @@ export const SideNav = ({ active, setActive }: Props) => {
 
   return (
     <div id="mySidenav" className={active ? 'sidenav active' : 'sidenav'} ref={sideNavRef}>
-      <IoMdClose
-        className="close-sidenav"
-        size={40}
-        onClick={() => {
-          setActive(false);
-        }}
-      />
+      <StyledFlex $justifyContent="space-between" $alignItems="center">
+        <IoMdClose
+          className="close-sidenav"
+          size={40}
+          onClick={() => {
+            setActive(false);
+          }}
+        />
+
+        <div style={{ padding: '10px' }}>
+          <ToggleThemeIcon />
+        </div>
+      </StyledFlex>
       <SidenavContent />
     </div>
   );
@@ -89,7 +99,7 @@ const AdminDropdown = () => {
           setAdminDropdownActive(!adminDropdownActive);
         }}
       >
-        <span>Administrar Contenido</span>
+        <span>Administrar</span>
         {adminDropdownActive ? <IoMdArrowDropup size={20} /> : <IoMdArrowDropdown size={20} />}
       </div>
 

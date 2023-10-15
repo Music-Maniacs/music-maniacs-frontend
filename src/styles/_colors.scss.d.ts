@@ -22,6 +22,10 @@ interface ColorsScss {
   box_background: string;
 
   sweet_alert_background: string;
+
+  text_color: string;
+
+  dropdown_background: string;
 }
 
 export const colors: ColorsScss;
