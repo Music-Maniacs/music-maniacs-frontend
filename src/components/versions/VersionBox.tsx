@@ -9,9 +9,11 @@ import { formatDate } from '../../utils/formatDate';
 import { MMChip } from '../MMChip/MMChip';
 import { MMColors } from '../../models/Generic';
 import { Grid } from '@mui/material';
+import { FaFlag } from 'react-icons/fa';
 
 type Props = {
   versions: Version[];
+  handleReportVersion?: (version: Version) => void;
 };
 
 const colorByEventType = {
@@ -26,7 +28,7 @@ const eventTranslation = {
   destroy: 'Eliminación'
 };
 
-export const VersionBox = ({ versions }: Props) => {
+export const VersionBox = ({ versions, handleReportVersion }: Props) => {
   return (
     <MMBox className="show-boxes ">
       <MMSubTitle content="Versiones" />
@@ -40,19 +42,28 @@ export const VersionBox = ({ versions }: Props) => {
             $gap="10px"
             key={version.id}
           >
-            <StyledFlex $gap="5px">
-              <StyledFlex>
-                <BiUserCircle size={'2rem'} />
+            <StyledFlex $justifyContent="space-between">
+              <StyledFlex $gap="5px">
+                <StyledFlex>
+                  <BiUserCircle size={'2rem'} />
+                </StyledFlex>
+
+                <StyledFlexColumn $gap="2px">
+                  <span>{version.anonymous ? 'Usuario Eliminado' : version.user?.full_name}</span>
+                  <small>{formatDate({ date: version.created_at, format: 'slashWithTime' })}</small>
+                </StyledFlexColumn>
+
+                <MMChip color={(colorByEventType[version.event] as MMColors) ?? 'primary'}>
+                  {eventTranslation[version.event]}
+                </MMChip>
               </StyledFlex>
 
-              <StyledFlexColumn $gap="2px">
-                <span>{version.anonymous ? 'Usuario Eliminado' : version.user?.full_name}</span>
-                <small>{formatDate({ date: version.created_at, format: 'slashWithTime' })}</small>
-              </StyledFlexColumn>
-
-              <MMChip color={(colorByEventType[version.event] as MMColors) ?? 'primary'}>
-                {eventTranslation[version.event]}
-              </MMChip>
+              {handleReportVersion && (
+                <StyledFlex $cursor="pointer" onClick={() => handleReportVersion(version)}>
+                  <FaFlag />
+                  <span>Reportar</span>
+                </StyledFlex>
+              )}
             </StyledFlex>
 
             {Object.keys(version.named_object_changes).length > 0 &&
