@@ -9,27 +9,24 @@ import { unfollowProducer } from '../../../../services/producerService';
 import { Follow } from '../../../../services/userProfileService';
 import { unfollowVenue } from '../../../../services/venueService';
 import { unfollowArtist } from '../../../../services/artistService';
-import colors from '../../../../styles/_colors.scss';
 import { errorSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { Dispatch, RefObject, SetStateAction } from 'react';
 
 const FollowContentContainer = styled.div`
   display: flex;
-  padding: 10px 30px;
+  padding: 5px;
   align-items: center;
-  gap: 10px;
-  border-radius: 10px;
-  border: 1px solid ${colors.box_background};
-  width: 100%;
+  justify-content: center;
+  gap: 5px;
+  border-radius: 5px;
+  border: 2px solid var(--highlight);
   box-sizing: border-box;
+  width: 100%;
 `;
+
 const FollowContentTitle = styled.span`
-  color: white;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  margin-right: auto;
+  flex-grow: 1;
+  font-weight: bold;
 `;
 
 export type FollowTypes = 'venue' | 'producer' | 'event' | 'artist';
@@ -50,16 +47,16 @@ export const FollowContent = ({ follow, canUnfollow, type, setFollows, innerRef 
   const renderIcon = (type: FollowTypes) => {
     switch (type) {
       case 'artist':
-        return <MMArtistIcon />;
+        return <MMArtistIcon size={'1.5rem'} />;
 
       case 'event':
-        return <MMEventIcon />;
+        return <MMEventIcon size={'1.5rem'} />;
 
       case 'producer':
-        return <MMProducerIcon />;
+        return <MMProducerIcon size={'1.5rem'} />;
 
       case 'venue':
-        return <MMVenueIcon />;
+        return <MMVenueIcon size={'1.5rem'} />;
 
       default:
         return <></>;
@@ -84,7 +81,7 @@ export const FollowContent = ({ follow, canUnfollow, type, setFollows, innerRef 
       {renderIcon(type)}
       <FollowContentTitle>{follow.name}</FollowContentTitle>
       {canUnfollow && (
-        <MMButton onClick={handleUnfollow} style={{ lineHeight: 'normal' }}>
+        <MMButton onClick={handleUnfollow}>
           <span>Dejar de Seguir</span>
         </MMButton>
       )}

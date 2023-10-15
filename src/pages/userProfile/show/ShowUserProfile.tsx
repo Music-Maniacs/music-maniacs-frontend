@@ -15,7 +15,6 @@ import { getUserProfile } from '../../../services/userProfileService';
 import { CoverImage } from '../components/CoverImage';
 import { UserInfo } from '../components/UserInfo';
 import { UserLinks } from '../components/UserLinks';
-import './show.scss';
 
 const MMBoxPaddding = styled(MMBox)`
   padding: 30px !important;

@@ -6,13 +6,13 @@ import { MMBox } from '../../../components/MMBox/MMBox';
 import { MMTitle } from '../../../components/MMTitle/MMTitle';
 import { discoverEvents } from '../../../services/eventService';
 import { errorSnackbar } from '../../../components/Snackbar/Snackbar';
-import { Loader } from '../../../components/Loader/Loader';
 import { Event } from '../../../models/Event';
 import { EventCard } from '../components/EventCard';
 import { FaArrowRight } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import colors from '../../../styles/_colors.scss';
 import './Home.scss';
+import { HomeSkeleton } from './HomeSkeleton';
 
 export type DiscoverEventsResponse = {
   by_location: Event[];
@@ -52,9 +52,7 @@ const Home = () => {
   return (
     <MMContainer maxWidth="xxl" className="home-container">
       {isLoading ? (
-        <div>
-          <Loader />
-        </div>
+        <HomeSkeleton />
       ) : (
         <>
           {discoveredEvents?.by_location && discoveredEvents.by_location.length > 0 && (
