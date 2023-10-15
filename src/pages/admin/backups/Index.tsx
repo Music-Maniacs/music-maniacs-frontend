@@ -12,10 +12,11 @@ import { MMButton } from '../../../components/MMButton/MMButton';
 import { FaBackward, FaPlus, FaTrash } from 'react-icons/fa';
 import { errorSnackbar, infoSnackbar } from '../../../components/Snackbar/Snackbar';
 import { createBackup, deleteBackup } from '../../../services/backupService';
-import { sweetAlert } from '../../../components/SweetAlert/sweetAlert';
 import { usePagination } from '../../../components/searcher/usePagination';
 import MMTablePaginator from '../../../components/MMTable/MMTablePaginator';
 import { MMButtonResponsive } from '../../../components/MMButton/MMButtonResponsive';
+import { loaderSweetAlert } from './loaderSweetAlert';
+import colors from '../../../styles/_colors.scss';
 
 const Index = () => {
   const [backups, setBackups] = useState<Backup[]>([]);
@@ -26,11 +27,12 @@ const Index = () => {
     isLoading: true
   });
 
+  // todo: ver si hay error que pasa
   const handleRestoreButton = (backup: Backup) => {
-    sweetAlert({
+    loaderSweetAlert({
       title: '¿Seguro que quieres restaurar la copia de seguridad?',
       confirmButtonText: 'Restaurar',
-      confirmCallback: async () => {
+      preConfirm: async () => {
         try {
           await deleteBackup(backup.name);
 
@@ -45,9 +47,9 @@ const Index = () => {
   };
 
   const handleDeleteButton = (backup: Backup) => {
-    sweetAlert({
+    loaderSweetAlert({
       title: '¿Seguro que quieres eliminar la copia de seguridad?',
-      confirmCallback: async () => {
+      preConfirm: async () => {
         try {
           await deleteBackup(backup.name);
 
@@ -64,11 +66,12 @@ const Index = () => {
   };
 
   const handleCreateButton = () => {
-    sweetAlert({
+    loaderSweetAlert({
       title: '¿Seguro que quieres crear una copia de seguridad?',
       text: 'Las copias de seguirdad se crean automaticamente por el sistema',
       confirmButtonText: 'Crear',
-      confirmCallback: async () => {
+      confirmButtonColor: colors.primary,
+      preConfirm: async () => {
         try {
           await createBackup();
 
