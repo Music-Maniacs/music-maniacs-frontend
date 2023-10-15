@@ -73,9 +73,11 @@ const Index = () => {
       confirmButtonColor: colors.primary,
       preConfirm: async () => {
         try {
-          await createBackup();
+          const backup = await createBackup();
 
           infoSnackbar('Copia de seguridad creada correctamente');
+
+          setBackups([backup, ...backups]);
         } catch (error: any) {
           const errorMessage = error.response?.data?.error || 'Error al crear la copia de seguridad';
 
