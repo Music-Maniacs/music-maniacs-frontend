@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { MMContainer } from '../../../components/MMContainer/MMContainer';
 import { MMBox } from '../../../components/MMBox/MMBox';
 import { MMTitle } from '../../../components/MMTitle/MMTitle';
@@ -11,25 +11,19 @@ import { StyledFlex } from '../../../styles/styledComponents';
 import { MMButton } from '../../../components/MMButton/MMButton';
 import { FaBackward, FaTrash } from 'react-icons/fa';
 import { errorSnackbar, infoSnackbar } from '../../../components/Snackbar/Snackbar';
-import { deleteBackup, getBackups as serviceGetBackups } from '../../../services/backupService';
+import { deleteBackup } from '../../../services/backupService';
 import { sweetAlert } from '../../../components/SweetAlert/sweetAlert';
+import { usePagination } from '../../../components/searcher/usePagination';
+import MMTablePaginator from '../../../components/MMTable/MMTablePaginator';
 
 const Index = () => {
   const [backups, setBackups] = useState<Backup[]>([]);
 
-  useEffect(() => {
-    getBackups();
-  }, []);
-
-  const getBackups = async () => {
-    try {
-      const response = await serviceGetBackups();
-
-      setBackups(response);
-    } catch (error) {
-      errorSnackbar('Error al obtener los backups. Contacte a soporte.');
-    }
-  };
+  const { pagination, setPagination } = usePagination<Backup>({
+    url: `${process.env.REACT_APP_API_URL}/backups`,
+    requestCallback: (data: Backup[]) => setBackups(data),
+    isLoading: true
+  });
 
   const handleRestoreButton = (backup: Backup) => {
     sweetAlert({
@@ -73,8 +67,10 @@ const Index = () => {
         <div className="admin-title-container">
           <MMTitle content="Copias de Seguridad" />
         </div>
+
         <MMTable<Backup>
           data={backups}
+          isLoading={pagination.isLoading}
           columns={[
             { header: 'Nombre', renderCell: (rowData) => <span>{rowData.name}</span> },
             {
@@ -109,6 +105,8 @@ const Index = () => {
             }
           ]}
         />
+
+        <MMTablePaginator pagination={pagination} setPagination={setPagination} />
       </MMBox>
       <Tooltip id="tooltip" place="top" />
     </MMContainer>
