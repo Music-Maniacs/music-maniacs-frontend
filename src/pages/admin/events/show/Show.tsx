@@ -17,6 +17,7 @@ import { Event } from '../../../../models/Event';
 import { adminGetEvent } from '../../../../services/eventService';
 import { EventsForm } from '../../../../components/forms/events/EventsForm';
 import { EventInfo } from './EventInfo';
+import { VersionBox } from '../../../../components/versions/VersionBox';
 
 const Show = () => {
   const { id } = useParams();
@@ -83,12 +84,15 @@ const Show = () => {
                 successCallback={(event) => setEvent(event)}
               />
             </MMModal>
+
             <EventInfo event={event} />
           </>
         ) : (
           <Loader />
         )}
       </MMBox>
+
+      {event && <VersionBox versions={event.versions} customClassName="admin-versions-box-container " />}
       <Tooltip id="tooltip" place="top" />
     </MMContainer>
   );

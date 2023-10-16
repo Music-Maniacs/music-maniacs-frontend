@@ -5,6 +5,7 @@ import { styled } from 'styled-components';
 import { InputText } from '../../../../components/form/InputText/InputText';
 import { InputArea } from '../../../../components/form/InputArea/InputArea';
 import { StyledBoldText, StyledDataContainer, StyledLinksContainer } from '../../styles';
+import { formatDate } from '../../../../utils/formatDate';
 
 type Props = {
   user: User;
@@ -68,36 +69,41 @@ export const UserInfo = ({ user }: Props) => {
   const stats = [
     {
       label: 'Último inicio de sesión:',
-      value: '..'
+      value: user.user_stat.last_day_visited
+        ? formatDate({
+            date: user.user_stat.last_day_visited,
+            format: 'slashWithTime'
+          })
+        : '--'
     },
     {
       label: 'Días visitados:',
-      value: '..'
+      value: user.user_stat.days_visited
     },
     {
       label: 'Eventos consutlados:',
-      value: '..'
+      value: user.user_stat.viewed_events
     },
     {
       label: 'Me gustas dados:',
-      value: '..'
+      value: user.user_stat.likes_given
     },
     {
       label: 'Me gustas recibidos:',
-      value: '..'
+      value: user.user_stat.likes_given
     },
     {
       label: 'Penalizaciones:',
-      value: '..'
+      value: user.user_stat.penalty_score
     },
     {
       label: 'Respuestas creadas:',
-      value: '..'
+      value: user.user_stat.comments_count
     }
   ];
 
   return (
-    <Grid container>
+    <Grid container spacing={2}>
       <Grid item xs={12} sm={6} md={4}>
         {firstColumn.map((stat, index) => (
           <StyledDataContainer key={index}>
@@ -116,8 +122,9 @@ export const UserInfo = ({ user }: Props) => {
         ))}
       </Grid>
 
-      <Grid item sm={12} md={4}>
+      <Grid item xs={12} sm={12} md={4}>
         <h3>Estadísticas del Usuario</h3>
+
         {stats.map((stat, index) => (
           <StyledStatContainer key={index}>
             <StyledBoldText>{stat.label}</StyledBoldText> <span>{stat.value}</span>

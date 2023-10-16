@@ -12,6 +12,7 @@ import { StyledLabel } from '../../../../components/form/formStyles';
 import { InputArea } from '../../../../components/form/InputArea/InputArea';
 import { Venue } from '../../../../models/Venue';
 import { LeafletMap } from '../../../../components/forms/venues/LeafletMap';
+import { NoData } from '../../../../components/NoData/NoData';
 
 type Props = {
   venue: Venue;
@@ -34,13 +35,16 @@ export const VenueInfo = ({ venue }: Props) => {
       label: 'Links',
       content: (
         <>
-          {venue.links &&
+          {venue.links && venue.links.length === 0 ? (
+            <NoData message="No hay links para mostrar" />
+          ) : (
             venue.links.map((link, index) => (
               <StyledLinksContainer key={index}>
                 <InputText disabled value={link.title} containerWidth="40%" />
                 <InputText disabled value={link.url} containerWidth="60%" />
               </StyledLinksContainer>
-            ))}
+            ))
+          )}
         </>
       )
     }
@@ -49,7 +53,7 @@ export const VenueInfo = ({ venue }: Props) => {
   const mapLocationColumn = [
     {
       content: (
-        <Grid container spacing={0} width={'93%'}>
+        <Grid container spacing={2}>
           <Grid item xs={8}>
             <StyledDataContainer>
               <StyledBoldText>Dirección</StyledBoldText>
@@ -67,7 +71,7 @@ export const VenueInfo = ({ venue }: Props) => {
     },
     {
       content: (
-        <Grid container spacing={0} width={'93%'}>
+        <Grid container spacing={2}>
           <Grid item xs={8}>
             <StyledDataContainer>
               <StyledBoldText>Departamento</StyledBoldText>
@@ -121,7 +125,7 @@ export const VenueInfo = ({ venue }: Props) => {
 
   return (
     <>
-      <Grid container>
+      <Grid container spacing={2}>
         <Grid {...gridCommonProps}>
           <StyledLabel>Portada del Espacio de Evento</StyledLabel>
 
@@ -154,7 +158,7 @@ export const VenueInfo = ({ venue }: Props) => {
 
       <Grid container spacing={2}>
         <Grid {...gridMapProps}>
-          <Grid container spacing={2} width={'96%'}>
+          <Grid container spacing={2}>
             <Grid item xs={6}>
               <StyledDataContainer>
                 <StyledBoldText>Latitud</StyledBoldText>
@@ -173,7 +177,6 @@ export const VenueInfo = ({ venue }: Props) => {
             latitude={venue.location?.latitude ? parseFloat(venue.location.latitude) : undefined}
             longitude={venue.location?.longitude ? parseFloat(venue.location.longitude) : undefined}
             hasClickEvent={false}
-            width="88%"
           />
         </Grid>
         <Grid {...gridMapProps}>

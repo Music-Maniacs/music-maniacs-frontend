@@ -5,6 +5,11 @@
   margin-top: 40px;
 }
 
+.admin-versions-box-container {
+  margin-top: 10px;
+  padding: 20px 30px;
+}
+
 .admin-title-container {
   @include flex-space-between;
   margin: 10px 0px;

@@ -17,6 +17,7 @@ import { Tooltip } from 'react-tooltip';
 import { ArtistInfo } from './ArtistInfo';
 import '../../Admin.scss';
 import { ArtistForm } from '../../../../components/forms/artist/ArtistForm';
+import { VersionBox } from '../../../../components/versions/VersionBox';
 
 const Show = () => {
   const { id } = useParams();
@@ -89,6 +90,8 @@ const Show = () => {
           <Loader />
         )}
       </MMBox>
+
+      {artist && <VersionBox versions={artist.versions} customClassName="admin-versions-box-container" />}
       <Tooltip id="tooltip" place="top" />
     </MMContainer>
   );
