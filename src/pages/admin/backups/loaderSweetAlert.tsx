@@ -1,4 +1,3 @@
-import React from 'react';
 import Swal, { SweetAlertIcon, SweetAlertOptions, SweetAlertResult } from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import colors from '../../../styles/_colors.scss';
@@ -29,7 +28,7 @@ export const loaderSweetAlert = async ({
     cancelButtonText: 'Cancelar',
     cancelButtonColor: colors.tertiary,
 
-    allowOutsideClick: () => !MySwal.isLoading,
+    allowOutsideClick: !MySwal.isLoading,
     showLoaderOnConfirm: true,
     ...props
   }).then((result) => {
