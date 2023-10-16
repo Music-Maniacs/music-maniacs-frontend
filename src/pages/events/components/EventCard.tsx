@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { styled } from 'styled-components';
 import { Event } from '../../../models/Event';
 import { formatDate } from '../../../utils/formatDate';
@@ -66,12 +66,17 @@ const StyledCardTitle = styled.h3`
 
 export const EventCard = ({ event }: Props) => {
   const navigate = useNavigate();
+  const [src, setSrc] = useState<string | undefined>(event.image?.full_url);
 
   return (
     <StyledCardContainer onClick={() => navigate(`/events/${event.id}`)}>
       {/* Image */}
       <StyledCardImageContainer>
-        <StyledCardImage src={event.image?.full_url ?? require('../../../assets/images/default-event.jpg')} />
+        <StyledCardImage
+          // si no carga la imagen, se muestra la imagen por defecto
+          onError={() => setSrc(undefined)}
+          src={src ?? require('../../../assets/images/default-event.jpg')}
+        />
       </StyledCardImageContainer>
 
       <StyledCardDataContainer>
