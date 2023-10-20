@@ -104,11 +104,11 @@ const AdminDropdown = () => {
       </div>
 
       <div className={adminDropdownActive ? 'sidenav-admin-dropdown active' : 'sidenav-admin-dropdown'}>
-        <MMLink to={'/'} content="Métricas y Reportes" />
+        <MMLink to={'/admin/dashboard'} content="Métricas y Reportes" />
         <MMLink to={'/admin/users'} content="Usuarios" />
         <MMLink to={'/admin/events'} content="Eventos" />
         <MMLink to={'/admin/artists'} content="Artistas" />
-        <MMLink to={'/'} content="Productoras" />
+        <MMLink to={'/admin/producers'} content="Productoras" />
         <MMLink to={'/admin/venues'} content="Espacios de eventos" />
         <MMLink to={'/admin/roles'} content="Roles" />
         <MMLink to={'/admin/genres'} content="Generos Musicales" />
