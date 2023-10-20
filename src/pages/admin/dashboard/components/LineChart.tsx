@@ -1,4 +1,4 @@
-import React, { createRef, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -12,7 +12,6 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { useTheme } from '../../../../context/themeContext';
-import colors from '../../../../styles/_colors.scss';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -26,17 +25,37 @@ const cssVar = (name: string) => getComputedStyle(document.documentElement).getP
 export const LineChart = () => {
   const { theme } = useTheme();
   const textColor = cssVar('--text_color');
-  const chartRef = useRef();
+  const chartRef = useRef<ChartJS<'line', number[], string>>(null);
 
   useEffect(() => {
-    console.log(textColor);
-    console.log('ss', colors.text_color);
+    // Las variables CSS se cambian un segundo despues de que se cambie "theme" por eso el timeout
+    const timeout = setTimeout(() => {
+      if (chartRef.current) {
+        toggleChartTheme(chartRef.current);
+      }
+    }, 100);
 
-    if (chartRef.current) {
-      // @ts-ignore
-      chartRef.current.update();
-    }
+    return () => {
+      clearTimeout(timeout);
+    };
   }, [theme]);
+
+  const toggleChartTheme = (chart: ChartJS<'line', number[], string>) => {
+    const newTextColor = cssVar('--text_color');
+
+    const xScale = chart.config.options?.scales?.x;
+    const yScale = chart.config.options?.scales?.y;
+
+    if (xScale && xScale.ticks?.color) {
+      xScale.ticks.color = newTextColor;
+    }
+
+    if (yScale && yScale.ticks?.color) {
+      yScale.ticks.color = newTextColor;
+    }
+
+    chart.update();
+  };
 
   const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
 
@@ -50,12 +69,12 @@ export const LineChart = () => {
     scales: {
       y: {
         ticks: {
-          color: colors.text_color
+          color: textColor
         }
       },
       x: {
         ticks: {
-          color: colors.text_color
+          color: textColor
         }
       }
     }
