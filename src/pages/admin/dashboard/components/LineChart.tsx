@@ -8,12 +8,15 @@ import {
   Title,
   Tooltip,
   Legend,
-  ChartOptions
+  ChartOptions,
+  TimeScale
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { useTheme } from '../../../../context/themeContext';
+import 'chartjs-adapter-date-fns';
+import moment from 'moment';
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, TimeScale);
 
 const cssVar = (name: string) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 
@@ -71,6 +74,11 @@ export const LineChart = ({ title, labels, dataset }: Props) => {
   const options: ChartOptions<'line'> = {
     responsive: true,
     maintainAspectRatio: false,
+    elements: {
+      line: {
+        tension: 0.2
+      }
+    },
     plugins: {
       title: {
         display: true,
@@ -88,7 +96,8 @@ export const LineChart = ({ title, labels, dataset }: Props) => {
           title: () => '',
           label: (item) => {
             const value = item.dataset.data[item.dataIndex];
-            return `${item.label}: ${value}`;
+            const labelFormatted = moment(item.label, 'MMM D, YYYY, h:mm:ss a').format('MMM D, YYYY');
+            return `${labelFormatted}: ${value}`;
           }
         }
       },
@@ -106,6 +115,11 @@ export const LineChart = ({ title, labels, dataset }: Props) => {
         }
       },
       x: {
+        type: 'time',
+        time: {
+          unit: false,
+          minUnit: 'day'
+        },
         grid: {
           color: gridColor
         },

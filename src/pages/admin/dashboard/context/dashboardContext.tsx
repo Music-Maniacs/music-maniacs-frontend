@@ -1,83 +1,77 @@
-import React, { Dispatch, SetStateAction, createContext, useContext, useState } from 'react';
+import React, { MutableRefObject, createContext, useContext, useEffect, useRef, useState } from 'react';
+import { DashboardGraphs, DashboardTables } from '../../../../models/Dashboard';
+import { getDashboardGraphs, getDashboardTables } from '../../../../services/dashboardService';
+import { errorSnackbar } from '../../../../components/Snackbar/Snackbar';
 
 type Props = {
   children: React.ReactNode;
 };
 
-interface DashboardData {
-  metrics: {
-    videos: {
-      today: number;
-      days7: number;
-      days30: number;
-    };
-    likes: {
-      today: number;
-      days7: number;
-      days30: number;
-    };
-    events: {
-      today: number;
-      days7: number;
-      days30: number;
-    };
-  };
-  users_type: { [x: string]: number };
-  visits: { [x: string]: number };
-  reviews: { [x: string]: number };
-  new_comments: { [x: string]: number };
-  new_users: { [x: string]: number };
-  new_events: { [x: string]: number };
-}
-
 type StoreProps = {
-  dashboardData?: DashboardData;
-  setDashboardData: Dispatch<SetStateAction<DashboardData | undefined>>;
+  dashboardGraphs?: DashboardGraphs;
+  dashboardTables?: DashboardTables;
+  isGraphRequestLoading: boolean;
+  isTableRequestLoading: boolean;
+  queryParams: MutableRefObject<Record<string, string>>;
+  fetchGraphs: () => Promise<void>;
 };
 
 const DashboardContext = createContext<StoreProps | null>(null);
 
 export const DashboardProvider = ({ children }: Props) => {
-  const URL = `${process.env.REACT_APP_API_URL}/metrics`;
-  const [dashboardData, setDashboardData] = useState<DashboardData | undefined>({
-    metrics: {
-      videos: {
-        today: 0,
-        days7: 5,
-        days30: 5
-      },
-      likes: {
-        today: 0,
-        days7: 8,
-        days30: 8
-      },
-      events: {
-        today: 0,
-        days7: 16,
-        days30: 16
-      }
-    },
-    users_type: {
-      admin: 4,
-      user: 0,
-      moderator: 1,
-      guest: 0,
-      'level 1': 0,
-      'level 2': 0,
-      level_3: 0
-    },
-    visits: {},
-    reviews: {},
-    new_comments: {
-      '2023-10-16': 1
-    },
-    new_users: {},
-    new_events: {}
+  const [isGraphRequestLoading, setIsGraphRequestLoading] = useState<boolean>(true);
+  const [dashboardGraphs, setDashboardGraphs] = useState<DashboardGraphs>();
+  const [isTableRequestLoading, setIsTableRequestLoading] = useState<boolean>(true);
+  const [dashboardTables, setDashboardTables] = useState<DashboardTables>();
+
+  const startDateObj = new Date();
+  startDateObj.setDate(startDateObj.getDate() - 30 * 6);
+
+  const queryParams = useRef<Record<string, string>>({
+    startDate: startDateObj.toISOString(),
+    endDate: new Date().toISOString()
   });
 
+  useEffect(() => {
+    fetchGraphs();
+    fetchTables();
+  }, []);
+
+  const fetchGraphs = async () => {
+    setIsGraphRequestLoading(true);
+    try {
+      const response = await getDashboardGraphs(queryParams.current.startDate, queryParams.current.endDate);
+
+      setDashboardGraphs(response);
+    } catch (error) {
+      errorSnackbar('Error al obtener las gráficas. Contacte a Soporte.');
+      setDashboardGraphs(undefined);
+    } finally {
+      setIsGraphRequestLoading(false);
+    }
+  };
+
+  const fetchTables = async () => {
+    setIsTableRequestLoading(true);
+    try {
+      const response = await getDashboardTables();
+
+      setDashboardTables(response);
+    } catch (error) {
+      errorSnackbar('Error al obtener las tablas. Contacte a Soporte.');
+      setDashboardTables(undefined);
+    } finally {
+      setIsTableRequestLoading(false);
+    }
+  };
+
   const store = {
-    dashboardData,
-    setDashboardData
+    dashboardGraphs,
+    dashboardTables,
+    isGraphRequestLoading,
+    isTableRequestLoading,
+    queryParams,
+    fetchGraphs
   };
 
   return <DashboardContext.Provider value={store}>{children}</DashboardContext.Provider>;

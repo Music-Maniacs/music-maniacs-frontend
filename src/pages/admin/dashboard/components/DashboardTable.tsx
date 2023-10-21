@@ -15,7 +15,7 @@ type SimpleRow = string | number;
 
 export type DashboardTableRow = Array<DynamicRow | SimpleRow>;
 
-type TableProps = {
+export type DashboardTableProps = {
   rows: DashboardTableRow[];
   headers: string[];
 };
@@ -28,7 +28,7 @@ const StyledMaterialUiCell = ({ children, isHeader = false, ...props }: CellProp
   );
 };
 
-export function DashboardTable({ rows, headers }: TableProps) {
+export function DashboardTable({ rows, headers }: DashboardTableProps) {
   return (
     <TableContainer>
       <Table>

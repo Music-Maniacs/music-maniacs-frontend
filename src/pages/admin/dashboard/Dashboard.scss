@@ -13,3 +13,24 @@
     text-align: center;
   }
 }
+
+.dashboard-searcher {
+  &--button-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    @include sm-breakpoint {
+      justify-content: flex-end;
+    }
+
+    @include md-breakpoint {
+      justify-content: flex-end;
+    }
+  }
+}
+
+.dashboard-box-container {
+  padding: 20px 30px;
+  margin: 20px 0px;
+}
