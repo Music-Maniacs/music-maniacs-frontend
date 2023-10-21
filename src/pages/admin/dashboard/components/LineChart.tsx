@@ -15,16 +15,20 @@ import { useTheme } from '../../../../context/themeContext';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-const style = getComputedStyle(document.body);
-const secondaryColor = style.getPropertyValue('--secondary');
-
-type Options = ChartOptions<'line'>;
-
 const cssVar = (name: string) => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 
-export const LineChart = () => {
+type Props = {
+  title: string;
+  labels: string[];
+  dataset: number[];
+};
+
+export const LineChart = ({ title, labels, dataset }: Props) => {
   const { theme } = useTheme();
   const textColor = cssVar('--text_color');
+  const opacity = '40';
+  const gridColor = textColor + opacity;
+  const secondaryColor = cssVar('--secondary');
   const chartRef = useRef<ChartJS<'line', number[], string>>(null);
 
   useEffect(() => {
@@ -42,37 +46,69 @@ export const LineChart = () => {
 
   const toggleChartTheme = (chart: ChartJS<'line', number[], string>) => {
     const newTextColor = cssVar('--text_color');
+    const newGridColor = newTextColor + opacity;
 
     const xScale = chart.config.options?.scales?.x;
     const yScale = chart.config.options?.scales?.y;
 
-    if (xScale && xScale.ticks?.color) {
+    if (xScale && xScale.ticks?.color && xScale.grid?.color) {
       xScale.ticks.color = newTextColor;
+      xScale.grid.color = newGridColor;
     }
 
-    if (yScale && yScale.ticks?.color) {
+    if (yScale && yScale.ticks?.color && yScale.grid?.color) {
       yScale.ticks.color = newTextColor;
+      yScale.grid.color = newGridColor;
+    }
+
+    if (chart.config.options?.plugins?.title) {
+      chart.config.options.plugins.title.color = newTextColor;
     }
 
     chart.update();
   };
 
-  const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-
-  const options: Options = {
+  const options: ChartOptions<'line'> = {
     responsive: true,
+    maintainAspectRatio: false,
     plugins: {
+      title: {
+        display: true,
+        text: title,
+        align: 'start',
+        color: textColor,
+        font: {
+          size: 16
+        }
+      },
+      tooltip: {
+        mode: 'index',
+        intersect: false,
+        callbacks: {
+          title: () => '',
+          label: (item) => {
+            const value = item.dataset.data[item.dataIndex];
+            return `${item.label}: ${value}`;
+          }
+        }
+      },
       legend: {
         display: false
       }
     },
     scales: {
       y: {
+        grid: {
+          color: gridColor
+        },
         ticks: {
           color: textColor
         }
       },
       x: {
+        grid: {
+          color: gridColor
+        },
         ticks: {
           color: textColor
         }
@@ -85,7 +121,7 @@ export const LineChart = () => {
     datasets: [
       {
         label: 'Dataset 1',
-        data: [1, 2, 3, 4],
+        data: dataset,
         borderColor: secondaryColor,
         backgroundColor: secondaryColor
       }

@@ -1,0 +1,15 @@
+@import '../../../styles/main';
+
+.dashboard-table {
+  &--header {
+    font-weight: bold;
+    background-color: var(--highlight);
+  }
+
+  &--cell {
+    color: var(--text_color);
+    border: 1px solid var(--text_color);
+    padding: 3px;
+    text-align: center;
+  }
+}
