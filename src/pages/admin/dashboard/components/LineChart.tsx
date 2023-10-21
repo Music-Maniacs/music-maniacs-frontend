@@ -75,8 +75,12 @@ export const LineChart = ({ title, labels, dataset }: Props) => {
     responsive: true,
     maintainAspectRatio: false,
     elements: {
+      point: {
+        radius: 2
+      },
       line: {
-        tension: 0.2
+        tension: 0.2,
+        borderWidth: 2
       }
     },
     plugins: {
