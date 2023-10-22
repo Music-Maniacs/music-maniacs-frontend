@@ -145,6 +145,12 @@ const Multimedia = () => {
       });
 
       setVideos(videosSorted);
+    } else if (value === 'likes_count desc') {
+      const videosSorted = videosCopy.sort((a, b) => {
+        return b.likes_count - a.likes_count;
+      });
+
+      setVideos(videosSorted);
     } else {
       const videosSorted = videosCopy.sort((a, b) => {
         const dateA = new Date(a.created_at);
@@ -257,6 +263,7 @@ const Multimedia = () => {
                       defaultValue={{ label: 'Fecha de Grabación', value: 'recorded_at desc' }}
                       options={[
                         { label: 'Fecha de Grabación', value: 'recorded_at desc' },
+                        { label: 'Cantidad de Likes', value: 'likes_count desc' },
                         { label: 'Fecha de Subida', value: 'created_at desc' }
                       ]}
                       styles={reactSelectCustomStyles()}

@@ -12,6 +12,7 @@ import { Grid } from '@mui/material';
 
 type Props = {
   versions: Version[];
+  customClassName?: string;
 };
 
 const colorByEventType = {
@@ -26,9 +27,9 @@ const eventTranslation = {
   destroy: 'Eliminación'
 };
 
-export const VersionBox = ({ versions }: Props) => {
+export const VersionBox = ({ versions, customClassName }: Props) => {
   return (
-    <MMBox className="show-boxes ">
+    <MMBox className={`${customClassName ?? 'show-boxes'}`}>
       <MMSubTitle content="Versiones" />
 
       <StyledFlexColumn $gap="10px">

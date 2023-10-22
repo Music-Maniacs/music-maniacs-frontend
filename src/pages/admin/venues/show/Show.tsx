@@ -17,6 +17,7 @@ import { adminGetVenue } from '../../../../services/venueService';
 import { Venue } from '../../../../models/Venue';
 import { useVenuesRequests } from '../hooks/useVenuesRequests';
 import { VenuesForm } from '../../../../components/forms/venues/VenuesForm';
+import { VersionBox } from '../../../../components/versions/VersionBox';
 
 const Show = () => {
   const { id } = useParams();
@@ -89,6 +90,8 @@ const Show = () => {
           <Loader />
         )}
       </MMBox>
+
+      {venue && <VersionBox versions={venue.versions} customClassName="admin-versions-box-container" />}
       <Tooltip id="tooltip" place="top" />
     </MMContainer>
   );

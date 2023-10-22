@@ -18,7 +18,7 @@ export const StyledDataContainer = styled.div`
   flex-direction: column;
   margin-bottom: 10px;
 
-  width: 90%;
+  width: 100%;
 `;
 
 export const StyledBoldText = styled.span`
