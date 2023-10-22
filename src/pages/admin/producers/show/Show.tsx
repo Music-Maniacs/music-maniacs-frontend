@@ -17,6 +17,7 @@ import { Tooltip } from 'react-tooltip';
 import { ProducerInfo } from './ProducerInfo';
 import '../../Admin.scss';
 import { ProducerForm } from '../../../../components/forms/producer/ProducerForm';
+import { VersionBox } from '../../../../components/versions/VersionBox';
 
 const Show = () => {
   const { id } = useParams();
@@ -89,6 +90,8 @@ const Show = () => {
           <Loader />
         )}
       </MMBox>
+
+      {producer && <VersionBox versions={producer.versions} customClassName="admin-versions-box-container" />}
       <Tooltip id="tooltip" place="top" />
     </MMContainer>
   );

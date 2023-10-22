@@ -22,6 +22,7 @@ import Select from 'react-select/dist/declarations/src/Select';
 import { GroupBase } from 'react-select';
 import { SearcherSkeleton } from './Skeleton';
 import { useInfiniteScroll } from '../../../components/hooks/useInfiniteScroll';
+import { NoData } from '../../../components/NoData/NoData';
 
 const StyledSearchbarForm = styled.form`
   padding: 1rem 0 2rem 0;
@@ -168,7 +169,11 @@ const SearchEvents = () => {
             </Grid>
           ) : (
             <Grid container spacing={4}>
-              {events &&
+              {!events || events.length === 0 ? (
+                <Grid item xs={12}>
+                  <NoData message="No hay eventos para mostrar, proba cambiando los criterios de búsqueda." />
+                </Grid>
+              ) : (
                 events.map((e: Event, index: number) => (
                   <Grid
                     key={e.id}
@@ -184,7 +189,8 @@ const SearchEvents = () => {
                   >
                     <EventCard event={e} />
                   </Grid>
-                ))}
+                ))
+              )}
               {pagination.isLoading && <SearcherSkeleton />}
             </Grid>
           )}

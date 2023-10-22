@@ -13,6 +13,8 @@ const NoDataContainer = styled.div`
   margin: 0.5rem;
   color: var(--text_color);
   opacity: 0.7;
+  text-align: center;
+  padding: 0.5rem;
 `;
 
 export const NoData = ({ message, style }: NoDataProps) => {

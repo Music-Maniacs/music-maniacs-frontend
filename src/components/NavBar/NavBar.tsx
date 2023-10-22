@@ -50,7 +50,7 @@ export const NavBar = () => {
     return (
       <div className="links-container">
         <MMLink to={'/profiles'} content="Buscar Perfiles" />
-        <MMLink to={'/events'} content="Buscar Evento" />
+        <MMLink to={'/events'} content="Buscar Eventos" />
         <MMLink to={'/'} content="Moderar" />
 
         <div className="nav-dropdown">

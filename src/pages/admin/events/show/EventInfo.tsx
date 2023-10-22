@@ -12,6 +12,7 @@ import { StyledLabel } from '../../../../components/form/formStyles';
 import { InputArea } from '../../../../components/form/InputArea/InputArea';
 import { Event } from '../../../../models/Event';
 import { formatDate } from '../../../../utils/formatDate';
+import { NoData } from '../../../../components/NoData/NoData';
 
 type Props = {
   event: Event;
@@ -50,13 +51,16 @@ export const EventInfo = ({ event }: Props) => {
       label: 'Links',
       content: (
         <>
-          {event.links &&
+          {event.links.length === 0 ? (
+            <NoData message="No hay links para mostrar" />
+          ) : (
             event.links.map((link, index) => (
               <StyledLinksContainer key={index}>
                 <InputText disabled value={link.title} containerWidth="40%" />
                 <InputText disabled value={link.url} containerWidth="60%" />
               </StyledLinksContainer>
-            ))}
+            ))
+          )}
         </>
       )
     }
@@ -74,7 +78,7 @@ export const EventInfo = ({ event }: Props) => {
   };
 
   return (
-    <Grid container>
+    <Grid container spacing={2}>
       <Grid {...gridCommonProps}>
         <StyledLabel>Portada del Evento</StyledLabel>
 
