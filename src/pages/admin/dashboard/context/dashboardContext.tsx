@@ -25,7 +25,7 @@ export const DashboardProvider = ({ children }: Props) => {
   const [dashboardTables, setDashboardTables] = useState<DashboardTables>();
 
   const startDateObj = new Date();
-  startDateObj.setDate(startDateObj.getDate() - 30 * 6);
+  startDateObj.setDate(startDateObj.getDate() - 30);
 
   const queryParams = useRef<Record<string, string>>({
     startDate: startDateObj.toISOString(),

@@ -19,7 +19,7 @@ export const DashboardGraphs = () => {
     <Grid container spacing={1}>
       {graphs.map((graph) => (
         <Grid key={graph.title} {...gridProps}>
-          <LineChart title={graph.title} dataset={graph.dataset} labels={graph.labels} />
+          <LineChart title={graph.title} dataset={graph.dataset} labels={graph.labels} id={graph.id} />
         </Grid>
       ))}
     </Grid>

@@ -24,9 +24,10 @@ type Props = {
   title: string;
   labels: string[];
   dataset: number[];
+  id?: string;
 };
 
-export const LineChart = ({ title, labels, dataset }: Props) => {
+export const LineChart = ({ title, labels, dataset, id }: Props) => {
   const { theme } = useTheme();
   const textColor = cssVar('--text_color');
   const opacity = '40';
@@ -146,5 +147,5 @@ export const LineChart = ({ title, labels, dataset }: Props) => {
     ]
   };
 
-  return <Line ref={chartRef} data={data} options={options} />;
+  return <Line id={id} ref={chartRef} data={data} options={options} />;
 };
