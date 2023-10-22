@@ -9,11 +9,19 @@ type Props = {
   setLatLng?: (latitude?: number, longitude?: number) => void;
   hasClickEvent?: boolean;
   width?: string;
+  height?: string;
 };
 
 const defaultCenter: LatLngTuple = [-32.89707479647684, -68.85324328925705];
 
-export const LeafletMap = ({ latitude, longitude, setLatLng, hasClickEvent = true, width = '100%' }: Props) => {
+export const LeafletMap = ({
+  latitude,
+  longitude,
+  setLatLng,
+  hasClickEvent = true,
+  width = '100%',
+  height = '273px'
+}: Props) => {
   const [markerPosition, setMarkerPosition] = React.useState<LatLngTuple | undefined>(undefined);
 
   function isValideLatitude(lat: any) {
@@ -28,7 +36,7 @@ export const LeafletMap = ({ latitude, longitude, setLatLng, hasClickEvent = tru
     (map: Map) => {
       if (map && latitude && longitude && isValideLatitude(latitude) && isValidLongitude(longitude)) {
         setMarkerPosition([latitude, longitude]);
-        map.flyTo([latitude, longitude]);
+        map.panTo([latitude, longitude]);
       }
     },
     [latitude, longitude]
@@ -47,13 +55,7 @@ export const LeafletMap = ({ latitude, longitude, setLatLng, hasClickEvent = tru
   };
 
   return (
-    <MapContainer
-      ref={mapRef}
-      center={defaultCenter}
-      zoom={13}
-      scrollWheelZoom={true}
-      style={{ height: '273px', width: width }}
-    >
+    <MapContainer ref={mapRef} center={defaultCenter} zoom={13} scrollWheelZoom={true} style={{ height, width }}>
       {hasClickEvent && <MapEvents setMarkerPosition={setMarkerPosition} />}
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'

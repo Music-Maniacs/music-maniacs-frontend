@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 import { Table, TableBody, TableCell, TableCellProps, TableContainer, TableHead, TableRow } from '@mui/material';
 import './MMTable.scss';
 import { Loader } from '../Loader/Loader';
+import { NoData } from '../NoData/NoData';
 
 interface CellProps extends TableCellProps {
   children: string | React.ReactNode;
@@ -47,9 +48,13 @@ export function MMTable<T>({ data, columns, isLoading = false }: TableProps<T>) 
                 <Loader height={100} />
               </StyledMaterialUiCell>
             </TableRow>
+          ) : !data || data.length === 0 ? (
+            <TableRow>
+              <StyledMaterialUiCell colSpan={12} style={{ borderBottom: 'none' }}>
+                <NoData message="No hay datos para mostrar" />
+              </StyledMaterialUiCell>
+            </TableRow>
           ) : (
-            data &&
-            data.length > 0 &&
             data.map((row, index1) => (
               <TableRow key={'row-' + index1}>
                 {columns.map((column, index2) => (

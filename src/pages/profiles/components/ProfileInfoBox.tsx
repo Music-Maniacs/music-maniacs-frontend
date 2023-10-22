@@ -20,6 +20,7 @@ import { ReportCategory, ReportableType } from '../../../models/Report';
 import { useModal } from '../../../components/hooks/useModal';
 import { StyledFlex } from '../../../styles/styledComponents';
 import { FaFlag } from 'react-icons/fa';
+import { VenueMapInfo } from '../venue/components/VenueMapInfo';
 
 type ProfileInfoBoxProps = {
   profile: Artist | Producer | Venue;
@@ -157,7 +158,7 @@ export const ProfileInfoBox = ({
 
       {/* Description - Links */}
       <MMBox className="show-boxes">
-        <Grid container spacing={5}>
+        <Grid container spacing={3}>
           <Grid item xs={12} sm={9} display={'flex'} flexDirection={'column'} gap={'5px'} whiteSpace={'pre-wrap'}>
             <MMSubTitle content="Descripción" />
             {profile.description}
@@ -167,7 +168,7 @@ export const ProfileInfoBox = ({
             <MMSubTitle content="Enlaces" />
 
             {profile.links && (
-              <ul style={{ marginTop: '3px', display: 'flex', flexDirection: 'column' }}>
+              <ul style={{ marginTop: '3px' }}>
                 {profile.links.map((link) => (
                   <li key={link.id}>
                     <MMAnchor style={{ wordBreak: 'break-all' }} href={link.url ?? '#'} content={link.title} />
@@ -189,6 +190,13 @@ export const ProfileInfoBox = ({
               </>
             )}
           </Grid>
+
+          {/* @ts-ignore */}
+          {profile.address && (
+            <Grid item xs={12}>
+              <VenueMapInfo venue={profile} />
+            </Grid>
+          )}
         </Grid>
       </MMBox>
     </>
