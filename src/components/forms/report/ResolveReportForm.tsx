@@ -44,7 +44,12 @@ export const ResolveReportForm = ({ reportId, closeModal, successCallback }: Rep
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
-      const report = await resolveReport(reportId, data.moderatorComment, +data.penalizationScore.value, reportAction);
+      const report = await resolveReport(
+        reportId,
+        data.moderatorComment,
+        data.penalizationScore?.value ? +data.penalizationScore.value : 0,
+        reportAction
+      );
 
       infoSnackbar(`Reporte resuelto con éxito.`);
 
