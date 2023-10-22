@@ -11,6 +11,7 @@ import {
 import { InputText } from '../../../../components/form/InputText/InputText';
 import { StyledLabel } from '../../../../components/form/formStyles';
 import { InputArea } from '../../../../components/form/InputArea/InputArea';
+import { NoData } from '../../../../components/NoData/NoData';
 
 type Props = {
   artist: Artist;
@@ -29,11 +30,17 @@ export const ArtistInfo = ({ artist }: Props) => {
     {
       label: 'Géneros Relacionados',
       content: (
-        <ul style={{ marginTop: '3px' }}>
-          {artist.genres.map((genre) => (
-            <li key={genre.name}>{genre.name}</li>
-          ))}
-        </ul>
+        <>
+          {artist.genres.length === 0 ? (
+            <NoData message="No hay géneros para mostrar" />
+          ) : (
+            <ul style={{ marginTop: '3px' }}>
+              {artist.genres.map((genre) => (
+                <li key={genre.name}>{genre.name}</li>
+              ))}
+            </ul>
+          )}
+        </>
       )
     }
   ];
@@ -43,13 +50,16 @@ export const ArtistInfo = ({ artist }: Props) => {
       label: 'Links',
       content: (
         <>
-          {artist.links &&
+          {artist.links.length === 0 ? (
+            <NoData message="No hay links para mostrar" />
+          ) : (
             artist.links.map((link, index) => (
               <StyledLinksContainer key={index}>
                 <InputText disabled value={link.title} containerWidth="40%" />
                 <InputText disabled value={link.url} containerWidth="60%" />
               </StyledLinksContainer>
-            ))}
+            ))
+          )}
         </>
       )
     },
@@ -60,7 +70,7 @@ export const ArtistInfo = ({ artist }: Props) => {
   ];
 
   return (
-    <Grid container>
+    <Grid container spacing={2}>
       <Grid item xs={12} sm={6} md={4}>
         <StyledLabel>Portada del Artista</StyledLabel>
 

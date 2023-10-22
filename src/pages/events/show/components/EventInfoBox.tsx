@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { MMBox } from '../../../../components/MMBox/MMBox';
 import { Event } from '../../../../models/Event';
 import { Grid } from '@mui/material';
@@ -26,6 +26,11 @@ type Props = {
 
 export const EventInfoBox = ({ event, setEvent, openModal, openReportModal, hideActions = false }: Props) => {
   const { user } = useAuth();
+  const [src, setSrc] = useState<string | undefined>(event.image?.full_url);
+
+  useEffect(() => {
+    if (event.image?.full_url) setSrc(event.image.full_url);
+  }, [event]);
 
   const handleFollow = () => {
     try {
@@ -57,7 +62,8 @@ export const EventInfoBox = ({ event, setEvent, openModal, openReportModal, hide
         <div className="image-container">
           <img
             alt="Portada del Evento"
-            src={event.image?.full_url ?? require('../../../../assets/images/default-event.jpg')}
+            onError={() => setSrc(undefined)}
+            src={src ?? require('../../../../assets/images/default-event.jpg')}
             className="image"
           />
         </div>

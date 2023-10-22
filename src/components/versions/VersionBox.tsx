@@ -14,6 +14,7 @@ import { FaFlag } from 'react-icons/fa';
 type Props = {
   versions: Version[];
   handleReportVersion?: (version: Version) => void;
+  customClassName?: string;
 };
 
 const colorByEventType = {
@@ -28,9 +29,9 @@ const eventTranslation = {
   destroy: 'Eliminación'
 };
 
-export const VersionBox = ({ versions, handleReportVersion }: Props) => {
+export const VersionBox = ({ versions, customClassName, handleReportVersion }: Props) => {
   return (
-    <MMBox className="show-boxes ">
+    <MMBox className={`${customClassName ?? 'show-boxes'}`}>
       <MMSubTitle content="Versiones" />
 
       <StyledFlexColumn $gap="10px">
