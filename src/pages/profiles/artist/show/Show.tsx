@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useModal } from '../../../../components/hooks/useModal';
 import { MMModal } from '../../../../components/Modal/MMModal';
 import { ArtistForm } from '../../../../components/forms/artist/ArtistForm';
@@ -12,10 +12,24 @@ import { useArtist } from '../context/artistContext';
 import { VersionBox } from '../../../../components/versions/VersionBox';
 import { ProfileEventsBox } from '../../components/ProfileEventsBox';
 import { ProfileReviewsBox } from '../../components/ProfileReviewsBox';
+import { Version } from '../../../../models/Version';
+import { ReportForm } from '../../../../components/forms/report/ReportForm';
+import { reportVersions } from '../../../../services/versionService';
 
 const Show = () => {
   const { isModalOpen, openModal, closeModal } = useModal();
   const { artist, setArtist } = useArtist();
+  const [versionsToReport, setVersionsToReport] = useState<Version>();
+  const {
+    isModalOpen: isVersionsReportModalOpen,
+    openModal: openVersionsReportModal,
+    closeModal: closeVersionsReportModal
+  } = useModal();
+
+  const handleReportVersion = (version: Version) => {
+    setVersionsToReport(version);
+    openVersionsReportModal();
+  };
 
   return (
     <>
@@ -26,6 +40,16 @@ const Show = () => {
           artistToEdit={artist}
           useAdminController={false}
           successCallback={(artist) => setArtist((prevArtist) => ({ ...prevArtist, ...artist }))}
+        />
+      </MMModal>
+
+      <MMModal closeModal={closeVersionsReportModal} isModalOpen={isVersionsReportModalOpen} maxWidth="sm">
+        <ReportForm
+          reportableId={versionsToReport?.id || ''}
+          service={reportVersions}
+          closeModal={closeVersionsReportModal}
+          reportTitleText="la versión"
+          reportableType="Version"
         />
       </MMModal>
 
@@ -45,7 +69,7 @@ const Show = () => {
 
             <ProfileReviewsBox profile={artist} reviewableKlass="artist" />
 
-            <VersionBox versions={artist.versions} />
+            <VersionBox versions={artist.versions} handleReportVersion={handleReportVersion} />
           </>
         ) : (
           <Loader />

@@ -63,6 +63,7 @@ export const ReportForm = ({ reportableId, closeModal, service, reportTitleText,
 
   const reportCategoryValue = watch('reportCategory');
   const originalReportableValue = watch('originalReportable');
+  const isVersionReport = reportableType === 'Version';
 
   const reportCollection = reportCollectionByType[reportableType].map((item) => ({ label: item, value: item }));
 
@@ -71,14 +72,15 @@ export const ReportForm = ({ reportableId, closeModal, service, reportTitleText,
       await service(
         reportableId,
         data.userComment,
-        data.reportCategory.value as ReportCategory,
-        reportCategoryValue.value === 'duplicated' ? originalReportableValue?.value : undefined
+        (data.reportCategory?.value as ReportCategory) ?? 'other',
+        reportCategoryValue?.value === 'duplicated' ? originalReportableValue?.value : undefined
       );
 
       infoSnackbar(`Reporte creado con éxito.`);
 
       closeModal();
     } catch (error) {
+      console.log('🚀 ~ file: ReportForm.tsx:83 ~ constonSubmit:SubmitHandler<FormData>= ~ error:', error);
       let hasFormError = handleFormErrors(error, setError);
 
       !hasFormError && errorSnackbar(`Error inesperado al crear el reporte. Contacte a soporte.`);
@@ -95,14 +97,21 @@ export const ReportForm = ({ reportableId, closeModal, service, reportTitleText,
         <h2 style={{ textAlign: 'center' }}>{`¿Seguro que quieres reportar ${reportTitleText}?`}</h2>
       </StyledFlexColumn>
 
-      <InputSelect
-        label="Categoría del reporte"
-        name="reportCategory"
-        collection={reportCollection}
-        control={control}
-        errors={errors}
-        options={reportValidations.category}
-      />
+      {isVersionReport ? (
+        <span style={{ textAlign: 'center' }}>
+          Por favor, en caso de no poder corregir el error usted mismo, especifique en el comentario los campos
+          incorrectos y su sugerencia de edición
+        </span>
+      ) : (
+        <InputSelect
+          label="Categoría del reporte"
+          name="reportCategory"
+          collection={reportCollection}
+          control={control}
+          errors={errors}
+          options={reportValidations.category}
+        />
+      )}
 
       <InputArea
         label="Comentario"

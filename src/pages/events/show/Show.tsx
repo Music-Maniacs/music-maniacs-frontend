@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MMModal } from '../../../components/Modal/MMModal';
 import { EventsForm } from '../../../components/forms/events/EventsForm';
 import { useModal } from '../../../components/hooks/useModal';
@@ -15,6 +15,8 @@ import { EventAdvancedInfo } from './components/EventAdvancedInfo';
 import { VersionBox } from '../../../components/versions/VersionBox';
 import { ReportForm } from '../../../components/forms/report/ReportForm';
 import { reportEvent } from '../../../services/eventService';
+import { Version } from '../../../models/Version';
+import { reportVersions } from '../../../services/versionService';
 
 const Show = () => {
   const { id } = useParams();
@@ -22,6 +24,17 @@ const Show = () => {
   const { isModalOpen, openModal, closeModal } = useModal();
   const { showEvent, getShowEvent, setShowEvent } = useEvents();
   const { isModalOpen: isReportModalOpen, openModal: openReportModal, closeModal: closeReportModal } = useModal();
+  const [versionsToReport, setVersionsToReport] = useState<Version>();
+  const {
+    isModalOpen: isVersionsReportModalOpen,
+    openModal: openVersionsReportModal,
+    closeModal: closeVersionsReportModal
+  } = useModal();
+
+  const handleReportVersion = (version: Version) => {
+    setVersionsToReport(version);
+    openVersionsReportModal();
+  };
 
   useEffect(() => {
     if (!id) return navigate(-1);
@@ -52,6 +65,16 @@ const Show = () => {
         />
       </MMModal>
 
+      <MMModal closeModal={closeVersionsReportModal} isModalOpen={isVersionsReportModalOpen} maxWidth="sm">
+        <ReportForm
+          reportableId={versionsToReport?.id || ''}
+          service={reportVersions}
+          closeModal={closeVersionsReportModal}
+          reportTitleText="la versión"
+          reportableType="Version"
+        />
+      </MMModal>
+
       <MMContainer maxWidth="xxl" className="events-show-boxes-container ">
         {showEvent ? (
           <>
@@ -67,7 +90,7 @@ const Show = () => {
             <EventReviewBox event={showEvent} />
             <EventCommentBox event={showEvent} />
 
-            <VersionBox versions={showEvent.versions} />
+            <VersionBox versions={showEvent.versions} handleReportVersion={handleReportVersion} />
           </>
         ) : (
           <Loader />

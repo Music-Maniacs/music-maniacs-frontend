@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useModal } from '../../../../components/hooks/useModal';
 import { MMModal } from '../../../../components/Modal/MMModal';
 import { MMContainer } from '../../../../components/MMContainer/MMContainer';
@@ -12,10 +12,24 @@ import { VersionBox } from '../../../../components/versions/VersionBox';
 import { ProfileEventsBox } from '../../components/ProfileEventsBox';
 import { ProfileReviewsBox } from '../../components/ProfileReviewsBox';
 import { useVenue } from '../context/venueContext';
+import { Version } from '../../../../models/Version';
+import { ReportForm } from '../../../../components/forms/report/ReportForm';
+import { reportVersions } from '../../../../services/versionService';
 
 const Show = () => {
   const { venue, setVenue } = useVenue();
   const { isModalOpen, openModal, closeModal } = useModal();
+  const [versionsToReport, setVersionsToReport] = useState<Version>();
+  const {
+    isModalOpen: isVersionsReportModalOpen,
+    openModal: openVersionsReportModal,
+    closeModal: closeVersionsReportModal
+  } = useModal();
+
+  const handleReportVersion = (version: Version) => {
+    setVersionsToReport(version);
+    openVersionsReportModal();
+  };
 
   return (
     <>
@@ -26,6 +40,16 @@ const Show = () => {
           venueToEdit={venue}
           useAdminController={false}
           successCallback={(venue) => setVenue((prevVenue) => ({ ...prevVenue, ...venue }))}
+        />
+      </MMModal>
+
+      <MMModal closeModal={closeVersionsReportModal} isModalOpen={isVersionsReportModalOpen} maxWidth="sm">
+        <ReportForm
+          reportableId={versionsToReport?.id || ''}
+          service={reportVersions}
+          closeModal={closeVersionsReportModal}
+          reportTitleText="la versión"
+          reportableType="Version"
         />
       </MMModal>
 
@@ -40,7 +64,7 @@ const Show = () => {
 
             <ProfileReviewsBox profile={venue} reviewableKlass="venue" />
 
-            <VersionBox versions={venue.versions} />
+            <VersionBox versions={venue.versions} handleReportVersion={handleReportVersion} />
           </>
         ) : (
           <Loader />
