@@ -11,11 +11,16 @@ import '../Moderation.scss';
 import { MMModal } from '../../../components/Modal/MMModal';
 import { ResolveReportForm } from '../../../components/forms/report/ResolveReportForm';
 import { useModal } from '../../../components/hooks/useModal';
+import { MMChip } from '../../../components/MMChip/MMChip';
+import { Report, ReportStatus, statusColors, statusNames } from '../../../models/Report';
+import { MMColors } from '../../../models/Generic';
+import { NoData } from '../../../components/NoData/NoData';
+import { ShowInfo } from './ShowInfo';
 
 const Show = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { showReport, getShowReport, setShowReport } = useReports();
+  const { showReport, getShowReport, setShowReport, reports, setReports } = useReports();
   const { isModalOpen: isReportModalOpen, openModal: openReportModal, closeModal: closeReportModal } = useModal();
 
   useEffect(() => {
@@ -25,14 +30,34 @@ const Show = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  function getStatusColor(status: ReportStatus): MMColors {
+    return statusColors[status];
+  }
+
+  function getStatusName(status: ReportStatus): string {
+    return statusNames[status];
+  }
+
+  const handleResolveReportFormCallback = (report: Report) => {
+    showReport && setShowReport({ ...showReport, ...report });
+
+    // Actualizarlo en el index
+    const index = reports ? reports.findIndex((r) => r.id === report.id) : -1;
+
+    if (index && index !== -1 && reports) {
+      const newReports = [...reports];
+      newReports[index] = report;
+      setReports(newReports);
+    }
+  };
+
   return (
     <>
       <MMModal closeModal={closeReportModal} isModalOpen={isReportModalOpen} maxWidth="sm">
         <ResolveReportForm
           reportId={showReport?.id || ''}
           closeModal={closeReportModal}
-          // todo: actualizarlo tambien en al tabla del index
-          successCallback={(report) => showReport && setShowReport({ ...showReport, ...report })}
+          successCallback={handleResolveReportFormCallback}
         />
       </MMModal>
 
@@ -40,10 +65,13 @@ const Show = () => {
         <MMBox className="moderation-box-container">
           {showReport ? (
             <>
-              <StyledFlex $justifyContent="space-between">
-                <MMTitle content="Reporte" />
+              <div className="moderation-show--title-container">
+                <StyledFlex $gap="10px" $width="100%" $alignItems="center">
+                  <MMTitle content="Reporte" />
+                  <MMChip color={getStatusColor(showReport.status)}>{getStatusName(showReport.status)}</MMChip>
+                </StyledFlex>
 
-                <StyledFlex>
+                <StyledFlex $justifyContent="flex-end" $width="100%">
                   {showReport.status === 'pending' && (
                     <MMButton color="tertiary" onClick={() => openReportModal()}>
                       Resolver
@@ -52,9 +80,13 @@ const Show = () => {
 
                   <MMButton onClick={() => navigate(-1)}> Volver</MMButton>
                 </StyledFlex>
-              </StyledFlex>
+              </div>
 
-              <p>{JSON.stringify(showReport)} </p>
+              <ShowInfo report={showReport} />
+
+              <NoData message="Aca iria el contenido del reporte" />
+
+              <p>{JSON.stringify(showReport)}</p>
             </>
           ) : (
             <Loader />
