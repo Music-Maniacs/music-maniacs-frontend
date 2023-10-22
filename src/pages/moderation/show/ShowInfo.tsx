@@ -18,7 +18,7 @@ export const ShowInfo = ({ report }: Props) => {
     },
     {
       label: 'Categoria',
-      content: <InputText disabled value={report.category} />
+      content: <InputText disabled value={report.category ?? ''} />
     },
     {
       label: 'Fecha Reporte',
@@ -45,7 +45,7 @@ export const ShowInfo = ({ report }: Props) => {
     },
     {
       label: 'Penalización',
-      content: <InputText disabled value={report.penalization_score} />
+      content: <InputText disabled value={report.penalization_score ?? ''} />
     }
   ];
 
