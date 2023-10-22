@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dictionary, SelectCollection } from '../../../models/Generic';
 import { ReportCategory, ReportableType, reportCollectionByType, reportValidations } from '../../../models/Report';
 import '../Forms.scss';
@@ -58,12 +58,36 @@ export const ReportForm = ({ reportableId, closeModal, service, reportTitleText,
     setError,
     watch,
     getFieldState,
+    reset,
     formState: { errors }
-  } = useForm<FormData>();
+  } = useForm<FormData>({
+    defaultValues: {
+      userComment: '',
+      originalReportable: undefined,
+      reportCategory: undefined
+    }
+  });
 
   const reportCategoryValue = watch('reportCategory');
+  const [reportCategoryVal, setReportCategoryVal] = useState<string>(reportCategoryValue?.value);
   const originalReportableValue = watch('originalReportable');
   const isVersionReport = reportableType === 'Version';
+  const hasOriginalReportableId = ['incorrect_artist', 'incorrect_producer', 'incorrect_venue', 'duplicated'].includes(
+    reportCategoryValue?.value
+  );
+
+  useEffect(() => {
+    // No me funciona bien la dependencia del useEffect escuchando al watch de reportCategoryValue
+    setReportCategoryVal(reportCategoryValue?.value);
+  }, [reportCategoryValue]);
+
+  // Esto no esta muy bueno, pero si escucho al watch de reportCategoryValue, no funciona
+  useEffect(() => {
+    // Si cambia la categoria y hay un valor en el input original, hay que ponerlo en blanco
+    if (reportCategoryValue?.value && originalReportableValue?.value) {
+      reset({ originalReportable: undefined });
+    }
+  }, [reportCategoryVal]);
 
   const reportCollection = reportCollectionByType[reportableType].map((item) => ({ label: item, value: item }));
 
@@ -73,17 +97,92 @@ export const ReportForm = ({ reportableId, closeModal, service, reportTitleText,
         reportableId,
         data.userComment,
         (data.reportCategory?.value as ReportCategory) ?? 'other',
-        reportCategoryValue?.value === 'duplicated' ? originalReportableValue?.value : undefined
+        hasOriginalReportableId ? originalReportableValue?.value : undefined
       );
 
       infoSnackbar(`Reporte creado con éxito.`);
 
       closeModal();
     } catch (error) {
-      console.log('🚀 ~ file: ReportForm.tsx:83 ~ constonSubmit:SubmitHandler<FormData>= ~ error:', error);
       let hasFormError = handleFormErrors(error, setError);
 
       !hasFormError && errorSnackbar(`Error inesperado al crear el reporte. Contacte a soporte.`);
+    }
+  };
+
+  const getOriginalReportableLabel = () => {
+    if (!hasOriginalReportableId) return '';
+
+    if (reportCategoryValue.value === 'duplicated') {
+      return 'Buscar original';
+    }
+
+    switch (reportCategoryValue.value) {
+      case 'incorrect_artist':
+        return 'Buscar el artista correcto';
+      case 'incorrect_venue':
+        return 'Buscar el espacio de evento correcto';
+      case 'incorrect_producer':
+        return 'Buscar la productora correcta';
+      default:
+        return '';
+    }
+  };
+
+  const getOriginalReportableTypeaheadUrl = () => {
+    if (!hasOriginalReportableId) return '';
+
+    if (reportCategoryValue.value === 'duplicated') {
+      return reportableTypeaheadUrlByType[reportableType];
+    }
+
+    switch (reportCategoryValue.value) {
+      case 'incorrect_artist':
+        return reportableTypeaheadUrlByType['Artist'];
+      case 'incorrect_venue':
+        return reportableTypeaheadUrlByType['Venue'];
+      case 'incorrect_producer':
+        return reportableTypeaheadUrlByType['Producer'];
+      default:
+        return '';
+    }
+  };
+
+  const getOriginalReportableHrefLabel = () => {
+    if (!hasOriginalReportableId) return '';
+
+    if (reportCategoryValue.value === 'duplicated') {
+      return reportableTypeTranslated[reportableType];
+    }
+
+    switch (reportCategoryValue.value) {
+      case 'incorrect_artist':
+        return reportableTypeTranslated['Artist'];
+      case 'incorrect_venue':
+        return reportableTypeTranslated['Venue'];
+      case 'incorrect_producer':
+        return reportableTypeTranslated['Producer'];
+      default:
+        return '';
+    }
+  };
+
+  const getOriginalReportableHref = () => {
+    if (!hasOriginalReportableId) return '';
+
+    if (reportCategoryValue.value === 'duplicated') {
+      return `${reportableHrefByType[reportableType]}${originalReportableValue?.value}`;
+    }
+
+    switch (reportCategoryValue.value) {
+      case 'incorrect_artist':
+        return `${reportableHrefByType['Artist']}${originalReportableValue?.value}`;
+      case 'incorrect_venue':
+        return `${reportableHrefByType['Venue']}${originalReportableValue?.value}`;
+      case 'incorrect_producer':
+        return `${reportableHrefByType['Producer']}${originalReportableValue?.value}`;
+      default:
+        return '';
     }
   };
 
@@ -122,19 +221,19 @@ export const ReportForm = ({ reportableId, closeModal, service, reportTitleText,
         rows={8}
       />
 
-      {reportCategoryValue?.value === 'duplicated' && (
+      {hasOriginalReportableId && (
         <StyledFlexColumn $width="100%" $overflowY="hidden">
           <InputAsyncSelect
-            label="Buscar original"
+            label={getOriginalReportableLabel()}
             name="originalReportable"
             control={control}
             errors={errors}
             getFieldState={getFieldState}
-            typeaheadUrl={reportableTypeaheadUrlByType[reportableType]}
+            typeaheadUrl={getOriginalReportableTypeaheadUrl()}
             options={{
               required: {
                 value: true,
-                message: 'El original es requerido'
+                message: 'El campo es requerido'
               }
             }}
           />
@@ -142,10 +241,10 @@ export const ReportForm = ({ reportableId, closeModal, service, reportTitleText,
             <MMAnchor
               content={
                 <StyledFlex $cursor="pointer" $gap="3px">
-                  <FaSearch /> Ver {reportableTypeTranslated[reportableType]}
+                  <FaSearch /> Ver {getOriginalReportableHrefLabel()}
                 </StyledFlex>
               }
-              href={`${reportableHrefByType[reportableType]}${originalReportableValue?.value}`}
+              href={getOriginalReportableHref()}
             />
           )}
         </StyledFlexColumn>
