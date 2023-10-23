@@ -13,6 +13,7 @@ type StoreProps = {
   isGraphRequestLoading: boolean;
   isTableRequestLoading: boolean;
   queryParams: MutableRefObject<Record<string, string>>;
+  lastSearchParams?: MutableRefObject<Record<string, string>>;
   fetchGraphs: () => Promise<void>;
 };
 
@@ -32,6 +33,12 @@ export const DashboardProvider = ({ children }: Props) => {
     endDate: new Date().toISOString()
   });
 
+  // Los uso para guardar los valores de la ultima busqueda. Asi muestro el periodo en el PDF.
+  const lastSearchParams = useRef<Record<string, string>>({
+    startDate: '',
+    endDate: ''
+  });
+
   useEffect(() => {
     fetchGraphs();
     fetchTables();
@@ -41,8 +48,14 @@ export const DashboardProvider = ({ children }: Props) => {
     setIsGraphRequestLoading(true);
     try {
       const response = await getDashboardGraphs(queryParams.current.startDate, queryParams.current.endDate);
+      const { startDate: lastStartDate, endDate: lastEndDate, data } = response;
 
-      setDashboardGraphs(response);
+      lastSearchParams.current = {
+        startDate: lastStartDate,
+        endDate: lastEndDate
+      };
+
+      setDashboardGraphs(data);
     } catch (error) {
       errorSnackbar('Error al obtener las gráficas. Contacte a Soporte.');
       setDashboardGraphs(undefined);
@@ -71,6 +84,7 @@ export const DashboardProvider = ({ children }: Props) => {
     isGraphRequestLoading,
     isTableRequestLoading,
     queryParams,
+    lastSearchParams,
     fetchGraphs
   };
 

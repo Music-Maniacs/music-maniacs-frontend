@@ -17,17 +17,25 @@ import { useModal } from '../../../components/hooks/useModal';
 import { MMModal } from '../../../components/Modal/MMModal';
 import { PDFViewer } from '@react-pdf/renderer';
 import { ReportPDF } from './pdf/ReportPDF';
+import { warningSnackbar } from '../../../components/Snackbar/Snackbar';
+import { useDashboardTables } from './hooks/useDahboardTables';
 
 export const Dashboard = () => {
-  const { isGraphRequestLoading, isTableRequestLoading } = useDashboard();
+  const { isGraphRequestLoading, isTableRequestLoading, lastSearchParams } = useDashboard();
   const { isModalOpen, openModal, closeModal } = useModal();
+  const { metricsTable, userTypesTable } = useDashboardTables();
 
   return (
     <MMContainer maxWidth="xxl">
       <MMModal closeModal={closeModal} isModalOpen={isModalOpen} maxWidth="xl">
         <div style={{ width: '100%', height: '95vh' }}>
           <PDFViewer width={'100%'} height={'100%'}>
-            <ReportPDF />
+            <ReportPDF
+              startDate={lastSearchParams?.current?.startDate ?? ''}
+              endDate={lastSearchParams?.current?.endDate ?? ''}
+              metricsTable={metricsTable}
+              userTypesTable={userTypesTable}
+            />
           </PDFViewer>
         </div>
       </MMModal>
@@ -35,7 +43,16 @@ export const Dashboard = () => {
       <MMBox className="dashboard-box-container">
         <StyledFlex $justifyContent="space-between">
           <MMTitle content="Métricas y Reportes" />
-          <MMButtonResponsive Icon={FaDownload} onClick={() => openModal()}>
+          <MMButtonResponsive
+            Icon={FaDownload}
+            onClick={() => {
+              if (isGraphRequestLoading || isTableRequestLoading) {
+                warningSnackbar('Los datos aún se están cargando. Por favor espere.');
+              } else {
+                openModal();
+              }
+            }}
+          >
             Exportar Reporte
           </MMButtonResponsive>
         </StyledFlex>
