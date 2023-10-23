@@ -1,7 +1,6 @@
 import { Dictionary, MMColors, ModelValidations } from './Generic';
 import { Image } from './Image';
 import { Link } from './Link';
-import { Review } from './Review';
 import { Role } from './Role';
 
 export interface User {

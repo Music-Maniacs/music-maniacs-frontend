@@ -1,4 +1,4 @@
-import { Grid, Skeleton } from '@mui/material';
+import { Grid } from '@mui/material';
 import { styled } from 'styled-components';
 import { Image } from '../../../models/Image';
 
@@ -22,7 +22,7 @@ export const CoverImage = ({ coverImage }: CoverImageProps) => {
       {
         coverImage && (
           <UserProfileCoverImage item>
-            <img src={coverImage.full_url} />
+            <img src={coverImage.full_url} alt="Imagen de perfil" />
           </UserProfileCoverImage>
         )
         //  : (

@@ -64,6 +64,7 @@ export const MMTab = ({ Icon, label, chip, href, active, ...props }: MMTabProps)
 
   useEffect(() => {
     if (tabRef.current && active) tabRef.current.click();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tabRef]);
 
   return (

@@ -2,7 +2,7 @@ import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { handleFormErrors } from '../../../../utils/handleFormErrors';
 import { errorSnackbar, infoSnackbar } from '../../../../components/Snackbar/Snackbar';
-import { StyledFlex, StyledFlexColumn } from '../../../../styles/styledComponents';
+import { StyledFlex } from '../../../../styles/styledComponents';
 import { MMButton } from '../../../../components/MMButton/MMButton';
 import { InputText } from '../../../../components/form/InputText/InputText';
 import { Video, videoValidations } from '../../../../models/Video';

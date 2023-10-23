@@ -36,10 +36,12 @@ const ProducersContainer = lazy(() => import('./pages/admin/producers/ProducersC
 const AdminProducersShow = lazy(() => import('./pages/admin/producers/show/Show'));
 const ThresholdsContainer = lazy(() => import('./pages/admin/thresholds/ThresholdContainer'));
 const BackupsIndex = lazy(() => import('./pages/admin/backups/Index'));
+const DashboardContainer = lazy(() => import('./pages/admin/dashboard/DashboardContainer'));
 
 // User Profile Module
 const UserProfileContainer = lazy(() => import('./pages/userProfile/UserProfileContainer'));
 const UserProfile = lazy(() => import('./pages/userProfile/show/ShowUserProfile'));
+
 // Profiles Module
 const ProfilesSearch = lazy(() => import('./pages/profiles/search/Search'));
 const ArtistContainer = lazy(() => import('./pages/profiles/artist/ArtistProfileContainer'));
@@ -82,6 +84,10 @@ function App() {
 
           {/* Admin Module */}
           <Route path="admin">
+            <Route path="dashboard">
+              <Route index element={<DashboardContainer />} />
+            </Route>
+
             <Route path="users">
               <Route index element={<UsersContainer />} />
               <Route path=":id" element={<UserShow />} />
