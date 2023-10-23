@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from '@react-pdf/renderer';
 import { cssVar } from '../../../../utils/cssVar';
-import { DashboardTableRow } from '../components/DashboardTable';
+import { DashboardTable } from '../components/DashboardTable';
 
 const styles = StyleSheet.create({
   tablesContainer: {
@@ -29,12 +29,13 @@ export const TablesPDF = ({ metricsTable, userTypesTable }: Props) => {
   return (
     <View style={styles.tablesContainer}>
       <View style={styles.tableWTitleContainer}>
-        <Text style={styles.title}>Métricas</Text>
+        <Text style={styles.title}>Estadísticas</Text>
 
         <Table
           headers={metricsTable.headers}
           rows={metricsTable.rows}
           customWidths={['60%', '13.3%', '13.3%', '13.3%']}
+          alignStartFirstCol
         />
       </View>
 
@@ -48,12 +49,13 @@ export const TablesPDF = ({ metricsTable, userTypesTable }: Props) => {
 };
 
 type DashboardTableProps = {
-  rows: DashboardTableRow[];
-  headers: string[];
+  rows: DashboardTable[];
+  headers: DashboardTable;
   customWidths?: string[];
+  alignStartFirstCol?: boolean;
 };
 
-export const Table = ({ rows, headers, customWidths }: DashboardTableProps) => {
+export const Table = ({ rows, headers, customWidths, alignStartFirstCol = false }: DashboardTableProps) => {
   const colWidth = `${100 / headers.length}%`;
   const highlightColor = cssVar('--highlight');
   const textColor = cssVar('--text_color');
@@ -101,9 +103,14 @@ export const Table = ({ rows, headers, customWidths }: DashboardTableProps) => {
 
           const styleWidth = customWidth ? { width: customWidth } : {};
 
+          const alignStartStyle = alignStartFirstCol && index === 0 ? { margin: '3px' } : {};
+
           return (
             <View style={{ ...tableStyles.tableCol, ...styleWidth }} key={`header-${index}`}>
-              <Text style={tableStyles.tableCell}>{header}</Text>
+              <Text style={{ ...tableStyles.tableCell, ...alignStartStyle }}>
+                {/* @ts-ignore */}
+                {header.content ? header.content : header}
+              </Text>
             </View>
           );
         })}
@@ -117,9 +124,11 @@ export const Table = ({ rows, headers, customWidths }: DashboardTableProps) => {
 
               const styleWidth = customWidth ? { width: customWidth } : {};
 
+              const alignStartStyle = alignStartFirstCol && index === 0 ? { margin: '3px' } : {};
+
               return (
                 <View style={{ ...tableStyles.tableCol, ...styleWidth }} key={`cell-${index}`}>
-                  <Text style={tableStyles.tableCell}>
+                  <Text style={{ ...tableStyles.tableCell, ...alignStartStyle }}>
                     {/* @ts-ignore */}
                     {item.content ? item.content : item}
                   </Text>

@@ -13,11 +13,11 @@ type DynamicRow = {
 
 type SimpleRow = string | number;
 
-export type DashboardTableRow = Array<DynamicRow | SimpleRow>;
+export type DashboardTable = Array<DynamicRow | SimpleRow>;
 
 export type DashboardTableProps = {
-  rows: DashboardTableRow[];
-  headers: string[];
+  rows: DashboardTable[];
+  headers: DashboardTable;
 };
 
 const StyledMaterialUiCell = ({ children, isHeader = false, ...props }: CellProps) => {
@@ -35,8 +35,10 @@ export function DashboardTable({ rows, headers }: DashboardTableProps) {
         <TableHead>
           <TableRow>
             {headers.map((header, index) => (
-              <StyledMaterialUiCell key={`header-${index}`} isHeader>
-                {header}
+              // @ts-ignore
+              <StyledMaterialUiCell key={`header-${index}`} {...header?.cellProps} isHeader>
+                {/* @ts-ignore */}
+                {header.content ? header.content : header}
               </StyledMaterialUiCell>
             ))}
           </TableRow>
