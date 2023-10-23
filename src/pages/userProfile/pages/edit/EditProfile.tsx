@@ -1,20 +1,17 @@
-import React, { Dispatch, useEffect, useState } from 'react';
+import React from 'react';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { errorSnackbar, infoSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { handleFormErrors } from '../../../../utils/handleFormErrors';
 import { InputText } from '../../../../components/form/InputText/InputText';
-import { User, userValidations } from '../../../../models/User';
+import { userValidations } from '../../../../models/User';
 import { InputArea } from '../../../../components/form/InputArea/InputArea';
 import { LinksFieldArray } from '../../../../components/form/LinksFieldArray/LinksFieldArray';
 import { MMButton } from '../../../../components/MMButton/MMButton';
-import { InputSelect } from '../../../../components/form/InputSelect/InputSelect';
 import { useUser } from '../../context/userContext';
 import { Grid, GridProps } from '@mui/material';
 import { InputDropzone } from '../../../../components/form/InputDropzone/InputDropzone';
 import { styled } from 'styled-components';
-import breakpoints from '../../../../styles/_breakpoints.scss';
 import { updateProfile } from '../../../../services/userProfileService';
-import colors from '../../../../styles/_colors.scss';
 
 const StyledImageDropzoneContainer = styled.div`
   border: 1px #1e2e2c solid;

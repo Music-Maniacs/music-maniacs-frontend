@@ -59,7 +59,7 @@ export const NavBar = () => {
             <IoMdArrowDropdown size={20} />
           </div>
           <div className="nav-dropdown-content">
-            <MMLink to={'/'} content="Métricas y Reportes" />
+            <MMLink to={'/admin/dashboard'} content="Métricas y Reportes" />
             <MMLink to={'/admin/users'} content="Usuarios" />
             <MMLink to={'/admin/events'} content="Eventos" />
             <MMLink to={'/admin/artists'} content="Artistas" />

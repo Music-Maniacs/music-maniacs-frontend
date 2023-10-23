@@ -1,9 +1,6 @@
 import axios from 'axios';
-import { Artist } from '../models/Artist';
-import { Producer } from '../models/Producer';
 import { Review } from '../models/Review';
 import { User } from '../models/User';
-import { Venue } from '../models/Venue';
 
 const profileUrl = `${process.env.REACT_APP_API_URL}/profile`;
 
