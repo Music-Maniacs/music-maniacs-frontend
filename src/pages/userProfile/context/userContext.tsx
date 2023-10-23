@@ -1,19 +1,9 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { errorSnackbar } from '../../../components/Snackbar/Snackbar';
 import { useAuth } from '../../../context/authContext';
-import { Artist } from '../../../models/Artist';
-import { Producer } from '../../../models/Producer';
 import { Review } from '../../../models/Review';
 import { User } from '../../../models/User';
-import { Venue } from '../../../models/Venue';
-import {
-  Follow,
-  getFollowedArtists,
-  getFollowedEvents,
-  getFollowedProducers,
-  getFollowedVenues,
-  getUserProfile
-} from '../../../services/userProfileService';
+import { getUserProfile } from '../../../services/userProfileService';
 
 type StoreProps = {
   userProfile: User | undefined;
@@ -34,6 +24,7 @@ export const UserProvider = ({ children }: Props) => {
   // const [followed, setFollowed] = useState<Follows>();
   useEffect(() => {
     fetchUserProfile();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchUserProfile = async () => {

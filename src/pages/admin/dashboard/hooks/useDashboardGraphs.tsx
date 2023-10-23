@@ -1,4 +1,3 @@
-import React from 'react';
 import { useDashboard } from '../context/dashboardContext';
 import {
   COMMENTS_CHART_ID,
