@@ -4,8 +4,7 @@ export interface Location {
   id: string;
   zip_code: string;
   street: string;
-  department: string;
-  locality: string;
+  city: string;
   latitude: string;
   longitude: string;
   number: number;
