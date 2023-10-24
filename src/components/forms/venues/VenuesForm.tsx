@@ -29,8 +29,7 @@ type FormData = {
     id: string;
     zip_code: string;
     street: string;
-    department: string;
-    locality: string;
+    city: string;
     latitude?: number;
     longitude?: number;
     number: number;
@@ -213,28 +212,7 @@ export const VenuesForm = ({
 
       {/* Location Data */}
       <Grid container spacing={2}>
-        <Grid {...gridMapProps}>
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <InputText
-                label="Latitud"
-                name="location_attributes.latitude"
-                options={locationValidations.latitude}
-                {...inputCommonProps}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <InputText
-                label="Longitud"
-                name="location_attributes.longitude"
-                options={locationValidations.longitude}
-                {...inputCommonProps}
-              />
-            </Grid>
-          </Grid>
-
-          <LeafletMap latitude={latitudeValue} longitude={longitudeValue} setLatLng={setLatLng} />
-        </Grid>
+        {/* Datos - Location */}
         <Grid {...gridMapProps}>
           <Grid container spacing={2}>
             <Grid item xs={8}>
@@ -260,9 +238,9 @@ export const VenuesForm = ({
           <Grid container spacing={2}>
             <Grid item xs={8}>
               <InputText
-                label="Departamento"
-                name="location_attributes.department"
-                options={locationValidations.department}
+                label="Ciudad"
+                name="location_attributes.city"
+                options={locationValidations.city}
                 {...inputCommonProps}
               />
             </Grid>
@@ -277,13 +255,6 @@ export const VenuesForm = ({
           </Grid>
 
           <InputText
-            label="Localidad"
-            name="location_attributes.locality"
-            options={locationValidations.locality}
-            {...inputCommonProps}
-          />
-
-          <InputText
             label="Provincia"
             name="location_attributes.province"
             options={locationValidations.province}
@@ -296,6 +267,30 @@ export const VenuesForm = ({
             options={locationValidations.country}
             {...inputCommonProps}
           />
+        </Grid>
+
+        {/* Mapa */}
+        <Grid {...gridMapProps}>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <InputText
+                label="Latitud"
+                name="location_attributes.latitude"
+                options={locationValidations.latitude}
+                {...inputCommonProps}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <InputText
+                label="Longitud"
+                name="location_attributes.longitude"
+                options={locationValidations.longitude}
+                {...inputCommonProps}
+              />
+            </Grid>
+          </Grid>
+
+          <LeafletMap latitude={latitudeValue} longitude={longitudeValue} setLatLng={setLatLng} />
         </Grid>
       </Grid>
 

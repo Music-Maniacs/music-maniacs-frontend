@@ -74,8 +74,8 @@ export const VenueInfo = ({ venue }: Props) => {
         <Grid container spacing={2}>
           <Grid item xs={8}>
             <StyledDataContainer>
-              <StyledBoldText>Departamento</StyledBoldText>
-              <InputText disabled value={venue.location?.department} />
+              <StyledBoldText>Ciudad</StyledBoldText>
+              <InputText disabled value={venue.location?.city} />
             </StyledDataContainer>
           </Grid>
           <Grid item xs={4}>
@@ -86,10 +86,6 @@ export const VenueInfo = ({ venue }: Props) => {
           </Grid>
         </Grid>
       )
-    },
-    {
-      label: 'Localidad',
-      content: <InputText disabled value={venue.location?.locality} />
     },
     {
       label: 'Provincia',
@@ -158,6 +154,19 @@ export const VenueInfo = ({ venue }: Props) => {
 
       <Grid container spacing={2}>
         <Grid {...gridMapProps}>
+          {mapLocationColumn.map((stat, index) => {
+            return stat.label ? (
+              <StyledDataContainer key={index}>
+                <StyledBoldText>{stat.label}</StyledBoldText>
+                {stat.content}
+              </StyledDataContainer>
+            ) : (
+              <div key={index}>{stat.content}</div>
+            );
+          })}
+        </Grid>
+
+        <Grid {...gridMapProps}>
           <Grid container spacing={2}>
             <Grid item xs={6}>
               <StyledDataContainer>
@@ -178,18 +187,6 @@ export const VenueInfo = ({ venue }: Props) => {
             longitude={venue.location?.longitude ? parseFloat(venue.location.longitude) : undefined}
             hasClickEvent={false}
           />
-        </Grid>
-        <Grid {...gridMapProps}>
-          {mapLocationColumn.map((stat, index) => {
-            return stat.label ? (
-              <StyledDataContainer key={index}>
-                <StyledBoldText>{stat.label}</StyledBoldText>
-                {stat.content}
-              </StyledDataContainer>
-            ) : (
-              <div key={index}>{stat.content}</div>
-            );
-          })}
         </Grid>
       </Grid>
     </>

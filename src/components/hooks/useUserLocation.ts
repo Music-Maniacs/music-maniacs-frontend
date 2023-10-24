@@ -3,8 +3,7 @@ import axios from 'axios';
 import { errorSnackbar } from '../Snackbar/Snackbar';
 
 export type UserLocation = {
-  department: string;
-  locality: string;
+  city: string;
   province: string;
   country: string;
 };
@@ -35,8 +34,7 @@ export const useUserLocation = () => {
       .get(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${long}&format=json&zoom=10`)
       .then((response) => {
         setUserLocation({
-          department: response.data?.address?.city ?? '',
-          locality: response.data?.address?.city ?? '',
+          city: response.data?.address?.city ?? '',
           province: response.data?.address?.state ?? '',
           country: response.data?.address?.country ?? ''
         });
@@ -50,8 +48,7 @@ export const useUserLocation = () => {
       .get('https://ipinfo.io/json?token=8396254d881cf0')
       .then((response) => {
         setUserLocation({
-          department: response.data?.city ?? '',
-          locality: response.data?.city ?? '',
+          city: response.data?.city ?? '',
           province: response.data?.region ?? '',
           country: countryName.of(response.data?.country) ?? ''
         });
