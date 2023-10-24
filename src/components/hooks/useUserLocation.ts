@@ -45,7 +45,7 @@ export const useUserLocation = () => {
 
   const getLocationWithIp = () => {
     axios
-      .get('https://ipinfo.io/json?token=8396254d881cf0')
+      .get(`https://ipinfo.io/json?token=${process.env.REACT_APP_IP_INFO_API_KEY}`)
       .then((response) => {
         setUserLocation({
           city: response.data?.city ?? '',

@@ -13,6 +13,7 @@ import { Venue, venueValidations } from '../../../models/Venue';
 import { adminCreateVenue, adminUpdateVenue, createVenue, updateVenue } from '../../../services/venueService';
 import { locationValidations } from '../../../models/Location';
 import { LeafletMap } from './LeafletMap';
+import { GoogleAutocomplete, PlaceDetails } from './GoogleAutocomplete';
 
 type Props = {
   useAdminController?: boolean;
@@ -41,6 +42,15 @@ type FormData = {
     url: string;
   }[];
   image?: File;
+};
+
+const googleAutocompleteKeys = {
+  street_number: 'number',
+  route: 'street',
+  administrative_area_level_2: 'city',
+  administrative_area_level_1: 'province',
+  country: 'country',
+  postal_code: 'zip_code'
 };
 
 export const VenuesForm = ({
@@ -168,6 +178,28 @@ export const VenuesForm = ({
     }
   };
 
+  const handlePlaceSelected = (place: PlaceDetails) => {
+    if (place.geometry) {
+      const lat = place.geometry?.location?.lat() ?? 0;
+      setValue('location_attributes.latitude', lat);
+
+      const lng = place.geometry?.location?.lng() ?? 0;
+      setValue('location_attributes.longitude', lng);
+    }
+
+    if (place.address_components) {
+      place.address_components.forEach((addComponent) => {
+        const type = addComponent.types[0];
+        const value = addComponent.long_name;
+
+        if (googleAutocompleteKeys[type]) {
+          // @ts-ignore
+          setValue(`location_attributes.${googleAutocompleteKeys[type]}`, value);
+        }
+      });
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" className="admin-form-container">
       {/* Basic Data */}
@@ -214,6 +246,8 @@ export const VenuesForm = ({
       <Grid container spacing={2}>
         {/* Datos - Location */}
         <Grid {...gridMapProps}>
+          <GoogleAutocomplete label="Autocompletar dirección con Google Maps" onPlaceSelected={handlePlaceSelected} />
+
           <Grid container spacing={2}>
             <Grid item xs={8}>
               <InputText
