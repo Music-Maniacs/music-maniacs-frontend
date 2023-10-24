@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 import { StyledInputContainer, StyledLabel, reactSelectCustomStyles } from '../../form/formStyles';
+import { errorSnackbar } from '../../Snackbar/Snackbar';
 
 // street_number: ''			          -> Numero
 // route: '' 				                -> Calle
@@ -46,19 +47,18 @@ type GoogleAutocompleteProps = {
 
 export const GoogleAutocomplete = ({ label, onPlaceSelected }: GoogleAutocompleteProps) => {
   const placeService = useRef<google.maps.places.PlacesService>();
-  const [place, setPlace] = useState<SelectResult>();
 
-  useEffect(() => {
-    if (place && placeService.current) {
+  const handleSelectOnChange = (newValue: SelectResult | null) => {
+    if (newValue && placeService.current) {
+      // Google Places API
       placeService.current.getDetails(
-        { placeId: place.value.place_id, fields: ['address_components', 'geometry'] },
+        { placeId: newValue.value.place_id, fields: ['address_components', 'geometry'] },
         (place) => {
-          onPlaceSelected(place as unknown as PlaceDetails);
+          onPlaceSelected(place as PlaceDetails);
         }
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [place]);
+  };
 
   const loadService = () => {
     if (window?.google?.maps?.places?.PlacesService) {
@@ -76,7 +76,7 @@ export const GoogleAutocomplete = ({ label, onPlaceSelected }: GoogleAutocomplet
         selectProps={{
           defaultInputValue: '',
           // @ts-ignore
-          onChange: setPlace,
+          onChange: handleSelectOnChange,
           placeholder: '',
           // @ts-ignore
           styles: reactSelectCustomStyles(false, false),
@@ -86,7 +86,7 @@ export const GoogleAutocomplete = ({ label, onPlaceSelected }: GoogleAutocomplet
         }}
         debounce={700}
         onLoadFailed={(error) => {
-          console.log(error);
+          errorSnackbar(`Error al cargar el mapa de Google. Contacte a soporte. Error: ${error.message}`);
         }}
       />
     </StyledInputContainer>
