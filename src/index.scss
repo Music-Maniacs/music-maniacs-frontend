@@ -38,6 +38,8 @@
   --text_color: #ffffff;
 
   --dropdown_background: #2b2b2b;
+
+  --accent: #ad86f5;
 }
 
 // light theme palette
@@ -78,6 +80,8 @@ html.theme--light {
   --text_color: #39364f;
 
   --dropdown_background: #dfdddd;
+
+  --accent: var(--primary);
 }
 
 body {
