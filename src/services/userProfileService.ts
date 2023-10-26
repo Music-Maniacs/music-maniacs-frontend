@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Image } from '../models/Image';
 import { Review } from '../models/Review';
 import { User } from '../models/User';
 
@@ -13,6 +14,19 @@ export async function getUserProfile(id: string): Promise<ProfileRes> {
   const user: User = res;
   const reviews: Review[] = res.last_reviews;
   return { user, reviews };
+}
+
+export async function userInfo(token: string): Promise<User> {
+  const res = (
+    await axios.get(`${process.env.REACT_APP_API_URL}/profile/info`, {
+      headers: {
+        Authorization: token
+      }
+    })
+  ).data;
+  let user: User = res;
+  user.profile_image = { full_url: res.profile_image_full_url };
+  return user;
 }
 
 export async function updateProfile(

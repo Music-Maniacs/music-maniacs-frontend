@@ -3,11 +3,17 @@ import { styled } from 'styled-components';
 import { MMChip } from '../../../components/MMChip/MMChip';
 import { Image } from '../../../models/Image';
 import { Role } from '../../../models/Role';
+import breakpoints from '../../../styles/_breakpoints.scss';
 
 const UserProfileInfoContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 3rem;
+  width: 100%;
+
+  @media screen and (max-width: ${breakpoints.md}) {
+    gap: 1rem;
+  }
 `;
 const UserProfileImage = styled.div`
   border-radius: 50%;
@@ -15,6 +21,9 @@ const UserProfileImage = styled.div`
   width: 150px;
   height: 150px;
   overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   img {
     width: inherit;
     height: inherit;
@@ -22,6 +31,11 @@ const UserProfileImage = styled.div`
   svg {
     width: inherit;
     height: inherit;
+  }
+
+  @media screen and (max-width: ${breakpoints.md}) {
+    width: 100px !important;
+    height: 100px !important;
   }
 `;
 const UserProfileData = styled.div`

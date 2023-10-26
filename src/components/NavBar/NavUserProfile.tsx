@@ -18,16 +18,36 @@ const StyledNavUser = styled.div`
     }
   }
 `;
+const UserProfileImage = styled.div`
+  border-radius: 50%;
+  border: 1px solid #000;
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    width: inherit;
+    height: inherit;
+  }
+`;
 
 type Props = {
   active: boolean;
 };
 export const NavUserProfile = ({ active }: Props) => {
   const { user } = useAuth();
-
+  console.log(user);
   return (
     <StyledNavUser>
-      <PiUserCircleFill size={40} />
+      {user?.profile_image?.full_url ? (
+        <UserProfileImage>
+          <img src={user.profile_image.full_url} alt={'user'} />
+        </UserProfileImage>
+      ) : (
+        <PiUserCircleFill size={40} />
+      )}
       <div className="name">
         <span> {user?.username ? user.username : 'User'}</span>
         <div className="rol-dropdown">

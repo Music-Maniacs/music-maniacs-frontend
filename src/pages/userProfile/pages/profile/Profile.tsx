@@ -61,12 +61,12 @@ export const Profile = () => {
     if (!stats) return <></>;
     return stats.map((subarray, index1) => {
       return (
-        <Grid item sm={12} md={6} key={`statsCol-${index1}`}>
+        <Grid item sm={12} md={6} key={`statsCol-${index1}`} className="user-profile-stat-container">
           {subarray.map((stat, index2) => {
             return (
-              <div className="user-profile-stat-container" key={`statCol-${index1}-stat-${index2}`}>
-                <span className="user-profile-stat-text">{stat.label}</span>
-                <span className="user-profile-stat-text">{stat.value}</span>
+              <div className="user-profile-stat-text" key={`statCol-${index1}-stat-${index2}`}>
+                <span className="user-profile-stat-label">{stat.label}</span>
+                <span className="user-profile-stat-value">{stat.value}</span>
               </div>
             );
           })}
@@ -112,7 +112,7 @@ export const Profile = () => {
         {stats && (
           <div className="user-profile-stats">
             <MMSubTitle content="Estadisticas de Usuario" />
-            <Grid item container direction={'row'} spacing={3} paddingLeft={2}>
+            <Grid item container direction={'row'} rowSpacing={1} columnSpacing={3} paddingLeft={2}>
               {renderStats()}
             </Grid>
           </div>

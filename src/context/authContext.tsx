@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User } from '../models/User';
 import axios from 'axios';
-import { userInfo } from '../services/userService';
+import { userInfo } from '../services/userProfileService';
 
 type Props = {
   children: React.ReactNode;
