@@ -41,7 +41,7 @@ const RecoverPassword = () => {
 
         <form className="form-container" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
           <InputText
-            label="Email"
+            label="Correo"
             type="text"
             name="email"
             register={register}
