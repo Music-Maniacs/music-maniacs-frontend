@@ -38,12 +38,11 @@ type Props = {
 };
 export const NavUserProfile = ({ active }: Props) => {
   const { user } = useAuth();
-  console.log(user);
   return (
     <StyledNavUser>
       {user?.profile_image?.full_url ? (
         <UserProfileImage>
-          <img src={user.profile_image.full_url} alt={'user'} />
+          <img src={user.profile_image.full_url} />
         </UserProfileImage>
       ) : (
         <PiUserCircleFill size={40} />

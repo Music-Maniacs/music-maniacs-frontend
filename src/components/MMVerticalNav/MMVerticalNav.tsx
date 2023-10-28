@@ -58,6 +58,7 @@ export type MMNavTabProps = {
     color?: MMColors;
     value: number;
   };
+  id?: string;
   customTemplate?: JSX.Element;
 };
 export type MMVerticalNavProps = {
@@ -83,6 +84,7 @@ export const MMVerticalNav = ({ Tabs, Content }: MMVerticalNavProps) => {
           ) : (
             <MMTab
               {...t}
+              id={t.id}
               chip={t.chip}
               label={t.label ?? ''}
               active={currentTab === href}

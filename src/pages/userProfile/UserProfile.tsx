@@ -50,7 +50,8 @@ export const UserProfile = () => {
     {
       href: '#profile',
       label: 'Perfil',
-      Icon: FaUser
+      Icon: FaUser,
+      id: 'user_profile_tab'
     },
     {
       href: '#follows',

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { Image } from '../models/Image';
 import { Review } from '../models/Review';
 import { User } from '../models/User';
 

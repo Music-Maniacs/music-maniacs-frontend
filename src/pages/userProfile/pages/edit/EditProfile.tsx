@@ -12,6 +12,7 @@ import { Grid, GridProps } from '@mui/material';
 import { InputDropzone } from '../../../../components/form/InputDropzone/InputDropzone';
 import { styled } from 'styled-components';
 import { updateProfile } from '../../../../services/userProfileService';
+import { useAuth } from '../../../../context/authContext';
 
 const StyledImageDropzoneContainer = styled.div`
   border: 1px #1e2e2c solid;
@@ -48,6 +49,7 @@ type FormData = {
 };
 
 export const EditProfile = () => {
+  const { setUser } = useAuth();
   const { userProfile, setUserProfile } = useUser();
   const {
     register,
@@ -89,7 +91,8 @@ export const EditProfile = () => {
       );
 
       setUserProfile(response);
-
+      setUser(response);
+      document.getElementById('user_profile_tab')?.click(); //POLEMICO
       infoSnackbar('Perfil actualizado con exito');
     } catch (error) {
       let hasFormError = handleFormErrors(error, setError);
