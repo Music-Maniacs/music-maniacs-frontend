@@ -148,6 +148,9 @@ export const Profile = () => {
           reviewToEdit={reviewToEdit}
           closeModal={closeModal}
           successCallback={(review) => updateReviewList(review)}
+          artistName={reviewToEdit?.reviewable_type === 'Artist' ? reviewToEdit.reviewable_name : undefined}
+          producerName={reviewToEdit?.reviewable_type === 'Producer' ? reviewToEdit.reviewable_name : undefined}
+          venueName={reviewToEdit?.reviewable_type === 'Venue' ? reviewToEdit.reviewable_name : undefined}
         />
       </MMModal>
     </Grid>
