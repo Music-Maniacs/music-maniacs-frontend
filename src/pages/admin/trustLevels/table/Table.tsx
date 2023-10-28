@@ -19,19 +19,7 @@ export const Table = () => {
 
   const handleDeleteButton = (trustLevelId: string) => {
     handleDeleteTrustLevel(trustLevelId, () => {
-      const trustLevel = trustLevels?.find((trustLevel) => trustLevel.id === trustLevelId);
-      if (!trustLevel) return;
-
-      setTrustLevels((trustLevels) => {
-        const newTrustLevels = [...(trustLevels ? trustLevels : [])];
-        const index = newTrustLevels.findIndex((trustLevel) => trustLevel.id === trustLevelId);
-
-        if (index === -1) return trustLevels;
-
-        newTrustLevels[index] = trustLevel;
-
-        return newTrustLevels;
-      });
+      setTrustLevels((prevState) => prevState?.filter((trustLevel) => trustLevel.id !== trustLevelId));
     });
   };
 

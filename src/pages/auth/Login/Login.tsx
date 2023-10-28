@@ -51,11 +51,11 @@ const Login = () => {
         <form className="form-container" onSubmit={handleSubmit(onSubmit)} autoComplete="off">
           <InputText
             type="text"
-            label="Usuario o email"
+            label="Usuario o correo"
             name="loginCredentials"
             errors={errors}
             register={register}
-            options={{ required: { value: true, message: 'Debe ingresar su usuario o email' } }}
+            options={{ required: { value: true, message: 'Debe ingresar su usuario o correo' } }}
           />
 
           <InputText

@@ -1,6 +1,7 @@
 import { sweetAlert } from '../../../../components/SweetAlert/sweetAlert';
 import { errorSnackbar, infoSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { adminDeleteProducer } from '../../../../services/producerService';
+import { handleApiErrors } from '../../../../utils/handleFormErrors';
 
 export const useProducerRequests = () => {
   const handleDeleteProducer = (producerId: string, successCallback?: () => void) => {
@@ -14,7 +15,9 @@ export const useProducerRequests = () => {
 
           successCallback && successCallback();
         } catch (error) {
-          errorSnackbar('Error al eliminar la productora');
+          let hasFormError = handleApiErrors(error);
+
+          !hasFormError && errorSnackbar('Error inesperado al eliminar la productora. Contacte a soporte.');
         }
       }
     });
