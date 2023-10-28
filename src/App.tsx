@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { AppProviders } from './AppProviders';
 import NavBar from './components/NavBar/NavBar';
 import { Loader } from './components/Loader/Loader';
+import { ScrollToTop } from './components/ScrollToTop/ScrollToTop';
 
 // Events module
 const Home = lazy(() => import('./pages/events/home/Home'));
@@ -57,6 +58,7 @@ const VenueReviews = lazy(() => import('./pages/profiles/venue/reviews/Reviews')
 function App() {
   return (
     <AppProviders>
+      <ScrollToTop />
       <NavBar />
 
       <Suspense fallback={<Loader />}>
