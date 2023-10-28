@@ -48,9 +48,32 @@ export const reportCategories = [
   'incorrect_venue'
 ] as const;
 
+export const reportCategoriesTranslated = {
+  inappropriate_content: 'Contenido inapropiado',
+  spam: 'Spam',
+  other: 'Otro',
+  fake: 'Falso',
+  duplicated: 'Duplicado',
+  doesnt_belong_to_event: 'No pertenece al evento',
+  incorrect_artist: 'Artista incorrecto',
+  incorrect_producer: 'Productor incorrecto',
+  incorrect_venue: 'Lugar incorrecto'
+};
+
 export type ReportCategory = (typeof reportCategories)[number];
 
 export type ReportableType = 'Comment' | 'Venue' | 'Artist' | 'Producer' | 'Event' | 'Video' | 'Review' | 'Version';
+
+export const reportableTypeTranslated = {
+  Comment: 'Comentario',
+  Venue: 'Espacio de Evento',
+  Artist: 'Artista',
+  Producer: 'Productora',
+  Event: 'Evento',
+  Video: 'Video',
+  Review: 'Reseña',
+  Version: 'Versión'
+};
 
 export const reportCollectionByType: Readonly<Record<ReportableType, ReportCategory[]>> = {
   Comment: ['inappropriate_content', 'spam', 'other'],

@@ -1,6 +1,13 @@
 import React from 'react';
 import { MMTable } from '../../../../components/MMTable/MMTable';
-import { Report, ReportStatus, statusColors, statusNames } from '../../../../models/Report';
+import {
+  Report,
+  ReportStatus,
+  reportCategoriesTranslated,
+  reportableTypeTranslated,
+  statusColors,
+  statusNames
+} from '../../../../models/Report';
 import { useReports } from '../../context/moderationContext';
 import { Stack } from '@mui/material';
 import { MMButton } from '../../../../components/MMButton/MMButton';
@@ -34,13 +41,13 @@ export const Table = () => {
         {
           header: 'Contenido Reportado',
           renderCell: (rowData) => {
-            return rowData.reportable_type;
+            return reportableTypeTranslated[rowData.reportable_type];
           }
         },
         {
           header: 'Tipo de Reporte',
           renderCell: (rowData) => {
-            return rowData.category;
+            return reportCategoriesTranslated[rowData.category];
           }
         },
         {

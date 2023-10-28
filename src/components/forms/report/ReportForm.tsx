@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Dictionary, SelectCollection } from '../../../models/Generic';
-import { ReportCategory, ReportableType, reportCollectionByType, reportValidations } from '../../../models/Report';
+import {
+  ReportCategory,
+  ReportableType,
+  reportCategoriesTranslated,
+  reportCollectionByType,
+  reportValidations,
+  reportableTypeTranslated
+} from '../../../models/Report';
 import '../Forms.scss';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { errorSnackbar, infoSnackbar } from '../../Snackbar/Snackbar';
@@ -43,13 +50,6 @@ const reportableTypeaheadUrlByType: Dictionary = {
   Producer: '/admin/producers/search_typeahead?q[name_cont]='
 };
 
-const reportableTypeTranslated: Dictionary = {
-  Event: 'Evento',
-  Artist: 'Artista',
-  Venue: 'Espacio de Evento',
-  Producer: 'Productora'
-};
-
 export const ReportForm = ({ reportableId, closeModal, service, reportTitleText, reportableType }: ReportFormProps) => {
   const {
     register,
@@ -89,7 +89,10 @@ export const ReportForm = ({ reportableId, closeModal, service, reportTitleText,
     }
   }, [reportCategoryVal]);
 
-  const reportCollection = reportCollectionByType[reportableType].map((item) => ({ label: item, value: item }));
+  const reportCollection = reportCollectionByType[reportableType].map((item) => ({
+    label: reportCategoriesTranslated[item],
+    value: item
+  }));
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
