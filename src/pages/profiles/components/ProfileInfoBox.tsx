@@ -10,7 +10,6 @@ import { MMButton } from '../../../components/MMButton/MMButton';
 import { errorSnackbar, warningSnackbar } from '../../../components/Snackbar/Snackbar';
 import { MMSubTitle } from '../../../components/MMTitle/MMTitle';
 import { Genre } from '../../../models/Genre';
-import MMAnchor from '../../../components/MMLink/MMAnchor';
 import { followArtist, unfollowArtist } from '../../../services/artistService';
 import { followProducer, unfollowProducer } from '../../../services/producerService';
 import { followVenue, unfollowVenue } from '../../../services/venueService';

@@ -118,12 +118,15 @@ export const Profile = () => {
           </div>
         )}
       </Grid>
-      <Grid item>
-        <div>
-          <MMSubTitle content="Biografía" />
-          <p>{userProfile?.biography}</p>
-        </div>
-      </Grid>
+      {userProfile?.biography && (
+        <Grid item>
+          <div className="user-profile-biography-container">
+            <MMSubTitle content="Biografía" />
+            <p>{userProfile?.biography}</p>
+          </div>
+        </Grid>
+      )}
+
       <Grid item>
         <div>
           <MMSubTitle content="Reseñas" />

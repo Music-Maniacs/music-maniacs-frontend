@@ -19,6 +19,13 @@ import { MMLinksGroup } from '../../../components/MMLinkGroup/MMLinksGroup';
 const MMBoxPaddding = styled(MMBox)`
   padding: 30px !important;
 `;
+const MMFirstBoxPaddding = styled(MMBox)`
+  padding: 30px !important;
+
+  @media screen and (max-width: ${breakpoints.sm}) {
+    padding: 10px !important;
+  }
+`;
 
 const ProfileUserData = styled.div`
   padding: 35px 0;
@@ -27,11 +34,11 @@ const ProfileUserData = styled.div`
   align-items: flex-start;
   justify-content: space-between;
 
-  @media screen and (max-width: ${breakpoints.md}) {
+  /* @media screen and (max-width: ${breakpoints.md}) {
     flex-direction: column;
     gap: 2rem;
     padding: 10px 0;
-  }
+  } */
 `;
 
 export const ShowUserProfile = () => {
@@ -68,7 +75,7 @@ export const ShowUserProfile = () => {
             </MMBoxPaddding>
           )}
 
-          <MMBoxPaddding>
+          <MMFirstBoxPaddding>
             <Grid item>
               <ProfileUserData>
                 <UserInfo
@@ -80,14 +87,16 @@ export const ShowUserProfile = () => {
                 {userProfile?.links && userProfile.links.length > 0 && <MMLinksGroup links={userProfile?.links} />}
               </ProfileUserData>
             </Grid>
-          </MMBoxPaddding>
+          </MMFirstBoxPaddding>
           <MMBoxPaddding>
-            <Grid item>
-              <div>
-                <MMSubTitle content="Biografía" />
-                <p>{userProfile?.biography}</p>
-              </div>
-            </Grid>
+            {userProfile?.biography && (
+              <Grid item>
+                <div>
+                  <MMSubTitle content="Biografía" />
+                  <p>{userProfile?.biography}</p>
+                </div>
+              </Grid>
+            )}
             <Grid item>
               <div>
                 <MMSubTitle content="Reseñas" />

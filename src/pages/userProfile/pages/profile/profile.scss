@@ -25,11 +25,11 @@
   align-items: flex-start;
   justify-content: space-between;
 
-  @include md-breakpoint {
-    flex-direction: column;
-    gap: 2rem;
-    padding: 10px 0;
-  }
+  // @include md-breakpoint {
+  //   flex-direction: column;
+  //   gap: 2rem;
+  //   padding: 10px 0;
+  // }
 }
 
 .user-profile-stats {

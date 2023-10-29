@@ -2,6 +2,7 @@ import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io';
 import { PiUserCircleFill } from 'react-icons/pi';
 import styled from 'styled-components';
 import { useAuth } from '../../context/authContext';
+import { MMChip } from '../MMChip/MMChip';
 
 const StyledNavUser = styled.div`
   width: max-content;
@@ -50,7 +51,7 @@ export const NavUserProfile = ({ active }: Props) => {
       <div className="name">
         <span> {user?.username ? user.username : 'User'}</span>
         <div className="rol-dropdown">
-          <span>{user?.role?.name}</span>
+          {user && user.role && <MMChip color="primary">{user.role.name}</MMChip>}
           {active ? <IoMdArrowDropup size={20} /> : <IoMdArrowDropdown size={20} />}
         </div>
       </div>

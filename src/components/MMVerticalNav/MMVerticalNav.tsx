@@ -40,6 +40,7 @@ const VerticalSidenavContainer = styled.ul`
 const VerticalNavContentContainer = styled.div`
   padding: 10px;
   width: 100%;
+  overflow: auto;
 `;
 
 const VerticalSideavContentContainer = styled.div<{ $active: boolean }>`
