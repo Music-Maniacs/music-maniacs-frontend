@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid } from '@mui/material';
 import { StyledBoldText, StyledDataContainer } from '../../admin/styles';
 import { InputText } from '../../../components/form/InputText/InputText';
-import { Report } from '../../../models/Report';
+import { Report, reportCategoriesTranslated, reportableTypeTranslated } from '../../../models/Report';
 import { formatDate } from '../../../utils/formatDate';
 import { InputArea } from '../../../components/form/InputArea/InputArea';
 
@@ -14,11 +14,11 @@ export const ShowInfo = ({ report }: Props) => {
   const firstColumn = [
     {
       label: 'Contenido Reportado',
-      content: <InputText disabled value={report.reportable_type} />
+      content: <InputText disabled value={reportableTypeTranslated[report.reportable_type]} />
     },
     {
       label: 'Categoria',
-      content: <InputText disabled value={report.category ?? ''} />
+      content: <InputText disabled value={reportCategoriesTranslated[report.category] ?? ''} />
     },
     {
       label: 'Fecha Reporte',
