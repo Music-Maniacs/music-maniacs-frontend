@@ -10,7 +10,7 @@ import { ReviewForm } from '../../../../components/forms/reviews/ReviewForm';
 import { useModal } from '../../../../components/hooks/useModal';
 import { CoverImage } from '../../components/CoverImage';
 import { UserInfo } from '../../components/UserInfo';
-import { UserLinks } from '../../components/UserLinks';
+import { MMLinksGroup } from '../../../../components/MMLinkGroup/MMLinksGroup';
 
 export const Profile = () => {
   const { userProfile, reviews, setReviews } = useUser();
@@ -105,7 +105,7 @@ export const Profile = () => {
             username={userProfile?.username}
             role={userProfile?.role}
           />
-          <UserLinks links={userProfile?.links} />
+          {userProfile?.links && userProfile?.links.length > 0 && <MMLinksGroup links={userProfile?.links} />}
         </div>
       </Grid>
       <Grid item>

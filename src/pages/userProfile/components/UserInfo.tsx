@@ -51,6 +51,7 @@ const UserProfileData = styled.div`
     font-weight: 700;
     line-height: normal;
     margin: 0;
+    max-width: 120px;
   }
   span {
     font-size: 16px;

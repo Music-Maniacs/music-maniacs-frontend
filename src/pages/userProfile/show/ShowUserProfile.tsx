@@ -14,8 +14,8 @@ import { User } from '../../../models/User';
 import { getUserProfile } from '../../../services/userProfileService';
 import { CoverImage } from '../components/CoverImage';
 import { UserInfo } from '../components/UserInfo';
-import { UserLinks } from '../components/UserLinks';
 import breakpoints from '../../../styles/_breakpoints.scss';
+import { MMLinksGroup } from '../../../components/MMLinkGroup/MMLinksGroup';
 const MMBoxPaddding = styled(MMBox)`
   padding: 30px !important;
 `;
@@ -77,7 +77,7 @@ export const ShowUserProfile = () => {
                   username={userProfile?.username}
                   role={userProfile?.role}
                 />
-                <UserLinks links={userProfile?.links} />
+                {userProfile?.links && userProfile.links.length > 0 && <MMLinksGroup links={userProfile?.links} />}
               </ProfileUserData>
             </Grid>
           </MMBoxPaddding>

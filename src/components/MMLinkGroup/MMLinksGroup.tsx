@@ -1,25 +1,26 @@
 import { styled } from 'styled-components';
-import { MMSubTitle } from '../../../components/MMTitle/MMTitle';
-import { Link } from '../../../models/Link';
+import { MMSubTitle } from '../MMTitle/MMTitle';
+import { Link } from '../../models/Link';
 import { FaFacebook, FaInstagram, FaLinkedin, FaTiktok, FaTwitter, FaYoutube } from 'react-icons/fa';
 import { BiWorld } from 'react-icons/bi';
 import { ReactElement } from 'react';
 import { FaTicket } from 'react-icons/fa6';
+import { NoData } from '../NoData/NoData';
 
-const UserProfileLinksContainer = styled.div`
+const LinksContainer = styled.div`
   max-width: 150px;
   min-width: 100px;
   overflow: hidden;
   padding: 5px;
 `;
-const UserProfileLinksGroup = styled.div`
+const LinksGroup = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 10px;
   gap: 5px;
 `;
 
-const UserProfileLink = styled.a`
+const LinkLine = styled.a`
   display: flex;
   flex-direction: row;
   gap: 0.5rem;
@@ -53,10 +54,11 @@ const UserProfileLink = styled.a`
   }
 `;
 
-type UserLinksProps = {
+type LinkGroupProps = {
   links?: Link[];
+  noDataMessage?: string;
 };
-export const UserLinks = ({ links }: UserLinksProps) => {
+export const MMLinksGroup = ({ links, noDataMessage }: LinkGroupProps) => {
   const LinkToIcon = (link: string): ReactElement<any, any> => {
     const socialWebsites = [
       { Icon: <FaFacebook />, pattern: /facebook\.com/i },
@@ -78,20 +80,23 @@ export const UserLinks = ({ links }: UserLinksProps) => {
     //no match
     return <BiWorld />;
   };
+
   return (
-    <UserProfileLinksContainer>
+    <LinksContainer>
       <MMSubTitle content="Enlaces" />
 
-      {links && (
-        <UserProfileLinksGroup>
+      {links && links.length > 0 ? (
+        <LinksGroup>
           {links.map((link) => (
-            <UserProfileLink key={link.id} href={link.url ?? '#'} target="_blank">
+            <LinkLine key={link.id} href={link.url ?? '#'} target="_blank">
               {LinkToIcon(link.url)}
               <span>{link.title}</span>
-            </UserProfileLink>
+            </LinkLine>
           ))}
-        </UserProfileLinksGroup>
+        </LinksGroup>
+      ) : (
+        <NoData message={noDataMessage ? noDataMessage : 'No hay links'} />
       )}
-    </UserProfileLinksContainer>
+    </LinksContainer>
   );
 };
