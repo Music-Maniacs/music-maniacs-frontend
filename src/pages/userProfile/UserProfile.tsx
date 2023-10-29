@@ -10,13 +10,13 @@ import './index.scss';
 import { Profile } from './pages/profile/Profile';
 import { EditProfile } from './pages/edit/EditProfile';
 import { useUser } from './context/userContext';
-import { Loader } from '../../components/Loader/Loader';
 import breakpoints from '../../styles/_breakpoints.scss';
 import { useUserProfileRequest } from './hooks/useUserProfileRequest';
 import { useAuth } from '../../context/authContext';
 import { useNavigate } from 'react-router-dom';
 import { ChangePasswordUserProfile } from './pages/password/ChangePasswordUserProfile';
 import { UserFollows } from './pages/follows/UserFollows';
+import { UserProfileSkeleton } from './components/UserProfileSkeleton';
 
 const UserProfileDeleteUser = styled.li`
   display: flex;
@@ -85,12 +85,7 @@ export const UserProfile = () => {
       )
     }
   ];
-  const content = [
-    userProfile ? <Profile /> : <Loader />,
-    <UserFollows />,
-    <ChangePasswordUserProfile />,
-    userProfile ? <EditProfile /> : <Loader />
-  ];
+  const content = [<Profile />, <UserFollows />, <ChangePasswordUserProfile />, <EditProfile />];
 
   return (
     <MMContainer maxWidth="xxl">
@@ -99,7 +94,7 @@ export const UserProfile = () => {
           <MMTitle content="Mi Perfil" />
         </div>
         <div className="user-profile-content">
-          <MMVerticalNav Tabs={tabs} Content={content}></MMVerticalNav>
+          {userProfile ? <MMVerticalNav Tabs={tabs} Content={content}></MMVerticalNav> : <UserProfileSkeleton />}
         </div>
       </MMBox>
     </MMContainer>
