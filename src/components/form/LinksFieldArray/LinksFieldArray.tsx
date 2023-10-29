@@ -43,7 +43,7 @@ const StyledInputsContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: baseline;
   gap: 9px;
 `;
 
@@ -72,6 +72,15 @@ export function LinksFieldArray<T extends FieldValues>({
   update,
   getValues
 }: Props<T>) {
+  const isUrlUnique = (url: string, index: number): boolean => {
+    for (let i = 0; i < fields.length; i++) {
+      if (i === index) continue;
+      //@ts-ignore
+      if (fields[i].url === url) return true;
+    }
+    return false;
+  };
+
   return (
     <StyledContainer>
       <StyledLabel>Links</StyledLabel>
@@ -99,7 +108,15 @@ export function LinksFieldArray<T extends FieldValues>({
                 placeholder="Enlace"
                 name={`links_attributes.${index}.url` as const}
                 options={{
-                  required: { value: true, message: 'Debe ingresar el enlace' }
+                  required: { value: true, message: 'Debe ingresar el enlace' },
+                  pattern: {
+                    value: /^(https?):\/\/[^\s/$.?#].[^\s]*$/i,
+                    message: 'Debe ingresar una URL válida'
+                  },
+                  validate: (value: string) => {
+                    if (isUrlUnique(value, index)) return 'Debe ingresar una URL unica';
+                    return true;
+                  }
                 }}
                 containerWidth="60%"
                 register={register}
@@ -120,13 +137,6 @@ export function LinksFieldArray<T extends FieldValues>({
                 <FaTrashAlt color="white" size={'0.7rem'} />
               </StyledIconContainer>
             </StyledInputsContainer>
-
-            <StyledError>
-              {
-                // @ts-ignore
-                errors?.links_attributes?.[index]?.title?.message || errors?.links_attributes?.[index]?.url?.message
-              }
-            </StyledError>
           </div>
         );
       })}
