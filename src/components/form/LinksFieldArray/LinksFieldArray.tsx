@@ -76,7 +76,7 @@ export function LinksFieldArray<T extends FieldValues>({
     for (let i = 0; i < fields.length; i++) {
       if (i === index) continue;
       //@ts-ignore
-      if (fields[i].url === url) return true;
+      if (fields[i].url === url && !fields[i]._destroy) return true;
     }
     return false;
   };
@@ -140,7 +140,6 @@ export function LinksFieldArray<T extends FieldValues>({
           </div>
         );
       })}
-
       <StyledAddLinkContainer
         onClick={() => {
           append({
