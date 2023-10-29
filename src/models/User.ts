@@ -64,7 +64,11 @@ export const userValidations: Readonly<ModelValidations<User>> = {
   },
   password: {
     required: { value: true, message: 'Debe ingresar su contraseña' },
-    minLength: { value: 6, message: 'La contraseña debe ser de más de 6 caracteres' }
+    minLength: { value: 8, message: 'La contraseña debe ser de más de 8 o más caracteres' },
+    pattern: {
+      value: /^(?=.*[0-9])(?=.*[!@#$%^&*])[^\s]+$/,
+      message: 'La contraseña debe contener al menos un número y un caracter especial'
+    }
   },
   role: {
     required: { value: true, message: 'Debe seleccionar un rol' }
