@@ -57,17 +57,9 @@ export interface EventProfilesTab {
 
 export const eventValidations: Readonly<ModelValidations<Event>> = {
   name: {
-    required: {
-      value: true,
-      message: 'Debe ingresar el nombre del evento'
-    },
     maxLength: { value: 128, message: 'El nombre debe ser menor a 128 caracteres' }
   },
   description: {
-    required: {
-      value: true,
-      message: 'Debe ingresar la descripción del evento'
-    },
     maxLength: { value: 2048, message: 'La descripción debe ser menor a 2048 caracteres' }
   },
   datetime: {
