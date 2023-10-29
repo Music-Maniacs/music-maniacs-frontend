@@ -10,6 +10,7 @@ const UserProfileLinksContainer = styled.div`
   max-width: 150px;
   min-width: 100px;
   overflow: hidden;
+  padding: 5px;
 `;
 const UserProfileLinksGroup = styled.div`
   display: flex;

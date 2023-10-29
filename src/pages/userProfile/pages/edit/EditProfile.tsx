@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { errorSnackbar, infoSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { handleFormErrors } from '../../../../utils/handleFormErrors';
@@ -76,6 +76,16 @@ export const EditProfile = () => {
   });
 
   const inputCommonProps = { register, errors, type: 'text' };
+
+  useEffect(() => {
+    reset({
+      full_name: userProfile?.full_name,
+      biography: userProfile?.biography,
+      username: userProfile?.username,
+      email: userProfile?.email,
+      links_attributes: userProfile?.links?.map((link) => ({ id: link.id, title: link.title, url: link.url }))
+    });
+  }, [userProfile]);
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
