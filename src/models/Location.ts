@@ -20,5 +20,8 @@ export const locationValidations: Readonly<ModelValidations<Location>> = {
   longitude: {
     min: { value: -180, message: 'La longitud debe ser mayor a -180' },
     max: { value: 180, message: 'La longitud debe ser menor a 180' }
+  },
+  number: {
+    min: { value: 0, message: 'El número debe ser positivo' }
   }
 };
