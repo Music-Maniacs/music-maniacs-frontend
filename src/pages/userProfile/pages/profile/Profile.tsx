@@ -5,7 +5,7 @@ import { MMSubTitle } from '../../../../components/MMTitle/MMTitle';
 import { useEffect, useState } from 'react';
 import { Review } from '../../../../models/Review';
 import { MMModal } from '../../../../components/Modal/MMModal';
-import { ReviewContent } from '../../../../components/ReviewContent/ReviewContent';
+import { ReviewContent } from '../../../../components/Reviews/ReviewContent';
 import { ReviewForm } from '../../../../components/forms/reviews/ReviewForm';
 import { useModal } from '../../../../components/hooks/useModal';
 import { CoverImage } from '../../components/CoverImage';

@@ -10,6 +10,7 @@ export interface Comment {
   user: {
     id: string;
     full_name: string;
+    profile_image_full_url?: string;
   };
 }
 
