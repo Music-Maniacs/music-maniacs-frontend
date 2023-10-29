@@ -15,9 +15,23 @@ import { getUserProfile } from '../../../services/userProfileService';
 import { CoverImage } from '../components/CoverImage';
 import { UserInfo } from '../components/UserInfo';
 import { UserLinks } from '../components/UserLinks';
-
+import breakpoints from '../../../styles/_breakpoints.scss';
 const MMBoxPaddding = styled(MMBox)`
   padding: 30px !important;
+`;
+
+const ProfileUserData = styled.div`
+  padding: 35px 0;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  @media screen and (max-width: ${breakpoints.md}) {
+    flex-direction: column;
+    gap: 2rem;
+    padding: 10px 0;
+  }
 `;
 
 export const ShowUserProfile = () => {
@@ -56,14 +70,7 @@ export const ShowUserProfile = () => {
 
           <MMBoxPaddding>
             <Grid item>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'flex-start',
-                  justifyContent: 'space-between'
-                }}
-              >
+              <ProfileUserData>
                 <UserInfo
                   fullName={userProfile?.full_name}
                   profileImage={userProfile?.profile_image}
@@ -71,7 +78,7 @@ export const ShowUserProfile = () => {
                   role={userProfile?.role}
                 />
                 <UserLinks links={userProfile?.links} />
-              </div>
+              </ProfileUserData>
             </Grid>
           </MMBoxPaddding>
           <MMBoxPaddding>
