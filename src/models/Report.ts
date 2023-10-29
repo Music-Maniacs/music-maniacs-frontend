@@ -57,7 +57,7 @@ export const reportCategoriesTranslated = {
   doesnt_belong_to_event: 'No pertenece al evento',
   incorrect_artist: 'Artista incorrecto',
   incorrect_producer: 'Productor incorrecto',
-  incorrect_venue: 'Lugar incorrecto'
+  incorrect_venue: 'Espacio de Evento incorrecto'
 };
 
 export type ReportCategory = (typeof reportCategories)[number];
