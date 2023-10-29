@@ -1,6 +1,7 @@
 import { sweetAlert } from '../../../../components/SweetAlert/sweetAlert';
 import { errorSnackbar, infoSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { adminDeleteArtist } from '../../../../services/artistService';
+import { handleApiErrors } from '../../../../utils/handleFormErrors';
 
 export const useArtistsRequests = () => {
   const handleDeleteArtist = (artistId: string, successCallback?: () => void) => {
@@ -14,7 +15,9 @@ export const useArtistsRequests = () => {
 
           successCallback && successCallback();
         } catch (error) {
-          errorSnackbar('Error al eliminar el artista');
+          let hasFormError = handleApiErrors(error);
+
+          !hasFormError && errorSnackbar('Error inesperado al eliminar el artista. Contacte a soporte.');
         }
       }
     });

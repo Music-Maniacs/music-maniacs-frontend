@@ -11,7 +11,7 @@ const adminEventsUrl = `${process.env.REACT_APP_API_URL}/admin/events`;
 export async function discoverEvents(userLocation: UserLocation): Promise<DiscoverEventsResponse> {
   return (
     await axios.get(
-      `${eventsUrl}/discover?country=${userLocation.country}&province=${userLocation.province}&locality=${userLocation.locality}&department=${userLocation.department}`
+      `${eventsUrl}/discover?country=${userLocation.country}&province=${userLocation.province}&city=${userLocation.city}`
     )
   ).data;
 }

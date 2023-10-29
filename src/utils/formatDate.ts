@@ -12,5 +12,5 @@ const formats = {
 };
 
 export const formatDate = ({ date, format = 'slash' }: Props) => {
-  return moment(date).format(formats[format]);
+  return moment(date).parseZone().format(formats[format]);
 };

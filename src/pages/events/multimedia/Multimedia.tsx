@@ -385,7 +385,7 @@ const VideoCard = ({
                   handleLikeVideo(video.id, video.liked_by_current_user);
                 }
               }}
-              style={{ color: video.liked_by_current_user ? colors.primary_ligth : 'var(--text_color)' }}
+              style={{ color: video.liked_by_current_user ? 'var(--accent)' : 'var(--text_color)' }}
             >
               <FaThumbsUp />
               {video.likes_count}

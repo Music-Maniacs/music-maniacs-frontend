@@ -9,7 +9,7 @@ export const DashboardTables = () => {
   return (
     <Grid container spacing={3}>
       <Grid item sm={12} md={6}>
-        <h4>Métricas</h4>
+        <h4>Estadísticas</h4>
 
         <DashboardTable headers={metricsTable.headers} rows={metricsTable.rows} />
       </Grid>

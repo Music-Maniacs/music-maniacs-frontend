@@ -69,7 +69,7 @@ const Register = () => {
           />
 
           <InputText
-            label="Email"
+            label="Correo"
             type="text"
             name="email"
             register={register}

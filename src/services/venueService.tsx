@@ -16,8 +16,7 @@ export async function createVenue(
     id: string;
     zip_code: string;
     street: string;
-    department: string;
-    locality: string;
+    city: string;
     latitude: string;
     longitude: string;
     number: number;
@@ -53,8 +52,7 @@ export async function updateVenue(
     id: string;
     zip_code: string;
     street: string;
-    department: string;
-    locality: string;
+    city: string;
     latitude: string;
     longitude: string;
     number: number;
@@ -114,8 +112,7 @@ export async function adminCreateVenue(
     id: string;
     zip_code: string;
     street: string;
-    department: string;
-    locality: string;
+    city: string;
     latitude: string;
     longitude: string;
     number: number;
@@ -159,8 +156,7 @@ export async function adminUpdateVenue(
     id: string;
     zip_code: string;
     street: string;
-    department: string;
-    locality: string;
+    city: string;
     latitude: string;
     longitude: string;
     number: number;

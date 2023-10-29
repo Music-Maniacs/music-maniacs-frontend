@@ -1,6 +1,7 @@
 import { sweetAlert } from '../../../../components/SweetAlert/sweetAlert';
 import { errorSnackbar, infoSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { adminDeleteVenue } from '../../../../services/venueService';
+import { handleApiErrors } from '../../../../utils/handleFormErrors';
 
 export const useVenuesRequests = () => {
   const handleDeleteVenue = (venueId: string, successCallback?: () => void) => {
@@ -14,7 +15,9 @@ export const useVenuesRequests = () => {
 
           successCallback && successCallback();
         } catch (error) {
-          errorSnackbar('Error al eliminar el Espacio de Evento');
+          let hasFormError = handleApiErrors(error);
+
+          !hasFormError && errorSnackbar('Error inesperado al eliminar el espacio de evento. Contacte a soporte.');
         }
       }
     });

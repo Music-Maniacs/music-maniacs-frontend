@@ -9,7 +9,8 @@ const errors: Dictionary = {
   too_short: 'es demasiado corta',
   confirmation: 'No coincide con la contraseña',
   not_a_number: 'no es un número',
-  already_reviewed: 'Ya has realizado una reseña sobre esta opción'
+  already_reviewed: 'Ya has realizado una reseña sobre esta opción',
+  'restrict_dependent_destroy.has_many': 'No se puede eliminar porque tiene dependencias con'
 };
 
 const fieldNames: Dictionary = {
@@ -19,7 +20,8 @@ const fieldNames: Dictionary = {
   password_confirmation: '',
   name: 'El nombre',
   penalty_score: 'La cantidad de penalizaciones',
-  days_blocked: 'Los dias bloqueados'
+  days_blocked: 'Los dias bloqueados',
+  events: 'eventos'
 };
 
 function formatErrorMessage(error: string, field: string): string {
@@ -50,6 +52,29 @@ export function handleFormErrors<T extends FieldValues>(
         type: 'custom',
         message: formatErrorMessage(error.response.data.errors[key][0].error, key)
       });
+    });
+  }
+
+  return hasErrors;
+}
+
+function formatApiErrorMessage(error: string, field: string): string {
+  const fieldName = fieldNames[field] || '';
+  const message = errors[error] || error;
+  return `${message} ${fieldName}`;
+}
+
+export function handleApiErrors<T extends FieldValues>(error: any | AxiosError<FormErrors<T>>): boolean {
+  let hasErrors = false;
+
+  if (axios.isAxiosError<FormErrors<T>>(error) && error.response?.data?.errors) {
+    hasErrors = true;
+    Object.keys(error.response.data.errors).forEach((key) => {
+      if (key === 'base') {
+        return errorSnackbar(
+          formatApiErrorMessage(error.response.data.errors[key][0].error, error.response.data.errors[key][0].record)
+        );
+      }
     });
   }
 

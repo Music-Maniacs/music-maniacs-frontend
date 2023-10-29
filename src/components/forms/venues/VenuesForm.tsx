@@ -13,6 +13,7 @@ import { Venue, venueValidations } from '../../../models/Venue';
 import { adminCreateVenue, adminUpdateVenue, createVenue, updateVenue } from '../../../services/venueService';
 import { locationValidations } from '../../../models/Location';
 import { LeafletMap } from './LeafletMap';
+import { GoogleAutocomplete, PlaceDetails } from './GoogleAutocomplete';
 
 type Props = {
   useAdminController?: boolean;
@@ -29,8 +30,7 @@ type FormData = {
     id: string;
     zip_code: string;
     street: string;
-    department: string;
-    locality: string;
+    city: string;
     latitude?: number;
     longitude?: number;
     number: number;
@@ -42,6 +42,15 @@ type FormData = {
     url: string;
   }[];
   image?: File;
+};
+
+const googleAutocompleteKeys = {
+  street_number: 'number',
+  route: 'street',
+  administrative_area_level_2: 'city',
+  administrative_area_level_1: 'province',
+  country: 'country',
+  postal_code: 'zip_code'
 };
 
 export const VenuesForm = ({
@@ -169,6 +178,28 @@ export const VenuesForm = ({
     }
   };
 
+  const handlePlaceSelected = (place: PlaceDetails) => {
+    if (place.geometry) {
+      const lat = place.geometry?.location?.lat() ?? 0;
+      setValue('location_attributes.latitude', lat);
+
+      const lng = place.geometry?.location?.lng() ?? 0;
+      setValue('location_attributes.longitude', lng);
+    }
+
+    if (place.address_components) {
+      place.address_components.forEach((addComponent) => {
+        const type = addComponent.types[0];
+        const value = addComponent.long_name;
+
+        if (googleAutocompleteKeys[type]) {
+          // @ts-ignore
+          setValue(`location_attributes.${googleAutocompleteKeys[type]}`, value);
+        }
+      });
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" className="admin-form-container">
       {/* Basic Data */}
@@ -213,29 +244,10 @@ export const VenuesForm = ({
 
       {/* Location Data */}
       <Grid container spacing={2}>
+        {/* Datos - Location */}
         <Grid {...gridMapProps}>
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <InputText
-                label="Latitud"
-                name="location_attributes.latitude"
-                options={locationValidations.latitude}
-                {...inputCommonProps}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <InputText
-                label="Longitud"
-                name="location_attributes.longitude"
-                options={locationValidations.longitude}
-                {...inputCommonProps}
-              />
-            </Grid>
-          </Grid>
+          <GoogleAutocomplete label="Autocompletar dirección con Google Maps" onPlaceSelected={handlePlaceSelected} />
 
-          <LeafletMap latitude={latitudeValue} longitude={longitudeValue} setLatLng={setLatLng} />
-        </Grid>
-        <Grid {...gridMapProps}>
           <Grid container spacing={2}>
             <Grid item xs={8}>
               <InputText
@@ -260,9 +272,9 @@ export const VenuesForm = ({
           <Grid container spacing={2}>
             <Grid item xs={8}>
               <InputText
-                label="Departamento"
-                name="location_attributes.department"
-                options={locationValidations.department}
+                label="Ciudad"
+                name="location_attributes.city"
+                options={locationValidations.city}
                 {...inputCommonProps}
               />
             </Grid>
@@ -277,13 +289,6 @@ export const VenuesForm = ({
           </Grid>
 
           <InputText
-            label="Localidad"
-            name="location_attributes.locality"
-            options={locationValidations.locality}
-            {...inputCommonProps}
-          />
-
-          <InputText
             label="Provincia"
             name="location_attributes.province"
             options={locationValidations.province}
@@ -296,6 +301,30 @@ export const VenuesForm = ({
             options={locationValidations.country}
             {...inputCommonProps}
           />
+        </Grid>
+
+        {/* Mapa */}
+        <Grid {...gridMapProps}>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <InputText
+                label="Latitud"
+                name="location_attributes.latitude"
+                options={locationValidations.latitude}
+                {...inputCommonProps}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <InputText
+                label="Longitud"
+                name="location_attributes.longitude"
+                options={locationValidations.longitude}
+                {...inputCommonProps}
+              />
+            </Grid>
+          </Grid>
+
+          <LeafletMap latitude={latitudeValue} longitude={longitudeValue} setLatLng={setLatLng} />
         </Grid>
       </Grid>
 
