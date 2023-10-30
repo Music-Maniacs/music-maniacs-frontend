@@ -63,6 +63,12 @@ const StyledAddLinkContainer = styled.div`
   cursor: pointer;
 `;
 
+const ipRegex = new RegExp('\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b');
+const urlRegex = new RegExp(
+  '^(https?:\\/\\/)?((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|((\\d{1,3}\\.){3}\\d{1,3}))(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*(\\?[;&a-z\\d%_.~+=-]*)?(\\#[-a-z\\d_]*)?$',
+  'i'
+);
+
 export function LinksFieldArray<T extends FieldValues>({
   register,
   errors,
@@ -109,13 +115,10 @@ export function LinksFieldArray<T extends FieldValues>({
                 name={`links_attributes.${index}.url` as const}
                 options={{
                   required: { value: true, message: 'Debe ingresar el enlace' },
-                  pattern: {
-                    value: /^(https?):\/\/[^\s/$.?#].[^\s]*$/i,
-                    message: 'Debe ingresar una URL válida'
-                  },
-                  validate: (value: string) => {
-                    if (isUrlUnique(value, index)) return 'Debe ingresar una URL unica';
-                    return true;
+                  validate: {
+                    isUrlUnique: (value) => !isUrlUnique(value, index) || 'Debe ingresar una URL unica',
+                    isUrl: (value) => urlRegex.test(value) || 'Debe ingresar una URL válida',
+                    isIp: (value) => !ipRegex.test(value) || 'No puede ingresar una IP'
                   }
                 }}
                 containerWidth="60%"

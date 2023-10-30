@@ -97,7 +97,7 @@ export const EventsForm = ({
     try {
       // todo: cuando tengamos el controlador de eventos, usar la prop para ver que endpoint usar
       let event: Event;
-      data.name = data.name !== '' ? data.name : `${data.artist.label} - ${data.venue.label} - ${data.producer.label}`;
+      data.name = data.name !== '' ? data.name : `${data.artist.label} - ${data.venue.label}`;
       if (isFormEdit && eventToEdit) {
         const updateService = useAdminController ? adminUpdateEvent : updateEvent;
         event = await updateService(
