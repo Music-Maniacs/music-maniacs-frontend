@@ -198,21 +198,20 @@ export const ReportForm = ({ reportableId, closeModal, service, reportTitleText,
 
         <h2 style={{ textAlign: 'center' }}>{`¿Seguro que quieres reportar ${reportTitleText}?`}</h2>
       </StyledFlexColumn>
+      <InputSelect
+        label="Categoría del reporte"
+        name="reportCategory"
+        collection={reportCollection}
+        control={control}
+        errors={errors}
+        options={reportValidations.category}
+      />
 
-      {isVersionReport ? (
+      {isVersionReport && (
         <span style={{ textAlign: 'center' }}>
           Por favor, en caso de no poder corregir el error usted mismo, especifique en el comentario los campos
           incorrectos y su sugerencia de edición
         </span>
-      ) : (
-        <InputSelect
-          label="Categoría del reporte"
-          name="reportCategory"
-          collection={reportCollection}
-          control={control}
-          errors={errors}
-          options={reportValidations.category}
-        />
       )}
 
       <InputArea
@@ -223,7 +222,6 @@ export const ReportForm = ({ reportableId, closeModal, service, reportTitleText,
         options={reportValidations.user_comment}
         rows={8}
       />
-
       {hasOriginalReportableId && (
         <StyledFlexColumn $width="100%" $overflowY="hidden">
           <InputAsyncSelect
@@ -252,7 +250,6 @@ export const ReportForm = ({ reportableId, closeModal, service, reportTitleText,
           )}
         </StyledFlexColumn>
       )}
-
       <StyledButtonGroup>
         <MMButton type="submit" color="primary">
           Reportar

@@ -90,7 +90,7 @@ export const reportCollectionByType: Readonly<Record<ReportableType, ReportCateg
 
   Review: ['inappropriate_content', 'spam', 'other'],
 
-  Version: []
+  Version: ['inappropriate_content', 'fake', 'spam', 'other']
 };
 
 export const reportValidations: Readonly<ModelValidations<Report>> = {
