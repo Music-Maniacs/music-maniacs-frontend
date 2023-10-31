@@ -76,6 +76,9 @@
     ]
   },
   "devDependencies": {
-    "@types/leaflet": "^1.9.4"
+    "@types/leaflet": "^1.9.4",
+    "envify": "^4.1.0",
+    "terser": "^5.23.0",
+    "uglifyify": "^5.0.2"
   }
 }
