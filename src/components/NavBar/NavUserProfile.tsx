@@ -44,7 +44,7 @@ export const NavUserProfile = ({ active }: Props) => {
     <StyledNavUser>
       {user?.profile_image?.full_url ? (
         <UserProfileImage>
-          <img src={user.profile_image.full_url} />
+          <img src={user.profile_image.full_url} alt="Imagen de Perfil" />
         </UserProfileImage>
       ) : (
         <PiUserCircleFill size={40} />

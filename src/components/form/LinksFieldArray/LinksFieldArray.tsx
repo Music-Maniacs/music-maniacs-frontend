@@ -9,7 +9,7 @@ import {
   UseFormGetValues,
   UseFormRegister
 } from 'react-hook-form';
-import { StyledError, StyledLabel } from '../formStyles';
+import { StyledLabel } from '../formStyles';
 import { InputText } from '../InputText/InputText';
 import { FaPlus, FaTrashAlt } from 'react-icons/fa';
 import { styled } from 'styled-components';

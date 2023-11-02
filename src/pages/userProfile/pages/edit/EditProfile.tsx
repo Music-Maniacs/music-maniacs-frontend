@@ -85,6 +85,7 @@ export const EditProfile = () => {
       email: userProfile?.email,
       links_attributes: userProfile?.links?.map((link) => ({ id: link.id, title: link.title, url: link.url }))
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userProfile]);
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
