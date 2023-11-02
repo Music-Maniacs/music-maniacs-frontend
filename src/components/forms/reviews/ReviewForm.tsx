@@ -10,6 +10,7 @@ import { InputRating } from '../../form/InputRating/InputRating';
 import { InputArea } from '../../form/InputArea/InputArea';
 import { StyledButtonGroup } from '../../../pages/admin/styles';
 import { MMButton } from '../../MMButton/MMButton';
+import '../Forms.scss';
 
 type EventReviewFormProps = {
   eventId?: string;
@@ -95,7 +96,7 @@ export const ReviewForm = ({
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" className="events-reviews-form-container">
+    <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" className="generic-form-container">
       <StyledInputContainer>
         <StyledLabel>Reseña sobre:</StyledLabel>
 

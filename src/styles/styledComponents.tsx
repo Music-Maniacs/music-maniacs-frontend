@@ -4,6 +4,7 @@ export const StyledFlex = styled.div<{
   $width?: string;
   $minWidth?: string;
   $height?: string;
+  $maxHeight?: string;
   $gap?: string;
   $padding?: string;
   $margin?: string;
@@ -20,6 +21,7 @@ export const StyledFlex = styled.div<{
   width: ${({ $width }) => $width ?? 'auto'};
   min-width: ${({ $minWidth }) => $minWidth ?? 'auto'};
   height: ${({ $height }) => $height ?? 'auto'};
+  max-height: ${({ $maxHeight }) => $maxHeight ?? 'none'};
   justify-content: ${({ $justifyContent }) => $justifyContent ?? 'normal'};
   align-items: ${({ $alignItems }) => $alignItems ?? 'normal'};
   gap: ${({ $gap }) => $gap ?? '5px'};

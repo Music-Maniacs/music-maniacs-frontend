@@ -7,12 +7,12 @@ import { Grid, Rating } from '@mui/material';
 import { useModal } from '../../../../components/hooks/useModal';
 import { MMModal } from '../../../../components/Modal/MMModal';
 import { Review } from '../../../../models/Review';
-import { EventReviewForm } from './EventReviewForm';
 import { ReviewContent } from '../../../../components/Reviews/ReviewContent';
 import { useAuth } from '../../../../context/authContext';
 import { Navtab } from '../../../../components/Navtab/Navtab';
 import MMLink from '../../../../components/MMLink/MMLink';
 import { NoData } from '../../../../components/NoData/NoData';
+import { ReviewForm } from '../../../../components/forms/reviews/ReviewForm';
 
 type Props = {
   event: Event;
@@ -57,7 +57,7 @@ export const EventReviewBox = ({ event }: Props) => {
   return (
     <>
       <MMModal closeModal={closeModal} isModalOpen={isModalOpen} title={`${isFormEdit ? 'Editar' : 'Agregar'} Reseña`}>
-        <EventReviewForm
+        <ReviewForm
           eventId={event.id}
           isFormEdit={isFormEdit}
           reviewToEdit={reviewToEdit}

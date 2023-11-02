@@ -3,7 +3,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useEvents } from '../context/eventsContext';
 import { MMModal } from '../../../components/Modal/MMModal';
 import { useModal } from '../../../components/hooks/useModal';
-import { EventReviewForm } from '../show/components/EventReviewForm';
 import { Review } from '../../../models/Review';
 import { MMContainer } from '../../../components/MMContainer/MMContainer';
 import { Breadcrumb } from '../../../components/breadrumb/Breadcrumb';
@@ -22,6 +21,7 @@ import { useInfiniteScroll } from '../../../components/hooks/useInfiniteScroll';
 import { Pagination } from '../../../models/Generic';
 import { ReviewsSkeleton } from '../../../components/Reviews/ReviewsSkeleton';
 import { NoData } from '../../../components/NoData/NoData';
+import { ReviewForm } from '../../../components/forms/reviews/ReviewForm';
 
 const Reviews = () => {
   const { id } = useParams();
@@ -145,7 +145,7 @@ const Reviews = () => {
     <>
       <MMModal closeModal={closeModal} isModalOpen={isModalOpen} title={`${isFormEdit ? 'Editar' : 'Agregar'} Reseña`}>
         {showEvent && (
-          <EventReviewForm
+          <ReviewForm
             eventId={showEvent.id}
             isFormEdit={isFormEdit}
             reviewToEdit={reviewToEdit}

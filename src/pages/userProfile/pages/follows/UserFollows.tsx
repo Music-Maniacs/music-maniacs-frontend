@@ -15,6 +15,7 @@ const FollowsListContainer = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
+  overflow: clip;
 `;
 export const UserFollows = () => {
   const [followedEvents, setFollowedEvents] = useState<Follow[]>([]);

@@ -3,11 +3,11 @@ import { Review } from '../../models/Review';
 import { Rating } from '@mui/material';
 import { FaEdit } from 'react-icons/fa';
 import { formatDate } from '../../utils/formatDate';
-import { BiUserCircle } from 'react-icons/bi';
 import styled from 'styled-components';
 import colors from '../../styles/_colors.scss';
 import { StyledFlex, StyledFlexColumn } from '../../styles/styledComponents';
 import MMLink from '../MMLink/MMLink';
+import { UserAvatar } from '../Comments/UserAvatar';
 
 type ReviewContentProps = {
   review: Review;
@@ -22,12 +22,6 @@ type ReviewContentProps = {
 const StyledUserInfoContainer = styled.div`
   display: flex;
   gap: 5px;
-`;
-
-const StyledUserAvatarContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 export const ReviewContent = ({
@@ -49,9 +43,7 @@ export const ReviewContent = ({
       $borderBottom={`1px solid ${colors.input_border}`}
     >
       <StyledUserInfoContainer>
-        <StyledUserAvatarContainer>
-          <BiUserCircle size={'2rem'} />
-        </StyledUserAvatarContainer>
+        <UserAvatar anonymous={anonymous} profile_image_full_url={user?.profile_image_full_url} />
 
         <StyledFlexColumn $gap="2px">
           {anonymous ? <span>Usuario Eliminado</span> : <MMLink content={user?.full_name} to={`/user/${user?.id}`} />}

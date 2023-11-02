@@ -10,11 +10,11 @@ import { MMButton } from '../../../components/MMButton/MMButton';
 import { errorSnackbar, warningSnackbar } from '../../../components/Snackbar/Snackbar';
 import { MMSubTitle } from '../../../components/MMTitle/MMTitle';
 import { Genre } from '../../../models/Genre';
-import MMAnchor from '../../../components/MMLink/MMAnchor';
 import { followArtist, unfollowArtist } from '../../../services/artistService';
 import { followProducer, unfollowProducer } from '../../../services/producerService';
 import { followVenue, unfollowVenue } from '../../../services/venueService';
 import { VenueMapInfo } from '../venue/components/VenueMapInfo';
+import { MMLinksGroup } from '../../../components/MMLinkGroup/MMLinksGroup';
 
 type ProfileInfoBoxProps = {
   profile: Artist | Producer | Venue;
@@ -129,17 +129,7 @@ export const ProfileInfoBox = ({
           </Grid>
 
           <Grid item xs={12} sm={3}>
-            <MMSubTitle content="Enlaces" />
-
-            {profile.links && (
-              <ul style={{ marginTop: '3px' }}>
-                {profile.links.map((link) => (
-                  <li key={link.id}>
-                    <MMAnchor style={{ wordBreak: 'break-all' }} href={link.url ?? '#'} content={link.title} />
-                  </li>
-                ))}
-              </ul>
-            )}
+            {profile.links && profile.links.length > 0 && <MMLinksGroup links={profile.links} />}
 
             {/* @ts-ignore */}
             {profile.genres && (
