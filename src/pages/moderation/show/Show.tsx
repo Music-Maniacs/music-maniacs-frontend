@@ -4,7 +4,7 @@ import { useReports } from '../context/moderationContext';
 import { MMContainer } from '../../../components/MMContainer/MMContainer';
 import { Loader } from '../../../components/Loader/Loader';
 import { MMBox } from '../../../components/MMBox/MMBox';
-import { MMTitle } from '../../../components/MMTitle/MMTitle';
+import { MMSubTitle, MMTitle } from '../../../components/MMTitle/MMTitle';
 import { StyledFlex } from '../../../styles/styledComponents';
 import { MMButton } from '../../../components/MMButton/MMButton';
 import '../Moderation.scss';
@@ -14,8 +14,8 @@ import { useModal } from '../../../components/hooks/useModal';
 import { MMChip } from '../../../components/MMChip/MMChip';
 import { Report, ReportStatus, statusColors, statusNames } from '../../../models/Report';
 import { MMColors } from '../../../models/Generic';
-import { NoData } from '../../../components/NoData/NoData';
 import { ShowInfo } from './ShowInfo';
+import { ReportableContent } from './ReportableContent';
 
 const Show = () => {
   const { id } = useParams();
@@ -78,15 +78,22 @@ const Show = () => {
                     </MMButton>
                   )}
 
-                  <MMButton onClick={() => navigate(-1)}> Volver</MMButton>
+                  <MMButton
+                    onClick={() => {
+                      setShowReport(undefined);
+                      navigate(-1);
+                    }}
+                  >
+                    Volver
+                  </MMButton>
                 </StyledFlex>
               </div>
 
               <ShowInfo report={showReport} />
 
-              <NoData message="Aca iria el contenido del reporte" />
+              <MMSubTitle content="Contenido Reportado" />
 
-              <p>{JSON.stringify(showReport)}</p>
+              <ReportableContent report={showReport} />
             </>
           ) : (
             <Loader />

@@ -15,11 +15,16 @@ export type Report = {
     id: string;
     full_name: string;
   };
+  author?: {
+    id: string;
+    full_name: string;
+  };
   reportable_id: string;
   reportable_type: ReportableType;
   original_reportable_id: string;
   created_at: string;
   updated_at: string;
+  reportable: any;
 };
 
 export const statusColors: Record<ReportStatus, MMColors> = {

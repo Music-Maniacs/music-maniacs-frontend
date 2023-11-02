@@ -13,9 +13,9 @@ import MMLink from '../MMLink/MMLink';
 type CommentContentProps = {
   comment: Comment;
   canEdit?: boolean;
-  handleEditCommentButton: (comment: Comment) => void;
-  handleLikeComment: (commentId: string, likedByCurrentUser: boolean) => void;
-  handleReportComment: (comment: Comment) => void;
+  handleEditCommentButton?: (comment: Comment) => void;
+  handleLikeComment?: (commentId: string, likedByCurrentUser: boolean) => void;
+  handleReportComment?: (comment: Comment) => void;
 };
 
 const StyledUserInfoContainer = styled.div`
@@ -64,42 +64,46 @@ export const CommentContent = ({
 
         <StyledFlex $gap="15px">
           {/* Like */}
-          <StyledFlex
-            $cursor="pointer"
-            onClick={() => {
-              if (!currentUser) {
-                warningSnackbar('Debe iniciar sesión para dar like');
-              } else {
-                handleLikeComment(comment.id, comment.liked_by_current_user);
-              }
-            }}
-            style={{ color: comment.liked_by_current_user ? 'var(--accent)' : 'var(--text_color)' }}
-          >
-            <FaThumbsUp />
-            {comment.likes_count}
-          </StyledFlex>
+          {handleLikeComment && (
+            <StyledFlex
+              $cursor="pointer"
+              onClick={() => {
+                if (!currentUser) {
+                  warningSnackbar('Debe iniciar sesión para dar like');
+                } else {
+                  handleLikeComment(comment.id, comment.liked_by_current_user);
+                }
+              }}
+              style={{ color: comment.liked_by_current_user ? 'var(--accent)' : 'var(--text_color)' }}
+            >
+              <FaThumbsUp />
+              {comment.likes_count}
+            </StyledFlex>
+          )}
 
-          {canEdit && (
-            <StyledFlex $cursor="pointer" onClick={() => handleEditCommentButton && handleEditCommentButton(comment)}>
+          {canEdit && handleEditCommentButton && (
+            <StyledFlex $cursor="pointer" onClick={() => handleEditCommentButton(comment)}>
               <FaEdit />
               <span>Editar</span>
             </StyledFlex>
           )}
 
           {/* Report */}
-          <StyledFlex
-            $cursor="pointer"
-            onClick={() => {
-              if (!currentUser) {
-                warningSnackbar('Debe iniciar sesión para dar reportar el comentario');
-              } else {
-                handleReportComment(comment);
-              }
-            }}
-          >
-            <FaFlag />
-            <span>Reportar</span>
-          </StyledFlex>
+          {handleReportComment && (
+            <StyledFlex
+              $cursor="pointer"
+              onClick={() => {
+                if (!currentUser) {
+                  warningSnackbar('Debe iniciar sesión para dar reportar el comentario');
+                } else {
+                  handleReportComment(comment);
+                }
+              }}
+            >
+              <FaFlag />
+              <span>Reportar</span>
+            </StyledFlex>
+          )}
         </StyledFlex>
       </StyledFlexColumn>
     </StyledFlexColumn>

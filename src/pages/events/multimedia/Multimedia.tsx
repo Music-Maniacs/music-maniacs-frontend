@@ -27,6 +27,7 @@ import { sweetAlert } from '../../../components/SweetAlert/sweetAlert';
 import { deleteVideo, likeVideo, removeLikeVideo, reportVideo } from '../../../services/videoService';
 import { NoData } from '../../../components/NoData/NoData';
 import { ReportForm } from '../../../components/forms/report/ReportForm';
+import { VideoPreview } from './VideoPreview';
 
 const Multimedia = () => {
   const { id } = useParams();
@@ -227,13 +228,8 @@ const Multimedia = () => {
                     <>
                       {videoToPreview ? (
                         <StyledFlexColumn>
-                          <StyledFlex $justifyContent="center" $alignItems="center">
-                            <div className="video-container">
-                              <video ref={videoRef} className="video" controls>
-                                <source src={videoToPreview.full_url} />
-                              </video>
-                            </div>
-                          </StyledFlex>
+                          <VideoPreview innerRef={videoRef} video={videoToPreview} />
+
                           <div>
                             <h4>{videoToPreview.name}</h4>
                             <StyledFlexColumn>

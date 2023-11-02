@@ -37,7 +37,7 @@ export const ShowInfo = ({ report }: Props) => {
     },
     {
       label: 'Usuario Reportado',
-      content: <InputText disabled value={''} />
+      content: <InputText disabled value={report.author?.full_name ?? ''} />
     },
     {
       label: 'Usuario que resolvió el reporte',
