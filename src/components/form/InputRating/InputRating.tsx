@@ -21,7 +21,7 @@ export const InputRating = ({
   control,
   errors,
   containerWidth = '100%',
-  precision = 0.5
+  precision = 1
 }: Props) => {
   return (
     <StyledInputContainer $containerWidth={containerWidth}>

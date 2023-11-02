@@ -40,10 +40,6 @@ export const producerValidations: Readonly<ModelValidations<Producer>> = {
     maxLength: { value: 128, message: 'La nacionalidad debe ser menor a 128 caracteres' }
   },
   description: {
-    required: {
-      value: true,
-      message: 'Debe ingresar la descripción de la productora'
-    },
     maxLength: { value: 2048, message: 'La descripción debe ser menor a 2048 caracteres' }
   }
 };

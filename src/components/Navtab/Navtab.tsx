@@ -17,7 +17,7 @@ export const Navtab = ({ items }: Props) => {
 
   return (
     <>
-      <Tabs value={tabValue} onChange={handleTabChange}>
+      <Tabs value={tabValue} onChange={handleTabChange} variant="scrollable" allowScrollButtonsMobile>
         {items.map((item, index) => (
           <Tab key={index} value={index} label={item.label} />
         ))}

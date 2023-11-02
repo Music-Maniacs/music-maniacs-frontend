@@ -47,7 +47,7 @@ export const reportCategories = [
   'other',
   'fake',
   'duplicated',
-  'doesnt_belong_to_event',
+  'does_not_belong_to_event',
   'incorrect_artist',
   'incorrect_producer',
   'incorrect_venue'
@@ -59,7 +59,7 @@ export const reportCategoriesTranslated = {
   other: 'Otro',
   fake: 'Falso',
   duplicated: 'Duplicado',
-  doesnt_belong_to_event: 'No pertenece al evento',
+  does_not_belong_to_event: 'No pertenece al evento',
   incorrect_artist: 'Artista incorrecto',
   incorrect_producer: 'Productor incorrecto',
   incorrect_venue: 'Espacio de Evento incorrecto'
@@ -91,7 +91,7 @@ export const reportCollectionByType: Readonly<Record<ReportableType, ReportCateg
 
   Event: ['incorrect_artist', 'incorrect_producer', 'incorrect_venue', 'duplicated', 'fake', 'spam', 'other'],
 
-  Video: ['inappropriate_content', 'spam', 'doesnt_belong_to_event', 'other'],
+  Video: ['inappropriate_content', 'spam', 'does_not_belong_to_event', 'other'],
 
   Review: ['inappropriate_content', 'spam', 'other'],
 
@@ -124,17 +124,17 @@ export const reportCategoriesCollection: SelectCollection[] = [
     value: '5'
   },
   {
+    label: reportCategoriesTranslated.incorrect_venue,
+    value: '6'
+  },
+  {
     label: reportCategoriesTranslated.incorrect_producer,
     value: '7'
   },
   {
-    label: reportCategoriesTranslated.incorrect_venue,
-    value: '6'
+    label: reportCategoriesTranslated.does_not_belong_to_event,
+    value: '8'
   }
-  // {
-  //   label: reportCategoriesTranslated.doesnt_belong_to_event,
-  //   value: '5'
-  // },
 ];
 
 export const reportValidations: Readonly<ModelValidations<Report>> = {

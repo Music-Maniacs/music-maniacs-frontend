@@ -5,7 +5,7 @@ import { MMSubTitle } from '../../../../components/MMTitle/MMTitle';
 import { Event } from '../../../../models/Event';
 import { MMButton } from '../../../../components/MMButton/MMButton';
 import { useNavigate } from 'react-router-dom';
-import MMAnchor from '../../../../components/MMLink/MMAnchor';
+import { MMLinksGroup } from '../../../../components/MMLinkGroup/MMLinksGroup';
 
 type Props = {
   event: Event;
@@ -24,17 +24,7 @@ export const EventAdvancedInfo = ({ event }: Props) => {
         </Grid>
 
         <Grid item xs={12} sm={3}>
-          <MMSubTitle content="Enlaces" />
-
-          {event.links && (
-            <ul style={{ marginTop: '3px' }}>
-              {event.links.map((link) => (
-                <li key={link.id}>
-                  <MMAnchor style={{ wordBreak: 'break-all' }} href={link.url ?? '#'} content={link.title} />
-                </li>
-              ))}
-            </ul>
-          )}
+          {event.links && event.links.length > 0 && <MMLinksGroup links={event.links} />}
 
           <MMSubTitle content="Multimedia" />
 

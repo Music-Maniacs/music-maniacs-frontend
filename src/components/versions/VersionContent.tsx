@@ -5,7 +5,7 @@ import colors from '../../styles/_colors.scss';
 import { BiUserCircle } from 'react-icons/bi';
 import { formatDate } from '../../utils/formatDate';
 import { MMChip } from '../MMChip/MMChip';
-import { MMColors } from '../../models/Generic';
+import { Dictionary, MMColors } from '../../models/Generic';
 import { FaFlag } from 'react-icons/fa';
 import { Grid } from '@mui/material';
 
@@ -24,6 +24,16 @@ const eventTranslation = {
   create: 'Creación',
   update: 'Actualización',
   destroy: 'Eliminación'
+};
+
+const attrTranslation: Dictionary = {
+  artist: 'Artista',
+  datetime: 'Fecha y Hora',
+  description: 'Descripción',
+  name: 'Nombre',
+  nationality: 'Nacionalidad',
+  producer: 'Productora',
+  venue: 'Espacio de Evento'
 };
 
 export const VersionContent = ({ version, handleReportVersion }: Props) => {
@@ -63,7 +73,7 @@ export const VersionContent = ({ version, handleReportVersion }: Props) => {
           <Grid container key={key} spacing={2}>
             <Grid item sm={12} md={2}>
               <span>
-                Atributo: <b>{key}</b>
+                Atributo: <b>{attrTranslation[key] ?? key}</b>
               </span>
             </Grid>
             {version.event === 'update' && (

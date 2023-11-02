@@ -3,6 +3,10 @@
 .user-profile-box-container {
   padding: 20px 30px;
   margin-top: 20px;
+
+  @include sm-breakpoint {
+    padding: 20px 10px;
+  }
 }
 
 .user-profile-title-container {

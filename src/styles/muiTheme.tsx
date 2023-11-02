@@ -25,8 +25,8 @@ export const muiTheme = createTheme(
     },
     components: {
       MuiIconButton: {
-        styleOverrides: {
-          root: {
+        defaultProps: {
+          sx: {
             color: colors.text_color
           }
         }
@@ -51,6 +51,11 @@ export const muiTheme = createTheme(
         }
       },
       MuiTablePagination: {
+        styleOverrides: {
+          selectIcon: {
+            color: colors.text_color
+          }
+        },
         defaultProps: {
           sx: {
             color: colors.text_color

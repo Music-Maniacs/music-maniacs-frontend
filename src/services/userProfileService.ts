@@ -15,6 +15,19 @@ export async function getUserProfile(id: string): Promise<ProfileRes> {
   return { user, reviews };
 }
 
+export async function userInfo(token: string): Promise<User> {
+  const res = (
+    await axios.get(`${process.env.REACT_APP_API_URL}/profile/info`, {
+      headers: {
+        Authorization: token
+      }
+    })
+  ).data;
+  let user: User = res;
+  user.profile_image = { full_url: res.profile_image_full_url };
+  return user;
+}
+
 export async function updateProfile(
   full_name: string,
   username: string,

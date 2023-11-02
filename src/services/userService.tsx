@@ -17,9 +17,13 @@ export async function login(loginCredentials: string, password: string): Promise
       password
     }
   };
-  const response = await axios.post<LoginResponse>(`${userUrl}/sign_in`, body);
-
-  return response;
+  const response = await axios.post(`${userUrl}/sign_in`, body);
+  let user: User = response.data.user;
+  if (response.data.user.profile_image_full_url)
+    user.profile_image = { full_url: response.data.user.profile_image_full_url };
+  response.data.user = user;
+  const res: AxiosResponse<LoginResponse> = response;
+  return res;
 }
 
 export async function register(
@@ -65,17 +69,6 @@ export async function recoverPassword(
     }
   };
   return await axios.patch(`${userUrl}/password`, body);
-}
-
-// todo: esto pasarlo el de profiles
-export async function userInfo(token: string): Promise<User> {
-  return (
-    await axios.get(`${process.env.REACT_APP_API_URL}/profile/info`, {
-      headers: {
-        Authorization: token
-      }
-    })
-  ).data;
 }
 
 export async function adminCreateUser(

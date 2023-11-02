@@ -19,20 +19,11 @@ type CoverImageProps = {
 export const CoverImage = ({ coverImage }: CoverImageProps) => {
   return (
     <>
-      {
-        coverImage && (
-          <UserProfileCoverImage item>
-            <img src={coverImage.full_url} alt="Imagen de perfil" />
-          </UserProfileCoverImage>
-        )
-        //  : (
-        //   <Skeleton variant="rectangular" animation="wave">
-        //     <UserProfileCoverImage item style={{ aspectRatio: 7 / 1 }}>
-        //       <img />
-        //     </UserProfileCoverImage>
-        //   </Skeleton>
-        // )
-      }
+      {coverImage && (
+        <UserProfileCoverImage item>
+          <img src={coverImage.full_url} alt="Imagen de perfil" />
+        </UserProfileCoverImage>
+      )}
     </>
   );
 };

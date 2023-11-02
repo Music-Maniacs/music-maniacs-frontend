@@ -96,10 +96,9 @@ export const EventsForm = ({
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
       let event: Event;
-
+      data.name = data.name !== '' ? data.name : `${data.artist.label} - ${data.venue.label}`;
       if (isFormEdit && eventToEdit) {
         const updateService = useAdminController ? adminUpdateEvent : updateEvent;
-
         event = await updateService(
           eventToEdit.id,
           data.name,

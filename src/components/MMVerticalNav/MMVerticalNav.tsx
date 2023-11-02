@@ -40,14 +40,12 @@ const VerticalSidenavContainer = styled.ul`
 const VerticalNavContentContainer = styled.div`
   padding: 10px;
   width: 100%;
+  overflow: auto;
 `;
 
-const VerticalSideavContentContainer = styled.div`
+const VerticalSideavContentContainer = styled.div<{ $active: boolean }>`
   width: 100%;
-  display: none;
-  &:target {
-    display: block;
-  }
+  display: ${({ $active }) => ($active ? 'block' : 'none')};
 `;
 
 export type MMNavTabProps = {
@@ -58,6 +56,7 @@ export type MMNavTabProps = {
     color?: MMColors;
     value: number;
   };
+  id?: string;
   customTemplate?: JSX.Element;
 };
 export type MMVerticalNavProps = {
@@ -83,6 +82,7 @@ export const MMVerticalNav = ({ Tabs, Content }: MMVerticalNavProps) => {
           ) : (
             <MMTab
               {...t}
+              id={t.id}
               chip={t.chip}
               label={t.label ?? ''}
               active={currentTab === href}
@@ -99,7 +99,7 @@ export const MMVerticalNav = ({ Tabs, Content }: MMVerticalNavProps) => {
       <VerticalSidenavContainer>{renderTabs()}</VerticalSidenavContainer>
       <VerticalNavContentContainer>
         {Content.map((c, i) => (
-          <VerticalSideavContentContainer id={Tabs[i].href?.split('#')[1] || ''} key={`content-${i}`}>
+          <VerticalSideavContentContainer $active={currentTab === Tabs[i].href?.split('#')[1]} key={`content-${i}`}>
             {c}
           </VerticalSideavContentContainer>
         ))}

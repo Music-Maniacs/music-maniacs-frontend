@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User } from '../models/User';
 import axios from 'axios';
-import { userInfo } from '../services/userService';
+import { userInfo } from '../services/userProfileService';
 
 type Props = {
   children: React.ReactNode;
@@ -9,6 +9,7 @@ type Props = {
 
 type StoreProps = {
   user?: User;
+  setUser: React.Dispatch<React.SetStateAction<User | undefined>>;
   isUserLoading: boolean;
   handleUserLogin: (user: User, authToken: string) => void;
   handleUserLogout: () => void;
@@ -61,6 +62,7 @@ export const AuthProvider = ({ children }: Props) => {
 
   const store: StoreProps = {
     user,
+    setUser,
     isUserLoading,
     handleUserLogin,
     handleUserLogout

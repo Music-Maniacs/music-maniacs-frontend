@@ -5,12 +5,12 @@ import { MMSubTitle } from '../../../../components/MMTitle/MMTitle';
 import { useEffect, useState } from 'react';
 import { Review } from '../../../../models/Review';
 import { MMModal } from '../../../../components/Modal/MMModal';
+import { ReviewContent } from '../../../../components/Reviews/ReviewContent';
 import { ReviewForm } from '../../../../components/forms/reviews/ReviewForm';
 import { useModal } from '../../../../components/hooks/useModal';
 import { CoverImage } from '../../components/CoverImage';
 import { UserInfo } from '../../components/UserInfo';
-import { UserLinks } from '../../components/UserLinks';
-import { ReviewContent } from '../../../../components/Reviews/ReviewContent';
+import { MMLinksGroup } from '../../../../components/MMLinkGroup/MMLinksGroup';
 
 export const Profile = () => {
   const { userProfile, reviews, setReviews } = useUser();
@@ -61,12 +61,12 @@ export const Profile = () => {
     if (!stats) return <></>;
     return stats.map((subarray, index1) => {
       return (
-        <Grid item sm={12} md={6} key={`statsCol-${index1}`}>
+        <Grid item sm={12} md={6} key={`statsCol-${index1}`} className="user-profile-stat-container">
           {subarray.map((stat, index2) => {
             return (
-              <div className="user-profile-stat-container" key={`statCol-${index1}-stat-${index2}`}>
-                <span className="user-profile-stat-text">{stat.label}</span>
-                <span className="user-profile-stat-text">{stat.value}</span>
+              <div className="user-profile-stat-text" key={`statCol-${index1}-stat-${index2}`}>
+                <span className="user-profile-stat-label">{stat.label}</span>
+                <span className="user-profile-stat-value">{stat.value}</span>
               </div>
             );
           })}
@@ -105,25 +105,28 @@ export const Profile = () => {
             username={userProfile?.username}
             role={userProfile?.role}
           />
-          <UserLinks links={userProfile?.links} />
+          {userProfile?.links && userProfile?.links.length > 0 && <MMLinksGroup links={userProfile?.links} />}
         </div>
       </Grid>
       <Grid item>
         {stats && (
           <div className="user-profile-stats">
             <MMSubTitle content="Estadisticas de Usuario" />
-            <Grid item container direction={'row'} spacing={3} paddingLeft={2}>
+            <Grid item container direction={'row'} rowSpacing={1} columnSpacing={3} paddingLeft={2}>
               {renderStats()}
             </Grid>
           </div>
         )}
       </Grid>
-      <Grid item>
-        <div>
-          <MMSubTitle content="Biografía" />
-          <p>{userProfile?.biography}</p>
-        </div>
-      </Grid>
+      {userProfile?.biography && (
+        <Grid item>
+          <div className="user-profile-biography-container">
+            <MMSubTitle content="Biografía" />
+            <p>{userProfile?.biography}</p>
+          </div>
+        </Grid>
+      )}
+
       <Grid item>
         <div>
           <MMSubTitle content="Reseñas" />
@@ -148,6 +151,9 @@ export const Profile = () => {
           reviewToEdit={reviewToEdit}
           closeModal={closeModal}
           successCallback={(review) => updateReviewList(review)}
+          artistName={reviewToEdit?.reviewable_type === 'Artist' ? reviewToEdit.reviewable_name : undefined}
+          producerName={reviewToEdit?.reviewable_type === 'Producer' ? reviewToEdit.reviewable_name : undefined}
+          venueName={reviewToEdit?.reviewable_type === 'Venue' ? reviewToEdit.reviewable_name : undefined}
         />
       </MMModal>
     </Grid>
