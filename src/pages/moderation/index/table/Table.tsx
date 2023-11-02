@@ -45,7 +45,7 @@ export const Table = () => {
           }
         },
         {
-          header: 'Tipo de Reporte',
+          header: 'Categoría',
           renderCell: (rowData) => {
             return reportCategoriesTranslated[rowData.category];
           }

@@ -1,4 +1,4 @@
-import { MMColors, ModelValidations } from './Generic';
+import { MMColors, ModelValidations, SelectCollection } from './Generic';
 
 export type Report = {
   id: string;
@@ -92,6 +92,45 @@ export const reportCollectionByType: Readonly<Record<ReportableType, ReportCateg
 
   Version: ['inappropriate_content', 'fake', 'spam', 'other']
 };
+
+export const reportCategoriesCollection: SelectCollection[] = [
+  {
+    label: reportCategoriesTranslated.inappropriate_content,
+    value: '0'
+  },
+  {
+    label: reportCategoriesTranslated.spam,
+    value: '1'
+  },
+  {
+    label: reportCategoriesTranslated.other,
+    value: '2'
+  },
+  {
+    label: reportCategoriesTranslated.fake,
+    value: '3'
+  },
+  {
+    label: reportCategoriesTranslated.duplicated,
+    value: '4'
+  },
+  {
+    label: reportCategoriesTranslated.incorrect_artist,
+    value: '5'
+  },
+  {
+    label: reportCategoriesTranslated.incorrect_producer,
+    value: '7'
+  },
+  {
+    label: reportCategoriesTranslated.incorrect_venue,
+    value: '6'
+  }
+  // {
+  //   label: reportCategoriesTranslated.doesnt_belong_to_event,
+  //   value: '5'
+  // },
+];
 
 export const reportValidations: Readonly<ModelValidations<Report>> = {
   category: {
