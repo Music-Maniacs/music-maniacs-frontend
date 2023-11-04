@@ -12,6 +12,7 @@ export interface Venue {
   description: string;
   created_at: string;
   updated_at: string;
+  deleted_at: string;
   followed_by_current_user: boolean;
   address?: string;
   links: Link[];

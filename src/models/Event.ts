@@ -10,6 +10,7 @@ export interface Event {
   datetime: string;
   description: string;
   followed_by_current_user: boolean;
+  deleted_at: string;
   artist: {
     id?: string;
     name: string;
