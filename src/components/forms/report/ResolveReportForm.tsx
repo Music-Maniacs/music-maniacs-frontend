@@ -85,29 +85,38 @@ export const ResolveReportForm = ({ reportId, closeModal, successCallback }: Rep
 
         <Grid container spacing={2}>
           <Grid {...gridCommonProps}>
-            <input
-              type="radio"
-              name="reviewTo"
-              value="artist"
-              checked={reportAction === 'accept'}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                e.target.checked && setReportAction('accept');
+            <div
+              onClick={(e) => {
+                setReportAction('accept');
               }}
-            />
-            <label>Estoy de Acuerdo</label>
+              style={{ width: 'fit-content', cursor: 'pointer' }}
+            >
+              <input
+                type="radio"
+                name="reviewTo"
+                value="artist"
+                checked={reportAction === 'accept'}
+                onChange={() => {}}
+              />
+              <label style={{ cursor: 'inherit' }}>Estoy de Acuerdo</label>
+            </div>
           </Grid>
-
           <Grid {...gridCommonProps}>
-            <input
-              type="radio"
-              name="reviewTo"
-              value="venue"
-              checked={reportAction === 'reject'}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => {
-                e.target.checked && setReportAction('reject');
+            <div
+              onClick={(e) => {
+                setReportAction('reject');
               }}
-            />
-            <label>No Estoy de acuerdo</label>
+              style={{ width: 'fit-content', cursor: 'pointer' }}
+            >
+              <input
+                type="radio"
+                name="reviewTo"
+                value="venue"
+                checked={reportAction === 'reject'}
+                onChange={() => {}}
+              />
+              <label style={{ cursor: 'inherit' }}>No Estoy de acuerdo</label>
+            </div>
           </Grid>
         </Grid>
       </StyledInputContainer>

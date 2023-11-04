@@ -8,6 +8,8 @@ import { MMChip } from '../MMChip/MMChip';
 import { Dictionary, MMColors } from '../../models/Generic';
 import { FaFlag } from 'react-icons/fa';
 import { Grid } from '@mui/material';
+import { useAuth } from '../../context/authContext';
+import { warningSnackbar } from '../Snackbar/Snackbar';
 
 type Props = {
   version: Version;
@@ -37,6 +39,8 @@ const attrTranslation: Dictionary = {
 };
 
 export const VersionContent = ({ version, handleReportVersion }: Props) => {
+  const { user: currentUser } = useAuth();
+
   return (
     <StyledFlexColumn
       $padding="3px 0px"
@@ -60,8 +64,17 @@ export const VersionContent = ({ version, handleReportVersion }: Props) => {
           </MMChip>
         </StyledFlex>
 
-        {handleReportVersion && (
-          <StyledFlex $cursor="pointer" onClick={() => handleReportVersion(version)}>
+        {(!currentUser || version.anonymous || currentUser.id !== version.user?.id) && handleReportVersion && (
+          <StyledFlex
+            $cursor="pointer"
+            onClick={() => {
+              if (!currentUser) {
+                warningSnackbar('Debe iniciar sesión para reportar la versión');
+              } else {
+                handleReportVersion(version);
+              }
+            }}
+          >
             <FaFlag />
             <span>Reportar</span>
           </StyledFlex>

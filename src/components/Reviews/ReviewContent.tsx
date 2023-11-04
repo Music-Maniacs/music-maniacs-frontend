@@ -73,7 +73,7 @@ export const ReviewContent = ({
             </StyledFlex>
           )}
 
-          {handleReportReviewButton && (
+          {(!currentUser || review.anonymous || currentUser.id !== review.user?.id) && handleReportReviewButton && (
             <StyledFlex
               $cursor="pointer"
               onClick={() => {

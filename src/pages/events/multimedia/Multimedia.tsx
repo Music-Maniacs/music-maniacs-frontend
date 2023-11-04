@@ -388,21 +388,23 @@ const VideoCard = ({
             </StyledFlex>
 
             {/* Report */}
-            <StyledFlex
-              $cursor="pointer"
-              onClick={(e) => {
-                e.stopPropagation();
+            {(!user || video.anonymous || user.id !== video.user?.id) && (
+              <StyledFlex
+                $cursor="pointer"
+                onClick={(e) => {
+                  e.stopPropagation();
 
-                if (!user) {
-                  warningSnackbar('Debe iniciar sesión para reportar');
-                } else {
-                  handleReportVideo(video);
-                }
-              }}
-            >
-              <FaFlag />
-              Reportar
-            </StyledFlex>
+                  if (!user) {
+                    warningSnackbar('Debe iniciar sesión para reportar');
+                  } else {
+                    handleReportVideo(video);
+                  }
+                }}
+              >
+                <FaFlag />
+                Reportar
+              </StyledFlex>
+            )}
 
             {/* Delete */}
             {canDelete && (

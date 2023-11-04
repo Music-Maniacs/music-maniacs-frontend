@@ -80,7 +80,7 @@ export const CommentContent = ({
           )}
 
           {/* Report */}
-          {handleReportComment && (
+          {(!currentUser || comment.anonymous || currentUser.id !== comment.user?.id) && handleReportComment && (
             <StyledFlex
               $cursor="pointer"
               onClick={() => {
