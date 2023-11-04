@@ -96,9 +96,17 @@ const Reviews = () => {
 
   useEffect(() => {
     if (showEvent) {
-      artistReviews.length === 0 && setArtistPagination((prevState) => ({ ...prevState, isLoading: true }));
-      venueReviews.length === 0 && setVenuePagination((prevState) => ({ ...prevState, isLoading: true }));
-      producerReviews.length === 0 && setProducerPagination((prevState) => ({ ...prevState, isLoading: true }));
+      artistReviews.length === 0 &&
+        showEvent.artist &&
+        setArtistPagination((prevState) => ({ ...prevState, isLoading: true }));
+
+      venueReviews.length === 0 &&
+        showEvent.venue &&
+        setVenuePagination((prevState) => ({ ...prevState, isLoading: true }));
+
+      producerReviews.length === 0 &&
+        showEvent.producer &&
+        setProducerPagination((prevState) => ({ ...prevState, isLoading: true }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showEvent]);
@@ -158,9 +166,9 @@ const Reviews = () => {
             eventId={showEvent.id}
             isFormEdit={isFormEdit}
             reviewToEdit={reviewToEdit}
-            artistName={showEvent.artist.name}
-            producerName={showEvent.producer.name}
-            venueName={showEvent.venue.name}
+            artistName={showEvent.artist?.name}
+            producerName={showEvent.producer?.name}
+            venueName={showEvent.venue?.name}
             closeModal={closeModal}
             successCallback={(review) => updateReview(review)}
           />
@@ -195,40 +203,60 @@ const Reviews = () => {
                 <div className="title-container">
                   <MMSubTitle content="Reseñas" />
 
-                  <MMButton onClick={handleCreateReviewButton}>Agregar Reseña</MMButton>
+                  {(showEvent.artist || showEvent.producer || showEvent.venue) && (
+                    <MMButton onClick={handleCreateReviewButton}>Agregar Reseña</MMButton>
+                  )}
                 </div>
 
                 <h4>Puntuación General</h4>
 
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={4} display={'flex'} flexDirection={'column'} gap={'5px'}>
-                    <span>{`${showEvent.artist.name} (${showEvent.reviews_info?.artist.reviews_count})`}</span>
-                    <Rating
-                      name="artist-rating"
-                      value={showEvent.reviews_info?.artist.rating ? +showEvent.reviews_info.artist.rating : 0}
-                      precision={0.5}
-                      readOnly
-                    />
+                    {showEvent.artist ? (
+                      <>
+                        <span>{`${showEvent.artist.name} (${showEvent.reviews_info?.artist.reviews_count})`}</span>
+                        <Rating
+                          name="artist-rating"
+                          value={showEvent.reviews_info?.artist.rating ? +showEvent.reviews_info.artist.rating : 0}
+                          precision={0.5}
+                          readOnly
+                        />
+                      </>
+                    ) : (
+                      <span>Artista Eliminado</span>
+                    )}
                   </Grid>
 
                   <Grid item xs={12} sm={4} display={'flex'} flexDirection={'column'} gap={'5px'}>
-                    <span>{`${showEvent.venue.name} (${showEvent.reviews_info?.venue.reviews_count})`}</span>
-                    <Rating
-                      name="venue-rating"
-                      value={showEvent.reviews_info?.venue.rating ? +showEvent.reviews_info.venue.rating : 0}
-                      precision={0.5}
-                      readOnly
-                    />
+                    {showEvent.venue ? (
+                      <>
+                        <span>{`${showEvent.venue.name} (${showEvent.reviews_info?.venue.reviews_count})`}</span>
+                        <Rating
+                          name="venue-rating"
+                          value={showEvent.reviews_info?.venue.rating ? +showEvent.reviews_info.venue.rating : 0}
+                          precision={0.5}
+                          readOnly
+                        />
+                      </>
+                    ) : (
+                      <span>Espacio de Evento Eliminado</span>
+                    )}
                   </Grid>
 
                   <Grid item xs={12} sm={4} display={'flex'} flexDirection={'column'} gap={'5px'}>
-                    <span>{`${showEvent.producer.name} (${showEvent.reviews_info?.producer.reviews_count})`}</span>
-                    <Rating
-                      name="producer-rating"
-                      value={showEvent.reviews_info?.producer.rating ? +showEvent.reviews_info.producer.rating : 0}
-                      precision={0.5}
-                      readOnly
-                    />
+                    {showEvent.producer ? (
+                      <>
+                        <span>{`${showEvent.producer.name} (${showEvent.reviews_info?.producer.reviews_count})`}</span>
+                        <Rating
+                          name="producer-rating"
+                          value={showEvent.reviews_info?.producer.rating ? +showEvent.reviews_info.producer.rating : 0}
+                          precision={0.5}
+                          readOnly
+                        />
+                      </>
+                    ) : (
+                      <span>Productora Eliminada</span>
+                    )}
                   </Grid>
                 </Grid>
 
@@ -238,39 +266,42 @@ const Reviews = () => {
                   items={[
                     {
                       label: 'Artista',
+                      disabled: !showEvent.artist,
                       content: () => (
                         <ReviewsByReviewable
                           pagination={artistPagination}
                           reviews={artistReviews}
                           handleEditReviewButton={handleEditReviewButton}
                           handleReportReviewButton={handleReportReviewButton}
-                          reviewableName={showEvent.artist.name}
+                          reviewableName={showEvent.artist?.name}
                           lastElementRef={artistLastElementRef}
                         />
                       )
                     },
                     {
                       label: 'Espacio de Evento',
+                      disabled: !showEvent.venue,
                       content: () => (
                         <ReviewsByReviewable
                           pagination={venuePagination}
                           reviews={venueReviews}
                           handleEditReviewButton={handleEditReviewButton}
                           handleReportReviewButton={handleReportReviewButton}
-                          reviewableName={showEvent.venue.name}
+                          reviewableName={showEvent.venue?.name}
                           lastElementRef={venueLastElementRef}
                         />
                       )
                     },
                     {
                       label: 'Productora',
+                      disabled: !showEvent.producer,
                       content: () => (
                         <ReviewsByReviewable
                           pagination={producerPagination}
                           reviews={producerReviews}
                           handleEditReviewButton={handleEditReviewButton}
                           handleReportReviewButton={handleReportReviewButton}
-                          reviewableName={showEvent.producer.name}
+                          reviewableName={showEvent.producer?.name}
                           lastElementRef={producerLastElementRef}
                         />
                       )
@@ -297,7 +328,7 @@ type ReviewByReviewableProps = {
   handleEditReviewButton: (review: Review) => void;
   handleReportReviewButton: (review: Review) => void;
   reviews: Review[];
-  reviewableName: string;
+  reviewableName?: string;
   lastElementRef: (node: HTMLDivElement) => void;
 };
 
@@ -315,7 +346,7 @@ const ReviewsByReviewable = ({
     <>
       {pagination.isLoading && pagination.page === 1 && <ReviewsSkeleton />}
 
-      {reviews.length === 0 ? (
+      {reviews.length === 0 || !reviewableName ? (
         <NoData message="No hay reseñas para mostrar" />
       ) : (
         reviews.map((review: Review, index) => (

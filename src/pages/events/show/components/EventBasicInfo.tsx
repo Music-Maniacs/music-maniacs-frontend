@@ -83,7 +83,12 @@ export const EventBasicInfo = ({
             <Grid item xs={12} sm={6}>
               <div className="events-icon-with-data-container">
                 <MMArtistIcon />
-                <MMLink to={`/profiles/artists/${event.artist.id}`} content={event.artist.name} />
+
+                {event.artist ? (
+                  <MMLink to={`/profiles/artists/${event.artist.id}`} content={event.artist.name} />
+                ) : (
+                  <span>Perfil Eliminado</span>
+                )}
               </div>
             </Grid>
 
@@ -91,7 +96,12 @@ export const EventBasicInfo = ({
             <Grid item xs={12} sm={6}>
               <div className="events-icon-with-data-container">
                 <MMVenueIcon />
-                <MMLink to={`/profiles/venues/${event.venue.id}`} content={event.venue.name} />
+
+                {event.venue ? (
+                  <MMLink to={`/profiles/venues/${event.venue.id}`} content={event.venue.name} />
+                ) : (
+                  <span>Perfil Eliminado</span>
+                )}
               </div>
             </Grid>
 
@@ -99,7 +109,11 @@ export const EventBasicInfo = ({
             <Grid item xs={12} sm={6}>
               <div className="events-icon-with-data-container">
                 <MMProducerIcon />
-                <MMLink to={`/profiles/producers/${event.producer.id}`} content={event.producer.name} />
+                {event.producer ? (
+                  <MMLink to={`/profiles/producers/${event.producer.id}`} content={event.producer.name} />
+                ) : (
+                  <span>Perfil Eliminado</span>
+                )}
               </div>
             </Grid>
           </Grid>

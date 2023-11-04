@@ -70,9 +70,9 @@ export const EventReviewBox = ({ event }: Props) => {
           eventId={event.id}
           isFormEdit={isFormEdit}
           reviewToEdit={reviewToEdit}
-          artistName={event.artist.name}
-          producerName={event.producer.name}
-          venueName={event.venue.name}
+          artistName={event.artist?.name}
+          producerName={event.producer?.name}
+          venueName={event.venue?.name}
           closeModal={closeModal}
           successCallback={(review) => updateReview(review)}
         />
@@ -93,40 +93,60 @@ export const EventReviewBox = ({ event }: Props) => {
           <div className="title-container">
             <MMSubTitle content="Reseñas" />
 
-            <MMButton onClick={handleCreateReviewButton}>Agregar Reseña</MMButton>
+            {(event.artist || event.producer || event.venue) && (
+              <MMButton onClick={handleCreateReviewButton}>Agregar Reseña</MMButton>
+            )}
           </div>
 
           <h4>Puntuación General</h4>
 
           <Grid container spacing={2}>
             <Grid item xs={12} sm={4} display={'flex'} flexDirection={'column'} gap={'5px'}>
-              <span>{`${event.artist.name} (${event.reviews_info?.artist.reviews_count})`}</span>
-              <Rating
-                name="artist-rating"
-                value={event.reviews_info?.artist.rating ? +event.reviews_info.artist.rating : 0}
-                precision={0.5}
-                readOnly
-              />
+              {event.artist ? (
+                <>
+                  <span>{`${event.artist.name} (${event.reviews_info?.artist.reviews_count})`}</span>
+                  <Rating
+                    name="artist-rating"
+                    value={event.reviews_info?.artist.rating ? +event.reviews_info.artist.rating : 0}
+                    precision={0.5}
+                    readOnly
+                  />
+                </>
+              ) : (
+                <span>Artista Eliminado</span>
+              )}
             </Grid>
 
             <Grid item xs={12} sm={4} display={'flex'} flexDirection={'column'} gap={'5px'}>
-              <span>{`${event.venue.name} (${event.reviews_info?.venue.reviews_count})`}</span>
-              <Rating
-                name="venue-rating"
-                value={event.reviews_info?.venue.rating ? +event.reviews_info.venue.rating : 0}
-                precision={0.5}
-                readOnly
-              />
+              {event.venue ? (
+                <>
+                  <span>{`${event.venue.name} (${event.reviews_info?.venue.reviews_count})`}</span>
+                  <Rating
+                    name="venue-rating"
+                    value={event.reviews_info?.venue.rating ? +event.reviews_info.venue.rating : 0}
+                    precision={0.5}
+                    readOnly
+                  />
+                </>
+              ) : (
+                <span>Espacio de Evento Eliminado</span>
+              )}
             </Grid>
 
             <Grid item xs={12} sm={4} display={'flex'} flexDirection={'column'} gap={'5px'}>
-              <span>{`${event.producer.name} (${event.reviews_info?.producer.reviews_count})`}</span>
-              <Rating
-                name="producer-rating"
-                value={event.reviews_info?.producer.rating ? +event.reviews_info.producer.rating : 0}
-                precision={0.5}
-                readOnly
-              />
+              {event.producer ? (
+                <>
+                  <span>{`${event.producer.name} (${event.reviews_info?.producer.reviews_count})`}</span>
+                  <Rating
+                    name="producer-rating"
+                    value={event.reviews_info?.producer.rating ? +event.reviews_info.producer.rating : 0}
+                    precision={0.5}
+                    readOnly
+                  />
+                </>
+              ) : (
+                <span>Productora Eliminada</span>
+              )}
             </Grid>
           </Grid>
 
@@ -136,16 +156,17 @@ export const EventReviewBox = ({ event }: Props) => {
             items={[
               {
                 label: 'Artista',
+                disabled: !event.artist,
                 content: () => (
                   <>
                     {event.reviews_info &&
-                      (event.reviews_info.artist.last_reviews.length === 0 ? (
+                      (event.reviews_info.artist.last_reviews.length === 0 || !event.artist ? (
                         <NoData message="No hay reseñas para mostrar" />
                       ) : (
                         event.reviews_info.artist.last_reviews.map((review: Review) => (
                           <ReviewContent
                             key={review.id}
-                            reviewableName={event.artist.name}
+                            reviewableName={event.artist?.name}
                             review={review}
                             canEdit={user?.id === review.user?.id}
                             handleEditReviewButton={handleEditReviewButton}
@@ -158,16 +179,17 @@ export const EventReviewBox = ({ event }: Props) => {
               },
               {
                 label: 'Espacio de Evento',
+                disabled: !event.venue,
                 content: () => (
                   <>
                     {event.reviews_info &&
-                      (event.reviews_info.venue.last_reviews.length === 0 ? (
+                      (event.reviews_info.venue.last_reviews.length === 0 || !event.venue ? (
                         <NoData message="No hay reseñas para mostrar" />
                       ) : (
                         event.reviews_info.venue.last_reviews.map((review: Review) => (
                           <ReviewContent
                             key={review.id}
-                            reviewableName={event.venue.name}
+                            reviewableName={event.venue?.name}
                             review={review}
                             canEdit={user?.id === review.user?.id}
                             handleEditReviewButton={handleEditReviewButton}
@@ -180,16 +202,17 @@ export const EventReviewBox = ({ event }: Props) => {
               },
               {
                 label: 'Productora',
+                disabled: !event.producer,
                 content: () => (
                   <>
                     {event.reviews_info &&
-                      (event.reviews_info.producer.last_reviews.length === 0 ? (
+                      (event.reviews_info.producer.last_reviews.length === 0 || event.producer ? (
                         <NoData message="No hay reseñas para mostrar" />
                       ) : (
                         event.reviews_info.producer.last_reviews.map((review: Review) => (
                           <ReviewContent
                             key={review.id}
-                            reviewableName={event.producer.name}
+                            reviewableName={event.producer?.name}
                             review={review}
                             canEdit={user?.id === review.user?.id}
                             handleEditReviewButton={handleEditReviewButton}

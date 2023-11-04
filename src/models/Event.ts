@@ -11,16 +11,16 @@ export interface Event {
   description: string;
   followed_by_current_user: boolean;
   deleted_at: string;
-  artist: {
-    id?: string;
+  artist?: {
+    id: string;
     name: string;
   };
-  venue: {
-    id?: string;
+  venue?: {
+    id: string;
     name: string;
   };
-  producer: {
-    id?: string;
+  producer?: {
+    id: string;
     name: string;
   };
   links: Link[];
