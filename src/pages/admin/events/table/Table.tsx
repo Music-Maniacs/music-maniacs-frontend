@@ -48,19 +48,19 @@ export const Table = () => {
         {
           header: 'Artista',
           renderCell: (rowData) => {
-            return rowData.artist.name;
+            return rowData.artist?.name ?? '';
           }
         },
         {
           header: 'Espacio de evento',
           renderCell: (rowData) => {
-            return rowData.venue.name;
+            return rowData.venue?.name ?? '';
           }
         },
         {
           header: 'Productora',
           renderCell: (rowData) => {
-            return rowData.producer.name;
+            return rowData.producer?.name ?? '';
           }
         },
         {
