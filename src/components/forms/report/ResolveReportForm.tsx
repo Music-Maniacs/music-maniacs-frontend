@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { useState } from 'react';
 import { SelectCollection } from '../../../models/Generic';
 import { Report, reportValidations } from '../../../models/Report';
 import '../Forms.scss';
