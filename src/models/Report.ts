@@ -146,10 +146,6 @@ export const reportValidations: Readonly<ModelValidations<Report>> = {
     }
   },
   user_comment: {
-    required: {
-      value: true,
-      message: 'Debe ingresar el comentario del reporte'
-    },
     maxLength: { value: 2048, message: 'El comentario debe ser menor a 2048 caracteres' }
   },
   moderator_comment: {

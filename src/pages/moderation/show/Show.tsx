@@ -45,7 +45,7 @@ const Show = () => {
     // Actualizarlo en el index
     const index = reports ? reports.findIndex((r) => r.id === report.id) : -1;
 
-    if (index && index !== -1 && reports) {
+    if (index !== -1 && reports) {
       const newReports = [...reports];
       newReports[index] = report;
       setReports(newReports);
