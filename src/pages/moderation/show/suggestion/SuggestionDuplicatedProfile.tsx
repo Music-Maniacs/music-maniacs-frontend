@@ -1,13 +1,12 @@
 import React from 'react';
 import { Report } from '../../../../models/Report';
 import { MMSubTitle } from '../../../../components/MMTitle/MMTitle';
-import { useNavigate } from 'react-router-dom';
-import { MMButton } from '../../../../components/MMButton/MMButton';
 import { FaSearch } from 'react-icons/fa';
 import { Artist } from '../../../../models/Artist';
 import { Producer } from '../../../../models/Producer';
 import { Venue } from '../../../../models/Venue';
 import { ProfileBasicInfo } from '../../../profiles/components/ProfileBasicInfo';
+import { MMButtonLink } from '../../../../components/MMButton/MMButtonLink';
 
 type SuggestionDuplicatedProfileProps = {
   report: Report;
@@ -39,12 +38,10 @@ type LinkToProfileProps = {
 };
 
 const LinkToProfile = ({ profile, profileKlass }: LinkToProfileProps) => {
-  const navigate = useNavigate();
-
   return (
-    <MMButton onClick={() => navigate(`/profiles/${profileKlass.toLowerCase()}s/${profile.id}`)}>
+    <MMButtonLink to={`/profiles/${profileKlass.toLowerCase()}s/${profile.id}`}>
       <FaSearch />
       Ver Perfil
-    </MMButton>
+    </MMButtonLink>
   );
 };

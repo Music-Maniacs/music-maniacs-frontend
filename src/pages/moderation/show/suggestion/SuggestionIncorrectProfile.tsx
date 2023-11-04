@@ -3,11 +3,10 @@ import { Report, reportableTypeTranslated } from '../../../../models/Report';
 import { Artist } from '../../../../models/Artist';
 import { Producer } from '../../../../models/Producer';
 import { Venue } from '../../../../models/Venue';
-import { useNavigate } from 'react-router-dom';
-import { MMButton } from '../../../../components/MMButton/MMButton';
 import { FaSearch } from 'react-icons/fa';
 import { MMSubTitle } from '../../../../components/MMTitle/MMTitle';
 import { ProfileBasicInfo } from '../../../profiles/components/ProfileBasicInfo';
+import { MMButtonLink } from '../../../../components/MMButton/MMButtonLink';
 
 type SuggestionIncorrectProfileProps = {
   report: Report;
@@ -47,12 +46,10 @@ type LinkToProfileProps = {
 };
 
 const LinkToProfile = ({ profile, profileKlass }: LinkToProfileProps) => {
-  const navigate = useNavigate();
-
   return (
-    <MMButton onClick={() => navigate(`/profiles/${profileKlass.toLowerCase()}s/${profile.id}`)}>
+    <MMButtonLink to={`/profiles/${profileKlass.toLowerCase()}s/${profile.id}`}>
       <FaSearch />
       Ver Perfil
-    </MMButton>
+    </MMButtonLink>
   );
 };

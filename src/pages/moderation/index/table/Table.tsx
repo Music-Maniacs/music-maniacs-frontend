@@ -10,20 +10,14 @@ import {
 } from '../../../../models/Report';
 import { useReports } from '../../context/moderationContext';
 import { Stack } from '@mui/material';
-import { MMButton } from '../../../../components/MMButton/MMButton';
 import { FaSearch } from 'react-icons/fa';
 import { formatDate } from '../../../../utils/formatDate';
-import { useNavigate } from 'react-router-dom';
 import { MMColors } from '../../../../models/Generic';
 import { MMChip } from '../../../../components/MMChip/MMChip';
+import { MMButtonLink } from '../../../../components/MMButton/MMButtonLink';
 
 export const Table = () => {
-  const navigate = useNavigate();
   const { reports, pagination } = useReports();
-
-  const handleShowReport = (id: string) => {
-    navigate(`/moderation/${id}`);
-  };
 
   function getStatusColor(status: ReportStatus): MMColors {
     return statusColors[status];
@@ -79,13 +73,9 @@ export const Table = () => {
           renderCell: (rowData) => {
             return (
               <Stack direction={'row'} spacing={1}>
-                <MMButton
-                  data-tooltip-id="tooltip"
-                  data-tooltip-content="Ver"
-                  onClick={() => handleShowReport(rowData.id)}
-                >
+                <MMButtonLink data-tooltip-id="tooltip" data-tooltip-content="Ver" to={`/moderation/${rowData.id}`}>
                   <FaSearch />
-                </MMButton>
+                </MMButtonLink>
               </Stack>
             );
           },
