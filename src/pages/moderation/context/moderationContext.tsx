@@ -41,7 +41,8 @@ export const ReportsProvider = ({ children }: Props) => {
   const { pagination, setPagination } = usePagination<Report>({
     url: INDEX_URL,
     requestCallback: (data) => indexRequestCallback(data),
-    queryParams: queryParams.current
+    queryParams: queryParams.current,
+    optionalParam: 'q[s]=created_at+desc'
   });
 
   const indexRequestCallback = (reports: Report[]) => {
