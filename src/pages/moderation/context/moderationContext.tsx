@@ -33,7 +33,7 @@ export const ReportsProvider = ({ children }: Props) => {
   const queryParams = useRef<Record<string, string>>({
     category_eq: '',
     reportable_type_eq: '',
-    status_eq: '',
+    status_eq: '0',
     created_at_gteq: '',
     created_at_lteq: ''
   });

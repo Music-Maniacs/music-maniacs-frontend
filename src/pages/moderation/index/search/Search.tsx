@@ -52,9 +52,9 @@ export const Search = () => {
                   queryParams={queryParams}
                   containerWidth="100%"
                   options={[
-                    { label: 'Pendiente', value: 0 },
-                    { label: 'Resuelto', value: 1 },
-                    { label: 'Ignorado', value: 2 }
+                    { label: 'Pendiente', value: '0' },
+                    { label: 'Resuelto', value: '1' },
+                    { label: 'Ignorado', value: '2' }
                   ]}
                 />
               </Grid>
