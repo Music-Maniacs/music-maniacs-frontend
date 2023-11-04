@@ -25,6 +25,7 @@ export type Report = {
   created_at: string;
   updated_at: string;
   reportable: any;
+  suggestion?: any;
 };
 
 export const statusColors: Record<ReportStatus, MMColors> = {

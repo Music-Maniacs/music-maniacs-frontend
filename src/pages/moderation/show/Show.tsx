@@ -16,6 +16,7 @@ import { Report, ReportStatus, statusColors, statusNames } from '../../../models
 import { MMColors } from '../../../models/Generic';
 import { ShowInfo } from './ShowInfo';
 import { ReportableContent } from './ReportableContent';
+import { ReportableSuggestion } from './ReportableSuggestion';
 
 const Show = () => {
   const { id } = useParams();
@@ -94,6 +95,8 @@ const Show = () => {
               <MMSubTitle content="Contenido Reportado" />
 
               <ReportableContent report={showReport} />
+
+              {showReport.suggestion && <ReportableSuggestion report={showReport} />}
             </>
           ) : (
             <Loader />
