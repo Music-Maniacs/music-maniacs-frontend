@@ -26,7 +26,7 @@ export const VenueInfo = ({ venue }: Props) => {
     },
     {
       label: 'Descripción',
-      content: <InputArea disabled value={venue.description} rows={8} />
+      content: <InputArea disabled value={venue.description ?? ''} rows={8} />
     }
   ];
 
@@ -57,13 +57,13 @@ export const VenueInfo = ({ venue }: Props) => {
           <Grid item xs={8}>
             <StyledDataContainer>
               <StyledBoldText>Dirección</StyledBoldText>
-              <InputText disabled value={venue.location?.street} />
+              <InputText disabled value={venue.location?.street ?? ''} />
             </StyledDataContainer>
           </Grid>
           <Grid item xs={4}>
             <StyledDataContainer>
               <StyledBoldText>Número</StyledBoldText>
-              <InputText disabled value={venue.location?.number} />
+              <InputText disabled value={venue.location?.number ?? ''} />
             </StyledDataContainer>
           </Grid>
         </Grid>
@@ -75,13 +75,13 @@ export const VenueInfo = ({ venue }: Props) => {
           <Grid item xs={8}>
             <StyledDataContainer>
               <StyledBoldText>Ciudad</StyledBoldText>
-              <InputText disabled value={venue.location?.city} />
+              <InputText disabled value={venue.location?.city ?? ''} />
             </StyledDataContainer>
           </Grid>
           <Grid item xs={4}>
             <StyledDataContainer>
               <StyledBoldText>Código Postal</StyledBoldText>
-              <InputText disabled value={venue.location?.zip_code} />
+              <InputText disabled value={venue.location?.zip_code ?? ''} />
             </StyledDataContainer>
           </Grid>
         </Grid>
@@ -89,11 +89,11 @@ export const VenueInfo = ({ venue }: Props) => {
     },
     {
       label: 'Provincia',
-      content: <InputText disabled value={venue.location?.province} />
+      content: <InputText disabled value={venue.location?.province ?? ''} />
     },
     {
       label: 'Pais',
-      content: <InputText disabled value={venue.location?.country} />
+      content: <InputText disabled value={venue.location?.country ?? ''} />
     }
   ];
 
@@ -171,13 +171,13 @@ export const VenueInfo = ({ venue }: Props) => {
             <Grid item xs={6}>
               <StyledDataContainer>
                 <StyledBoldText>Latitud</StyledBoldText>
-                <InputText disabled value={venue.location?.latitude} />
+                <InputText disabled value={venue.location?.latitude ?? ''} />
               </StyledDataContainer>
             </Grid>
             <Grid item xs={6}>
               <StyledDataContainer>
                 <StyledBoldText>Longitud</StyledBoldText>
-                <InputText disabled value={venue.location?.longitude} />
+                <InputText disabled value={venue.location?.longitude ?? ''} />
               </StyledDataContainer>
             </Grid>
           </Grid>
