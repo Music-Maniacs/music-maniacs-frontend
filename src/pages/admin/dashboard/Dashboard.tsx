@@ -17,11 +17,11 @@ import { useModal } from '../../../components/hooks/useModal';
 import { MMModal } from '../../../components/Modal/MMModal';
 import { PDFViewer } from '@react-pdf/renderer';
 import { ReportPDF } from './pdf/ReportPDF';
-import { warningSnackbar } from '../../../components/Snackbar/Snackbar';
+import { errorSnackbar, warningSnackbar } from '../../../components/Snackbar/Snackbar';
 import { useDashboardTables } from './hooks/useDahboardTables';
 
 export const Dashboard = () => {
-  const { isGraphRequestLoading, isTableRequestLoading, lastSearchParams } = useDashboard();
+  const { isGraphRequestLoading, isTableRequestLoading, lastSearchParams, policies } = useDashboard();
   const { isModalOpen, openModal, closeModal } = useModal();
   const { metricsTable, userTypesTable } = useDashboardTables();
 
@@ -35,6 +35,8 @@ export const Dashboard = () => {
               endDate={lastSearchParams?.current?.endDate ?? ''}
               metricsTable={metricsTable}
               userTypesTable={userTypesTable}
+              canViewGraphs={policies?.index ?? false}
+              canViewTables={policies?.metrics_and_user_type ?? false}
             />
           </PDFViewer>
         </div>
@@ -48,6 +50,8 @@ export const Dashboard = () => {
             onClick={() => {
               if (isGraphRequestLoading || isTableRequestLoading) {
                 warningSnackbar('Los datos aún se están cargando. Por favor espere.');
+              } else if (!policies?.index && !policies?.metrics_and_user_type) {
+                errorSnackbar('No tiene permisos para realizar esta acción.');
               } else {
                 openModal();
               }
@@ -59,9 +63,21 @@ export const Dashboard = () => {
 
         <Searcher />
 
-        {isGraphRequestLoading ? <DashboardGraphsSkeleton /> : <DashboardGraphs />}
+        {isGraphRequestLoading ? (
+          <DashboardGraphsSkeleton />
+        ) : policies?.index ? (
+          <DashboardGraphs />
+        ) : (
+          <h3>No tienes permisos para ver los gráficos</h3>
+        )}
 
-        {isTableRequestLoading ? <DashboardTablesSkeleton /> : <DashboardTables />}
+        {isTableRequestLoading ? (
+          <DashboardTablesSkeleton />
+        ) : policies?.metrics_and_user_type ? (
+          <DashboardTables />
+        ) : (
+          <h3>No tienes permisos para ver las tablas</h3>
+        )}
       </MMBox>
     </MMContainer>
   );

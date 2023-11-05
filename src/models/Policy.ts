@@ -6,6 +6,8 @@ export type Policy = {
   update?: boolean;
   follow?: boolean;
   unfollow?: boolean;
+  restore_backup?: boolean;
+  metrics_and_user_type?: boolean;
 
   [x: string]: boolean | undefined;
 };
