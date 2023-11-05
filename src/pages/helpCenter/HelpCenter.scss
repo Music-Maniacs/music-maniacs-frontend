@@ -1,9 +1,9 @@
 @import '../../styles/main';
 
 .help-center-container {
-  width: 100%;
-
-  .title-container {
-    width: 80%;
-  }
+  margin-top: 20px;
+  padding: 15px 30px !important;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
