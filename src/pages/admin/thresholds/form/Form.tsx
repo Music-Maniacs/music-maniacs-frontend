@@ -8,6 +8,7 @@ import { handleFormErrors } from '../../../../utils/handleFormErrors';
 import { Threshold, thresholdValidations } from '../../../../models/Threshold';
 import { useThreshold } from '../context/ThresholdProvider';
 import { createThreshold, updateThreshold } from '../../../../services/thresholdService';
+import { isAxiosError } from 'axios';
 
 export const Form = () => {
   const { dispatch, isModalOpen, closeModal, threshold } = useThreshold();
@@ -53,6 +54,10 @@ export const Form = () => {
         closeModal();
       })
       .catch((error) => {
+        if (isAxiosError(error) && error.response?.status === 403) {
+          return errorSnackbar(`No tienes permisos para ${threshold ? 'editar' : 'crear'} umbrales`);
+        }
+
         let hasFormError = handleFormErrors(error, setError);
         !hasFormError &&
           errorSnackbar(`Error inesperado al ${threshold ? 'editar' : 'crear'} umbral. Contacte a soporte.`);

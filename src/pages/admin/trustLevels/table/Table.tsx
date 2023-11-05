@@ -10,7 +10,7 @@ import { useTrustLevelRequests } from '../hooks/useTrustLevelRequest';
 
 export const Table = () => {
   const navigate = useNavigate();
-  const { trustLevels, pagination, setTrustLevels } = useTrustLevels();
+  const { trustLevels, pagination, setTrustLevels, policies } = useTrustLevels();
   const { handleDeleteTrustLevel } = useTrustLevelRequests();
 
   const handleShowButton = (trustLevelId: string) => {
@@ -51,21 +51,25 @@ export const Table = () => {
           renderCell: (rowData) => {
             return (
               <Stack direction={'row'} spacing={1}>
-                <MMButton
-                  data-tooltip-id="tooltip"
-                  data-tooltip-content="Ver"
-                  onClick={() => handleShowButton(rowData.id)}
-                >
-                  <FaSearch />
-                </MMButton>
+                {policies?.show && (
+                  <MMButton
+                    data-tooltip-id="tooltip"
+                    data-tooltip-content="Ver"
+                    onClick={() => handleShowButton(rowData.id)}
+                  >
+                    <FaSearch />
+                  </MMButton>
+                )}
 
-                <MMButton
-                  data-tooltip-id="tooltip"
-                  data-tooltip-content="Eliminar"
-                  onClick={() => handleDeleteButton(rowData.id)}
-                >
-                  <FaTrash />
-                </MMButton>
+                {policies?.destroy && (
+                  <MMButton
+                    data-tooltip-id="tooltip"
+                    data-tooltip-content="Eliminar"
+                    onClick={() => handleDeleteButton(rowData.id)}
+                  >
+                    <FaTrash />
+                  </MMButton>
+                )}
               </Stack>
             );
           },

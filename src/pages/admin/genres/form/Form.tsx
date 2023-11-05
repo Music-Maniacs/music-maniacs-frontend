@@ -9,6 +9,7 @@ import { errorSnackbar, infoSnackbar } from '../../../../components/Snackbar/Sna
 import { createGenre, updateGenre } from '../../../../services/genreService';
 import { handleFormErrors } from '../../../../utils/handleFormErrors';
 import { useCollection } from '../../../../context/collectionContext';
+import { isAxiosError } from 'axios';
 
 type FormData = {
   name: string;
@@ -58,6 +59,10 @@ export const Form = () => {
       infoSnackbar(`Género ${isFormEdit ? 'actualizado' : 'creado'} con exito`);
       closeFormModal();
     } catch (error) {
+      if (isAxiosError(error) && error.response?.status === 403) {
+        return errorSnackbar(`No tienes permisos para ${isFormEdit ? 'actualizar' : 'crear'} géneros`);
+      }
+
       let hasFormError = handleFormErrors(error, setError);
 
       !hasFormError &&

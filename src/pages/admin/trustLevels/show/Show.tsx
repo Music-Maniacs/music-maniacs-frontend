@@ -19,6 +19,8 @@ import { useTrustLevelRequests } from '../hooks/useTrustLevelRequest';
 import { Loader } from '../../../../components/Loader/Loader';
 import './Show.scss';
 import '../../Admin.scss';
+import { Policy } from '../../../../models/Policy';
+import { checkPolicy } from '../../../../services/policyService';
 
 export const Show = () => {
   const { id } = useParams();
@@ -28,9 +30,11 @@ export const Show = () => {
   const { openModal, isModalOpen, closeModal } = useModal();
   const [isLoading, setIsLoading] = useState(true);
   const { removeRoleInCollection } = useCollection();
+  const [policies, setPolicies] = useState<Policy>();
 
   useEffect(() => {
     getTrustLevel();
+    getPolicy();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -44,6 +48,16 @@ export const Show = () => {
     } catch (error) {
       errorSnackbar('Error al obtener el nivel de confianza. Contacte a soporte.');
       navigate(-1);
+    }
+  };
+
+  const getPolicy = async () => {
+    try {
+      const response = await checkPolicy('Admin::TrustLevelsController');
+
+      setPolicies(response);
+    } catch (error) {
+      errorSnackbar('Error al obtener los permisos. Contacte a soporte');
     }
   };
 
@@ -61,12 +75,18 @@ export const Show = () => {
         <div className="admin-title-container">
           <MMTitle content="Nivel de Confianza" />
           <Stack direction={'row'} spacing={1} justifyContent={'flex-end'}>
-            <MMButtonResponsive Icon={FaEdit} onClick={() => openModal()}>
-              Editar
-            </MMButtonResponsive>
-            <MMButtonResponsive Icon={FaTrash} color="error" onClick={() => handleDeleteButton(trustLevel?.id)}>
-              Eliminar
-            </MMButtonResponsive>
+            {policies?.update && (
+              <MMButtonResponsive Icon={FaEdit} onClick={() => openModal()}>
+                Editar
+              </MMButtonResponsive>
+            )}
+
+            {policies?.destroy && (
+              <MMButtonResponsive Icon={FaTrash} color="error" onClick={() => handleDeleteButton(trustLevel?.id)}>
+                Eliminar
+              </MMButtonResponsive>
+            )}
+
             <MMButtonResponsive Icon={FaArrowLeft} onClick={() => navigate(-1)}>
               Volver
             </MMButtonResponsive>
@@ -77,7 +97,6 @@ export const Show = () => {
           <Loader />
         ) : (
           <>
-            {' '}
             {trustLevel && (
               <div className="trust-level-show-container">
                 <Grid container spacing={{ lg: 3, sm: 1 }} rowSpacing={1}>
