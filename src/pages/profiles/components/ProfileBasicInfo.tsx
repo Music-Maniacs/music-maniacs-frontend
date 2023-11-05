@@ -67,7 +67,16 @@ export const ProfileBasicInfo = ({
         {(customActions || !hideActions) && (
           <div className="actions-container">
             {handleReportProfile && (
-              <StyledFlex $cursor="pointer" onClick={handleReportProfile}>
+              <StyledFlex
+                $cursor="pointer"
+                onClick={() => {
+                  if (user) {
+                    handleReportProfile();
+                  } else {
+                    warningSnackbar('Debes iniciar sesión para reportar el perfil');
+                  }
+                }}
+              >
                 <FaFlag />
                 <span>Reportar</span>
               </StyledFlex>

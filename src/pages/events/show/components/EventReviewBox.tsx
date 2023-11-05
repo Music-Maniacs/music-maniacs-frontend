@@ -15,6 +15,7 @@ import { ReportForm } from '../../../../components/forms/report/ReportForm';
 import { reportReview } from '../../../../services/reviewsService';
 import { NoData } from '../../../../components/NoData/NoData';
 import { ReviewForm } from '../../../../components/forms/reviews/ReviewForm';
+import { warningSnackbar } from '../../../../components/Snackbar/Snackbar';
 
 type Props = {
   event: Event;
@@ -94,7 +95,17 @@ export const EventReviewBox = ({ event }: Props) => {
             <MMSubTitle content="Reseñas" />
 
             {(event.artist || event.producer || event.venue) && (
-              <MMButton onClick={handleCreateReviewButton}>Agregar Reseña</MMButton>
+              <MMButton
+                onClick={() => {
+                  if (user) {
+                    handleCreateReviewButton();
+                  } else {
+                    warningSnackbar('Debes iniciar sesión para agregar una reseña');
+                  }
+                }}
+              >
+                Agregar Reseña
+              </MMButton>
             )}
           </div>
 

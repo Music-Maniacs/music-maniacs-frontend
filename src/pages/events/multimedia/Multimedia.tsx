@@ -395,7 +395,7 @@ const VideoCard = ({
                   e.stopPropagation();
 
                   if (!user) {
-                    warningSnackbar('Debe iniciar sesión para reportar');
+                    warningSnackbar('Debe iniciar sesión para reportar el video');
                   } else {
                     handleReportVideo(video);
                   }

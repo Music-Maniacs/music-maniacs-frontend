@@ -24,9 +24,11 @@ import { ReportForm } from '../../../components/forms/report/ReportForm';
 import { reportReview } from '../../../services/reviewsService';
 import { NoData } from '../../../components/NoData/NoData';
 import { ReviewForm } from '../../../components/forms/reviews/ReviewForm';
+import { warningSnackbar } from '../../../components/Snackbar/Snackbar';
 
 const Reviews = () => {
   const { id } = useParams();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [isFormEdit, setIsFormEdit] = useState<boolean>(false);
   const [reviewToEdit, setReviewToEdit] = useState<Review>();
@@ -204,7 +206,17 @@ const Reviews = () => {
                   <MMSubTitle content="Reseñas" />
 
                   {(showEvent.artist || showEvent.producer || showEvent.venue) && (
-                    <MMButton onClick={handleCreateReviewButton}>Agregar Reseña</MMButton>
+                    <MMButton
+                      onClick={() => {
+                        if (user) {
+                          handleCreateReviewButton();
+                        } else {
+                          warningSnackbar('Debes iniciar sesión para agregar una reseña');
+                        }
+                      }}
+                    >
+                      Agregar Reseña
+                    </MMButton>
                   )}
                 </div>
 

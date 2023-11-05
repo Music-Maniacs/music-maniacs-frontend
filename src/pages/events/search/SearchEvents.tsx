@@ -23,12 +23,15 @@ import { GroupBase } from 'react-select';
 import { SearcherSkeleton } from './Skeleton';
 import { useInfiniteScroll } from '../../../components/hooks/useInfiniteScroll';
 import { NoData } from '../../../components/NoData/NoData';
+import { warningSnackbar } from '../../../components/Snackbar/Snackbar';
+import { useAuth } from '../../../context/authContext';
 
 const StyledSearchbarForm = styled.form`
   padding: 1rem 0 2rem 0;
 `;
 
 const SearchEvents = () => {
+  const { user } = useAuth();
   const { pagination, events, queryParams, setPagination, cleanQueryParams, setEvents } = useEvents();
   const { isModalOpen, openModal, closeModal } = useModal();
   const formRef = useRef<HTMLFormElement>(null);
@@ -69,7 +72,16 @@ const SearchEvents = () => {
         <MMBox className="events-box-container">
           <div className="events-title-container">
             <MMTitle content="Buscar Eventos" />
-            <MMButtonResponsive onClick={handleCreateButton} Icon={FaPlus}>
+            <MMButtonResponsive
+              onClick={() => {
+                if (user) {
+                  handleCreateButton();
+                } else {
+                  warningSnackbar('Debes iniciar sesión para crear un evento');
+                }
+              }}
+              Icon={FaPlus}
+            >
               Crear Evento
             </MMButtonResponsive>
           </div>

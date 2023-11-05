@@ -22,7 +22,7 @@ const Index = () => {
   const [backups, setBackups] = useState<Backup[]>([]);
 
   const { pagination, setPagination } = usePagination<Backup>({
-    url: `${process.env.REACT_APP_API_URL}/backups`,
+    url: `${process.env.REACT_APP_API_URL}/admin/backups`,
     requestCallback: (data: Backup[]) => setBackups(data),
     isLoading: true
   });

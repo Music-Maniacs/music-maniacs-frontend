@@ -15,7 +15,7 @@ import { MMModal } from '../../../../components/Modal/MMModal';
 import { EventCommentForm } from './EventCommentForm';
 import { Event } from '../../../../models/Event';
 import { likeComment, removeLikeComment, reportComment } from '../../../../services/commentService';
-import { errorSnackbar } from '../../../../components/Snackbar/Snackbar';
+import { errorSnackbar, warningSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { ReportForm } from '../../../../components/forms/report/ReportForm';
 import { NoData } from '../../../../components/NoData/NoData';
 
@@ -136,7 +136,17 @@ export const EventCommentBox = ({ event }: Props) => {
         <StyledFlex $justifyContent="space-between">
           <MMSubTitle content="Comentarios" />
 
-          <MMButton onClick={handleCreateCommentButton}>Agregar Comentario</MMButton>
+          <MMButton
+            onClick={() => {
+              if (user) {
+                handleCreateCommentButton();
+              } else {
+                warningSnackbar('Debes iniciar sesión para comentar');
+              }
+            }}
+          >
+            Agregar Comentario
+          </MMButton>
         </StyledFlex>
 
         <StyledFlexColumn $gap="10px">

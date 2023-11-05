@@ -78,7 +78,7 @@ export const ReviewContent = ({
               $cursor="pointer"
               onClick={() => {
                 if (!currentUser) {
-                  warningSnackbar('Debe iniciar sesión para reportar');
+                  warningSnackbar('Debe iniciar sesión para reportar la reseña');
                 } else {
                   handleReportReviewButton(review);
                 }
