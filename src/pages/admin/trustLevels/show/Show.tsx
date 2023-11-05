@@ -21,6 +21,7 @@ import './Show.scss';
 import '../../Admin.scss';
 import { Policy } from '../../../../models/Policy';
 import { checkPolicy } from '../../../../services/policyService';
+import { isAxiosError } from 'axios';
 
 export const Show = () => {
   const { id } = useParams();
@@ -46,6 +47,12 @@ export const Show = () => {
       setTrustLevel(trustLevel);
       setIsLoading(false);
     } catch (error) {
+      if (isAxiosError(error) && error.response?.status === 403) {
+        errorSnackbar('No tienes permisos para realizar esta acción');
+
+        return navigate('/');
+      }
+
       errorSnackbar('Error al obtener el nivel de confianza. Contacte a soporte.');
       navigate(-1);
     }

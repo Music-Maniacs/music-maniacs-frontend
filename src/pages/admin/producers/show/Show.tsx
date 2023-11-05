@@ -22,6 +22,7 @@ import { StyledFlex } from '../../../../styles/styledComponents';
 import { MMChip } from '../../../../components/MMChip/MMChip';
 import { checkPolicy } from '../../../../services/policyService';
 import { Policy } from '../../../../models/Policy';
+import { isAxiosError } from 'axios';
 
 const Show = () => {
   const { id } = useParams();
@@ -45,6 +46,12 @@ const Show = () => {
 
       setProducer(user);
     } catch (error) {
+      if (isAxiosError(error) && error.response?.status === 403) {
+        errorSnackbar('No tienes permisos para realizar esta acción');
+
+        return navigate('/');
+      }
+
       errorSnackbar('Error al obtener la productora. Contacte a soporte.');
       navigate(-1);
     }

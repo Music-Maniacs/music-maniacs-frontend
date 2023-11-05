@@ -58,7 +58,11 @@ export const Form = ({ type, role, setRole, closeFormModal, roleList, setRoleLis
       }
     } catch (error) {
       if (isAxiosError(error) && error.response?.status === 403) {
-        return errorSnackbar(`No tienes permisos para ${type === 'create' ? 'crear' : 'actualizar'} el rol.`);
+        errorSnackbar(`No tienes permisos para ${type === 'create' ? 'crear' : 'actualizar'} el rol.`);
+
+        if (closeFormModal) closeFormModal();
+
+        return;
       }
 
       let hasFormError = handleFormErrors(error, setError);

@@ -14,16 +14,19 @@ import { FaPlus } from 'react-icons/fa';
 import { MMButtonResponsive } from '../../../components/MMButton/MMButtonResponsive';
 
 export const Index = () => {
-  const { openFormModal, isFormModalOpen, closeFormModal, pagination, setPagination } = useUsers();
+  const { openFormModal, isFormModalOpen, closeFormModal, pagination, setPagination, policies } = useUsers();
 
   return (
     <MMContainer maxWidth="xxl">
       <MMBox className="admin-box-container">
         <div className="admin-title-container">
           <MMTitle content="Usuarios" />
-          <MMButtonResponsive onClick={openFormModal} Icon={FaPlus}>
-            Crear Usuario
-          </MMButtonResponsive>
+
+          {policies?.create && (
+            <MMButtonResponsive onClick={openFormModal} Icon={FaPlus}>
+              Crear Usuario
+            </MMButtonResponsive>
+          )}
         </div>
 
         <MMModal isModalOpen={isFormModalOpen} closeModal={closeFormModal} title="Crear Usuario">

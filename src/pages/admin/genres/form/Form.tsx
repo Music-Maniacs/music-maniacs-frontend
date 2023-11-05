@@ -60,7 +60,9 @@ export const Form = () => {
       closeFormModal();
     } catch (error) {
       if (isAxiosError(error) && error.response?.status === 403) {
-        return errorSnackbar(`No tienes permisos para ${isFormEdit ? 'actualizar' : 'crear'} géneros`);
+        errorSnackbar(`No tienes permisos para ${isFormEdit ? 'actualizar' : 'crear'} géneros`);
+
+        return closeFormModal();
       }
 
       let hasFormError = handleFormErrors(error, setError);

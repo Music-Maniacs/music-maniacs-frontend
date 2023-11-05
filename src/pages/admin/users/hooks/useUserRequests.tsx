@@ -2,6 +2,7 @@ import { sweetAlert } from '../../../../components/SweetAlert/sweetAlert';
 import { errorSnackbar, infoSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { adminBlockUser, adminDeleteUser, adminRestoreUser, adminUnblockUser } from '../../../../services/userService';
 import Swal from 'sweetalert2';
+import { isAxiosError } from 'axios';
 
 export const useUserRequests = () => {
   const handleDeleteUser = (userId: string, successCallback?: () => void) => {
@@ -15,6 +16,10 @@ export const useUserRequests = () => {
 
           successCallback && successCallback();
         } catch (error) {
+          if (isAxiosError(error) && error.response?.status === 403) {
+            return errorSnackbar('No tienes permisos para realizar esta acción');
+          }
+
           errorSnackbar('Error al eliminar el usuario');
         }
       }
@@ -33,6 +38,10 @@ export const useUserRequests = () => {
 
           successCallback && successCallback();
         } catch (error) {
+          if (isAxiosError(error) && error.response?.status === 403) {
+            return errorSnackbar('No tienes permisos para realizar esta acción');
+          }
+
           errorSnackbar('Error al restaurar el usuario');
         }
       }
@@ -51,6 +60,10 @@ export const useUserRequests = () => {
 
           successCallback && successCallback();
         } catch (error) {
+          if (isAxiosError(error) && error.response?.status === 403) {
+            return errorSnackbar('No tienes permisos para realizar esta acción');
+          }
+
           errorSnackbar('Error al desbloquear el usuario');
         }
       }
@@ -108,6 +121,10 @@ export const useUserRequests = () => {
 
           successCallback && successCallback();
         } catch (error) {
+          if (isAxiosError(error) && error.response?.status === 403) {
+            return errorSnackbar('No tienes permisos para realizar esta acción');
+          }
+
           errorSnackbar('Error al bloquear el usuario');
         }
       }

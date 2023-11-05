@@ -47,7 +47,7 @@ const Show = () => {
       setEvent(event);
     } catch (error) {
       if (isAxiosError(error) && error.response?.status === 403) {
-        errorSnackbar(`No tienes permisos para ver eventos.`);
+        errorSnackbar(`No tienes permisos para realizar esta acción`);
 
         return navigate('/');
       }

@@ -55,7 +55,9 @@ export const Form = () => {
       })
       .catch((error) => {
         if (isAxiosError(error) && error.response?.status === 403) {
-          return errorSnackbar(`No tienes permisos para ${threshold ? 'editar' : 'crear'} umbrales`);
+          errorSnackbar(`No tienes permisos para ${threshold ? 'editar' : 'crear'} umbrales`);
+
+          return closeModal();
         }
 
         let hasFormError = handleFormErrors(error, setError);

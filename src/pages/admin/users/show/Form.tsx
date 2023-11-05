@@ -12,6 +12,7 @@ import { adminUpdateUser } from '../../../../services/userService';
 import { SelectCollection } from '../../../../models/Generic';
 import { InputSelect } from '../../../../components/form/InputSelect/InputSelect';
 import { useCollection } from '../../../../context/collectionContext';
+import { isAxiosError } from 'axios';
 
 type Props = {
   user: User;
@@ -86,6 +87,12 @@ export const Form = ({ user, closeFormModal, setUser }: Props) => {
       infoSnackbar('Usuario actualizado con exito');
       closeFormModal();
     } catch (error) {
+      if (isAxiosError(error) && error.response?.status === 403) {
+        errorSnackbar('No tienes permisos para realizar esta acción');
+
+        return closeFormModal();
+      }
+
       let hasFormError = handleFormErrors(error, setError);
 
       !hasFormError && errorSnackbar('Error inesperado al editar el usuario. Contacte a soporte.');

@@ -71,9 +71,11 @@ export const Form = ({ type, trustLevel, setTrustLevel, closeFormModal, setTrust
       }
     } catch (error) {
       if (isAxiosError(error) && error.response?.status === 403) {
-        return errorSnackbar(
-          `No tienes permisos para ${type === 'create' ? 'crear' : 'actualizar'} el nivel de confianza.`
-        );
+        errorSnackbar(`No tienes permisos para ${type === 'create' ? 'crear' : 'actualizar'} el nivel de confianza.`);
+
+        if (closeFormModal) closeFormModal();
+
+        return;
       }
 
       let hasFormError = handleFormErrors(error, setError);
