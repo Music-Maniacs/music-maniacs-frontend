@@ -1,8 +1,8 @@
 const HelpCenter = () => {
   return (
-    <>
-      <h1>CENTRO DE AYUDA</h1>
-    </>
+    <div className="help-center-container">
+      <h2>Te damos la bienvenida al Centro de ayuda de Music Maniacs</h2>
+    </div>
   );
 };
 export default HelpCenter;
