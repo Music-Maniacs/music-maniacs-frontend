@@ -9,6 +9,7 @@ import { NavUserProfile } from './NavUserProfile';
 import './SideNav.scss';
 import { ToggleThemeIcon } from './ToggleThemeIcon';
 import { StyledFlex } from '../../styles/styledComponents';
+import { AdminRoutes } from './components/AdminRoutes';
 
 type Props = {
   active: boolean;
@@ -16,9 +17,10 @@ type Props = {
 };
 
 export const SideNav = ({ active, setActive }: Props) => {
-  const { user } = useAuth();
+  const { user, navigationPolicies } = useAuth();
   let sideNavRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
+  const hasAdminDropdown = navigationPolicies.some((el) => el.includes('Admin'));
 
   const md_breakpoint: number = +breakpoints.md.split('px')[0];
 
@@ -62,8 +64,10 @@ export const SideNav = ({ active, setActive }: Props) => {
         <div className="content">
           <MMLink to={'/profiles'} content="Buscar Perfiles" />
           <MMLink to={'/events'} content="Buscar Eventos" />
-          <MMLink to={'/moderation'} content="Moderar" />
-          <AdminDropdown />
+
+          {navigationPolicies.includes('ReportsController') && <MMLink to={'/moderation'} content="Moderar" />}
+
+          {hasAdminDropdown && <AdminDropdown />}
         </div>
       </>
     );
@@ -100,21 +104,12 @@ const AdminDropdown = () => {
         }}
       >
         <span>Administrar</span>
+
         {adminDropdownActive ? <IoMdArrowDropup size={20} /> : <IoMdArrowDropdown size={20} />}
       </div>
 
       <div className={adminDropdownActive ? 'sidenav-admin-dropdown active' : 'sidenav-admin-dropdown'}>
-        <MMLink to={'/admin/dashboard'} content="Métricas y Reportes" />
-        <MMLink to={'/admin/users'} content="Usuarios" />
-        <MMLink to={'/admin/events'} content="Eventos" />
-        <MMLink to={'/admin/artists'} content="Artistas" />
-        <MMLink to={'/admin/producers'} content="Productoras" />
-        <MMLink to={'/admin/venues'} content="Espacios de eventos" />
-        <MMLink to={'/admin/roles'} content="Roles" />
-        <MMLink to={'/admin/genres'} content="Generos Musicales" />
-        <MMLink to={'/admin/trust_levels'} content="Niveles de Confianza" />
-        <MMLink to={'/admin/backups'} content="Copias de Seguridad" />
-        <MMLink to={'/admin/thresholds'} content="Umbrales Penalizacion" />
+        <AdminRoutes />
       </div>
     </>
   );
