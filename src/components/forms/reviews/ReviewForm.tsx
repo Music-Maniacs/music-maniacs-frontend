@@ -11,6 +11,7 @@ import { InputArea } from '../../form/InputArea/InputArea';
 import { StyledButtonGroup } from '../../../pages/admin/styles';
 import { MMButton } from '../../MMButton/MMButton';
 import '../Forms.scss';
+import { isAxiosError } from 'axios';
 
 type EventReviewFormProps = {
   eventId?: string;
@@ -88,6 +89,12 @@ export const ReviewForm = ({
 
       successCallback && successCallback(response);
     } catch (error) {
+      if (isAxiosError(error) && error.response?.status === 403) {
+        errorSnackbar(`No tienes permisos para ${isFormEdit ? 'editar' : 'crear'} reseñas.`);
+
+        return closeModal();
+      }
+
       let hasFormError = handleFormErrors(error, setError);
 
       !hasFormError &&

@@ -19,6 +19,7 @@ import {
   createProducer,
   updateProducer
 } from '../../../services/producerService';
+import { isAxiosError } from 'axios';
 
 type Props = {
   useAdminController?: boolean;
@@ -131,6 +132,11 @@ export const ProducerForm = ({
 
       closeFormModal();
     } catch (error) {
+      if (isAxiosError(error) && error.response?.status === 403) {
+        errorSnackbar(`No tienes permisos para ${isFormEdit ? 'editar' : 'crear'} productoras.`);
+
+        return closeFormModal();
+      }
       let hasFormError = handleFormErrors(error, setError);
 
       !hasFormError &&

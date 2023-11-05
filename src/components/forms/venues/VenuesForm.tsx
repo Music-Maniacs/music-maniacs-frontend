@@ -14,6 +14,7 @@ import { adminCreateVenue, adminUpdateVenue, createVenue, updateVenue } from '..
 import { locationValidations } from '../../../models/Location';
 import { LeafletMap } from './LeafletMap';
 import { GoogleAutocomplete, PlaceDetails } from './GoogleAutocomplete';
+import { isAxiosError } from 'axios';
 
 type Props = {
   useAdminController?: boolean;
@@ -169,6 +170,12 @@ export const VenuesForm = ({
 
       closeFormModal();
     } catch (error) {
+      if (isAxiosError(error) && error.response?.status === 403) {
+        errorSnackbar(`No tienes permisos para ${isFormEdit ? 'editar' : 'crear'} espacios de eventos.`);
+
+        return closeFormModal();
+      }
+
       let hasFormError = handleFormErrors(error, setError);
 
       !hasFormError &&

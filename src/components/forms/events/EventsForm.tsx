@@ -15,6 +15,7 @@ import { MMButton } from '../../MMButton/MMButton';
 import { InputAsyncSelect } from '../../form/InputAsyncSelect/InputAsyncSelect';
 import { InputDate } from '../../form/InputDate/InputDate';
 import moment from 'moment';
+import { isAxiosError } from 'axios';
 
 type Props = {
   useAdminController?: boolean;
@@ -133,6 +134,12 @@ export const EventsForm = ({
 
       closeFormModal();
     } catch (error) {
+      if (isAxiosError(error) && error.response?.status === 403) {
+        errorSnackbar(`No tienes permisos para ${isFormEdit ? 'editar' : 'crear'} eventos.`);
+
+        return closeFormModal();
+      }
+
       let hasFormError = handleFormErrors(error, setError);
 
       !hasFormError &&

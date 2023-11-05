@@ -14,6 +14,7 @@ import { StyledFlexColumn } from '../../../styles/styledComponents';
 import { resolveReport } from '../../../services/reportService';
 import { StyledInputContainer, StyledLabel } from '../../form/formStyles';
 import { Grid, GridProps } from '@mui/material';
+import { isAxiosError } from 'axios';
 
 type ReportFormProps = {
   reportId: string;
@@ -57,6 +58,12 @@ export const ResolveReportForm = ({ reportId, closeModal, successCallback }: Rep
 
       closeModal();
     } catch (error) {
+      if (isAxiosError(error) && error.response?.status === 403) {
+        errorSnackbar(`No tienes permisos para resolver reportes.`);
+
+        return closeModal();
+      }
+
       let hasFormError = handleFormErrors(error, setError);
 
       !hasFormError && errorSnackbar(`Error inesperado al resolver el reporte. Contacte a soporte.`);
