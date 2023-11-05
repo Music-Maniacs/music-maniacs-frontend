@@ -1,9 +1,10 @@
 import React, { BaseSyntheticEvent, MutableRefObject } from 'react';
 import { InputText } from '../../form/InputText/InputText';
+import { SelectCollection } from '../../../models/Generic';
 
 type Props = {
   placeholder?: string;
-  queryParams: MutableRefObject<Record<string, string>>;
+  queryParams: MutableRefObject<Record<string, string | SelectCollection>>;
   paramKey: string;
   type?: 'datetime-local' | 'date';
   label?: string;
@@ -20,6 +21,8 @@ export const SearchInputDate = ({ placeholder, queryParams, paramKey, type = 'da
       label={label}
       style={{ cursor: 'pointer' }}
       placeholder={placeholder}
+      // @ts-ignore
+      defaultValue={queryParams.current[paramKey] ?? ''}
       onClick={(e: BaseSyntheticEvent) => {
         e.target.type = type;
         e.target.showPicker();

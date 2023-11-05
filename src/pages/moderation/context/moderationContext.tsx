@@ -1,5 +1,5 @@
 import React, { Dispatch, MutableRefObject, SetStateAction, createContext, useContext, useRef, useState } from 'react';
-import { Pagination } from '../../../models/Generic';
+import { Pagination, SelectCollection } from '../../../models/Generic';
 import { usePagination } from '../../../components/searcher/usePagination';
 import { errorSnackbar } from '../../../components/Snackbar/Snackbar';
 import { useNavigate } from 'react-router-dom';
@@ -15,7 +15,7 @@ type StoreProps = {
   setReports: Dispatch<SetStateAction<Report[] | undefined>>;
   pagination: Pagination;
   setPagination: Dispatch<SetStateAction<Pagination>>;
-  queryParams: MutableRefObject<Record<string, string>>;
+  queryParams: MutableRefObject<Record<string, string | SelectCollection>>;
   showReport?: Report;
   setShowReport: Dispatch<SetStateAction<Report | undefined>>;
   getShowReport: (id: string) => Promise<void>;
@@ -30,10 +30,13 @@ export const ReportsProvider = ({ children }: Props) => {
   const [reports, setReports] = useState<Report[]>();
   const [showReport, setShowReport] = useState<Report>();
 
-  const queryParams = useRef<Record<string, string>>({
+  const queryParams = useRef<Record<string, string | SelectCollection>>({
     category_eq: '',
     reportable_type_eq: '',
-    status_eq: '0',
+    status_eq: {
+      label: 'Pendiente',
+      value: '0'
+    },
     created_at_gteq: '',
     created_at_lteq: ''
   });

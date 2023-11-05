@@ -78,7 +78,12 @@ const Show = () => {
       <MMContainer maxWidth="xxl" className="events-show-boxes-container ">
         {showEvent ? (
           <>
-            <Breadcrumb items={[{ label: 'Eventos', to: '/events' }, { label: showEvent.name }]} />
+            <Breadcrumb
+              items={[
+                { label: 'Eventos', to: '/events', onClick: () => setShowEvent(undefined) },
+                { label: showEvent.name }
+              ]}
+            />
 
             <EventInfoBox
               event={showEvent}

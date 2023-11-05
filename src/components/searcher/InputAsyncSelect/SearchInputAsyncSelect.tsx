@@ -5,6 +5,7 @@ import axios from 'axios';
 import { StyledInputContainer, StyledLabel, reactSelectCustomStyles } from '../../form/formStyles';
 import Select from 'react-select/dist/declarations/src/Select';
 import { GroupBase } from 'react-select';
+import { SelectCollection } from '../../../models/Generic';
 
 interface Props {
   name: string;
@@ -13,7 +14,7 @@ interface Props {
   containerWidth?: string;
   typeaheadUrl: string;
   placeholder?: string;
-  queryParams: MutableRefObject<Record<string, string>>;
+  queryParams: MutableRefObject<Record<string, string | SelectCollection>>;
   paramKey: string;
 }
 
@@ -33,8 +34,8 @@ export const SearchInputAsyncSelect = forwardRef<Select<any, boolean, GroupBase<
       }
     };
 
-    const onSelectChange = (newValue: any) => {
-      queryParams.current[paramKey] = newValue?.value ?? '';
+    const onSelectChange = (newValue: SelectCollection | null) => {
+      queryParams.current[paramKey] = newValue ?? '';
     };
 
     return (
@@ -45,6 +46,7 @@ export const SearchInputAsyncSelect = forwardRef<Select<any, boolean, GroupBase<
           cacheOptions
           loadOptions={loadOptions}
           isClearable={isClearable}
+          defaultValue={queryParams.current[paramKey]}
           styles={reactSelectCustomStyles(false, false)}
           placeholder={placeholder}
           menuPosition="fixed"

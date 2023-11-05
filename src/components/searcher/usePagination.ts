@@ -1,22 +1,25 @@
 import React, { useEffect } from 'react';
 import { errorSnackbar } from '../Snackbar/Snackbar';
 import axios from 'axios';
-import { PaginatedApiResponse, Pagination } from '../../models/Generic';
+import { PaginatedApiResponse, Pagination, SelectCollection } from '../../models/Generic';
 
 type Props<T> = {
   url: string;
   requestCallback: (data: T[]) => void;
   optionalParam?: string;
-  queryParams?: Record<string, string>;
+  queryParams?: Record<string, string | SelectCollection>;
   perPage?: number;
   page?: number;
   isLoading?: boolean;
 };
 
-function buildParams(params: Record<string, string>): string {
-  return Object.keys(params)
-    .map((key) => `q[${key}]=${params[key]}`)
-    .join('&');
+function buildParams(params: Record<string, string | SelectCollection>): string {
+  return (
+    Object.keys(params)
+      // @ts-ignore
+      .map((key) => `q[${key}]=${params[key].value || params[key]}`)
+      .join('&')
+  );
 }
 
 export const usePagination = <T>({
