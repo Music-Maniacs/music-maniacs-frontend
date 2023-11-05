@@ -54,6 +54,9 @@ const VenueContainer = lazy(() => import('./pages/profiles/venue/VenueProfileCon
 const VenueShow = lazy(() => import('./pages/profiles/venue/show/Show'));
 const VenueReviews = lazy(() => import('./pages/profiles/venue/reviews/Reviews'));
 
+// Help Center
+const HelpCenter = lazy(() => import('./pages/helpCenter/HelpCenter'));
+
 function App() {
   return (
     <AppProviders>
@@ -155,6 +158,11 @@ function App() {
           <Route path="/user">
             <Route path="profile" element={<UserProfileContainer />} />
             <Route path=":id" element={<UserProfile />} />
+          </Route>
+
+          {/* Help Center */}
+          <Route path="/help_center">
+            <Route index element={<HelpCenter />} />
           </Route>
 
           {/* Not Found */}
