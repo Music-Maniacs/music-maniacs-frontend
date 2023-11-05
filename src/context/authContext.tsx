@@ -37,10 +37,36 @@ export const AuthProvider = ({ children }: Props) => {
 
       axios.defaults.headers.common['Authorization'] = token;
       setUser(user);
+
+      getNav();
+      getPermisos();
     } catch (error) {
       localStorage.removeItem('token');
     } finally {
       setIsUserLoading(false);
+    }
+  };
+
+  const getNav = async () => {
+    try {
+      const reponse = await axios.get(`${process.env.REACT_APP_API_URL}/navigation_policy`);
+      console.log('Permisos de navegacion', reponse.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getPermisos = async () => {
+    try {
+      const reponse = await axios.get(`${process.env.REACT_APP_API_URL}/check_policy?class=ArtistsController`);
+
+      console.log('Permisos de ArtistsController', reponse.data);
+
+      const reponse2 = await axios.get(`${process.env.REACT_APP_API_URL}/check_policy?class=Admin::ArtistsController`);
+
+      console.log('Permisos de Admin::ArtistsController', reponse2.data);
+    } catch (err) {
+      console.log(err);
     }
   };
 
