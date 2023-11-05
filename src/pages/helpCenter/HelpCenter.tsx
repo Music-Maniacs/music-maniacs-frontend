@@ -3,7 +3,7 @@ import { MMBox } from '../../components/MMBox/MMBox';
 import { MMContainer } from '../../components/MMContainer/MMContainer';
 import { MMTitle } from '../../components/MMTitle/MMTitle';
 import { MMVerticalNav } from '../../components/MMVerticalNav/MMVerticalNav';
-import { FAQ } from './FAQ';
+import { FAQ } from './frequentQuestions/FAQ';
 import './HelpCenter.scss';
 import { ModeratorManual } from './ModeratorManual';
 
