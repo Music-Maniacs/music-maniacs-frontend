@@ -32,12 +32,15 @@ export const muiTheme = createTheme(
         }
       },
       MuiTab: {
-        defaultProps: {
-          sx: {
+        styleOverrides: {
+          root: {
             color: colors.text_color,
             '&.Mui-selected': {
               color: colors.text_color,
               fontWeight: 'bold'
+            },
+            '&.Mui-disabled': {
+              color: '#aaa'
             }
           }
         }

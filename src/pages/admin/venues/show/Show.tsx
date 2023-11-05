@@ -18,6 +18,8 @@ import { Venue } from '../../../../models/Venue';
 import { useVenuesRequests } from '../hooks/useVenuesRequests';
 import { VenuesForm } from '../../../../components/forms/venues/VenuesForm';
 import { VersionBox } from '../../../../components/versions/VersionBox';
+import { MMChip } from '../../../../components/MMChip/MMChip';
+import { StyledFlex } from '../../../../styles/styledComponents';
 
 const Show = () => {
   const { id } = useParams();
@@ -48,7 +50,13 @@ const Show = () => {
     if (!id) return;
 
     handleDeleteVenue(id, () => {
-      navigate(-1);
+      setVenue((prevState) => {
+        if (prevState) {
+          const newState = { ...prevState };
+          newState.deleted_at = new Date().toString();
+          return newState;
+        }
+      });
     });
   };
 
@@ -56,16 +64,22 @@ const Show = () => {
     <MMContainer maxWidth="xxl">
       <MMBox className="admin-box-container">
         <div className="admin-title-container">
-          <MMTitle content="Espacio de Evento" />
+          <StyledFlex $alignItems="center" $gap="10px">
+            <MMTitle content="Espacio de Evento" />
+
+            {venue && venue.deleted_at && <MMChip color="error">Eliminado</MMChip>}
+          </StyledFlex>
 
           <Stack direction={'row'} spacing={1} justifyContent={'flex-end'}>
             <MMButtonResponsive Icon={FaEdit} onClick={() => openModal()}>
               Editar
             </MMButtonResponsive>
 
-            <MMButtonResponsive color="error" onClick={() => handleDeleteButton()} Icon={FaTrash}>
-              Eliminar
-            </MMButtonResponsive>
+            {!venue?.deleted_at && (
+              <MMButtonResponsive color="error" onClick={() => handleDeleteButton()} Icon={FaTrash}>
+                Eliminar
+              </MMButtonResponsive>
+            )}
 
             <MMButtonResponsive Icon={FaArrowLeft} onClick={() => navigate(-1)}>
               Volver

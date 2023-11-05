@@ -1,5 +1,6 @@
 @import '../../styles/main';
 
+// todo: este hay qeu borrarlo y que todos usen el generic
 .artist-form-container {
   @include flex-column-center;
   gap: 10px;

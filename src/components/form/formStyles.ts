@@ -88,6 +88,19 @@ export const StyledInput = styled.input<{ $hasErrors?: boolean }>`
   color: var(--text_color);
   color-scheme: dark;
 
+  /* prettier-ignore */
+  &[type=number]::-webkit-inner-spin-button,
+  &[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+  }
+
+  /* prettier-ignore */
+  &[type=number] {
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+
   &::placeholder {
     color: rgba(var(--text_color), 0.5);
   }

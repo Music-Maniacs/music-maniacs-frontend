@@ -3,6 +3,7 @@ import { Event } from '../models/Event';
 import { Video } from '../models/Video';
 import { UserLocation } from '../components/hooks/useUserLocation';
 import { DiscoverEventsResponse } from '../pages/events/home/Home';
+import { ReportCategory } from '../models/Report';
 
 const eventsUrl = `${process.env.REACT_APP_API_URL}/events`;
 const adminEventsUrl = `${process.env.REACT_APP_API_URL}/admin/events`;
@@ -80,6 +81,23 @@ export async function updateEvent(
   image && formData.append('image', image);
 
   return (await axios.put(`${eventsUrl}/${id}`, formData)).data;
+}
+
+export async function reportEvent(
+  id: string,
+  userComment: string,
+  category: ReportCategory,
+  originalReportableId?: string
+): Promise<void> {
+  const requestBody = {
+    report: {
+      user_comment: userComment,
+      category,
+      original_reportable_id: originalReportableId
+    }
+  };
+
+  return (await axios.post(`${eventsUrl}/${id}/report`, requestBody)).data;
 }
 
 export async function getVideos(id: string, sort: 'recorded_at desc' | 'created_at desc'): Promise<Video[]> {

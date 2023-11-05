@@ -18,6 +18,8 @@ import { ProducerInfo } from './ProducerInfo';
 import '../../Admin.scss';
 import { ProducerForm } from '../../../../components/forms/producer/ProducerForm';
 import { VersionBox } from '../../../../components/versions/VersionBox';
+import { StyledFlex } from '../../../../styles/styledComponents';
+import { MMChip } from '../../../../components/MMChip/MMChip';
 
 const Show = () => {
   const { id } = useParams();
@@ -48,7 +50,13 @@ const Show = () => {
     if (!id) return;
 
     handleDeleteProducer(id, () => {
-      navigate(-1);
+      setProducer((prevState) => {
+        if (prevState) {
+          const newState = { ...prevState };
+          newState.deleted_at = new Date().toString();
+          return newState;
+        }
+      });
     });
   };
 
@@ -56,16 +64,22 @@ const Show = () => {
     <MMContainer maxWidth="xxl">
       <MMBox className="admin-box-container">
         <div className="admin-title-container">
-          <MMTitle content="Productora" />
+          <StyledFlex $alignItems="center" $gap="10px">
+            <MMTitle content="Productora" />
 
-          <Stack direction={'row'} spacing={1} justifyContent={'flex-end'} width={'100%'}>
+            {producer && producer.deleted_at && <MMChip color="error">Eliminado</MMChip>}
+          </StyledFlex>
+
+          <Stack direction={'row'} spacing={1} justifyContent={'flex-end'}>
             <MMButtonResponsive Icon={FaEdit} onClick={() => openModal()}>
               Editar
             </MMButtonResponsive>
 
-            <MMButtonResponsive color="error" onClick={() => handleDeleteButton()} Icon={FaTrash}>
-              Eliminar
-            </MMButtonResponsive>
+            {!producer?.deleted_at && (
+              <MMButtonResponsive color="error" onClick={() => handleDeleteButton()} Icon={FaTrash}>
+                Eliminar
+              </MMButtonResponsive>
+            )}
 
             <MMButtonResponsive Icon={FaArrowLeft} onClick={() => navigate(-1)}>
               Volver

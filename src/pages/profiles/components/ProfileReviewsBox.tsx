@@ -13,6 +13,8 @@ import { useAuth } from '../../../context/authContext';
 import { useModal } from '../../../components/hooks/useModal';
 import { MMModal } from '../../../components/Modal/MMModal';
 import { ReviewForm } from '../../../components/forms/reviews/ReviewForm';
+import { ReportForm } from '../../../components/forms/report/ReportForm';
+import { reportReview } from '../../../services/reviewsService';
 import { NoData } from '../../../components/NoData/NoData';
 
 type ProfileReviewsBoxProps = {
@@ -24,10 +26,17 @@ export const ProfileReviewsBox = ({ profile, reviewableKlass }: ProfileReviewsBo
   const { user } = useAuth();
   const [reviewToEdit, setReviewToEdit] = useState<Review>();
   const { isModalOpen, openModal, closeModal } = useModal();
+  const [reviewToReport, setReviewToReport] = useState<Review>();
+  const { isModalOpen: isReportModalOpen, openModal: openReportModal, closeModal: closeReportModal } = useModal();
 
   const handleEditReviewButton = (review: Review) => {
     setReviewToEdit(review);
     openModal();
+  };
+
+  const handleReportReviewButton = (review: Review) => {
+    setReviewToReport(review);
+    openReportModal();
   };
 
   const updateReviewList = (review: Review) => {
@@ -43,6 +52,11 @@ export const ProfileReviewsBox = ({ profile, reviewableKlass }: ProfileReviewsBo
     [`${reviewableKlass}Name`]: profile.name
   };
 
+  const reportableType = (reviewableKlass.charAt(0).toUpperCase() + reviewableKlass.slice(1)) as
+    | 'Venue'
+    | 'Artist'
+    | 'Producer';
+
   return (
     <>
       <MMModal closeModal={closeModal} isModalOpen={isModalOpen} title={'Editar Reseña'}>
@@ -52,6 +66,16 @@ export const ProfileReviewsBox = ({ profile, reviewableKlass }: ProfileReviewsBo
           {...reviewFormNameProps}
           closeModal={closeModal}
           successCallback={(review) => updateReviewList(review)}
+        />
+      </MMModal>
+
+      <MMModal closeModal={closeReportModal} isModalOpen={isReportModalOpen} maxWidth="sm">
+        <ReportForm
+          reportableId={reviewToReport?.id || ''}
+          service={reportReview}
+          closeModal={closeReportModal}
+          reportTitleText="la reseña"
+          reportableType={reportableType}
         />
       </MMModal>
 
@@ -78,6 +102,7 @@ export const ProfileReviewsBox = ({ profile, reviewableKlass }: ProfileReviewsBo
                 review={review}
                 canEdit={user?.id === review.user?.id}
                 handleEditReviewButton={handleEditReviewButton}
+                handleReportReviewButton={handleReportReviewButton}
               />
             ))
           )}

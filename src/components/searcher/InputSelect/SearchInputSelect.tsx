@@ -16,10 +16,26 @@ export const SearchInputSelect = ({ placeholder, queryParams, paramKey, options,
     queryParams.current[paramKey] = newValue?.value ?? '';
   };
 
+  const defaultValue = getDefaultValue();
+
+  function getDefaultValue() {
+    const paramValue = queryParams.current[paramKey];
+
+    if (!paramValue) {
+      return null;
+    }
+
+    // @ts-ignore
+    const option = options.find((option) => option.value === paramValue);
+
+    return option;
+  }
+
   return (
     <div style={{ width: containerWidth }}>
       <Select
         isClearable={true}
+        defaultValue={defaultValue ?? null}
         options={options}
         styles={reactSelectCustomStyles()}
         placeholder={placeholder}

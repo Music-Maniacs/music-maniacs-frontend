@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Comment } from '../models/Comment';
+import { ReportCategory } from '../models/Report';
 
 const eventsUrl = `${process.env.REACT_APP_API_URL}/events`;
 const commentsUrl = `${process.env.REACT_APP_API_URL}/comments`;
@@ -30,4 +31,15 @@ export async function likeComment(commentId: string): Promise<void> {
 
 export async function removeLikeComment(commentId: string): Promise<void> {
   return (await axios.post(`${commentsUrl}/${commentId}/remove_like`)).data;
+}
+
+export async function reportComment(commentId: string, user_comment: string, category: ReportCategory): Promise<void> {
+  const requestBody = {
+    report: {
+      user_comment,
+      category
+    }
+  };
+
+  return (await axios.post(`${commentsUrl}/${commentId}/report`, requestBody)).data;
 }

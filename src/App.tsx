@@ -55,6 +55,11 @@ const VenueContainer = lazy(() => import('./pages/profiles/venue/VenueProfileCon
 const VenueShow = lazy(() => import('./pages/profiles/venue/show/Show'));
 const VenueReviews = lazy(() => import('./pages/profiles/venue/reviews/Reviews'));
 
+// Moderation Module
+const ModerationContainer = lazy(() => import('./pages/moderation/ModerationContainer'));
+const ModerationIndex = lazy(() => import('./pages/moderation/index/Index'));
+const ModerationShow = lazy(() => import('./pages/moderation/show/Show'));
+
 function App() {
   return (
     <AppProviders>
@@ -151,6 +156,12 @@ function App() {
               <Route index element={<VenueShow />} />
               <Route path="reviews" element={<VenueReviews />} />
             </Route>
+          </Route>
+
+          {/* Moderation Module */}
+          <Route path="/moderation" element={<ModerationContainer />}>
+            <Route index element={<ModerationIndex />} />
+            <Route path=":id" element={<ModerationShow />} />
           </Route>
 
           {/* User Profile Module */}

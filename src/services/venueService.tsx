@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Venue } from '../models/Venue';
+import { ReportCategory } from '../models/Report';
 
 const venuesUrl = `${process.env.REACT_APP_API_URL}/venues`;
 const adminVenuesUrl = `${process.env.REACT_APP_API_URL}/admin/venues`;
@@ -77,6 +78,23 @@ export async function updateVenue(
   image && formData.append('image', image);
 
   return (await axios.put(`${venuesUrl}/${id}`, formData)).data;
+}
+
+export async function reportVenue(
+  id: string,
+  userComment: string,
+  category: ReportCategory,
+  originalReportableId?: string
+): Promise<void> {
+  const requestBody = {
+    report: {
+      user_comment: userComment,
+      category,
+      original_reportable_id: originalReportableId
+    }
+  };
+
+  return (await axios.post(`${venuesUrl}/${id}/report`, requestBody)).data;
 }
 
 export async function followVenue(id: string) {

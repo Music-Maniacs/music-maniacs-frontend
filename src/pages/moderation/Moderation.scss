@@ -1,0 +1,18 @@
+@import '../../styles/main';
+
+.moderation-box-container {
+  padding: 20px 30px;
+  margin-top: 40px;
+}
+
+.moderation-show {
+  &--title-container {
+    @include flex-space-between;
+    width: 100%;
+    margin-bottom: 10px;
+
+    @include sm-breakpoint {
+      flex-direction: column-reverse;
+    }
+  }
+}

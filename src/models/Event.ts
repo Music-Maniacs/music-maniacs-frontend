@@ -10,16 +10,17 @@ export interface Event {
   datetime: string;
   description: string;
   followed_by_current_user: boolean;
-  artist: {
-    id?: string;
+  deleted_at: string;
+  artist?: {
+    id: string;
     name: string;
   };
-  venue: {
-    id?: string;
+  venue?: {
+    id: string;
     name: string;
   };
-  producer: {
-    id?: string;
+  producer?: {
+    id: string;
     name: string;
   };
   links: Link[];

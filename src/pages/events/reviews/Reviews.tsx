@@ -20,6 +20,8 @@ import { ReviewContent } from '../../../components/Reviews/ReviewContent';
 import { useInfiniteScroll } from '../../../components/hooks/useInfiniteScroll';
 import { Pagination } from '../../../models/Generic';
 import { ReviewsSkeleton } from '../../../components/Reviews/ReviewsSkeleton';
+import { ReportForm } from '../../../components/forms/report/ReportForm';
+import { reportReview } from '../../../services/reviewsService';
 import { NoData } from '../../../components/NoData/NoData';
 import { ReviewForm } from '../../../components/forms/reviews/ReviewForm';
 
@@ -30,6 +32,8 @@ const Reviews = () => {
   const [reviewToEdit, setReviewToEdit] = useState<Review>();
   const { isModalOpen, openModal, closeModal } = useModal();
   const { showEvent, setShowEvent, getShowEvent } = useEvents();
+  const [reviewToReport, setReviewToReport] = useState<Review>();
+  const { isModalOpen: isReportModalOpen, openModal: openReportModal, closeModal: closeReportModal } = useModal();
 
   const [artistReviews, setArtistReviews] = useState<Review[]>([]);
   const [venueReviews, setVenueReviews] = useState<Review[]>([]);
@@ -92,9 +96,17 @@ const Reviews = () => {
 
   useEffect(() => {
     if (showEvent) {
-      setArtistPagination((prevState) => ({ ...prevState, isLoading: true }));
-      setVenuePagination((prevState) => ({ ...prevState, isLoading: true }));
-      setProducerPagination((prevState) => ({ ...prevState, isLoading: true }));
+      artistReviews.length === 0 &&
+        showEvent.artist &&
+        setArtistPagination((prevState) => ({ ...prevState, isLoading: true }));
+
+      venueReviews.length === 0 &&
+        showEvent.venue &&
+        setVenuePagination((prevState) => ({ ...prevState, isLoading: true }));
+
+      producerReviews.length === 0 &&
+        showEvent.producer &&
+        setProducerPagination((prevState) => ({ ...prevState, isLoading: true }));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showEvent]);
@@ -109,6 +121,11 @@ const Reviews = () => {
     setIsFormEdit(true);
     setReviewToEdit(review);
     openModal();
+  };
+
+  const handleReportReviewButton = (review: Review) => {
+    setReviewToReport(review);
+    openReportModal();
   };
 
   const reviewsByReviewable = {
@@ -149,13 +166,23 @@ const Reviews = () => {
             eventId={showEvent.id}
             isFormEdit={isFormEdit}
             reviewToEdit={reviewToEdit}
-            artistName={showEvent.artist.name}
-            producerName={showEvent.producer.name}
-            venueName={showEvent.venue.name}
+            artistName={showEvent.artist?.name}
+            producerName={showEvent.producer?.name}
+            venueName={showEvent.venue?.name}
             closeModal={closeModal}
             successCallback={(review) => updateReview(review)}
           />
         )}
+      </MMModal>
+
+      <MMModal closeModal={closeReportModal} isModalOpen={isReportModalOpen} maxWidth="sm">
+        <ReportForm
+          reportableId={reviewToReport?.id || ''}
+          service={reportReview}
+          closeModal={closeReportModal}
+          reportTitleText="la reseña"
+          reportableType="Review"
+        />
       </MMModal>
 
       <MMContainer maxWidth="xxl" className="events-show-boxes-container ">
@@ -176,40 +203,60 @@ const Reviews = () => {
                 <div className="title-container">
                   <MMSubTitle content="Reseñas" />
 
-                  <MMButton onClick={handleCreateReviewButton}>Agregar Reseña</MMButton>
+                  {(showEvent.artist || showEvent.producer || showEvent.venue) && (
+                    <MMButton onClick={handleCreateReviewButton}>Agregar Reseña</MMButton>
+                  )}
                 </div>
 
                 <h4>Puntuación General</h4>
 
                 <Grid container spacing={2}>
                   <Grid item xs={12} sm={4} display={'flex'} flexDirection={'column'} gap={'5px'}>
-                    <span>{`${showEvent.artist.name} (${showEvent.reviews_info?.artist.reviews_count})`}</span>
-                    <Rating
-                      name="artist-rating"
-                      value={showEvent.reviews_info?.artist.rating ? +showEvent.reviews_info.artist.rating : 0}
-                      precision={0.5}
-                      readOnly
-                    />
+                    {showEvent.artist ? (
+                      <>
+                        <span>{`${showEvent.artist.name} (${showEvent.reviews_info?.artist.reviews_count})`}</span>
+                        <Rating
+                          name="artist-rating"
+                          value={showEvent.reviews_info?.artist.rating ? +showEvent.reviews_info.artist.rating : 0}
+                          precision={0.5}
+                          readOnly
+                        />
+                      </>
+                    ) : (
+                      <span>Artista Eliminado</span>
+                    )}
                   </Grid>
 
                   <Grid item xs={12} sm={4} display={'flex'} flexDirection={'column'} gap={'5px'}>
-                    <span>{`${showEvent.venue.name} (${showEvent.reviews_info?.venue.reviews_count})`}</span>
-                    <Rating
-                      name="venue-rating"
-                      value={showEvent.reviews_info?.venue.rating ? +showEvent.reviews_info.venue.rating : 0}
-                      precision={0.5}
-                      readOnly
-                    />
+                    {showEvent.venue ? (
+                      <>
+                        <span>{`${showEvent.venue.name} (${showEvent.reviews_info?.venue.reviews_count})`}</span>
+                        <Rating
+                          name="venue-rating"
+                          value={showEvent.reviews_info?.venue.rating ? +showEvent.reviews_info.venue.rating : 0}
+                          precision={0.5}
+                          readOnly
+                        />
+                      </>
+                    ) : (
+                      <span>Espacio de Evento Eliminado</span>
+                    )}
                   </Grid>
 
                   <Grid item xs={12} sm={4} display={'flex'} flexDirection={'column'} gap={'5px'}>
-                    <span>{`${showEvent.producer.name} (${showEvent.reviews_info?.producer.reviews_count})`}</span>
-                    <Rating
-                      name="producer-rating"
-                      value={showEvent.reviews_info?.producer.rating ? +showEvent.reviews_info.producer.rating : 0}
-                      precision={0.5}
-                      readOnly
-                    />
+                    {showEvent.producer ? (
+                      <>
+                        <span>{`${showEvent.producer.name} (${showEvent.reviews_info?.producer.reviews_count})`}</span>
+                        <Rating
+                          name="producer-rating"
+                          value={showEvent.reviews_info?.producer.rating ? +showEvent.reviews_info.producer.rating : 0}
+                          precision={0.5}
+                          readOnly
+                        />
+                      </>
+                    ) : (
+                      <span>Productora Eliminada</span>
+                    )}
                   </Grid>
                 </Grid>
 
@@ -219,36 +266,42 @@ const Reviews = () => {
                   items={[
                     {
                       label: 'Artista',
+                      disabled: !showEvent.artist,
                       content: () => (
                         <ReviewsByReviewable
                           pagination={artistPagination}
                           reviews={artistReviews}
                           handleEditReviewButton={handleEditReviewButton}
-                          reviewableName={showEvent.artist.name}
+                          handleReportReviewButton={handleReportReviewButton}
+                          reviewableName={showEvent.artist?.name}
                           lastElementRef={artistLastElementRef}
                         />
                       )
                     },
                     {
                       label: 'Espacio de Evento',
+                      disabled: !showEvent.venue,
                       content: () => (
                         <ReviewsByReviewable
                           pagination={venuePagination}
                           reviews={venueReviews}
                           handleEditReviewButton={handleEditReviewButton}
-                          reviewableName={showEvent.venue.name}
+                          handleReportReviewButton={handleReportReviewButton}
+                          reviewableName={showEvent.venue?.name}
                           lastElementRef={venueLastElementRef}
                         />
                       )
                     },
                     {
                       label: 'Productora',
+                      disabled: !showEvent.producer,
                       content: () => (
                         <ReviewsByReviewable
                           pagination={producerPagination}
                           reviews={producerReviews}
                           handleEditReviewButton={handleEditReviewButton}
-                          reviewableName={showEvent.producer.name}
+                          handleReportReviewButton={handleReportReviewButton}
+                          reviewableName={showEvent.producer?.name}
                           lastElementRef={producerLastElementRef}
                         />
                       )
@@ -273,14 +326,16 @@ export default Reviews;
 type ReviewByReviewableProps = {
   pagination: Pagination;
   handleEditReviewButton: (review: Review) => void;
+  handleReportReviewButton: (review: Review) => void;
   reviews: Review[];
-  reviewableName: string;
+  reviewableName?: string;
   lastElementRef: (node: HTMLDivElement) => void;
 };
 
 const ReviewsByReviewable = ({
   pagination,
   handleEditReviewButton,
+  handleReportReviewButton,
   reviews,
   reviewableName,
   lastElementRef
@@ -291,7 +346,7 @@ const ReviewsByReviewable = ({
     <>
       {pagination.isLoading && pagination.page === 1 && <ReviewsSkeleton />}
 
-      {reviews.length === 0 ? (
+      {reviews.length === 0 || !reviewableName ? (
         <NoData message="No hay reseñas para mostrar" />
       ) : (
         reviews.map((review: Review, index) => (
@@ -302,6 +357,7 @@ const ReviewsByReviewable = ({
             review={review}
             canEdit={user?.id === review?.user?.id}
             handleEditReviewButton={handleEditReviewButton}
+            handleReportReviewButton={handleReportReviewButton}
           />
         ))
       )}

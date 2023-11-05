@@ -13,39 +13,6 @@
       margin-bottom: 40px;
     }
 
-    .info-box {
-      @include flex-space-between;
-      flex-direction: row;
-
-      @include sm-breakpoint {
-        gap: 5px;
-      }
-
-      gap: 30px;
-
-      .image-container {
-        height: 130px;
-        width: 130px;
-
-        .image {
-          height: 100%;
-          width: 100%;
-          object-fit: cover;
-          border-radius: 50%;
-        }
-      }
-
-      .data-container {
-        flex-grow: 1;
-
-        .name {
-          font-size: 25px;
-          font-weight: bold;
-          margin-bottom: 5px;
-        }
-      }
-    }
-
     .event-box {
       display: flex;
       gap: 10px;
@@ -93,5 +60,44 @@
         @include flex-space-between;
       }
     }
+  }
+}
+
+.profiles-info-box {
+  @include flex-space-between;
+  flex-direction: row;
+
+  @include sm-breakpoint {
+    gap: 5px;
+  }
+
+  gap: 30px;
+
+  .image-container {
+    height: 130px;
+    width: 130px;
+
+    .image {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+  }
+
+  .data-container {
+    flex-grow: 1;
+
+    .name {
+      font-size: 25px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+  }
+
+  .actions-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
   }
 }

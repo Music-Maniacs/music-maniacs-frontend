@@ -38,7 +38,14 @@ export const ReviewForm = ({
   successCallback,
   closeModal
 }: EventReviewFormProps) => {
-  const [reviewTo, setReviewTo] = useState<'artist' | 'venue' | 'producer'>('artist');
+  const [reviewTo, setReviewTo] = useState<'artist' | 'venue' | 'producer'>(getInitialReviewToValue());
+
+  function getInitialReviewToValue() {
+    if (artistName) return 'artist';
+    if (venueName) return 'venue';
+    return 'producer';
+  }
+
   const {
     register,
     control,
@@ -59,7 +66,7 @@ export const ReviewForm = ({
         ...reviewToEdit
       });
     } else {
-      setReviewTo('artist');
+      setReviewTo(getInitialReviewToValue());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFormEdit, reviewToEdit]);
@@ -92,7 +99,8 @@ export const ReviewForm = ({
     item: true,
     xs: 12,
     sm: 12,
-    md: 4
+    md: 4,
+    display: 'flex'
   };
 
   return (

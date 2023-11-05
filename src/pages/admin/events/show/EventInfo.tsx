@@ -30,15 +30,15 @@ export const EventInfo = ({ event }: Props) => {
     },
     {
       label: 'Artista',
-      content: <InputText disabled value={event.artist.name} />
+      content: <InputText disabled value={event.artist?.name ?? ''} />
     },
     {
       label: 'Espacio de evento',
-      content: <InputText disabled value={event.venue.name} />
+      content: <InputText disabled value={event.venue?.name ?? ''} />
     },
     {
       label: 'Productora',
-      content: <InputText disabled value={event.producer.name} />
+      content: <InputText disabled value={event.producer?.name ?? ''} />
     }
   ];
 

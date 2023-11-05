@@ -1,12 +1,14 @@
 import React, { RefObject } from 'react';
 import { Review } from '../../models/Review';
 import { Rating } from '@mui/material';
-import { FaEdit } from 'react-icons/fa';
+import { FaEdit, FaFlag } from 'react-icons/fa';
 import { formatDate } from '../../utils/formatDate';
 import styled from 'styled-components';
 import colors from '../../styles/_colors.scss';
 import { StyledFlex, StyledFlexColumn } from '../../styles/styledComponents';
 import MMLink from '../MMLink/MMLink';
+import { useAuth } from '../../context/authContext';
+import { warningSnackbar } from '../Snackbar/Snackbar';
 import { UserAvatar } from '../Comments/UserAvatar';
 
 type ReviewContentProps = {
@@ -16,6 +18,7 @@ type ReviewContentProps = {
   handleEditReviewButton?: (review: Review) => void;
   canDelete?: boolean;
   handleDeleteReviewButton?: (review: Review) => void;
+  handleReportReviewButton?: (review: Review) => void;
   innerRef?: RefObject<HTMLDivElement> | null | ((node: HTMLDivElement) => void);
 };
 
@@ -31,9 +34,11 @@ export const ReviewContent = ({
   canDelete = false,
   handleDeleteReviewButton,
   reviewableName,
-  innerRef
+  innerRef,
+  handleReportReviewButton
 }: ReviewContentProps) => {
   const { created_at, description, rating, user, anonymous } = review;
+  const { user: currentUser } = useAuth();
 
   return (
     <StyledFlexColumn
@@ -65,6 +70,22 @@ export const ReviewContent = ({
             <StyledFlex $cursor="pointer" onClick={() => handleEditReviewButton && handleEditReviewButton(review)}>
               <FaEdit />
               <span>Editar</span>
+            </StyledFlex>
+          )}
+
+          {(!currentUser || review.anonymous || currentUser.id !== review.user?.id) && handleReportReviewButton && (
+            <StyledFlex
+              $cursor="pointer"
+              onClick={() => {
+                if (!currentUser) {
+                  warningSnackbar('Debe iniciar sesión para reportar');
+                } else {
+                  handleReportReviewButton(review);
+                }
+              }}
+            >
+              <FaFlag />
+              <span>Reportar</span>
             </StyledFlex>
           )}
         </StyledFlex>
