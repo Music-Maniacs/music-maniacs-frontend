@@ -1,8 +1,20 @@
-import React, { Dispatch, MutableRefObject, SetStateAction, createContext, useContext, useRef, useState } from 'react';
+import React, {
+  Dispatch,
+  MutableRefObject,
+  SetStateAction,
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState
+} from 'react';
 import { Genre } from '../../../../models/Genre';
 import { useModal } from '../../../../components/hooks/useModal';
 import { usePagination } from '../../../../components/searcher/usePagination';
 import { Pagination } from '../../../../models/Generic';
+import { Policy } from '../../../../models/Policy';
+import { checkPolicy } from '../../../../services/policyService';
+import { errorSnackbar } from '../../../../components/Snackbar/Snackbar';
 
 type Props = {
   children: React.ReactNode;
@@ -19,6 +31,7 @@ type StoreProps = {
   pagination: Pagination;
   setPagination: Dispatch<SetStateAction<Pagination>>;
   queryParams: MutableRefObject<Record<string, string>>;
+  policies?: Policy;
 };
 
 const GenresContext = createContext<StoreProps | null>(null);
@@ -39,6 +52,22 @@ export const GenresProvider = ({ children }: Props) => {
 
   const [genreToEdit, setGenreToEdit] = useState<Genre>();
 
+  const [policies, setPolicies] = useState<Policy>();
+
+  useEffect(() => {
+    getPolicy();
+  }, []);
+
+  const getPolicy = async () => {
+    try {
+      const response = await checkPolicy('Admin::GenresController');
+
+      setPolicies(response);
+    } catch (error) {
+      errorSnackbar('Error al obtener los permisos. Contacte a soporte');
+    }
+  };
+
   const indexRequestCallback = (genres: Genre[]) => {
     setGenres(genres);
   };
@@ -53,7 +82,8 @@ export const GenresProvider = ({ children }: Props) => {
     closeFormModal,
     pagination,
     setPagination,
-    queryParams
+    queryParams,
+    policies
   };
 
   return <GenresContext.Provider value={store}>{children}</GenresContext.Provider>;

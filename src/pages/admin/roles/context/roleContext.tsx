@@ -1,8 +1,20 @@
-import React, { Dispatch, MutableRefObject, SetStateAction, createContext, useContext, useRef, useState } from 'react';
+import React, {
+  Dispatch,
+  MutableRefObject,
+  SetStateAction,
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState
+} from 'react';
 import { Role } from '../../../../models/Role';
 import { usePagination } from '../../../../components/searcher/usePagination';
 import { Pagination } from '../../../../models/Generic';
 import { useModal } from '../../../../components/hooks/useModal';
+import { Policy } from '../../../../models/Policy';
+import { checkPolicy } from '../../../../services/policyService';
+import { errorSnackbar } from '../../../../components/Snackbar/Snackbar';
 
 type Props = {
   children: React.ReactNode;
@@ -17,6 +29,7 @@ type StoreProps = {
   pagination: Pagination;
   setPagination: Dispatch<SetStateAction<Pagination>>;
   queryParams: MutableRefObject<Record<string, string>>;
+  policies?: Policy;
 };
 
 const RolesContext = createContext<StoreProps | null>(null);
@@ -35,6 +48,22 @@ export const RolesProvider = ({ children }: Props) => {
   });
   const { isModalOpen: isFormModalOpen, openModal: openFormModal, closeModal: closeFormModal } = useModal();
 
+  const [policies, setPolicies] = useState<Policy>();
+
+  useEffect(() => {
+    getPolicy();
+  }, []);
+
+  const getPolicy = async () => {
+    try {
+      const response = await checkPolicy('Admin::RolesController');
+
+      setPolicies(response);
+    } catch (error) {
+      errorSnackbar('Error al obtener los permisos. Contacte a soporte');
+    }
+  };
+
   const indexRequestCallback = (roles: Role[]) => {
     setRoles(roles);
   };
@@ -47,7 +76,8 @@ export const RolesProvider = ({ children }: Props) => {
     closeFormModal,
     pagination,
     setPagination,
-    queryParams
+    queryParams,
+    policies
   };
 
   return <RolesContext.Provider value={store}>{children}</RolesContext.Provider>;

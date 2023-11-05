@@ -10,7 +10,7 @@ import { useCollection } from '../../../../context/collectionContext';
 
 export const Table = () => {
   const navigate = useNavigate();
-  const { roles, pagination, setRoles } = useRoles();
+  const { roles, pagination, setRoles, policies } = useRoles();
   const { handleDeleteRole } = useRoleRequests();
   const { removeRoleInCollection } = useCollection();
 
@@ -56,20 +56,25 @@ export const Table = () => {
           renderCell: (rowData) => {
             return (
               <Stack direction={'row'} spacing={1}>
-                <MMButton
-                  data-tooltip-id="tooltip"
-                  data-tooltip-content="Ver"
-                  onClick={() => handleShowButton(rowData.id)}
-                >
-                  <FaSearch />
-                </MMButton>
-                <MMButton
-                  data-tooltip-id="tooltip"
-                  data-tooltip-content="Eliminar"
-                  onClick={() => handleDeleteButton(rowData.id)}
-                >
-                  <FaTrash />
-                </MMButton>
+                {policies?.show && (
+                  <MMButton
+                    data-tooltip-id="tooltip"
+                    data-tooltip-content="Ver"
+                    onClick={() => handleShowButton(rowData.id)}
+                  >
+                    <FaSearch />
+                  </MMButton>
+                )}
+
+                {policies?.destroy && (
+                  <MMButton
+                    data-tooltip-id="tooltip"
+                    data-tooltip-content="Eliminar"
+                    onClick={() => handleDeleteButton(rowData.id)}
+                  >
+                    <FaTrash />
+                  </MMButton>
+                )}
               </Stack>
             );
           },

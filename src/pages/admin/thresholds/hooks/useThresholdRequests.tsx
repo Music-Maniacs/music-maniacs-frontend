@@ -2,6 +2,7 @@ import { sweetAlert } from '../../../../components/SweetAlert/sweetAlert';
 import { errorSnackbar, infoSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { Threshold } from '../../../../models/Threshold';
 import { destroyThreshold } from '../../../../services/thresholdService';
+import { isAxiosError } from 'axios';
 
 export const useThresholdRequests = () => {
   const handleDeleteThreshold = (threshold: Threshold, successCallback?: () => void) => {
@@ -15,6 +16,10 @@ export const useThresholdRequests = () => {
               successCallback && successCallback();
             })
             .catch((error) => {
+              if (isAxiosError(error) && error.response?.status === 403) {
+                return errorSnackbar('No tienes permisos para realizar esta acción');
+              }
+
               errorSnackbar('Error al eliminar el umbral');
             });
       }

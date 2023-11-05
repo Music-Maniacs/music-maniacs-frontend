@@ -20,6 +20,9 @@ import { EventInfo } from './EventInfo';
 import { VersionBox } from '../../../../components/versions/VersionBox';
 import { StyledFlex } from '../../../../styles/styledComponents';
 import { MMChip } from '../../../../components/MMChip/MMChip';
+import { isAxiosError } from 'axios';
+import { checkPolicy } from '../../../../services/policyService';
+import { Policy } from '../../../../models/Policy';
 
 const Show = () => {
   const { id } = useParams();
@@ -27,9 +30,11 @@ const Show = () => {
   const [event, setEvent] = useState<Event>();
   const { isModalOpen, openModal, closeModal } = useModal();
   const { handleDeleteEvent } = useEventsRequests();
+  const [policies, setPolicies] = useState<Policy>();
 
   useEffect(() => {
     getEvent();
+    getPolicy();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -41,8 +46,24 @@ const Show = () => {
 
       setEvent(event);
     } catch (error) {
+      if (isAxiosError(error) && error.response?.status === 403) {
+        errorSnackbar(`No tienes permisos para ver eventos.`);
+
+        return navigate('/');
+      }
+
       errorSnackbar('Error al obtener el evento. Contacte a soporte.');
       navigate(-1);
+    }
+  };
+
+  const getPolicy = async () => {
+    try {
+      const response = await checkPolicy('Admin::EventsController');
+
+      setPolicies(response);
+    } catch (error) {
+      errorSnackbar('Error al obtener los permisos. Contacte a soporte');
     }
   };
 
@@ -71,11 +92,13 @@ const Show = () => {
           </StyledFlex>
 
           <Stack direction={'row'} spacing={1} justifyContent={'flex-end'}>
-            <MMButtonResponsive Icon={FaEdit} onClick={() => openModal()}>
-              Editar
-            </MMButtonResponsive>
+            {policies?.update && (
+              <MMButtonResponsive Icon={FaEdit} onClick={() => openModal()}>
+                Editar
+              </MMButtonResponsive>
+            )}
 
-            {!event?.deleted_at && (
+            {!event?.deleted_at && policies?.destroy && (
               <MMButtonResponsive color="error" onClick={() => handleDeleteButton()} Icon={FaTrash}>
                 Eliminar
               </MMButtonResponsive>

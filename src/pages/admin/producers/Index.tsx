@@ -22,7 +22,8 @@ export const Index = () => {
     pagination,
     setPagination,
     setIsFormEdit,
-    setProducerToEdit
+    setProducerToEdit,
+    policies
   } = useProducers();
 
   const handleCreateButton = () => {
@@ -36,9 +37,11 @@ export const Index = () => {
       <MMBox className="admin-box-container">
         <div className="admin-title-container">
           <MMTitle content="Productoras" />
-          <MMButtonResponsive onClick={handleCreateButton} Icon={FaPlus}>
-            Crear Productora
-          </MMButtonResponsive>
+          {policies?.create && (
+            <MMButtonResponsive onClick={handleCreateButton} Icon={FaPlus}>
+              Crear Productora
+            </MMButtonResponsive>
+          )}
         </div>
 
         <MMModal

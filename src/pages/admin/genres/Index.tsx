@@ -13,22 +13,32 @@ import { Table } from './table/Table';
 import { Form } from './form/Form';
 
 export const Index = () => {
-  const { isFormModalOpen, openFormModal, closeFormModal, pagination, setPagination, genreToEdit, setGenreToEdit } =
-    useGenres();
+  const {
+    isFormModalOpen,
+    openFormModal,
+    closeFormModal,
+    pagination,
+    setPagination,
+    genreToEdit,
+    setGenreToEdit,
+    policies
+  } = useGenres();
 
   return (
     <MMContainer maxWidth="xxl">
       <MMBox className="admin-box-container">
         <div className="admin-title-container">
           <MMTitle content="Géneros" />
-          <MMButton
-            onClick={() => {
-              setGenreToEdit(undefined);
-              openFormModal();
-            }}
-          >
-            Crear Género
-          </MMButton>
+          {policies?.create && (
+            <MMButton
+              onClick={() => {
+                setGenreToEdit(undefined);
+                openFormModal();
+              }}
+            >
+              Crear Género
+            </MMButton>
+          )}
         </div>
 
         <MMModal

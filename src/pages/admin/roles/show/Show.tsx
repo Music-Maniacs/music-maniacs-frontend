@@ -1,5 +1,5 @@
 import { Stack } from '@mui/material';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaArrowLeft, FaEdit, FaTrash } from 'react-icons/fa';
 import { useNavigate, useParams } from 'react-router-dom';
 import { InputText } from '../../../../components/form/InputText/InputText';
@@ -18,17 +18,21 @@ import Form from '../form/Form';
 import { useRoleRequests } from '../hooks/useRoleRequest';
 import './Show.scss';
 import '../../Admin.scss';
+import { Policy } from '../../../../models/Policy';
+import { checkPolicy } from '../../../../services/policyService';
 
 export const Show = () => {
   const { id } = useParams();
-  const [role, setRole] = React.useState<Role>();
+  const [role, setRole] = useState<Role>();
   const navigate = useNavigate();
   const { handleDeleteRole } = useRoleRequests();
   const { openModal, isModalOpen, closeModal } = useModal();
   const { removeRoleInCollection } = useCollection();
+  const [policies, setPolicies] = useState<Policy>();
 
   useEffect(() => {
     getRole();
+    getPolicy();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -41,6 +45,16 @@ export const Show = () => {
     } catch (error) {
       errorSnackbar('Error al obtener el rol. Contacte a soporte.');
       navigate(-1);
+    }
+  };
+
+  const getPolicy = async () => {
+    try {
+      const response = await checkPolicy('Admin::RolesController');
+
+      setPolicies(response);
+    } catch (error) {
+      errorSnackbar('Error al obtener los permisos. Contacte a soporte');
     }
   };
 
@@ -58,12 +72,18 @@ export const Show = () => {
         <div className="admin-title-container">
           <MMTitle content="Rol" />
           <Stack direction={'row'} spacing={1} justifyContent={'flex-end'}>
-            <MMButtonResponsive Icon={FaEdit} onClick={() => openModal()}>
-              Editar
-            </MMButtonResponsive>
-            <MMButtonResponsive Icon={FaTrash} color="error" onClick={() => handleDeleteButton(role?.id)}>
-              Eliminar
-            </MMButtonResponsive>
+            {policies?.update && (
+              <MMButtonResponsive Icon={FaEdit} onClick={() => openModal()}>
+                Editar
+              </MMButtonResponsive>
+            )}
+
+            {policies?.destroy && (
+              <MMButtonResponsive Icon={FaTrash} color="error" onClick={() => handleDeleteButton(role?.id)}>
+                Eliminar
+              </MMButtonResponsive>
+            )}
+
             <MMButtonResponsive Icon={FaArrowLeft} onClick={() => navigate(-1)}>
               Volver
             </MMButtonResponsive>

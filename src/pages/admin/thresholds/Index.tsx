@@ -13,21 +13,24 @@ import { Form } from './form/Form';
 import { useThreshold } from './context/ThresholdProvider';
 
 function Index() {
-  const { threshold, setThreshold, isModalOpen, openModal, closeModal } = useThreshold();
+  const { threshold, setThreshold, isModalOpen, openModal, closeModal, policies } = useThreshold();
 
   return (
     <MMContainer maxWidth="xxl">
       <MMBox className="admin-box-container">
         <div className="admin-title-container">
           <MMTitle content="Umbrales" />
-          <MMButton
-            onClick={() => {
-              setThreshold(undefined);
-              openModal();
-            }}
-          >
-            Crear Umbral
-          </MMButton>
+
+          {policies?.create && (
+            <MMButton
+              onClick={() => {
+                setThreshold(undefined);
+                openModal();
+              }}
+            >
+              Crear Umbral
+            </MMButton>
+          )}
         </div>
 
         <MMModal isModalOpen={isModalOpen} closeModal={closeModal} title={`${threshold ? 'Editar' : 'Crear'} umbral`}>
