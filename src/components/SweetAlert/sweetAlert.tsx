@@ -10,13 +10,19 @@ interface Props extends SweetAlertOptions {
   confirmCallback?: (result?: SweetAlertResult) => void;
 }
 
-export const sweetAlert = ({ variant = 'warning', showCancelButton = true, confirmCallback, ...props }: Props) => {
+export const sweetAlert = ({
+  variant = 'warning',
+  showCancelButton = true,
+  confirmCallback,
+  confirmButtonText = 'Eliminar',
+  ...props
+}: Props) => {
   MySwal.fire({
     icon: variant,
     color: 'var(--text_color)',
     background: colors.sweet_alert_background,
 
-    confirmButtonText: 'Eliminar',
+    confirmButtonText: confirmButtonText,
     confirmButtonColor: colors.error,
 
     showCancelButton,

@@ -18,6 +18,8 @@ import { ArtistInfo } from './ArtistInfo';
 import '../../Admin.scss';
 import { ArtistForm } from '../../../../components/forms/artist/ArtistForm';
 import { VersionBox } from '../../../../components/versions/VersionBox';
+import { StyledFlex } from '../../../../styles/styledComponents';
+import { MMChip } from '../../../../components/MMChip/MMChip';
 
 const Show = () => {
   const { id } = useParams();
@@ -48,7 +50,13 @@ const Show = () => {
     if (!id) return;
 
     handleDeleteArtist(id, () => {
-      navigate(-1);
+      setArtist((prevState) => {
+        if (prevState) {
+          const newState = { ...prevState };
+          newState.deleted_at = new Date().toString();
+          return newState;
+        }
+      });
     });
   };
 
@@ -56,16 +64,22 @@ const Show = () => {
     <MMContainer maxWidth="xxl">
       <MMBox className="admin-box-container">
         <div className="admin-title-container">
-          <MMTitle content="Artista" />
+          <StyledFlex $alignItems="center" $gap="10px">
+            <MMTitle content="Artista" />
 
-          <Stack direction={'row'} spacing={1} justifyContent={'flex-end'} width={'100%'}>
+            {artist && artist.deleted_at && <MMChip color="error">Eliminado</MMChip>}
+          </StyledFlex>
+
+          <Stack direction={'row'} spacing={1} justifyContent={'flex-end'}>
             <MMButtonResponsive Icon={FaEdit} onClick={() => openModal()}>
               Editar
             </MMButtonResponsive>
 
-            <MMButtonResponsive color="error" onClick={() => handleDeleteButton()} Icon={FaTrash}>
-              Eliminar
-            </MMButtonResponsive>
+            {!artist?.deleted_at && (
+              <MMButtonResponsive color="error" onClick={() => handleDeleteButton()} Icon={FaTrash}>
+                Eliminar
+              </MMButtonResponsive>
+            )}
 
             <MMButtonResponsive Icon={FaArrowLeft} onClick={() => navigate(-1)}>
               Volver

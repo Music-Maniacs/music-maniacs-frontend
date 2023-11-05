@@ -56,21 +56,21 @@ const Search = () => {
     url: `${process.env.REACT_APP_API_URL}/profiles/search_artists`,
     isLoading: false,
     requestCallback: (data) => setArtists([...artists, ...data]),
-    page: 2
+    page: 1
   });
 
   const { pagination: venuesPagination, setPagination: setVenuesPagination } = usePagination<Venue>({
     url: `${process.env.REACT_APP_API_URL}/profiles/search_venues`,
     isLoading: false,
     requestCallback: (data) => setVenues([...venues, ...data]),
-    page: 2
+    page: 1
   });
 
   const { pagination: producersPagination, setPagination: setProducersPagination } = usePagination<Producer>({
     url: `${process.env.REACT_APP_API_URL}/profiles/search_producers`,
     isLoading: false,
     requestCallback: (data) => setProducers([...producers, ...data]),
-    page: 2
+    page: 1
   });
 
   const { lastElementRef: artistsLastElementRef } = useInfiniteScroll({
@@ -100,13 +100,17 @@ const Search = () => {
       );
 
       setArtists(response.data.artists.data);
-      setArtistsPagination((pagination) => ({ ...pagination, total: response.data.artists.pagination.total }));
+      setArtistsPagination((pagination) => ({ ...pagination, page: 1, total: response.data.artists.pagination.total }));
 
       setVenues(response.data.venues.data);
-      setVenuesPagination((pagination) => ({ ...pagination, total: response.data.venues.pagination.total }));
+      setVenuesPagination((pagination) => ({ ...pagination, page: 1, total: response.data.venues.pagination.total }));
 
       setProducers(response.data.producers.data);
-      setProducersPagination((pagination) => ({ ...pagination, total: response.data.producers.pagination.total }));
+      setProducersPagination((pagination) => ({
+        ...pagination,
+        page: 1,
+        total: response.data.producers.pagination.total
+      }));
     } catch (error) {
       errorSnackbar('Error al buscar perfiles. Contacte a soporte');
     } finally {
@@ -270,7 +274,7 @@ const ProfileTabContent = ({ profileKlass, data, lastElementRef }: ProfileTabCon
   const Icon = IconByProfileKlass[profileKlass];
 
   return (
-    <StyledFlexColumn>
+    <StyledFlexColumn $maxHeight="800px">
       {data.length === 0 ? (
         <NoData message="No hay perfiles para mostrar" />
       ) : (

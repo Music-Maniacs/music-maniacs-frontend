@@ -69,9 +69,11 @@ export const EventsForm = ({
         name: eventToEdit.name,
         datetime: moment(eventToEdit.datetime).format('YYYY-MM-DDTkk:mm'),
         description: eventToEdit.description,
-        artist: { value: eventToEdit.artist.id, label: eventToEdit.artist.name },
-        venue: { value: eventToEdit.venue.id, label: eventToEdit.venue.name },
-        producer: { value: eventToEdit.producer.id, label: eventToEdit.producer.name },
+        artist: eventToEdit.artist ? { value: eventToEdit.artist.id, label: eventToEdit.artist.name } : undefined,
+        venue: eventToEdit.venue ? { value: eventToEdit.venue.id, label: eventToEdit.venue.name } : undefined,
+        producer: eventToEdit.producer
+          ? { value: eventToEdit.producer.id, label: eventToEdit.producer.name }
+          : undefined,
         links_attributes: eventToEdit.links.map((link) => ({ id: link.id, title: link.title, url: link.url }))
       });
     } else {
@@ -95,12 +97,10 @@ export const EventsForm = ({
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
-      // todo: cuando tengamos el controlador de eventos, usar la prop para ver que endpoint usar
       let event: Event;
-
+      data.name = data.name !== '' ? data.name : `${data.artist.label} - ${data.venue.label}`;
       if (isFormEdit && eventToEdit) {
         const updateService = useAdminController ? adminUpdateEvent : updateEvent;
-
         event = await updateService(
           eventToEdit.id,
           data.name,

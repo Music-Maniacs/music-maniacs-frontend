@@ -7,6 +7,7 @@ import { Stack } from '@mui/material';
 import { useVenues } from '../context/venueContext';
 import { useVenuesRequests } from '../hooks/useVenuesRequests';
 import { Venue } from '../../../../models/Venue';
+import { MMChip } from '../../../../components/MMChip/MMChip';
 
 export const Table = () => {
   const navigate = useNavigate();
@@ -24,7 +25,19 @@ export const Table = () => {
   };
 
   const handleDeleteButton = (venueId: string) => {
-    handleDeleteVenue(venueId, () => setVenues((prevState) => prevState?.filter((venue) => venue.id !== venueId)));
+    handleDeleteVenue(venueId, () => {
+      setVenues((prevState) => {
+        if (prevState) {
+          const newState = [...prevState];
+          const venueIndex = newState.findIndex((venue) => venue.id === venueId);
+
+          if (venueIndex === -1) return prevState;
+
+          newState[venueIndex].deleted_at = new Date().toString();
+          return newState;
+        }
+      });
+    });
   };
 
   return (
@@ -59,6 +72,15 @@ export const Table = () => {
           }
         },
         {
+          header: '',
+          renderCell: (rowData) => {
+            return rowData.deleted_at && <MMChip color="error">Eliminado</MMChip>;
+          },
+          cellProps: {
+            width: '1%'
+          }
+        },
+        {
           header: 'Acciones',
           renderCell: (rowData) => {
             return (
@@ -79,13 +101,15 @@ export const Table = () => {
                   <FaEdit />
                 </MMButton>
 
-                <MMButton
-                  data-tooltip-id="tooltip"
-                  data-tooltip-content="Eliminar"
-                  onClick={() => handleDeleteButton(rowData.id)}
-                >
-                  <FaTrash />
-                </MMButton>
+                {!rowData.deleted_at && (
+                  <MMButton
+                    data-tooltip-id="tooltip"
+                    data-tooltip-content="Eliminar"
+                    onClick={() => handleDeleteButton(rowData.id)}
+                  >
+                    <FaTrash />
+                  </MMButton>
+                )}
               </Stack>
             );
           },

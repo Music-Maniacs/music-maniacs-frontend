@@ -9,7 +9,7 @@ import {
   UseFormGetValues,
   UseFormRegister
 } from 'react-hook-form';
-import { StyledError, StyledLabel } from '../formStyles';
+import { StyledLabel } from '../formStyles';
 import { InputText } from '../InputText/InputText';
 import { FaPlus, FaTrashAlt } from 'react-icons/fa';
 import { styled } from 'styled-components';
@@ -43,7 +43,7 @@ const StyledInputsContainer = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: baseline;
   gap: 9px;
 `;
 
@@ -63,6 +63,12 @@ const StyledAddLinkContainer = styled.div`
   cursor: pointer;
 `;
 
+const ipRegex = new RegExp('\\b\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\b');
+const urlRegex = new RegExp(
+  '^https:\\/\\/((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|((\\d{1,3}\\.){3}\\d{1,3}))(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*(\\?[;&a-z\\d%_.~+=-]*)?(\\#[-a-z\\d_]*)?$',
+  'i'
+);
+
 export function LinksFieldArray<T extends FieldValues>({
   register,
   errors,
@@ -72,6 +78,15 @@ export function LinksFieldArray<T extends FieldValues>({
   update,
   getValues
 }: Props<T>) {
+  const isUrlUnique = (url: string, index: number): boolean => {
+    for (let i = 0; i < fields.length; i++) {
+      if (i === index) continue;
+      //@ts-ignore
+      if (fields[i].url === url && !fields[i]._destroy) return true;
+    }
+    return false;
+  };
+
   return (
     <StyledContainer>
       <StyledLabel>Links</StyledLabel>
@@ -99,7 +114,12 @@ export function LinksFieldArray<T extends FieldValues>({
                 placeholder="Enlace"
                 name={`links_attributes.${index}.url` as const}
                 options={{
-                  required: { value: true, message: 'Debe ingresar el enlace' }
+                  required: { value: true, message: 'Debe ingresar el enlace' },
+                  validate: {
+                    isUrlUnique: (value) => !isUrlUnique(value, index) || 'Debe ingresar una URL unica',
+                    isUrl: (value) => urlRegex.test(value) || 'Debe ingresar una URL válida',
+                    isIp: (value) => !ipRegex.test(value) || 'No puede ingresar una IP'
+                  }
                 }}
                 containerWidth="60%"
                 register={register}
@@ -120,17 +140,9 @@ export function LinksFieldArray<T extends FieldValues>({
                 <FaTrashAlt color="white" size={'0.7rem'} />
               </StyledIconContainer>
             </StyledInputsContainer>
-
-            <StyledError>
-              {
-                // @ts-ignore
-                errors?.links_attributes?.[index]?.title?.message || errors?.links_attributes?.[index]?.url?.message
-              }
-            </StyledError>
           </div>
         );
       })}
-
       <StyledAddLinkContainer
         onClick={() => {
           append({

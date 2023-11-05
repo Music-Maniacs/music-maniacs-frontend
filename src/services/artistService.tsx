@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Artist } from '../models/Artist';
+import { ReportCategory } from '../models/Report';
 
 const artistsUrl = `${process.env.REACT_APP_API_URL}/artists`;
 const adminArtistsUrl = `${process.env.REACT_APP_API_URL}/admin/artists`;
@@ -61,6 +62,23 @@ export async function updateArtist(
 
 export async function getArtist(id: string): Promise<Artist> {
   return (await axios.get(`${artistsUrl}/${id}`)).data;
+}
+
+export async function reportArtist(
+  id: string,
+  userComment: string,
+  category: ReportCategory,
+  originalReportableId?: string
+): Promise<void> {
+  const requestBody = {
+    report: {
+      user_comment: userComment,
+      category,
+      original_reportable_id: originalReportableId
+    }
+  };
+
+  return (await axios.post(`${artistsUrl}/${id}/report`, requestBody)).data;
 }
 
 export async function followArtist(id: string) {

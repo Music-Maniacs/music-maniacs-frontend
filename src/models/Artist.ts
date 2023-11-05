@@ -13,6 +13,7 @@ export interface Artist {
   description: string;
   created_at: string;
   updated_at: string;
+  deleted_at: string;
   followed_by_current_user: boolean;
   links: Link[];
   genres: Genre[];
@@ -40,10 +41,6 @@ export const artistValidations: Readonly<ModelValidations<Artist>> = {
     maxLength: { value: 128, message: 'La nacionalidad debe ser menor a 128 caracteres' }
   },
   description: {
-    required: {
-      value: true,
-      message: 'Debe ingresar la descripción del artista'
-    },
     maxLength: { value: 2048, message: 'La descripción debe ser menor a 2048 caracteres' }
   }
 };

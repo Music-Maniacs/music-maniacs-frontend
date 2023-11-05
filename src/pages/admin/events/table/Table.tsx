@@ -8,6 +8,7 @@ import { useEventsRequests } from '../hooks/useEventsRequests';
 import { useEvents } from '../context/eventsContext';
 import { Event } from '../../../../models/Event';
 import { formatDate } from '../../../../utils/formatDate';
+import { MMChip } from '../../../../components/MMChip/MMChip';
 
 export const Table = () => {
   const navigate = useNavigate();
@@ -25,7 +26,19 @@ export const Table = () => {
   };
 
   const handleDeleteButton = (eventId: string) => {
-    handleDeleteEvent(eventId, () => setEvents((prevState) => prevState?.filter((event) => event.id !== eventId)));
+    handleDeleteEvent(eventId, () => {
+      setEvents((prevState) => {
+        if (prevState) {
+          const newState = [...prevState];
+          const eventIndex = newState.findIndex((event) => event.id === eventId);
+
+          if (eventIndex === -1) return prevState;
+
+          newState[eventIndex].deleted_at = new Date().toString();
+          return newState;
+        }
+      });
+    });
   };
 
   return (
@@ -48,19 +61,28 @@ export const Table = () => {
         {
           header: 'Artista',
           renderCell: (rowData) => {
-            return rowData.artist.name;
+            return rowData.artist?.name ?? '';
           }
         },
         {
           header: 'Espacio de evento',
           renderCell: (rowData) => {
-            return rowData.venue.name;
+            return rowData.venue?.name ?? '';
           }
         },
         {
           header: 'Productora',
           renderCell: (rowData) => {
-            return rowData.producer.name;
+            return rowData.producer?.name ?? '';
+          }
+        },
+        {
+          header: '',
+          renderCell: (rowData) => {
+            return rowData.deleted_at && <MMChip color="error">Eliminado</MMChip>;
+          },
+          cellProps: {
+            width: '1%'
           }
         },
         {
@@ -84,13 +106,15 @@ export const Table = () => {
                   <FaEdit />
                 </MMButton>
 
-                <MMButton
-                  data-tooltip-id="tooltip"
-                  data-tooltip-content="Eliminar"
-                  onClick={() => handleDeleteButton(rowData.id)}
-                >
-                  <FaTrash />
-                </MMButton>
+                {!rowData.deleted_at && (
+                  <MMButton
+                    data-tooltip-id="tooltip"
+                    data-tooltip-content="Eliminar"
+                    onClick={() => handleDeleteButton(rowData.id)}
+                  >
+                    <FaTrash />
+                  </MMButton>
+                )}
               </Stack>
             );
           },

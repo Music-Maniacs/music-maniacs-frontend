@@ -4,7 +4,7 @@ import './MMLink.scss';
 type Props = {
   href?: string;
   target?: HTMLAttributeAnchorTarget;
-  content: string;
+  content: string | JSX.Element;
   onClick?: MouseEventHandler<HTMLAnchorElement>;
   style?: CSSProperties;
 };

@@ -12,6 +12,7 @@ export interface Venue {
   description: string;
   created_at: string;
   updated_at: string;
+  deleted_at: string;
   followed_by_current_user: boolean;
   address?: string;
   links: Link[];
@@ -33,10 +34,6 @@ export const venueValidations: Readonly<ModelValidations<Venue>> = {
     maxLength: { value: 128, message: 'El nombre debe ser menor a 128 caracteres' }
   },
   description: {
-    required: {
-      value: true,
-      message: 'Debe ingresar la descripción del espacio de eventos'
-    },
     maxLength: { value: 2048, message: 'La descripción debe ser menor a 2048 caracteres' }
   }
 };

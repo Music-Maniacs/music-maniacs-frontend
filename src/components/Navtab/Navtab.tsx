@@ -4,12 +4,19 @@ import React, { SyntheticEvent, useState } from 'react';
 type Props = {
   items: {
     label: string;
+    disabled?: boolean;
     content: () => JSX.Element;
   }[];
 };
 
 export const Navtab = ({ items }: Props) => {
-  const [tabValue, setTabValue] = useState<number>(0);
+  const [tabValue, setTabValue] = useState<number>(getInitialIndex());
+
+  function getInitialIndex() {
+    const initialIndex = items.findIndex((item) => !item.disabled);
+
+    return initialIndex;
+  }
 
   const handleTabChange = (_event: SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
@@ -17,9 +24,9 @@ export const Navtab = ({ items }: Props) => {
 
   return (
     <>
-      <Tabs value={tabValue} onChange={handleTabChange}>
+      <Tabs value={tabValue} onChange={handleTabChange} variant="scrollable" allowScrollButtonsMobile>
         {items.map((item, index) => (
-          <Tab key={index} value={index} label={item.label} />
+          <Tab key={index} value={index} label={item.label} disabled={item.disabled ?? false} />
         ))}
       </Tabs>
 

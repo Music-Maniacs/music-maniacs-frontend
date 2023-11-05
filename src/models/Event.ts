@@ -10,16 +10,17 @@ export interface Event {
   datetime: string;
   description: string;
   followed_by_current_user: boolean;
-  artist: {
-    id?: string;
+  deleted_at: string;
+  artist?: {
+    id: string;
     name: string;
   };
-  venue: {
-    id?: string;
+  venue?: {
+    id: string;
     name: string;
   };
-  producer: {
-    id?: string;
+  producer?: {
+    id: string;
     name: string;
   };
   links: Link[];
@@ -57,17 +58,9 @@ export interface EventProfilesTab {
 
 export const eventValidations: Readonly<ModelValidations<Event>> = {
   name: {
-    required: {
-      value: true,
-      message: 'Debe ingresar el nombre del evento'
-    },
     maxLength: { value: 128, message: 'El nombre debe ser menor a 128 caracteres' }
   },
   description: {
-    required: {
-      value: true,
-      message: 'Debe ingresar la descripción del evento'
-    },
     maxLength: { value: 2048, message: 'La descripción debe ser menor a 2048 caracteres' }
   },
   datetime: {

@@ -10,6 +10,7 @@ import { InputRating } from '../../form/InputRating/InputRating';
 import { InputArea } from '../../form/InputArea/InputArea';
 import { StyledButtonGroup } from '../../../pages/admin/styles';
 import { MMButton } from '../../MMButton/MMButton';
+import '../Forms.scss';
 
 type EventReviewFormProps = {
   eventId?: string;
@@ -37,7 +38,14 @@ export const ReviewForm = ({
   successCallback,
   closeModal
 }: EventReviewFormProps) => {
-  const [reviewTo, setReviewTo] = useState<'artist' | 'venue' | 'producer'>('artist');
+  const [reviewTo, setReviewTo] = useState<'artist' | 'venue' | 'producer'>(getInitialReviewToValue());
+
+  function getInitialReviewToValue() {
+    if (artistName) return 'artist';
+    if (venueName) return 'venue';
+    return 'producer';
+  }
+
   const {
     register,
     control,
@@ -58,7 +66,7 @@ export const ReviewForm = ({
         ...reviewToEdit
       });
     } else {
-      setReviewTo('artist');
+      setReviewTo(getInitialReviewToValue());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFormEdit, reviewToEdit]);
@@ -91,11 +99,12 @@ export const ReviewForm = ({
     item: true,
     xs: 12,
     sm: 12,
-    md: 4
+    md: 4,
+    display: 'flex'
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" className="events-reviews-form-container">
+    <form onSubmit={handleSubmit(onSubmit)} autoComplete="off" className="generic-form-container">
       <StyledInputContainer>
         <StyledLabel>Reseña sobre:</StyledLabel>
 

@@ -8,6 +8,7 @@ import { Producer } from '../../../../models/Producer';
 import { Stack } from '@mui/material';
 import { useProducerRequests } from '../hooks/useProducerRequest';
 import './Table.scss';
+import { MMChip } from '../../../../components/MMChip/MMChip';
 
 export const Table = () => {
   const navigate = useNavigate();
@@ -25,9 +26,19 @@ export const Table = () => {
   };
 
   const handleDeleteButton = (producerId: string) => {
-    handleDeleteProducer(producerId, () =>
-      setProducers((prevState) => prevState?.filter((producer) => producer.id !== producerId))
-    );
+    handleDeleteProducer(producerId, () => {
+      setProducers((prevState) => {
+        if (prevState) {
+          const newState = [...prevState];
+          const producerIndex = newState.findIndex((producer) => producer.id === producerId);
+
+          if (producerIndex === -1) return prevState;
+
+          newState[producerIndex].deleted_at = new Date().toString();
+          return newState;
+        }
+      });
+    });
   };
 
   return (
@@ -45,6 +56,15 @@ export const Table = () => {
           header: 'Descripción',
           renderCell: (rowData) => {
             return <div className="dato">{rowData.description}</div>;
+          }
+        },
+        {
+          header: '',
+          renderCell: (rowData) => {
+            return rowData.deleted_at && <MMChip color="error">Eliminado</MMChip>;
+          },
+          cellProps: {
+            width: '1%'
           }
         },
         {
@@ -68,13 +88,15 @@ export const Table = () => {
                   <FaEdit />
                 </MMButton>
 
-                <MMButton
-                  data-tooltip-id="tooltip"
-                  data-tooltip-content="Eliminar"
-                  onClick={() => handleDeleteButton(rowData.id)}
-                >
-                  <FaTrash />
-                </MMButton>
+                {!rowData.deleted_at && (
+                  <MMButton
+                    data-tooltip-id="tooltip"
+                    data-tooltip-content="Eliminar"
+                    onClick={() => handleDeleteButton(rowData.id)}
+                  >
+                    <FaTrash />
+                  </MMButton>
+                )}
               </Stack>
             );
           },

@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { AppProviders } from './AppProviders';
 import NavBar from './components/NavBar/NavBar';
 import { Loader } from './components/Loader/Loader';
+import { ScrollToTop } from './components/ScrollToTop/ScrollToTop';
 
 // Events module
 const Home = lazy(() => import('./pages/events/home/Home'));
@@ -54,12 +55,18 @@ const VenueContainer = lazy(() => import('./pages/profiles/venue/VenueProfileCon
 const VenueShow = lazy(() => import('./pages/profiles/venue/show/Show'));
 const VenueReviews = lazy(() => import('./pages/profiles/venue/reviews/Reviews'));
 
+// Moderation Module
+const ModerationContainer = lazy(() => import('./pages/moderation/ModerationContainer'));
+const ModerationIndex = lazy(() => import('./pages/moderation/index/Index'));
+const ModerationShow = lazy(() => import('./pages/moderation/show/Show'));
+
 // Help Center
 const HelpCenter = lazy(() => import('./pages/helpCenter/HelpCenter'));
 
 function App() {
   return (
     <AppProviders>
+      <ScrollToTop />
       <NavBar />
 
       <Suspense fallback={<Loader />}>
@@ -152,6 +159,12 @@ function App() {
               <Route index element={<VenueShow />} />
               <Route path="reviews" element={<VenueReviews />} />
             </Route>
+          </Route>
+
+          {/* Moderation Module */}
+          <Route path="/moderation" element={<ModerationContainer />}>
+            <Route index element={<ModerationIndex />} />
+            <Route path=":id" element={<ModerationShow />} />
           </Route>
 
           {/* User Profile Module */}

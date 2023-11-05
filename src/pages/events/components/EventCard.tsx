@@ -91,20 +91,24 @@ export const EventCard = ({ event }: Props) => {
         </StyledIconWLabel>
 
         {/* Artist */}
-        <StyledIconWLabel>
-          <StyledIconContainer>
-            <MMArtistIcon />
-          </StyledIconContainer>
-          <span>{event.artist.name}</span>
-        </StyledIconWLabel>
+        {event.artist && (
+          <StyledIconWLabel>
+            <StyledIconContainer>
+              <MMArtistIcon />
+            </StyledIconContainer>
+            <span>{event.artist.name}</span>
+          </StyledIconWLabel>
+        )}
 
         {/* Venue */}
-        <StyledIconWLabel>
-          <StyledIconContainer>
-            <MMVenueIcon />
-          </StyledIconContainer>
-          <span>{event.venue.name}</span>
-        </StyledIconWLabel>
+        {event.venue && (
+          <StyledIconWLabel>
+            <StyledIconContainer>
+              <MMVenueIcon />
+            </StyledIconContainer>
+            <span>{event.venue.name}</span>
+          </StyledIconWLabel>
+        )}
       </StyledCardDataContainer>
     </StyledCardContainer>
   );

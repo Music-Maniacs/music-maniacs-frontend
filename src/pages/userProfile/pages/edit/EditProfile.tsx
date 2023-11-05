@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SubmitHandler, useFieldArray, useForm } from 'react-hook-form';
 import { errorSnackbar, infoSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { handleFormErrors } from '../../../../utils/handleFormErrors';
@@ -12,6 +12,7 @@ import { Grid, GridProps } from '@mui/material';
 import { InputDropzone } from '../../../../components/form/InputDropzone/InputDropzone';
 import { styled } from 'styled-components';
 import { updateProfile } from '../../../../services/userProfileService';
+import { useAuth } from '../../../../context/authContext';
 
 const StyledImageDropzoneContainer = styled.div`
   border: 1px #1e2e2c solid;
@@ -48,6 +49,7 @@ type FormData = {
 };
 
 export const EditProfile = () => {
+  const { setUser } = useAuth();
   const { userProfile, setUserProfile } = useUser();
   const {
     register,
@@ -75,6 +77,17 @@ export const EditProfile = () => {
 
   const inputCommonProps = { register, errors, type: 'text' };
 
+  useEffect(() => {
+    reset({
+      full_name: userProfile?.full_name,
+      biography: userProfile?.biography,
+      username: userProfile?.username,
+      email: userProfile?.email,
+      links_attributes: userProfile?.links?.map((link) => ({ id: link.id, title: link.title, url: link.url }))
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userProfile]);
+
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
       const response = await updateProfile(
@@ -89,7 +102,8 @@ export const EditProfile = () => {
       );
 
       setUserProfile(response);
-
+      setUser(response);
+      document.getElementById('user_profile_tab')?.click(); //POLEMICO
       infoSnackbar('Perfil actualizado con exito');
     } catch (error) {
       let hasFormError = handleFormErrors(error, setError);

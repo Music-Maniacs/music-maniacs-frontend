@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { IconBaseProps, IconType } from 'react-icons';
 import { styled } from 'styled-components';
 import { MMColors } from '../../models/Generic';
@@ -60,15 +60,8 @@ export interface MMTabProps extends React.AnchorHTMLAttributes<HTMLAnchorElement
   active?: boolean;
 }
 export const MMTab = ({ Icon, label, chip, href, active, ...props }: MMTabProps) => {
-  const tabRef = useRef<HTMLAnchorElement>(null);
-
-  useEffect(() => {
-    if (tabRef.current && active) tabRef.current.click();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [tabRef]);
-
   return (
-    <StyledSidenavTabAnchor $active={active} href={href} ref={tabRef} {...props}>
+    <StyledSidenavTabAnchor $active={active} {...props}>
       {Icon && <Icon />}
       <span className="tab-text">{label}</span>
 

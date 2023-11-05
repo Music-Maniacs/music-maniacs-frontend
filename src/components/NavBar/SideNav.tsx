@@ -63,7 +63,7 @@ export const SideNav = ({ active, setActive }: Props) => {
         <div className="content">
           <MMLink to={'/profiles'} content="Buscar Perfiles" />
           <MMLink to={'/events'} content="Buscar Eventos" />
-          <MMLink to={'/'} content="Moderar" />
+          <MMLink to={'/moderation'} content="Moderar" />
           <AdminDropdown />
         </div>
       </>

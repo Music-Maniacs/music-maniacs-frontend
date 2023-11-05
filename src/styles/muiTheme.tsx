@@ -25,19 +25,22 @@ export const muiTheme = createTheme(
     },
     components: {
       MuiIconButton: {
-        styleOverrides: {
-          root: {
+        defaultProps: {
+          sx: {
             color: colors.text_color
           }
         }
       },
       MuiTab: {
-        defaultProps: {
-          sx: {
+        styleOverrides: {
+          root: {
             color: colors.text_color,
             '&.Mui-selected': {
               color: colors.text_color,
               fontWeight: 'bold'
+            },
+            '&.Mui-disabled': {
+              color: '#aaa'
             }
           }
         }
@@ -51,6 +54,11 @@ export const muiTheme = createTheme(
         }
       },
       MuiTablePagination: {
+        styleOverrides: {
+          selectIcon: {
+            color: colors.text_color
+          }
+        },
         defaultProps: {
           sx: {
             color: colors.text_color

@@ -14,10 +14,31 @@ import { User } from '../../../models/User';
 import { getUserProfile } from '../../../services/userProfileService';
 import { CoverImage } from '../components/CoverImage';
 import { UserInfo } from '../components/UserInfo';
-import { UserLinks } from '../components/UserLinks';
-
+import breakpoints from '../../../styles/_breakpoints.scss';
+import { MMLinksGroup } from '../../../components/MMLinkGroup/MMLinksGroup';
 const MMBoxPaddding = styled(MMBox)`
   padding: 30px !important;
+`;
+const MMFirstBoxPaddding = styled(MMBox)`
+  padding: 30px !important;
+
+  @media screen and (max-width: ${breakpoints.sm}) {
+    padding: 10px !important;
+  }
+`;
+
+const ProfileUserData = styled.div`
+  padding: 35px 0;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  /* @media screen and (max-width: ${breakpoints.md}) {
+    flex-direction: column;
+    gap: 2rem;
+    padding: 10px 0;
+  } */
 `;
 
 export const ShowUserProfile = () => {
@@ -54,33 +75,28 @@ export const ShowUserProfile = () => {
             </MMBoxPaddding>
           )}
 
-          <MMBoxPaddding>
+          <MMFirstBoxPaddding>
             <Grid item>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'flex-start',
-                  justifyContent: 'space-between'
-                }}
-              >
+              <ProfileUserData>
                 <UserInfo
                   fullName={userProfile?.full_name}
                   profileImage={userProfile?.profile_image}
                   username={userProfile?.username}
                   role={userProfile?.role}
                 />
-                <UserLinks links={userProfile?.links} />
-              </div>
+                {userProfile?.links && userProfile.links.length > 0 && <MMLinksGroup links={userProfile?.links} />}
+              </ProfileUserData>
             </Grid>
-          </MMBoxPaddding>
+          </MMFirstBoxPaddding>
           <MMBoxPaddding>
-            <Grid item>
-              <div>
-                <MMSubTitle content="Biografía" />
-                <p>{userProfile?.biography}</p>
-              </div>
-            </Grid>
+            {userProfile?.biography && (
+              <Grid item>
+                <div>
+                  <MMSubTitle content="Biografía" />
+                  <p>{userProfile?.biography}</p>
+                </div>
+              </Grid>
+            )}
             <Grid item>
               <div>
                 <MMSubTitle content="Reseñas" />

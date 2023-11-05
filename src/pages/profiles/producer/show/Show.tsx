@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useModal } from '../../../../components/hooks/useModal';
 import { MMModal } from '../../../../components/Modal/MMModal';
 import { MMContainer } from '../../../../components/MMContainer/MMContainer';
@@ -12,10 +12,24 @@ import { VersionBox } from '../../../../components/versions/VersionBox';
 import { ProfileEventsBox } from '../../components/ProfileEventsBox';
 import { ProfileReviewsBox } from '../../components/ProfileReviewsBox';
 import { useProducer } from '../context/producerContext';
+import { ReportForm } from '../../../../components/forms/report/ReportForm';
+import { reportVersions } from '../../../../services/versionService';
+import { Version } from '../../../../models/Version';
 
 const Show = () => {
   const { isModalOpen, openModal, closeModal } = useModal();
   const { producer, setProducer } = useProducer();
+  const [versionsToReport, setVersionsToReport] = useState<Version>();
+  const {
+    isModalOpen: isVersionsReportModalOpen,
+    openModal: openVersionsReportModal,
+    closeModal: closeVersionsReportModal
+  } = useModal();
+
+  const handleReportVersion = (version: Version) => {
+    setVersionsToReport(version);
+    openVersionsReportModal();
+  };
 
   return (
     <>
@@ -26,6 +40,16 @@ const Show = () => {
           producerToEdit={producer}
           useAdminController={false}
           successCallback={(producer) => setProducer((prevProducer) => ({ ...prevProducer, ...producer }))}
+        />
+      </MMModal>
+
+      <MMModal closeModal={closeVersionsReportModal} isModalOpen={isVersionsReportModalOpen} maxWidth="sm">
+        <ReportForm
+          reportableId={versionsToReport?.id || ''}
+          service={reportVersions}
+          closeModal={closeVersionsReportModal}
+          reportTitleText="la versión"
+          reportableType="Version"
         />
       </MMModal>
 
@@ -45,7 +69,7 @@ const Show = () => {
 
             <ProfileReviewsBox profile={producer} reviewableKlass="producer" />
 
-            <VersionBox versions={producer.versions} />
+            <VersionBox versions={producer.versions} handleReportVersion={handleReportVersion} />
           </>
         ) : (
           <Loader />
