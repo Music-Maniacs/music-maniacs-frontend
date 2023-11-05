@@ -28,6 +28,7 @@ import { deleteVideo, likeVideo, removeLikeVideo, reportVideo } from '../../../s
 import { NoData } from '../../../components/NoData/NoData';
 import { ReportForm } from '../../../components/forms/report/ReportForm';
 import { VideoPreview } from './VideoPreview';
+import { usePolicy } from '../../../components/hooks/usePolicy';
 
 const Multimedia = () => {
   const { id } = useParams();
@@ -43,6 +44,7 @@ const Multimedia = () => {
   const { user } = useAuth();
   const [videoToReport, setVideoToReport] = useState<Video>();
   const { isModalOpen: isReportModalOpen, openModal: openReportModal, closeModal: closeReportModal } = useModal();
+  const { policies: videoPolicy } = usePolicy({ controllerClassName: 'VideosController' });
 
   useEffect(() => {
     if (!id) return navigate('/events');
@@ -168,8 +170,14 @@ const Multimedia = () => {
   };
 
   const handleReportVideo = (video: Video) => {
-    setVideoToReport(video);
-    openReportModal();
+    if (videoPolicy?.report) {
+      setVideoToReport(video);
+      openReportModal();
+    } else {
+      warningSnackbar(
+        'No tienes permisos para reportar un video. Debes alcanzar un nivel de confianza más alto para desbloquear esta función.'
+      );
+    }
   };
 
   return (
@@ -210,7 +218,13 @@ const Multimedia = () => {
                     <MMButton
                       onClick={() => {
                         if (user) {
-                          handleVideoUpload();
+                          if (videoPolicy?.create) {
+                            handleVideoUpload();
+                          } else {
+                            warningSnackbar(
+                              'No tienes permisos para subir un video. Debes alcanzar un nivel de confianza más alto para desbloquear esta función.'
+                            );
+                          }
                         } else {
                           warningSnackbar('Debe iniciar sesión para subir un video');
                         }

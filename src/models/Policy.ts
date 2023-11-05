@@ -11,6 +11,7 @@ export type Policy = {
   block?: boolean;
   unblock?: boolean;
   restore?: boolean;
+  report?: boolean;
 
   [x: string]: boolean | undefined;
 };
