@@ -17,11 +17,11 @@ export const Paragraph = styled.p`
   text-align: justify;
   text-justify: inter-word;
 
-  ol li {
+  ul ol li {
     padding: 5px 0 0 15px;
     margin: 0 0 0 30px;
   }
-  ol {
+  ul ol {
     list-style-type: decimal;
     list-style-position: outside;
   }

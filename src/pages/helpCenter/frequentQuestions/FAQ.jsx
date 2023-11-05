@@ -1,5 +1,5 @@
-import { styled } from 'styled-components';
 import { Paragraph, SubTitle, Title } from '../HelpCenterStyles';
+import { QuestionsAcordeon } from './components/QuestionsAcordeon';
 
 export const FAQ = () => {
   return (
@@ -108,6 +108,7 @@ export const FAQ = () => {
       <br />
 
       <Title>Preguntas frecuentes</Title>
+      <QuestionsAcordeon />
     </div>
   );
 };
