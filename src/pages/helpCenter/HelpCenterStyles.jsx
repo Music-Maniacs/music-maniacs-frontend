@@ -12,4 +12,17 @@ export const SubTitle = styled.h2`
 export const Paragraph = styled.p`
   margin-left: 20px;
   font-size: large;
+  letter-spacing: 1px;
+  text-indent: 0;
+  text-align: justify;
+  text-justify: inter-word;
+
+  ol li {
+    padding: 5px 0 0 15px;
+    margin: 0 0 0 30px;
+  }
+  ol {
+    list-style-type: decimal;
+    list-style-position: outside;
+  }
 `;

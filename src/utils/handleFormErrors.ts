@@ -10,7 +10,8 @@ const errors: Dictionary = {
   confirmation: 'No coincide con la contraseña',
   not_a_number: 'no es un número',
   already_reviewed: 'Ya has realizado una reseña sobre esta opción',
-  'restrict_dependent_destroy.has_many': 'No se puede eliminar porque tiene dependencias con'
+  'restrict_dependent_destroy.has_many': 'No se puede eliminar porque tiene dependencias con',
+  blank: 'no puede estar en blanco'
 };
 
 const fieldNames: Dictionary = {
@@ -21,7 +22,8 @@ const fieldNames: Dictionary = {
   name: 'El nombre',
   penalty_score: 'La cantidad de penalizaciones',
   days_blocked: 'Los dias bloqueados',
-  events: 'eventos'
+  events: 'eventos',
+  description: 'La descripción'
 };
 
 function formatErrorMessage(error: string, field: string): string {
