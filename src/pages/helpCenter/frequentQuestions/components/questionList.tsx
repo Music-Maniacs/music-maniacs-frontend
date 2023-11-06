@@ -5,8 +5,8 @@ export const questionList: QuestionDropdownProps[] = [
   {
     question: '¿Cómo recuperar mi contraseña si la olvidé?',
     Answer: (
-      <Paragraph>
-        <ul>
+      <>
+        <Paragraph as={'ul'}>
           <li>Accede a la Página de Inicio de Sesión: Visita la página de inicio de sesión en tu navegador web.</li>
           <li>
             Haz Clic en "¿Olvidaste tu Contraseña?": Justo debajo del formulario de inicio de sesión, encontrarás un
@@ -27,9 +27,11 @@ export const questionList: QuestionDropdownProps[] = [
             una página donde podrás ingresar una nueva contraseña. Asegúrate de crear una contraseña segura que cumpla
             con los requisitos de seguridad.
           </li>
-        </ul>
-        <span>Ahora puedes usar tu nueva contraseña para acceder a tu cuenta.</span>
-      </Paragraph>
+        </Paragraph>
+        <Paragraph>
+          <span>Ahora puedes usar tu nueva contraseña para acceder a tu cuenta.</span>
+        </Paragraph>
+      </>
     )
   },
   {
@@ -67,14 +69,13 @@ export const questionList: QuestionDropdownProps[] = [
   {
     question: '¿Cómo se puede reportar contenido incorrecto, ofensivo o spam en la plataforma?',
     Answer: (
-      <Paragraph>
-        <span>
+      <>
+        <Paragraph>
           Si crees haber encontrado contenido que incumpla con las normas establecidas o errores como por ejemplo:
           perfiles duplicados, eventos falsos o demás, sigue los siguientes pasos:
-        </span>
-        <ul>
+        </Paragraph>
+        <Paragraph as={'ul'}>
           <li>
-            {' '}
             Accede a las opciones de reporte: Por lo general, cerca del contenido que deseas denunciar, verás una un
             icono con una bandera con el tooltip “Reportar”. Haz clic o toca esta opción para comenzar el proceso de
             reporte.
@@ -93,8 +94,8 @@ export const questionList: QuestionDropdownProps[] = [
             tu reporte haciendo clic en un botón como "Enviar" o "Reportar". El contenido será enviado al equipo de
             moderación para su revisión.
           </li>
-        </ul>
-      </Paragraph>
+        </Paragraph>
+      </>
     )
   },
   {
@@ -139,12 +140,12 @@ export const questionList: QuestionDropdownProps[] = [
   {
     question: '¿Cómo puedo personalizar mi perfil de usuario y qué información adicional puedo agregar?',
     Answer: (
-      <Paragraph>
-        <span>
+      <>
+        <Paragraph>
           Utilizando el botón de “Editar perfil”, el cual está en la barra principal, se te redirige a la sección de
           edición del perfil donde podrás editar los siguientes campos y opciones:
-        </span>
-        <ul>
+        </Paragraph>
+        <Paragraph as={'ul'}>
           <li>Nombre completo</li>
           <li>Nombre de usuario</li>
           <li>Email</li>
@@ -152,8 +153,8 @@ export const questionList: QuestionDropdownProps[] = [
           <li>Imagen de portada</li>
           <li>Biografía</li>
           <li>Links</li>
-        </ul>
-      </Paragraph>
+        </Paragraph>
+      </>
     )
   }
 ];
