@@ -60,6 +60,9 @@ const ModerationContainer = lazy(() => import('./pages/moderation/ModerationCont
 const ModerationIndex = lazy(() => import('./pages/moderation/index/Index'));
 const ModerationShow = lazy(() => import('./pages/moderation/show/Show'));
 
+// Help Center
+const HelpCenter = lazy(() => import('./pages/helpCenter/HelpCenter'));
+
 function App() {
   return (
     <AppProviders>
@@ -168,6 +171,11 @@ function App() {
           <Route path="/user">
             <Route path="profile" element={<UserProfileContainer />} />
             <Route path=":id" element={<UserProfile />} />
+          </Route>
+
+          {/* Help Center */}
+          <Route path="/help_center">
+            <Route index element={<HelpCenter />} />
           </Route>
 
           {/* Not Found */}

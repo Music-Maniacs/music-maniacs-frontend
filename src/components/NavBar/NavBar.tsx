@@ -4,7 +4,7 @@ import MMLink from '../MMLink/MMLink';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/authContext';
 import { MMButton } from '../MMButton/MMButton';
-import { BiMenu } from 'react-icons/bi';
+import { BiHelpCircle, BiMenu } from 'react-icons/bi';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import { SideNav } from './SideNav';
 import { NavUserProfile } from './NavUserProfile';
@@ -31,6 +31,8 @@ export const NavBar = () => {
           <MMLink to={'/profiles'} content="Buscar Perfiles" />
           <MMLink to={'/events'} content="Buscar Eventos" />
           <MMLink to={'/'} content="Sobre Nosotros" />
+
+          <BiHelpCircle size={20} onClick={() => navigate('help_center')} style={{ cursor: 'pointer' }} />
 
           <ToggleThemeIcon />
 
@@ -72,6 +74,8 @@ export const NavBar = () => {
             <MMLink to={'/admin/thresholds'} content="Umbrales Penalizacion" />
           </div>
         </div>
+
+        <BiHelpCircle size={20} onClick={() => navigate('help_center')} style={{ cursor: 'pointer' }} />
 
         <ToggleThemeIcon />
 
