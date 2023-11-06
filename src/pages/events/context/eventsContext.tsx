@@ -39,8 +39,12 @@ export const EventsProvider = ({ children }: Props) => {
     datetime_lteq: '',
     artist_id_eq: '',
     producer_id_eq: '',
-    venue_id_eq: ''
+    venue_id_eq: '',
+    venue_location_city_cont: '',
+    venue_location_country_cont: '',
+    venue_location_province_cont: ''
   });
+
   const { pagination, setPagination } = usePagination<Event>({
     url: INDEX_URL,
     requestCallback: (data) => indexRequestCallback(data),

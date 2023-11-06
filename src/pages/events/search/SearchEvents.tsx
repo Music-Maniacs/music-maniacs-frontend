@@ -23,6 +23,9 @@ import { GroupBase } from 'react-select';
 import { SearcherSkeleton } from './Skeleton';
 import { useInfiniteScroll } from '../../../components/hooks/useInfiniteScroll';
 import { NoData } from '../../../components/NoData/NoData';
+import { GoogleAutocomplete, PlaceDetails } from '../../../components/forms/venues/GoogleAutocomplete';
+import { googleAutocompleteKeys } from '../../../components/forms/venues/VenuesForm';
+import { SelectCollection } from '../../../models/Generic';
 
 const StyledSearchbarForm = styled.form`
   padding: 1rem 0 2rem 0;
@@ -55,6 +58,48 @@ const SearchEvents = () => {
     setPagination((prevState) => ({ ...prevState, isLoading: true, page: 1 }));
   };
 
+  const handlePlaceSelected = (place: PlaceDetails) => {
+    queryParams.current.venue_location_city_cont = '';
+    queryParams.current.venue_location_province_cont = '';
+    queryParams.current.venue_location_country_cont = '';
+
+    if (place.address_components) {
+      place.address_components.forEach((addComponent) => {
+        const type = addComponent.types[0];
+        const value = addComponent.long_name;
+
+        const venueAttr = googleAutocompleteKeys[type];
+
+        if (['city', 'province', 'country'].includes(venueAttr)) {
+          queryParams.current[`venue_location_${venueAttr}_cont`] = value;
+        }
+      });
+    }
+  };
+
+  const handlePlaceInputClear = () => {
+    queryParams.current.venue_location_city_cont = '';
+    queryParams.current.venue_location_province_cont = '';
+    queryParams.current.venue_location_country_cont = '';
+  };
+
+  const placeSelectDefaultValue = (): SelectCollection | undefined => {
+    const value = `${
+      queryParams?.current?.venue_location_city_cont ? `${queryParams?.current?.venue_location_city_cont}, ` : ''
+    }${
+      queryParams?.current?.venue_location_province_cont
+        ? `${queryParams?.current?.venue_location_province_cont}, `
+        : ''
+    }${queryParams.current.venue_location_country_cont ? `${queryParams.current.venue_location_country_cont}` : ''}`;
+
+    if (!value) return undefined;
+
+    return {
+      label: value,
+      value: value
+    };
+  };
+
   return (
     <>
       <MMModal isModalOpen={isModalOpen} closeModal={closeModal} title="Crear Evento" maxWidth="lg">
@@ -77,10 +122,11 @@ const SearchEvents = () => {
           <StyledSearchbarForm onSubmit={handleSearch} id="events-search-filters" ref={formRef}>
             <Grid container spacing={2}>
               <Grid container item spacing={2}>
-                <Grid item xs={12} sm={6} md={4} lg={2}>
+                <Grid item xs={12} sm={6} md={4} lg={3}>
                   <SearchInputText paramKey="name_cont" placeholder="Buscar por Nombre" queryParams={queryParams} />
                 </Grid>
-                <Grid item xs={12} sm={6} md={4} lg={2}>
+
+                <Grid item xs={12} sm={6} md={4} lg={3}>
                   <SearchInputAsyncSelect
                     placeholder="Artista"
                     paramKey="artist_id_eq"
@@ -91,7 +137,7 @@ const SearchEvents = () => {
                   />
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={4} lg={2}>
+                <Grid item xs={12} sm={6} md={4} lg={3}>
                   <SearchInputAsyncSelect
                     placeholder="Espacio de Evento"
                     paramKey="venue_id_eq"
@@ -102,7 +148,7 @@ const SearchEvents = () => {
                   />
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={4} lg={2}>
+                <Grid item xs={12} sm={6} md={6} lg={3}>
                   <SearchInputAsyncSelect
                     placeholder="Productora"
                     paramKey="producer_id_eq"
@@ -113,16 +159,17 @@ const SearchEvents = () => {
                   />
                 </Grid>
 
-                {/* TODO: Ver como vamos a buscar por ubicación */}
-                {/* <Grid item xs={12} sm={6} md={4} lg={2}>
-                  <SearchInputText
-                    paramKey="address_cont"
-                    placeholder="Buscar por Ubicación"
-                    queryParams={queryParams}
+                <Grid item xs={12} sm={12} md={6} lg={6}>
+                  <GoogleAutocomplete
+                    placeholder="Ciudad / Provincia / País"
+                    defaultValue={placeSelectDefaultValue()}
+                    onPlaceSelected={handlePlaceSelected}
+                    onInputClear={handlePlaceInputClear}
+                    types={['administrative_area_level_2', 'administrative_area_level_1', 'country']}
                   />
-                </Grid> */}
+                </Grid>
 
-                <Grid item xs={12} sm={6} md={4} lg={2}>
+                <Grid item xs={12} sm={6} md={6} lg={3}>
                   <SearchInputDate
                     paramKey="datetime_gteq"
                     placeholder="Fecha Desde"
@@ -131,7 +178,7 @@ const SearchEvents = () => {
                   />
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={4} lg={2}>
+                <Grid item xs={12} sm={6} md={6} lg={3}>
                   <SearchInputDate
                     paramKey="datetime_lteq"
                     placeholder="Fecha Hasta"
