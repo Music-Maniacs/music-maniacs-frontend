@@ -8,6 +8,7 @@ import { FAQ } from './frequentQuestions/FAQ';
 import './HelpCenter.scss';
 import { ModeratorManual } from './ModeratorManual';
 import breakpoints from '../../styles/_breakpoints.scss';
+import { useAuth } from '../../context/authContext';
 
 const DownloadAdminManual = styled.a`
   all: unset;
@@ -34,6 +35,8 @@ const DownloadAdminManual = styled.a`
 `;
 
 const HelpCenter = () => {
+  const { user } = useAuth();
+
   return (
     <MMContainer maxWidth="xxl">
       <MMBox className="help-center-container">
@@ -51,18 +54,21 @@ const HelpCenter = () => {
               label: 'Manual Moderador'
             },
             {
-              customTemplate: (
-                <DownloadAdminManual
-                  href={require('../../assets/pdfs/ManualAdmin.pdf')}
-                  download="ManualAdministrador"
-                  target="_blank"
-                  rel="noreferrer"
-                  key="download-tab"
-                >
-                  <FaUserTie />
-                  <span>Manual Administrador</span>
-                </DownloadAdminManual>
-              )
+              customTemplate:
+                user?.role.name === 'admin' ? (
+                  <DownloadAdminManual
+                    href={require('../../assets/pdfs/ManualAdmin.pdf')}
+                    download="ManualAdministrador"
+                    target="_blank"
+                    rel="noreferrer"
+                    key="download-tab"
+                  >
+                    <FaUserTie />
+                    <span>Manual Administrador</span>
+                  </DownloadAdminManual>
+                ) : (
+                  <></>
+                )
             }
           ]}
           Content={[<FAQ />, <ModeratorManual />]}
