@@ -15,10 +15,11 @@ import { useProducer } from '../context/producerContext';
 import { ReportForm } from '../../../../components/forms/report/ReportForm';
 import { reportVersions } from '../../../../services/versionService';
 import { Version } from '../../../../models/Version';
+import { warningSnackbar } from '../../../../components/Snackbar/Snackbar';
 
 const Show = () => {
   const { isModalOpen, openModal, closeModal } = useModal();
-  const { producer, setProducer } = useProducer();
+  const { producer, setProducer, producerPolicies, versionPolicies } = useProducer();
   const [versionsToReport, setVersionsToReport] = useState<Version>();
   const {
     isModalOpen: isVersionsReportModalOpen,
@@ -27,8 +28,14 @@ const Show = () => {
   } = useModal();
 
   const handleReportVersion = (version: Version) => {
-    setVersionsToReport(version);
-    openVersionsReportModal();
+    if (versionPolicies?.report) {
+      setVersionsToReport(version);
+      openVersionsReportModal();
+    } else {
+      warningSnackbar(
+        'No tienes permisos para reportar versiones. Debes alcanzar un nivel de confianza más alto para desbloquear esta función.'
+      );
+    }
   };
 
   return (
@@ -63,6 +70,8 @@ const Show = () => {
               openEditModal={openModal}
               setProfile={setProducer}
               reviewableKlass="producer"
+              canEdit={producerPolicies?.update}
+              canReport={producerPolicies?.report}
             />
 
             <ProfileEventsBox profile={producer} />

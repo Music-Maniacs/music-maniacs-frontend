@@ -18,12 +18,14 @@ import { likeComment, removeLikeComment, reportComment } from '../../../../servi
 import { errorSnackbar, warningSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { ReportForm } from '../../../../components/forms/report/ReportForm';
 import { NoData } from '../../../../components/NoData/NoData';
+import { Policy } from '../../../../models/Policy';
 
 type Props = {
   event: Event;
+  commentsPolicies?: Policy;
 };
 
-export const EventCommentBox = ({ event }: Props) => {
+export const EventCommentBox = ({ event, commentsPolicies }: Props) => {
   const { id } = useParams();
   const { user } = useAuth();
   const [comments, setComments] = useState<Comment[]>([]);
@@ -66,9 +68,15 @@ export const EventCommentBox = ({ event }: Props) => {
   };
 
   const handleCreateCommentButton = () => {
-    setIsFormEdit(false);
-    setCommentToEdit(undefined);
-    openModal();
+    if (commentsPolicies?.create) {
+      setIsFormEdit(false);
+      setCommentToEdit(undefined);
+      openModal();
+    } else {
+      warningSnackbar(
+        'No tienes permisos para comentar. Debes alcanzar un nivel de confianza más alto para desbloquear esta función.'
+      );
+    }
   };
 
   const handleEditCommentButton = (comment: Comment) => {
@@ -78,8 +86,14 @@ export const EventCommentBox = ({ event }: Props) => {
   };
 
   const handleReportCommentButton = (comment: Comment) => {
-    setCommentToReport(comment);
-    openReportModal();
+    if (commentsPolicies?.report) {
+      setCommentToReport(comment);
+      openReportModal();
+    } else {
+      warningSnackbar(
+        'No tienes permisos para reportar comentarios. Debes alcanzar un nivel de confianza más alto para desbloquear esta función.'
+      );
+    }
   };
 
   const handleLikeComment = async (commentId: string, likedByCurrentUser: boolean) => {

@@ -28,6 +28,7 @@ import { ProducerForm } from '../../../components/forms/producer/ProducerForm';
 import { VenuesForm } from '../../../components/forms/venues/VenuesForm';
 import { NoData } from '../../../components/NoData/NoData';
 import { useAuth } from '../../../context/authContext';
+import { usePolicy } from '../../../components/hooks/usePolicy';
 
 type ProfileSearchApiResponse = {
   artists: PaginatedApiResponse<Artist>;
@@ -50,6 +51,9 @@ const Search = () => {
   const [venues, setVenues] = useState<Venue[]>([]);
   const [producers, setProducers] = useState<Producer[]>([]);
   const [isFirstSearchLoading, setIsFirstSearchLoading] = useState<Boolean>(true);
+  const { policies: artistPolicies } = usePolicy({ controllerClassName: 'ArtistsController' });
+  const { policies: producerPolicies } = usePolicy({ controllerClassName: 'ProducersController' });
+  const { policies: venuePolicies } = usePolicy({ controllerClassName: 'VenuesController' });
 
   const [profileClassToCreate, setProfileClassToCreate] = useState<'artist' | 'venue' | 'producer'>('artist');
   const Form = FormsByProfile[profileClassToCreate];
@@ -143,18 +147,37 @@ const Search = () => {
   };
 
   const handleCreateArtist = () => {
-    setProfileClassToCreate('artist');
-    openModal();
+    if (artistPolicies?.create) {
+      setProfileClassToCreate('artist');
+
+      openModal();
+    } else {
+      warningSnackbar(
+        'No tienes permisos para crear Artistas. Debes alcanzar un nivel de confianza más alto para desbloquear esta función.'
+      );
+    }
   };
 
   const handleCreateVenue = () => {
-    setProfileClassToCreate('venue');
-    openModal();
+    if (venuePolicies?.create) {
+      setProfileClassToCreate('venue');
+      openModal();
+    } else {
+      warningSnackbar(
+        'No tienes permisos para crear Espacios de Eventos. Debes alcanzar un nivel de confianza más alto para desbloquear esta función.'
+      );
+    }
   };
 
   const handleCreateProducer = () => {
-    setProfileClassToCreate('producer');
-    openModal();
+    if (producerPolicies?.create) {
+      setProfileClassToCreate('producer');
+      openModal();
+    } else {
+      warningSnackbar(
+        'No tienes permisos para crear Productoras. Debes alcanzar un nivel de confianza más alto para desbloquear esta función.'
+      );
+    }
   };
 
   return (

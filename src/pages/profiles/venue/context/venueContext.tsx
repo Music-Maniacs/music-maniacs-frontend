@@ -3,6 +3,8 @@ import { Venue } from '../../../../models/Venue';
 import { errorSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { getVenue } from '../../../../services/venueService';
 import { useNavigate, useParams } from 'react-router-dom';
+import { usePolicy } from '../../../../components/hooks/usePolicy';
+import { Policy } from '../../../../models/Policy';
 
 type Props = {
   children: React.ReactNode;
@@ -11,6 +13,8 @@ type Props = {
 type StoreProps = {
   venue?: Venue;
   setVenue: Dispatch<SetStateAction<Venue | undefined>>;
+  venuePolicies?: Policy;
+  versionPolicies?: Policy;
 };
 
 const VenueContext = createContext<StoreProps | null>(null);
@@ -20,6 +24,8 @@ export const VenueProvider = ({ children }: Props) => {
   const navigate = useNavigate();
 
   const [venue, setVenue] = useState<Venue>();
+  const { policies: venuePolicies } = usePolicy({ controllerClassName: 'VenuesController' });
+  const { policies: versionPolicies } = usePolicy({ controllerClassName: 'VersionsController' });
 
   useEffect(() => {
     if (!id) return navigate('/profiles');
@@ -41,7 +47,9 @@ export const VenueProvider = ({ children }: Props) => {
 
   const store: StoreProps = {
     venue,
-    setVenue
+    setVenue,
+    venuePolicies,
+    versionPolicies
   };
 
   return <VenueContext.Provider value={store}>{children}</VenueContext.Provider>;

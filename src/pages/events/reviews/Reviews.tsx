@@ -198,7 +198,7 @@ const Reviews = () => {
               ]}
             />
 
-            <EventInfoBox event={showEvent} openModal={openModal} setEvent={setShowEvent} hideActions />
+            <EventInfoBox event={showEvent} setEvent={setShowEvent} hideActions />
 
             <MMBox className="show-boxes ">
               <div className="reviews-box">

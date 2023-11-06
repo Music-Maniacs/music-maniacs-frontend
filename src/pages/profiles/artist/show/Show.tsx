@@ -15,10 +15,11 @@ import { ProfileReviewsBox } from '../../components/ProfileReviewsBox';
 import { Version } from '../../../../models/Version';
 import { ReportForm } from '../../../../components/forms/report/ReportForm';
 import { reportVersions } from '../../../../services/versionService';
+import { warningSnackbar } from '../../../../components/Snackbar/Snackbar';
 
 const Show = () => {
   const { isModalOpen, openModal, closeModal } = useModal();
-  const { artist, setArtist } = useArtist();
+  const { artist, setArtist, artistPolicies, versionPolicies } = useArtist();
   const [versionsToReport, setVersionsToReport] = useState<Version>();
   const {
     isModalOpen: isVersionsReportModalOpen,
@@ -27,8 +28,14 @@ const Show = () => {
   } = useModal();
 
   const handleReportVersion = (version: Version) => {
-    setVersionsToReport(version);
-    openVersionsReportModal();
+    if (versionPolicies?.report) {
+      setVersionsToReport(version);
+      openVersionsReportModal();
+    } else {
+      warningSnackbar(
+        'No tienes permisos para reportar versiones. Debes alcanzar un nivel de confianza más alto para desbloquear esta función.'
+      );
+    }
   };
 
   return (
@@ -63,6 +70,8 @@ const Show = () => {
               openEditModal={openModal}
               setProfile={setArtist}
               reviewableKlass="artist"
+              canEdit={artistPolicies?.update}
+              canReport={artistPolicies?.report}
             />
 
             <ProfileEventsBox profile={artist} />

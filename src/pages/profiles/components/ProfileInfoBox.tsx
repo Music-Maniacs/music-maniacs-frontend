@@ -5,7 +5,7 @@ import { Venue } from '../../../models/Venue';
 import { MMBox } from '../../../components/MMBox/MMBox';
 import '../Profiles.scss';
 import { Grid } from '@mui/material';
-import { errorSnackbar } from '../../../components/Snackbar/Snackbar';
+import { errorSnackbar, warningSnackbar } from '../../../components/Snackbar/Snackbar';
 import { MMSubTitle } from '../../../components/MMTitle/MMTitle';
 import { Genre } from '../../../models/Genre';
 import { followArtist, reportArtist, unfollowArtist } from '../../../services/artistService';
@@ -18,6 +18,7 @@ import { useModal } from '../../../components/hooks/useModal';
 import { VenueMapInfo } from '../venue/components/VenueMapInfo';
 import { ProfileBasicInfo } from './ProfileBasicInfo';
 import { MMLinksGroup } from '../../../components/MMLinkGroup/MMLinksGroup';
+import { useAuth } from '../../../context/authContext';
 
 type ProfileInfoBoxProps = {
   profile: Artist | Producer | Venue;
@@ -25,6 +26,8 @@ type ProfileInfoBoxProps = {
   openEditModal?: () => void;
   hideActions?: boolean;
   reviewableKlass: 'artist' | 'venue' | 'producer';
+  canEdit?: boolean;
+  canReport?: boolean;
 };
 
 const followEndpointByReviewable = {
@@ -56,8 +59,11 @@ export const ProfileInfoBox = ({
   setProfile,
   openEditModal,
   hideActions = false,
-  reviewableKlass
+  reviewableKlass,
+  canEdit = false,
+  canReport = false
 }: ProfileInfoBoxProps) => {
+  const { user } = useAuth();
   const { isModalOpen: isReportModalOpen, openModal: openReportModal, closeModal: closeReportModal } = useModal();
 
   const followEndpoint = followEndpointByReviewable[reviewableKlass];
@@ -86,11 +92,31 @@ export const ProfileInfoBox = ({
   };
 
   const handleReportProfile = () => {
-    openReportModal();
+    if (user) {
+      if (canReport) {
+        openReportModal();
+      } else {
+        warningSnackbar(
+          'No tienes permisos para reportar perfiles. Debes alcanzar un nivel de confianza más alto para desbloquear esta función.'
+        );
+      }
+    } else {
+      warningSnackbar('Debe iniciar sesión para reportar un perfil.');
+    }
   };
 
   const handleEditProfile = () => {
-    openEditModal && openEditModal();
+    if (user) {
+      if (canEdit) {
+        openEditModal && openEditModal();
+      } else {
+        warningSnackbar(
+          'No tienes permisos para editar perfiles. Debes alcanzar un nivel de confianza más alto para desbloquear esta función.'
+        );
+      }
+    } else {
+      warningSnackbar('Debe iniciar sesión para editar un perfil.');
+    }
   };
 
   return (

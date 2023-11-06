@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Policy } from '../../models/Policy';
 import { checkPolicy } from '../../services/policyService';
 import { errorSnackbar } from '../Snackbar/Snackbar';

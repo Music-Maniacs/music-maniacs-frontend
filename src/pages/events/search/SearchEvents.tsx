@@ -32,7 +32,7 @@ const StyledSearchbarForm = styled.form`
 
 const SearchEvents = () => {
   const { user } = useAuth();
-  const { pagination, events, queryParams, setPagination, cleanQueryParams, setEvents } = useEvents();
+  const { pagination, events, queryParams, setPagination, cleanQueryParams, setEvents, eventPolicies } = useEvents();
   const { isModalOpen, openModal, closeModal } = useModal();
   const formRef = useRef<HTMLFormElement>(null);
   const artistInputRef = useRef<Select<any, boolean, GroupBase<any>>>(null);
@@ -75,7 +75,13 @@ const SearchEvents = () => {
             <MMButtonResponsive
               onClick={() => {
                 if (user) {
-                  handleCreateButton();
+                  if (eventPolicies?.create) {
+                    handleCreateButton();
+                  } else {
+                    warningSnackbar(
+                      'No tienes permisos para crear eventos. Debes alcanzar un nivel de confianza más alto para desbloquear esta función.'
+                    );
+                  }
                 } else {
                   warningSnackbar('Debes iniciar sesión para crear un evento');
                 }

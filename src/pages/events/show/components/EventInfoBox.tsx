@@ -8,12 +8,12 @@ import { EventBasicInfo } from './EventBasicInfo';
 type Props = {
   event: Event;
   setEvent: Dispatch<SetStateAction<Event | undefined>>;
-  openModal?: () => void;
-  openReportModal?: () => void;
+  handleEditEvent?: () => void;
+  handleReportEvent?: () => void;
   hideActions?: boolean;
 };
 
-export const EventInfoBox = ({ event, setEvent, openModal, openReportModal, hideActions = false }: Props) => {
+export const EventInfoBox = ({ event, setEvent, handleEditEvent, handleReportEvent, hideActions = false }: Props) => {
   const handleFollow = () => {
     try {
       followEvent(event.id);
@@ -32,14 +32,6 @@ export const EventInfoBox = ({ event, setEvent, openModal, openReportModal, hide
     } catch (error) {
       errorSnackbar('Error al dejar de seguir el evento. Contacte a soporte.');
     }
-  };
-
-  const handleReportEvent = () => {
-    openReportModal && openReportModal();
-  };
-
-  const handleEditEvent = () => {
-    openModal && openModal();
   };
 
   return (
