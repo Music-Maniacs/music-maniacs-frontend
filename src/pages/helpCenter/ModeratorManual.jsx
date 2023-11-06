@@ -1,10 +1,8 @@
 import { Paragraph, SubTitle, Title } from './HelpCenterStyles';
 
-
-import {ModerationAcordeon} from './moderation/ModerationAcordeon';
+import { ModerationAcordeon } from './moderation/ModerationAcordeon';
 
 export const ModeratorManual = () => {
-
   return (
     <>
       <Title>Manual del moderador Music Maniacs</Title>
@@ -38,16 +36,15 @@ export const ModeratorManual = () => {
         usuarios cumpla con lo definido en nuestras políticas de contenido, para eso contamos con un sistema de
         moderación fácil e intuitivo de utilizar para hacer tu trabajo lo más sencillo posible.
       </Paragraph>
-      <Paragraph>
-        El contenido a moderar es el siguiente:
-        <ul>
-          <li>Comentarios</li>
-          <li>Reseñas</li>
-          <li>Videos</li>
-          <li>Eventos</li>
-          <li>Perfiles de artistas, productoras y espacios de eventos</li>
-          <li>Versiones</li>
-        </ul>
+      <Paragraph>El contenido a moderar es el siguiente:</Paragraph>
+
+      <Paragraph as={'ul'}>
+        <li>Comentarios</li>
+        <li>Reseñas</li>
+        <li>Videos</li>
+        <li>Eventos</li>
+        <li>Perfiles de artistas, productoras y espacios de eventos</li>
+        <li>Versiones</li>
       </Paragraph>
 
       <Paragraph>
@@ -56,15 +53,21 @@ export const ModeratorManual = () => {
       </Paragraph>
 
       <Title>Moderación de contenido</Title>
-      <ModerationAcordeon/>
+      <ModerationAcordeon />
 
-
-      <Title>
-      Agradecimientos
-      </Title>
-      <Paragraph>Por último, les agradecemos por el trabajo realizado en pos de mantener un ambiente seguro, respetuoso y enriquecedor para todos los miembros de nuestra comunidad. Su imparcialidad, compromiso y pasión por la comunidad son evidentes en cada acción que toman, gracias por contribuir de manera tan significativa al éxito de la plataforma.</Paragraph>
-      <Paragraph>En caso de tener alguna duda o consulta no dude en contactarnos vía email a  musicmaniacspf@gmail.com.</Paragraph>
-      <Paragraph>Gracias una vez más por ser parte de nuestra comunidad y su esfuerzo por mantenerla vibrante y acogedora.</Paragraph>
-      </>
+      <Title>Agradecimientos</Title>
+      <Paragraph>
+        Por último, les agradecemos por el trabajo realizado en pos de mantener un ambiente seguro, respetuoso y
+        enriquecedor para todos los miembros de nuestra comunidad. Su imparcialidad, compromiso y pasión por la
+        comunidad son evidentes en cada acción que toman, gracias por contribuir de manera tan significativa al éxito de
+        la plataforma.
+      </Paragraph>
+      <Paragraph>
+        En caso de tener alguna duda o consulta no dude en contactarnos vía email a musicmaniacspf@gmail.com.
+      </Paragraph>
+      <Paragraph>
+        Gracias una vez más por ser parte de nuestra comunidad y su esfuerzo por mantenerla vibrante y acogedora.
+      </Paragraph>
+    </>
   );
 };

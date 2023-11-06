@@ -45,7 +45,7 @@ export type PropsModeration = {
 
 const ModerationDropdown = ({ title, body }: PropsModeration) => {
   const [isOpen, setIsOpen] = useState(false);
-  
+
   const handleOpen = () => {
     if (!isOpen) {
       setIsOpen(true);
@@ -71,8 +71,8 @@ const ModerationAcordeonContainer = styled.div`
 export const ModerationAcordeon = () => {
   return (
     <ModerationAcordeonContainer>
-      {moderationList.map((q) => {
-        return <ModerationDropdown {...q} />;
+      {moderationList.map((q, index) => {
+        return <ModerationDropdown {...q} key={index} />;
       })}
     </ModerationAcordeonContainer>
   );

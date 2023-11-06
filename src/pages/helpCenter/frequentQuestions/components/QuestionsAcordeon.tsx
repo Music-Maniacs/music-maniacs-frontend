@@ -68,8 +68,8 @@ const QuestionsAcordeonContainer = styled.div`
 export const QuestionsAcordeon = () => {
   return (
     <QuestionsAcordeonContainer>
-      {questionList.map((q) => {
-        return <QuestionDropdown {...q} />;
+      {questionList.map((q, index) => {
+        return <QuestionDropdown {...q} key={index} />;
       })}
     </QuestionsAcordeonContainer>
   );
