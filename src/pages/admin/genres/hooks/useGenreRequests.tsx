@@ -1,6 +1,7 @@
 import { sweetAlert } from '../../../../components/SweetAlert/sweetAlert';
 import { errorSnackbar, infoSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { deleteGenre } from '../../../../services/genreService';
+import { handleApiErrors } from '../../../../utils/handleFormErrors';
 
 export const useGenreRequests = () => {
   const handleDeleteGenre = (genreId: string, successCallback?: () => void) => {
@@ -14,7 +15,9 @@ export const useGenreRequests = () => {
 
           successCallback && successCallback();
         } catch (error) {
-          errorSnackbar('Error al eliminar el género');
+          let hasFormError = handleApiErrors(error);
+
+          !hasFormError && errorSnackbar('Error al eliminar el género');
         }
       }
     });

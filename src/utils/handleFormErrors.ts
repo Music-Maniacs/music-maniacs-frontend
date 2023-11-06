@@ -23,7 +23,9 @@ const fieldNames: Dictionary = {
   penalty_score: 'La cantidad de penalizaciones',
   days_blocked: 'Los dias bloqueados',
   events: 'eventos',
-  description: 'La descripción'
+  description: 'La descripción',
+  users: 'usuarios',
+  'genreable associations': 'perfiles'
 };
 
 function formatErrorMessage(error: string, field: string): string {
