@@ -1,0 +1,13 @@
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container img {
+  max-width: 100%;
+  height: auto;
+  display: block; /* Para eliminar cualquier espacio adicional debajo de la imagen */
+  margin: 0 auto; /* Centrar horizontalmente la imagen en el contenedor */
+}
