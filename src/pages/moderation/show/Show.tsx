@@ -21,7 +21,7 @@ import { ReportableSuggestion } from './ReportableSuggestion';
 const Show = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { showReport, getShowReport, setShowReport, reports, setReports } = useReports();
+  const { showReport, getShowReport, setShowReport, reports, setReports, policies } = useReports();
   const { isModalOpen: isReportModalOpen, openModal: openReportModal, closeModal: closeReportModal } = useModal();
 
   useEffect(() => {
@@ -73,7 +73,7 @@ const Show = () => {
                 </StyledFlex>
 
                 <StyledFlex $justifyContent="flex-end" $width="100%">
-                  {showReport.status === 'pending' && (
+                  {showReport.status === 'pending' && policies?.resolve && (
                     <MMButton color="tertiary" onClick={() => openReportModal()}>
                       Resolver
                     </MMButton>

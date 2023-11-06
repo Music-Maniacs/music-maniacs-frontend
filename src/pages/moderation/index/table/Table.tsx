@@ -17,7 +17,7 @@ import { MMChip } from '../../../../components/MMChip/MMChip';
 import { MMButtonLink } from '../../../../components/MMButton/MMButtonLink';
 
 export const Table = () => {
-  const { reports, pagination } = useReports();
+  const { reports, pagination, policies } = useReports();
 
   function getStatusColor(status: ReportStatus): MMColors {
     return statusColors[status];
@@ -73,9 +73,11 @@ export const Table = () => {
           renderCell: (rowData) => {
             return (
               <Stack direction={'row'} spacing={1}>
-                <MMButtonLink data-tooltip-id="tooltip" data-tooltip-content="Ver" to={`/moderation/${rowData.id}`}>
-                  <FaSearch />
-                </MMButtonLink>
+                {policies?.show && (
+                  <MMButtonLink data-tooltip-id="tooltip" data-tooltip-content="Ver" to={`/moderation/${rowData.id}`}>
+                    <FaSearch />
+                  </MMButtonLink>
+                )}
               </Stack>
             );
           },

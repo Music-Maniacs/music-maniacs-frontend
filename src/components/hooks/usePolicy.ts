@@ -13,6 +13,7 @@ export const usePolicy = ({ controllerClassName }: Props) => {
 
   useEffect(() => {
     getPolicy();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getPolicy = async () => {

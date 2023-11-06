@@ -88,6 +88,7 @@ export const ReportForm = ({ reportableId, closeModal, service, reportTitleText,
     if (reportCategoryValue?.value && originalReportableValue?.value) {
       reset({ originalReportable: undefined });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reportCategoryVal]);
 
   const reportCollection = reportCollectionByType[reportableType].map((item) => ({
