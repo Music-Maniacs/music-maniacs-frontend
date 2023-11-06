@@ -16,12 +16,14 @@ import { reportReview } from '../../../../services/reviewsService';
 import { NoData } from '../../../../components/NoData/NoData';
 import { ReviewForm } from '../../../../components/forms/reviews/ReviewForm';
 import { warningSnackbar } from '../../../../components/Snackbar/Snackbar';
+import { Policy } from '../../../../models/Policy';
 
 type Props = {
   event: Event;
+  reviewsPolicies?: Policy;
 };
 
-export const EventReviewBox = ({ event }: Props) => {
+export const EventReviewBox = ({ event, reviewsPolicies }: Props) => {
   const { user } = useAuth();
   const [isFormEdit, setIsFormEdit] = useState<boolean>(false);
   const [reviewToEdit, setReviewToEdit] = useState<Review>();
@@ -30,9 +32,15 @@ export const EventReviewBox = ({ event }: Props) => {
   const { isModalOpen: isReportModalOpen, openModal: openReportModal, closeModal: closeReportModal } = useModal();
 
   const handleCreateReviewButton = () => {
-    setIsFormEdit(false);
-    setReviewToEdit(undefined);
-    openModal();
+    if (reviewsPolicies?.create) {
+      setIsFormEdit(false);
+      setReviewToEdit(undefined);
+      openModal();
+    } else {
+      warningSnackbar(
+        'No tienes permisos para crear reseñas. Debes alcanzar un nivel de confianza más alto para desbloquear esta función.'
+      );
+    }
   };
 
   const handleEditReviewButton = (review: Review) => {
@@ -42,8 +50,15 @@ export const EventReviewBox = ({ event }: Props) => {
   };
 
   const handleReportReviewButton = (review: Review) => {
-    setReviewToReport(review);
-    openReportModal();
+    if (reviewsPolicies?.report) {
+      setReviewToReport(review);
+
+      openReportModal();
+    } else {
+      warningSnackbar(
+        'No tienes permisos para reportar reseñas. Debes alcanzar un nivel de confianza más alto para desbloquear esta función.'
+      );
+    }
   };
 
   const updateReview = (review: Review) => {

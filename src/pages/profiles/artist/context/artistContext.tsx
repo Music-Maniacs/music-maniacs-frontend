@@ -15,6 +15,7 @@ type StoreProps = {
   setArtist: Dispatch<SetStateAction<Artist | undefined>>;
   artistPolicies?: Policy;
   versionPolicies?: Policy;
+  reviewsPolicies?: Policy;
 };
 
 const ArtistContext = createContext<StoreProps | null>(null);
@@ -26,6 +27,7 @@ export const ArtistProvider = ({ children }: Props) => {
   const [artist, setArtist] = useState<Artist>();
   const { policies: artistPolicies } = usePolicy({ controllerClassName: 'ArtistsController' });
   const { policies: versionPolicies } = usePolicy({ controllerClassName: 'VersionsController' });
+  const { policies: reviewsPolicies } = usePolicy({ controllerClassName: 'ReviewsController' });
 
   useEffect(() => {
     if (!id) return navigate('/profiles');
@@ -49,7 +51,8 @@ export const ArtistProvider = ({ children }: Props) => {
     artist,
     setArtist,
     artistPolicies,
-    versionPolicies
+    versionPolicies,
+    reviewsPolicies
   };
 
   return <ArtistContext.Provider value={store}>{children}</ArtistContext.Provider>;

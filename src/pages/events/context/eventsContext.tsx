@@ -26,6 +26,7 @@ type StoreProps = {
   eventPolicies?: Policy;
   versionsPolicies?: Policy;
   commentsPolicies?: Policy;
+  reviewsPolicies?: Policy;
 };
 
 const EventsContext = createContext<StoreProps | null>(null);
@@ -39,6 +40,7 @@ export const EventsProvider = ({ children }: Props) => {
   const { policies: eventPolicies } = usePolicy({ controllerClassName: 'EventsController' });
   const { policies: versionsPolicies } = usePolicy({ controllerClassName: 'VersionsController' });
   const { policies: commentsPolicies } = usePolicy({ controllerClassName: 'CommentsController' });
+  const { policies: reviewsPolicies } = usePolicy({ controllerClassName: 'ReviewsController' });
 
   // Searcher
   const queryParams = useRef<Record<string, string>>({
@@ -98,7 +100,8 @@ export const EventsProvider = ({ children }: Props) => {
     getShowEvent,
     eventPolicies,
     versionsPolicies,
-    commentsPolicies
+    commentsPolicies,
+    reviewsPolicies
   };
 
   return <EventsContext.Provider value={store}>{children}</EventsContext.Provider>;

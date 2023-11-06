@@ -33,7 +33,7 @@ const Reviews = () => {
   const [isFormEdit, setIsFormEdit] = useState<boolean>(false);
   const [reviewToEdit, setReviewToEdit] = useState<Review>();
   const { isModalOpen, openModal, closeModal } = useModal();
-  const { showEvent, setShowEvent, getShowEvent } = useEvents();
+  const { showEvent, setShowEvent, getShowEvent, reviewsPolicies } = useEvents();
   const [reviewToReport, setReviewToReport] = useState<Review>();
   const { isModalOpen: isReportModalOpen, openModal: openReportModal, closeModal: closeReportModal } = useModal();
 
@@ -114,9 +114,16 @@ const Reviews = () => {
   }, [showEvent]);
 
   const handleCreateReviewButton = () => {
-    setIsFormEdit(false);
-    setReviewToEdit(undefined);
-    openModal();
+    if (reviewsPolicies?.create) {
+      setIsFormEdit(false);
+      setReviewToEdit(undefined);
+
+      openModal();
+    } else {
+      warningSnackbar(
+        'No tienes permisos para crear reseñas. Debes alcanzar un nivel de confianza más alto para desbloquear esta función.'
+      );
+    }
   };
 
   const handleEditReviewButton = (review: Review) => {
@@ -126,8 +133,15 @@ const Reviews = () => {
   };
 
   const handleReportReviewButton = (review: Review) => {
-    setReviewToReport(review);
-    openReportModal();
+    if (reviewsPolicies?.report) {
+      setReviewToReport(review);
+
+      openReportModal();
+    } else {
+      warningSnackbar(
+        'No tienes permisos para reportar reseñas. Debes alcanzar un nivel de confianza más alto para desbloquear esta función.'
+      );
+    }
   };
 
   const reviewsByReviewable = {

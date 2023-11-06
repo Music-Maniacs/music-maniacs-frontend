@@ -15,6 +15,7 @@ type StoreProps = {
   setProducer: Dispatch<SetStateAction<Producer | undefined>>;
   producerPolicies?: Policy;
   versionPolicies?: Policy;
+  reviewsPolicies?: Policy;
 };
 
 const ProducerContext = createContext<StoreProps | null>(null);
@@ -26,6 +27,7 @@ export const ProducerProvider = ({ children }: Props) => {
   const [producer, setProducer] = useState<Producer>();
   const { policies: producerPolicies } = usePolicy({ controllerClassName: 'ProducersController' });
   const { policies: versionPolicies } = usePolicy({ controllerClassName: 'VersionsController' });
+  const { policies: reviewsPolicies } = usePolicy({ controllerClassName: 'ReviewsController' });
 
   useEffect(() => {
     if (!id) return navigate('/profiles');
@@ -49,7 +51,8 @@ export const ProducerProvider = ({ children }: Props) => {
     producer,
     setProducer,
     producerPolicies,
-    versionPolicies
+    versionPolicies,
+    reviewsPolicies
   };
 
   return <ProducerContext.Provider value={store}>{children}</ProducerContext.Provider>;

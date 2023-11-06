@@ -23,7 +23,8 @@ const Show = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { isModalOpen, openModal, closeModal } = useModal();
-  const { showEvent, getShowEvent, setShowEvent, eventPolicies, versionsPolicies, commentsPolicies } = useEvents();
+  const { showEvent, getShowEvent, setShowEvent, eventPolicies, versionsPolicies, commentsPolicies, reviewsPolicies } =
+    useEvents();
   const { isModalOpen: isReportModalOpen, openModal: openReportModal, closeModal: closeReportModal } = useModal();
   const [versionsToReport, setVersionsToReport] = useState<Version>();
   const {
@@ -120,7 +121,7 @@ const Show = () => {
               handleReportEvent={handleReportEvent}
             />
             <EventAdvancedInfo event={showEvent} />
-            <EventReviewBox event={showEvent} />
+            <EventReviewBox event={showEvent} reviewsPolicies={reviewsPolicies} />
             <EventCommentBox event={showEvent} commentsPolicies={commentsPolicies} />
 
             <VersionBox versions={showEvent.versions} handleReportVersion={handleReportVersion} />

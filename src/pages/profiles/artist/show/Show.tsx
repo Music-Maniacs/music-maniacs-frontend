@@ -19,7 +19,7 @@ import { warningSnackbar } from '../../../../components/Snackbar/Snackbar';
 
 const Show = () => {
   const { isModalOpen, openModal, closeModal } = useModal();
-  const { artist, setArtist, artistPolicies, versionPolicies } = useArtist();
+  const { artist, setArtist, artistPolicies, versionPolicies, reviewsPolicies } = useArtist();
   const [versionsToReport, setVersionsToReport] = useState<Version>();
   const {
     isModalOpen: isVersionsReportModalOpen,
@@ -76,7 +76,7 @@ const Show = () => {
 
             <ProfileEventsBox profile={artist} />
 
-            <ProfileReviewsBox profile={artist} reviewableKlass="artist" />
+            <ProfileReviewsBox profile={artist} reviewableKlass="artist" canReport={reviewsPolicies?.report} />
 
             <VersionBox versions={artist.versions} handleReportVersion={handleReportVersion} />
           </>

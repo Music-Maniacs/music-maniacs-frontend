@@ -18,7 +18,7 @@ import { reportVersions } from '../../../../services/versionService';
 import { warningSnackbar } from '../../../../components/Snackbar/Snackbar';
 
 const Show = () => {
-  const { venue, setVenue, venuePolicies, versionPolicies } = useVenue();
+  const { venue, setVenue, venuePolicies, versionPolicies, reviewsPolicies } = useVenue();
   const { isModalOpen, openModal, closeModal } = useModal();
   const [versionsToReport, setVersionsToReport] = useState<Version>();
   const {
@@ -76,7 +76,7 @@ const Show = () => {
 
             <ProfileEventsBox profile={venue} />
 
-            <ProfileReviewsBox profile={venue} reviewableKlass="venue" />
+            <ProfileReviewsBox profile={venue} reviewableKlass="venue" canReport={reviewsPolicies?.report} />
 
             <VersionBox versions={venue.versions} handleReportVersion={handleReportVersion} />
           </>

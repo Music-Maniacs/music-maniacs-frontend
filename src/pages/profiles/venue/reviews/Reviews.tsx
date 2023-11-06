@@ -4,9 +4,13 @@ import { ProfileAllReviews } from '../../components/ProfileAllReviews';
 import { Loader } from '../../../../components/Loader/Loader';
 
 const Reviews = () => {
-  const { venue } = useVenue();
+  const { venue, reviewsPolicies } = useVenue();
 
-  return venue ? <ProfileAllReviews profile={venue} reviewableKlass="venue" /> : <Loader />;
+  return venue ? (
+    <ProfileAllReviews profile={venue} reviewableKlass="venue" canReport={reviewsPolicies?.report} />
+  ) : (
+    <Loader />
+  );
 };
 
 export default Reviews;

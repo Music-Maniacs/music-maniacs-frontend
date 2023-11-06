@@ -15,6 +15,7 @@ type StoreProps = {
   setVenue: Dispatch<SetStateAction<Venue | undefined>>;
   venuePolicies?: Policy;
   versionPolicies?: Policy;
+  reviewsPolicies?: Policy;
 };
 
 const VenueContext = createContext<StoreProps | null>(null);
@@ -26,6 +27,7 @@ export const VenueProvider = ({ children }: Props) => {
   const [venue, setVenue] = useState<Venue>();
   const { policies: venuePolicies } = usePolicy({ controllerClassName: 'VenuesController' });
   const { policies: versionPolicies } = usePolicy({ controllerClassName: 'VersionsController' });
+  const { policies: reviewsPolicies } = usePolicy({ controllerClassName: 'ReviewsController' });
 
   useEffect(() => {
     if (!id) return navigate('/profiles');
@@ -49,7 +51,8 @@ export const VenueProvider = ({ children }: Props) => {
     venue,
     setVenue,
     venuePolicies,
-    versionPolicies
+    versionPolicies,
+    reviewsPolicies
   };
 
   return <VenueContext.Provider value={store}>{children}</VenueContext.Provider>;
