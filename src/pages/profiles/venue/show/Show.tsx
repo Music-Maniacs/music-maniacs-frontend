@@ -64,7 +64,7 @@ const Show = () => {
 
             <ProfileReviewsBox profile={venue} reviewableKlass="venue" />
 
-            <VersionBox versions={venue.versions} handleReportVersion={handleReportVersion} />
+            <VersionBox versions={venue.history} handleReportVersion={handleReportVersion} />
           </>
         ) : (
           <Loader />

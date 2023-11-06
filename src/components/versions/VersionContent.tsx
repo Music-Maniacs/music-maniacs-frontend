@@ -35,7 +35,17 @@ const attrTranslation: Dictionary = {
   name: 'Nombre',
   nationality: 'Nacionalidad',
   producer: 'Productora',
-  venue: 'Espacio de Evento'
+  venue: 'Espacio de Evento',
+  title: 'Título',
+  url: 'Enlace'
+};
+
+const itemTypesTranslation: Dictionary = {
+  Artist: 'Artista',
+  Event: 'Evento',
+  Producer: 'Productora',
+  Venue: 'Espacio de Evento',
+  Link: 'Enlace'
 };
 
 export const VersionContent = ({ version, handleReportVersion }: Props) => {
@@ -81,28 +91,68 @@ export const VersionContent = ({ version, handleReportVersion }: Props) => {
         )}
       </StyledFlex>
 
-      {Object.keys(version.named_object_changes).length > 0 &&
-        Object.entries(version.named_object_changes).map(([key, value]) => (
-          <Grid container key={key} spacing={2}>
-            <Grid item sm={12} md={2}>
-              <span>
-                Atributo: <b>{attrTranslation[key] ?? key}</b>
-              </span>
-            </Grid>
-            {version.event === 'update' && (
-              <Grid item sm={12} md={5}>
-                <span>
-                  Valor Anterior: <b>{value[0]}</b>
-                </span>
+      <span>
+        Tipo: <b>{itemTypesTranslation[version.item_type] ?? version.item_type}</b>
+      </span>
+
+      {version.event === 'destroy' ? (
+        <>{version.item_type === 'Link' && <DestroyedLinkInfo object={version.object} />}</>
+      ) : (
+        <>
+          {Object.keys(version.named_object_changes).length > 0 &&
+            Object.entries(version.named_object_changes).map(([key, value]) => (
+              <Grid container key={key} spacing={2}>
+                <Grid item sm={12} md={2}>
+                  <span>
+                    Atributo: <b>{attrTranslation[key] ?? key}</b>
+                  </span>
+                </Grid>
+                {version.event === 'update' && (
+                  <Grid item sm={12} md={5}>
+                    <span>
+                      Valor Anterior: <b>{value[0]}</b>
+                    </span>
+                  </Grid>
+                )}
+                <Grid item sm={12} md={version.event === 'update' ? 5 : 10}>
+                  <span>
+                    Valor Nuevo: <b>{value[1]}</b>
+                  </span>
+                </Grid>
               </Grid>
-            )}
-            <Grid item sm={12} md={version.event === 'update' ? 5 : 10}>
-              <span>
-                Valor Nuevo: <b>{value[1]}</b>
-              </span>
-            </Grid>
-          </Grid>
-        ))}
+            ))}
+        </>
+      )}
     </StyledFlexColumn>
+  );
+};
+
+const DestroyedLinkInfo = ({ object }: { object: { [key: string]: any } }) => {
+  return (
+    <>
+      <Grid container spacing={2}>
+        <Grid item sm={12} md={2}>
+          <span>
+            Atributo: <b>{attrTranslation['title']}</b>
+          </span>
+        </Grid>
+        <Grid item sm={12} md={10}>
+          <span>
+            Valor: <b>{object.title}</b>
+          </span>
+        </Grid>
+
+        <Grid item sm={12} md={2}>
+          <span>
+            Atributo: <b>{attrTranslation['url']}</b>
+          </span>
+        </Grid>
+        <Grid item sm={12} md={10}>
+          <span>
+            Valor: <b>{object.url}</b>
+          </span>
+        </Grid>
+      </Grid>
+    </>
   );
 };

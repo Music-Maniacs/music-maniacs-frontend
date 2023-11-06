@@ -25,7 +25,7 @@ export interface Event {
   };
   links: Link[];
   image?: Image;
-  versions: Version[];
+  history: Version[];
   reviews_info?: {
     artist: {
       rating: number;

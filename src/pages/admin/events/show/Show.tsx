@@ -106,7 +106,7 @@ const Show = () => {
         )}
       </MMBox>
 
-      {event && <VersionBox versions={event.versions} customClassName="admin-versions-box-container " />}
+      {event && <VersionBox versions={event.history} customClassName="admin-versions-box-container " />}
       <Tooltip id="tooltip" place="top" />
     </MMContainer>
   );

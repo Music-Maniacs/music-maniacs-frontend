@@ -18,7 +18,7 @@ export interface Artist {
   links: Link[];
   genres: Genre[];
   image?: Image;
-  versions: Version[];
+  history: Version[];
   last_reviews: Review[];
   rating: number;
   next_events: EventProfilesTab[];

@@ -18,7 +18,7 @@ export interface Producer {
   genres: Genre[];
   links: Link[];
   image?: Image;
-  versions: Version[];
+  history: Version[];
   last_reviews: Review[];
   rating: number;
   next_events: EventProfilesTab[];
