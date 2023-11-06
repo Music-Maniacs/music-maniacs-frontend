@@ -2,6 +2,7 @@ import { sweetAlert } from '../../../../components/SweetAlert/sweetAlert';
 import { errorSnackbar, infoSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { adminDeleteRole } from '../../../../services/roleService';
 import { isAxiosError } from 'axios';
+import { handleApiErrors } from '../../../../utils/handleFormErrors';
 
 export const useRoleRequests = () => {
   const handleDeleteRole = (roleId: string, successCallback?: () => void) => {
@@ -19,7 +20,9 @@ export const useRoleRequests = () => {
             return errorSnackbar('No tienes permisos para realizar esta acción');
           }
 
-          errorSnackbar('Error al eliminar el Rol');
+          let hasFormError = handleApiErrors(error);
+
+          !hasFormError && errorSnackbar('Error al eliminar el Rol');
         }
       }
     });

@@ -10,6 +10,7 @@ import './SideNav.scss';
 import { ToggleThemeIcon } from './ToggleThemeIcon';
 import { StyledFlex } from '../../styles/styledComponents';
 import { AdminRoutes } from './components/AdminRoutes';
+import { BiHelpCircle } from 'react-icons/bi';
 
 type Props = {
   active: boolean;
@@ -84,7 +85,8 @@ export const SideNav = ({ active, setActive }: Props) => {
           }}
         />
 
-        <div style={{ padding: '10px' }}>
+        <div style={{ padding: '10px', display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <BiHelpCircle size={20} onClick={() => navigate('help_center')} style={{ cursor: 'pointer' }} />
           <ToggleThemeIcon />
         </div>
       </StyledFlex>
