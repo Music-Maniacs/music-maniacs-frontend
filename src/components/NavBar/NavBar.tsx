@@ -32,7 +32,6 @@ export const NavBar = () => {
         <div className="links-container">
           <MMLink to={'/profiles'} content="Buscar Perfiles" />
           <MMLink to={'/events'} content="Buscar Eventos" />
-          <MMLink to={'/'} content="Sobre Nosotros" />
 
           <BiHelpCircle size={20} onClick={() => navigate('help_center')} style={{ cursor: 'pointer' }} />
 

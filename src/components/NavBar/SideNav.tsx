@@ -45,7 +45,7 @@ export const SideNav = ({ active, setActive }: Props) => {
         <div className="content">
           <MMLink to={'/profiles'} content="Buscar Perfiles" />
           <MMLink to={'/events'} content="Buscar Eventos" />
-          <MMLink to={'/'} content="Sobre Nosotros" />
+
           <MMButton
             style={{ textTransform: 'none' }}
             color="secondary"
