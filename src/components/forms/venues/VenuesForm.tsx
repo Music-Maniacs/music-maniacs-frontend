@@ -45,7 +45,7 @@ type FormData = {
   image?: File;
 };
 
-const googleAutocompleteKeys = {
+export const googleAutocompleteKeys = {
   street_number: 'number',
   route: 'street',
   administrative_area_level_2: 'city',

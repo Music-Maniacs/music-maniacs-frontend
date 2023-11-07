@@ -1,7 +1,10 @@
-import { useRef } from 'react';
+import { RefObject, useRef } from 'react';
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 import { StyledInputContainer, StyledLabel, reactSelectCustomStyles } from '../../form/formStyles';
 import { errorSnackbar } from '../../Snackbar/Snackbar';
+import { SelectCollection } from '../../../models/Generic';
+import Select from 'react-select/dist/declarations/src/Select';
+import { GroupBase } from 'react-select';
 
 // street_number: ''			          -> Numero
 // route: '' 				                -> Calle
@@ -41,11 +44,24 @@ export type PlaceDetails = {
 };
 
 type GoogleAutocompleteProps = {
-  label: string;
+  label?: string;
   onPlaceSelected: (place: PlaceDetails) => void;
+  placeholder?: string;
+  types?: PlaceDetailsTypes[];
+  onInputClear?: () => void;
+  defaultValue?: SelectCollection;
+  innerRef?: RefObject<Select<any, boolean, GroupBase<any>>>;
 };
 
-export const GoogleAutocomplete = ({ label, onPlaceSelected }: GoogleAutocompleteProps) => {
+export const GoogleAutocomplete = ({
+  label,
+  onPlaceSelected,
+  placeholder,
+  types,
+  onInputClear,
+  defaultValue,
+  innerRef
+}: GoogleAutocompleteProps) => {
   const placeService = useRef<google.maps.places.PlacesService>();
 
   const handleSelectOnChange = (newValue: SelectResult | null) => {
@@ -58,6 +74,10 @@ export const GoogleAutocomplete = ({ label, onPlaceSelected }: GoogleAutocomplet
         }
       );
     }
+
+    if (!newValue && onInputClear) {
+      onInputClear();
+    }
   };
 
   const loadService = () => {
@@ -68,19 +88,30 @@ export const GoogleAutocomplete = ({ label, onPlaceSelected }: GoogleAutocomplet
 
   return (
     <StyledInputContainer>
-      <StyledLabel>{label}</StyledLabel>
+      {label && <StyledLabel>{label}</StyledLabel>}
 
       <GooglePlacesAutocomplete
         ref={() => loadService()}
         apiKey={process.env.REACT_APP_GOOGLE_MAPS_KEY}
+        apiOptions={{ language: 'es' }}
+        autocompletionRequest={{
+          types: types ? types : undefined
+        }}
         selectProps={{
-          defaultInputValue: '',
-          // @ts-ignore
+          ref: innerRef,
+
+          defaultValue: defaultValue,
+
           onChange: handleSelectOnChange,
-          placeholder: '',
+
+          placeholder: placeholder ?? '',
           // @ts-ignore
           styles: reactSelectCustomStyles(false, false),
+
           isClearable: true,
+
+          loadingMessage: () => 'Cargando...',
+
           noOptionsMessage: ({ inputValue }) =>
             inputValue && inputValue.length > 0 ? 'No hay resultados' : 'Empieza a escribir para buscar'
         }}
