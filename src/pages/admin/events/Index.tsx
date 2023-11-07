@@ -22,7 +22,8 @@ export const Index = () => {
     setIsFormEdit,
     setEventToEdit,
     pagination,
-    setPagination
+    setPagination,
+    policies
   } = useEvents();
 
   const handleCreateButton = () => {
@@ -36,9 +37,11 @@ export const Index = () => {
       <MMBox className="admin-box-container">
         <div className="admin-title-container">
           <MMTitle content="Eventos" />
-          <MMButtonResponsive onClick={handleCreateButton} Icon={FaPlus}>
-            Crear Evento
-          </MMButtonResponsive>
+          {policies?.create && (
+            <MMButtonResponsive onClick={handleCreateButton} Icon={FaPlus}>
+              Crear Evento
+            </MMButtonResponsive>
+          )}
         </div>
 
         <MMModal

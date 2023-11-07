@@ -23,6 +23,8 @@ import { GroupBase } from 'react-select';
 import { SearcherSkeleton } from './Skeleton';
 import { useInfiniteScroll } from '../../../components/hooks/useInfiniteScroll';
 import { NoData } from '../../../components/NoData/NoData';
+import { warningSnackbar } from '../../../components/Snackbar/Snackbar';
+import { useAuth } from '../../../context/authContext';
 import { GoogleAutocomplete, PlaceDetails } from '../../../components/forms/venues/GoogleAutocomplete';
 import { googleAutocompleteKeys } from '../../../components/forms/venues/VenuesForm';
 import { SelectCollection } from '../../../models/Generic';
@@ -32,7 +34,8 @@ const StyledSearchbarForm = styled.form`
 `;
 
 const SearchEvents = () => {
-  const { pagination, events, queryParams, setPagination, cleanQueryParams, setEvents } = useEvents();
+  const { user } = useAuth();
+  const { pagination, events, queryParams, setPagination, cleanQueryParams, setEvents, eventPolicies } = useEvents();
   const { isModalOpen, openModal, closeModal } = useModal();
   const formRef = useRef<HTMLFormElement>(null);
   const artistInputRef = useRef<Select<any, boolean, GroupBase<any>>>(null);
@@ -116,7 +119,22 @@ const SearchEvents = () => {
         <MMBox className="events-box-container">
           <div className="events-title-container">
             <MMTitle content="Buscar Eventos" />
-            <MMButtonResponsive onClick={handleCreateButton} Icon={FaPlus}>
+            <MMButtonResponsive
+              onClick={() => {
+                if (user) {
+                  if (eventPolicies?.create) {
+                    handleCreateButton();
+                  } else {
+                    warningSnackbar(
+                      'No tienes permisos para crear eventos. Debes alcanzar un nivel de confianza más alto para desbloquear esta función.'
+                    );
+                  }
+                } else {
+                  warningSnackbar('Debes iniciar sesión para crear un evento');
+                }
+              }}
+              Icon={FaPlus}
+            >
               Crear Evento
             </MMButtonResponsive>
           </div>

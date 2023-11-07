@@ -14,16 +14,28 @@ import { MMButtonResponsive } from '../../../components/MMButton/MMButtonRespons
 import Form from './form/Form';
 
 export const Index = () => {
-  const { openFormModal, isFormModalOpen, closeFormModal, pagination, setPagination, setTrustLevels, trustLevels } =
-    useTrustLevels();
+  const {
+    openFormModal,
+    isFormModalOpen,
+    closeFormModal,
+    pagination,
+    setPagination,
+    setTrustLevels,
+    trustLevels,
+    policies
+  } = useTrustLevels();
+
   return (
     <MMContainer maxWidth="xxl">
       <MMBox className="admin-box-container">
         <div className="admin-title-container">
           <MMTitle content="Niveles de Confianza" />
-          <MMButtonResponsive onClick={openFormModal} Icon={FaPlus}>
-            Crear Nivel de Confianza
-          </MMButtonResponsive>
+
+          {policies?.create && (
+            <MMButtonResponsive onClick={openFormModal} Icon={FaPlus}>
+              Crear Nivel de Confianza
+            </MMButtonResponsive>
+          )}
         </div>
 
         <MMModal

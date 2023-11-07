@@ -14,21 +14,29 @@ import { MMModal } from '../../../components/Modal/MMModal';
 import Form from './form/Form';
 
 export const Index = () => {
-  const { openFormModal, isFormModalOpen, closeFormModal, pagination, setPagination, setRoles, roles } = useRoles();
+  const { openFormModal, isFormModalOpen, closeFormModal, pagination, setPagination, setRoles, roles, policies } =
+    useRoles();
   return (
     <MMContainer maxWidth="xxl">
       <MMBox className="admin-box-container">
         <div className="admin-title-container">
           <MMTitle content="Roles" />
-          <MMButtonResponsive onClick={() => openFormModal()} Icon={FaPlus}>
-            Crear Rol
-          </MMButtonResponsive>
+
+          {policies?.create && (
+            <MMButtonResponsive onClick={() => openFormModal()} Icon={FaPlus}>
+              Crear Rol
+            </MMButtonResponsive>
+          )}
         </div>
+
         <MMModal isModalOpen={isFormModalOpen} closeModal={closeFormModal} maxWidth="md" title="Crear Rol">
           <Form type="create" roleList={roles} setRoleList={setRoles} closeFormModal={closeFormModal} />
         </MMModal>
+
         <Searcher />
+
         <Table />
+
         {pagination && <MMTablePaginator pagination={pagination} setPagination={setPagination} />}
       </MMBox>
       <Tooltip id="tooltip" place="top" />

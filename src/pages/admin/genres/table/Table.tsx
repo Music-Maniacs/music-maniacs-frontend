@@ -9,7 +9,7 @@ import { useGenreRequests } from '../hooks/useGenreRequests';
 import { useCollection } from '../../../../context/collectionContext';
 
 export const Table = () => {
-  const { setGenreToEdit, genres, pagination, setPagination, openFormModal } = useGenres();
+  const { setGenreToEdit, genres, pagination, setPagination, openFormModal, policies } = useGenres();
   const { handleDeleteGenre } = useGenreRequests();
   const { removeGenreInCollection } = useCollection();
 
@@ -44,23 +44,28 @@ export const Table = () => {
           renderCell: (rowData) => {
             return (
               <Stack direction={'row'} spacing={1}>
-                <MMButton
-                  data-tooltip-id="tooltip"
-                  data-tooltip-content="Editar"
-                  onClick={() => {
-                    setGenreToEdit(rowData);
-                    openFormModal();
-                  }}
-                >
-                  <FaEdit />
-                </MMButton>
-                <MMButton
-                  data-tooltip-id="tooltip"
-                  data-tooltip-content="Eliminar"
-                  onClick={() => handleDeleteButton(rowData.id)}
-                >
-                  <FaTrash />
-                </MMButton>
+                {policies?.update && (
+                  <MMButton
+                    data-tooltip-id="tooltip"
+                    data-tooltip-content="Editar"
+                    onClick={() => {
+                      setGenreToEdit(rowData);
+                      openFormModal();
+                    }}
+                  >
+                    <FaEdit />
+                  </MMButton>
+                )}
+
+                {policies?.destroy && (
+                  <MMButton
+                    data-tooltip-id="tooltip"
+                    data-tooltip-content="Eliminar"
+                    onClick={() => handleDeleteButton(rowData.id)}
+                  >
+                    <FaTrash />
+                  </MMButton>
+                )}
               </Stack>
             );
           },

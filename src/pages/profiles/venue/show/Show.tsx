@@ -15,9 +15,10 @@ import { useVenue } from '../context/venueContext';
 import { Version } from '../../../../models/Version';
 import { ReportForm } from '../../../../components/forms/report/ReportForm';
 import { reportVersions } from '../../../../services/versionService';
+import { warningSnackbar } from '../../../../components/Snackbar/Snackbar';
 
 const Show = () => {
-  const { venue, setVenue } = useVenue();
+  const { venue, setVenue, venuePolicies, versionPolicies, reviewsPolicies } = useVenue();
   const { isModalOpen, openModal, closeModal } = useModal();
   const [versionsToReport, setVersionsToReport] = useState<Version>();
   const {
@@ -27,8 +28,14 @@ const Show = () => {
   } = useModal();
 
   const handleReportVersion = (version: Version) => {
-    setVersionsToReport(version);
-    openVersionsReportModal();
+    if (versionPolicies?.report) {
+      setVersionsToReport(version);
+      openVersionsReportModal();
+    } else {
+      warningSnackbar(
+        'No tienes permisos para reportar versiones. Debes alcanzar un nivel de confianza más alto para desbloquear esta función.'
+      );
+    }
   };
 
   return (
@@ -58,11 +65,18 @@ const Show = () => {
           <>
             <Breadcrumb items={[{ label: 'Perfiles', to: '/profiles' }, { label: venue.name }]} />
 
-            <ProfileInfoBox profile={venue} openEditModal={openModal} setProfile={setVenue} reviewableKlass="venue" />
+            <ProfileInfoBox
+              profile={venue}
+              openEditModal={openModal}
+              setProfile={setVenue}
+              reviewableKlass="venue"
+              canEdit={venuePolicies?.update}
+              canReport={venuePolicies?.report}
+            />
 
             <ProfileEventsBox profile={venue} />
 
-            <ProfileReviewsBox profile={venue} reviewableKlass="venue" />
+            <ProfileReviewsBox profile={venue} reviewableKlass="venue" canReport={reviewsPolicies?.report} />
 
             <VersionBox versions={venue.versions} handleReportVersion={handleReportVersion} />
           </>

@@ -13,6 +13,7 @@ import { handleFormErrors } from '../../../../utils/handleFormErrors';
 import { useCollection } from '../../../../context/collectionContext';
 import { InputSelect } from '../../../../components/form/InputSelect/InputSelect';
 import { SelectCollection } from '../../../../models/Generic';
+import { isAxiosError } from 'axios';
 
 type FormData = {
   full_name: string;
@@ -73,6 +74,12 @@ export const Form = () => {
       infoSnackbar('Usuario creado con exito');
       closeFormModal();
     } catch (error) {
+      if (isAxiosError(error) && error.response?.status === 403) {
+        errorSnackbar('No tienes permisos crear usuarios.');
+
+        return closeFormModal();
+      }
+
       let hasFormError = handleFormErrors(error, setError);
 
       !hasFormError && errorSnackbar('Error inesperado al crear el usuario. Contacte a soporte.');

@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { errorSnackbar } from '../Snackbar/Snackbar';
-import axios from 'axios';
+import axios, { isAxiosError } from 'axios';
 import { PaginatedApiResponse, Pagination, SelectCollection } from '../../models/Generic';
+import { useNavigate } from 'react-router-dom';
 
 type Props<T> = {
   url: string;
@@ -31,6 +32,7 @@ export const usePagination = <T>({
   optionalParam,
   isLoading = true
 }: Props<T>) => {
+  const navigate = useNavigate();
   const [pagination, setPagination] = React.useState<Pagination>({
     page,
     perPage,
@@ -59,6 +61,12 @@ export const usePagination = <T>({
         isLoading: false
       }));
     } catch (error) {
+      if (isAxiosError(error) && error?.response?.status === 403) {
+        errorSnackbar('No tiene permisos para realizar esta acción');
+
+        return navigate('/');
+      }
+
       errorSnackbar('Error al cargar los datos. Contacte a soporte.');
     }
   };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { MMContainer } from '../../../components/MMContainer/MMContainer';
 import { MMBox } from '../../../components/MMBox/MMBox';
 import { MMTitle } from '../../../components/MMTitle/MMTitle';
@@ -17,17 +17,34 @@ import MMTablePaginator from '../../../components/MMTable/MMTablePaginator';
 import { MMButtonResponsive } from '../../../components/MMButton/MMButtonResponsive';
 import { loaderSweetAlert } from './loaderSweetAlert';
 import colors from '../../../styles/_colors.scss';
+import { Policy } from '../../../models/Policy';
+import { checkPolicy } from '../../../services/policyService';
+import { isAxiosError } from 'axios';
 
 const Index = () => {
   const [backups, setBackups] = useState<Backup[]>([]);
+  const [policies, setPolicies] = useState<Policy>();
+
+  useEffect(() => {
+    getPolicy();
+  }, []);
+
+  const getPolicy = async () => {
+    try {
+      const response = await checkPolicy('Admin::BackupsController');
+
+      setPolicies(response);
+    } catch (error) {
+      errorSnackbar('Error al obtener los permisos. Contacte a soporte');
+    }
+  };
 
   const { pagination, setPagination } = usePagination<Backup>({
-    url: `${process.env.REACT_APP_API_URL}/backups`,
+    url: `${process.env.REACT_APP_API_URL}/admin/backups`,
     requestCallback: (data: Backup[]) => setBackups(data),
     isLoading: true
   });
 
-  // todo: ver si hay error que pasa
   const handleRestoreButton = (backup: Backup) => {
     loaderSweetAlert({
       title: '¿Seguro que quieres restaurar la copia de seguridad?',
@@ -38,6 +55,10 @@ const Index = () => {
 
           infoSnackbar('Copia de seguridad restaurada correctamente');
         } catch (error: any) {
+          if (isAxiosError(error) && error.response?.status === 403) {
+            return errorSnackbar('No tienes permisos para realizar esta acción');
+          }
+
           const errorMessage = error.response?.data?.error || 'Error al restaurar la copia de seguridad';
 
           errorSnackbar(errorMessage);
@@ -57,6 +78,10 @@ const Index = () => {
 
           setBackups(backups.filter((b) => b.name !== backup.name));
         } catch (error: any) {
+          if (isAxiosError(error) && error.response?.status === 403) {
+            return errorSnackbar('No tienes permisos para realizar esta acción');
+          }
+
           const errorMessage = error.response?.data?.error || 'Error al eliminar la copia de seguridad';
 
           errorSnackbar(errorMessage);
@@ -79,6 +104,10 @@ const Index = () => {
 
           setBackups([backup, ...backups]);
         } catch (error: any) {
+          if (isAxiosError(error) && error.response?.status === 403) {
+            return errorSnackbar('No tienes permisos para realizar esta acción');
+          }
+
           const errorMessage = error.response?.data?.error || 'Error al crear la copia de seguridad';
 
           errorSnackbar(errorMessage);
@@ -93,9 +122,11 @@ const Index = () => {
         <div className="admin-title-container">
           <MMTitle content="Copias de Seguridad" />
 
-          <MMButtonResponsive Icon={FaPlus} onClick={handleCreateButton}>
-            Crear Copia de Seguridad
-          </MMButtonResponsive>
+          {policies?.create && (
+            <MMButtonResponsive Icon={FaPlus} onClick={handleCreateButton}>
+              Crear Copia de Seguridad
+            </MMButtonResponsive>
+          )}
         </div>
 
         <MMTable<Backup>
@@ -119,21 +150,25 @@ const Index = () => {
               header: 'Acciones',
               renderCell: (rowData) => (
                 <StyledFlex>
-                  <MMButton
-                    data-tooltip-id="tooltip"
-                    data-tooltip-content="Restaurar"
-                    onClick={() => handleRestoreButton(rowData)}
-                  >
-                    <FaBackward />
-                  </MMButton>
+                  {policies?.restore_backup && (
+                    <MMButton
+                      data-tooltip-id="tooltip"
+                      data-tooltip-content="Restaurar"
+                      onClick={() => handleRestoreButton(rowData)}
+                    >
+                      <FaBackward />
+                    </MMButton>
+                  )}
 
-                  <MMButton
-                    data-tooltip-id="tooltip"
-                    data-tooltip-content="Eliminar"
-                    onClick={() => handleDeleteButton(rowData)}
-                  >
-                    <FaTrash />
-                  </MMButton>
+                  {policies?.destroy && (
+                    <MMButton
+                      data-tooltip-id="tooltip"
+                      data-tooltip-content="Eliminar"
+                      onClick={() => handleDeleteButton(rowData)}
+                    >
+                      <FaTrash />
+                    </MMButton>
+                  )}
                 </StyledFlex>
               )
             }

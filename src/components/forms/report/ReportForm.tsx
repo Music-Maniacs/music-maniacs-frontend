@@ -21,6 +21,7 @@ import { StyledFlex, StyledFlexColumn } from '../../../styles/styledComponents';
 import { InputAsyncSelect } from '../../form/InputAsyncSelect/InputAsyncSelect';
 import { FaSearch } from 'react-icons/fa';
 import MMAnchor from '../../MMLink/MMAnchor';
+import { isAxiosError } from 'axios';
 
 type ReportFormProps = {
   reportableId: string;
@@ -87,6 +88,7 @@ export const ReportForm = ({ reportableId, closeModal, service, reportTitleText,
     if (reportCategoryValue?.value && originalReportableValue?.value) {
       reset({ originalReportable: undefined });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reportCategoryVal]);
 
   const reportCollection = reportCollectionByType[reportableType].map((item) => ({
@@ -107,6 +109,12 @@ export const ReportForm = ({ reportableId, closeModal, service, reportTitleText,
 
       closeModal();
     } catch (error) {
+      if (isAxiosError(error) && error.response?.status === 403) {
+        errorSnackbar(`No tienes permisos para realizar reportes.`);
+
+        return closeModal();
+      }
+
       let hasFormError = handleFormErrors(error, setError);
 
       !hasFormError && errorSnackbar(`Error inesperado al crear el reporte. Contacte a soporte.`);

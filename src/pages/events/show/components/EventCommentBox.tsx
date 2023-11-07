@@ -15,15 +15,17 @@ import { MMModal } from '../../../../components/Modal/MMModal';
 import { EventCommentForm } from './EventCommentForm';
 import { Event } from '../../../../models/Event';
 import { likeComment, removeLikeComment, reportComment } from '../../../../services/commentService';
-import { errorSnackbar } from '../../../../components/Snackbar/Snackbar';
+import { errorSnackbar, warningSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { ReportForm } from '../../../../components/forms/report/ReportForm';
 import { NoData } from '../../../../components/NoData/NoData';
+import { Policy } from '../../../../models/Policy';
 
 type Props = {
   event: Event;
+  commentsPolicies?: Policy;
 };
 
-export const EventCommentBox = ({ event }: Props) => {
+export const EventCommentBox = ({ event, commentsPolicies }: Props) => {
   const { id } = useParams();
   const { user } = useAuth();
   const [comments, setComments] = useState<Comment[]>([]);
@@ -66,9 +68,15 @@ export const EventCommentBox = ({ event }: Props) => {
   };
 
   const handleCreateCommentButton = () => {
-    setIsFormEdit(false);
-    setCommentToEdit(undefined);
-    openModal();
+    if (commentsPolicies?.create) {
+      setIsFormEdit(false);
+      setCommentToEdit(undefined);
+      openModal();
+    } else {
+      warningSnackbar(
+        'No tienes permisos para comentar. Debes alcanzar un nivel de confianza más alto para desbloquear esta función.'
+      );
+    }
   };
 
   const handleEditCommentButton = (comment: Comment) => {
@@ -78,8 +86,14 @@ export const EventCommentBox = ({ event }: Props) => {
   };
 
   const handleReportCommentButton = (comment: Comment) => {
-    setCommentToReport(comment);
-    openReportModal();
+    if (commentsPolicies?.report) {
+      setCommentToReport(comment);
+      openReportModal();
+    } else {
+      warningSnackbar(
+        'No tienes permisos para reportar comentarios. Debes alcanzar un nivel de confianza más alto para desbloquear esta función.'
+      );
+    }
   };
 
   const handleLikeComment = async (commentId: string, likedByCurrentUser: boolean) => {
@@ -136,7 +150,17 @@ export const EventCommentBox = ({ event }: Props) => {
         <StyledFlex $justifyContent="space-between">
           <MMSubTitle content="Comentarios" />
 
-          <MMButton onClick={handleCreateCommentButton}>Agregar Comentario</MMButton>
+          <MMButton
+            onClick={() => {
+              if (user) {
+                handleCreateCommentButton();
+              } else {
+                warningSnackbar('Debes iniciar sesión para comentar');
+              }
+            }}
+          >
+            Agregar Comentario
+          </MMButton>
         </StyledFlex>
 
         <StyledFlexColumn $gap="10px">

@@ -5,6 +5,9 @@ import { errorSnackbar } from '../../../components/Snackbar/Snackbar';
 import { useNavigate } from 'react-router-dom';
 import { Report } from '../../../models/Report';
 import { getReport } from '../../../services/reportService';
+import { usePolicy } from '../../../components/hooks/usePolicy';
+import { Policy } from '../../../models/Policy';
+import { isAxiosError } from 'axios';
 
 type Props = {
   children: React.ReactNode;
@@ -19,6 +22,7 @@ type StoreProps = {
   showReport?: Report;
   setShowReport: Dispatch<SetStateAction<Report | undefined>>;
   getShowReport: (id: string) => Promise<void>;
+  policies?: Policy;
 };
 
 const ReportContext = createContext<StoreProps | null>(null);
@@ -29,6 +33,8 @@ export const ReportsProvider = ({ children }: Props) => {
   // Table Data
   const [reports, setReports] = useState<Report[]>();
   const [showReport, setShowReport] = useState<Report>();
+
+  const { policies } = usePolicy({ controllerClassName: 'ReportsController' });
 
   const queryParams = useRef<Record<string, string | SelectCollection>>({
     category_eq: '',
@@ -58,6 +64,12 @@ export const ReportsProvider = ({ children }: Props) => {
 
       setShowReport(report);
     } catch (error) {
+      if (isAxiosError(error) && error.response?.status === 403) {
+        errorSnackbar('No tienes permisos para realizar esta acción');
+
+        return navigate('/');
+      }
+
       errorSnackbar('Error al obtener el reporte. Contacte a soporte.');
       navigate('/');
     }
@@ -71,7 +83,8 @@ export const ReportsProvider = ({ children }: Props) => {
     queryParams,
     showReport,
     setShowReport,
-    getShowReport
+    getShowReport,
+    policies
   };
 
   return <ReportContext.Provider value={store}>{children}</ReportContext.Provider>;

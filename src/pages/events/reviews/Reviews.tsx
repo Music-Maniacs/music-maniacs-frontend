@@ -24,14 +24,16 @@ import { ReportForm } from '../../../components/forms/report/ReportForm';
 import { reportReview } from '../../../services/reviewsService';
 import { NoData } from '../../../components/NoData/NoData';
 import { ReviewForm } from '../../../components/forms/reviews/ReviewForm';
+import { warningSnackbar } from '../../../components/Snackbar/Snackbar';
 
 const Reviews = () => {
   const { id } = useParams();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [isFormEdit, setIsFormEdit] = useState<boolean>(false);
   const [reviewToEdit, setReviewToEdit] = useState<Review>();
   const { isModalOpen, openModal, closeModal } = useModal();
-  const { showEvent, setShowEvent, getShowEvent } = useEvents();
+  const { showEvent, setShowEvent, getShowEvent, reviewsPolicies } = useEvents();
   const [reviewToReport, setReviewToReport] = useState<Review>();
   const { isModalOpen: isReportModalOpen, openModal: openReportModal, closeModal: closeReportModal } = useModal();
 
@@ -112,9 +114,16 @@ const Reviews = () => {
   }, [showEvent]);
 
   const handleCreateReviewButton = () => {
-    setIsFormEdit(false);
-    setReviewToEdit(undefined);
-    openModal();
+    if (reviewsPolicies?.create) {
+      setIsFormEdit(false);
+      setReviewToEdit(undefined);
+
+      openModal();
+    } else {
+      warningSnackbar(
+        'No tienes permisos para crear reseñas. Debes alcanzar un nivel de confianza más alto para desbloquear esta función.'
+      );
+    }
   };
 
   const handleEditReviewButton = (review: Review) => {
@@ -124,8 +133,15 @@ const Reviews = () => {
   };
 
   const handleReportReviewButton = (review: Review) => {
-    setReviewToReport(review);
-    openReportModal();
+    if (reviewsPolicies?.report) {
+      setReviewToReport(review);
+
+      openReportModal();
+    } else {
+      warningSnackbar(
+        'No tienes permisos para reportar reseñas. Debes alcanzar un nivel de confianza más alto para desbloquear esta función.'
+      );
+    }
   };
 
   const reviewsByReviewable = {
@@ -196,7 +212,7 @@ const Reviews = () => {
               ]}
             />
 
-            <EventInfoBox event={showEvent} openModal={openModal} setEvent={setShowEvent} hideActions />
+            <EventInfoBox event={showEvent} setEvent={setShowEvent} hideActions />
 
             <MMBox className="show-boxes ">
               <div className="reviews-box">
@@ -204,7 +220,17 @@ const Reviews = () => {
                   <MMSubTitle content="Reseñas" />
 
                   {(showEvent.artist || showEvent.producer || showEvent.venue) && (
-                    <MMButton onClick={handleCreateReviewButton}>Agregar Reseña</MMButton>
+                    <MMButton
+                      onClick={() => {
+                        if (user) {
+                          handleCreateReviewButton();
+                        } else {
+                          warningSnackbar('Debes iniciar sesión para agregar una reseña');
+                        }
+                      }}
+                    >
+                      Agregar Reseña
+                    </MMButton>
                   )}
                 </div>
 

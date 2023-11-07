@@ -2,6 +2,9 @@ import React, { MutableRefObject, createContext, useContext, useEffect, useRef, 
 import { DashboardGraphs, DashboardTables } from '../../../../models/Dashboard';
 import { getDashboardGraphs, getDashboardTables } from '../../../../services/dashboardService';
 import { errorSnackbar } from '../../../../components/Snackbar/Snackbar';
+import { Policy } from '../../../../models/Policy';
+import { checkPolicy } from '../../../../services/policyService';
+import { isAxiosError } from 'axios';
 
 type Props = {
   children: React.ReactNode;
@@ -15,6 +18,7 @@ type StoreProps = {
   queryParams: MutableRefObject<Record<string, string>>;
   lastSearchParams?: MutableRefObject<Record<string, string>>;
   fetchGraphs: () => Promise<void>;
+  policies?: Policy;
 };
 
 const DashboardContext = createContext<StoreProps | null>(null);
@@ -24,6 +28,7 @@ export const DashboardProvider = ({ children }: Props) => {
   const [dashboardGraphs, setDashboardGraphs] = useState<DashboardGraphs>();
   const [isTableRequestLoading, setIsTableRequestLoading] = useState<boolean>(true);
   const [dashboardTables, setDashboardTables] = useState<DashboardTables>();
+  const [policies, setPolicies] = useState<Policy>();
 
   const startDateObj = new Date();
   startDateObj.setDate(startDateObj.getDate() - 30);
@@ -40,9 +45,22 @@ export const DashboardProvider = ({ children }: Props) => {
   });
 
   useEffect(() => {
-    fetchGraphs();
-    fetchTables();
+    getPolicy();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const getPolicy = async () => {
+    try {
+      const response = await checkPolicy('Admin::MetricsController');
+
+      setPolicies(response);
+
+      fetchTables();
+      fetchGraphs();
+    } catch (error) {
+      errorSnackbar('Error al obtener los permisos. Contacte a soporte');
+    }
+  };
 
   const fetchGraphs = async () => {
     setIsGraphRequestLoading(true);
@@ -57,8 +75,13 @@ export const DashboardProvider = ({ children }: Props) => {
 
       setDashboardGraphs(data);
     } catch (error) {
-      errorSnackbar('Error al obtener las gráficas. Contacte a Soporte.');
       setDashboardGraphs(undefined);
+
+      if (isAxiosError(error) && error.response?.status === 403) {
+        return errorSnackbar('No tienes permisos para consultar los gráficos');
+      }
+
+      errorSnackbar('Error al obtener las gráficas. Contacte a Soporte.');
     } finally {
       setIsGraphRequestLoading(false);
     }
@@ -71,8 +94,13 @@ export const DashboardProvider = ({ children }: Props) => {
 
       setDashboardTables(response);
     } catch (error) {
-      errorSnackbar('Error al obtener las tablas. Contacte a Soporte.');
       setDashboardTables(undefined);
+
+      if (isAxiosError(error) && error.response?.status === 403) {
+        return errorSnackbar('No tienes permisos para consultar las tablas de métricas');
+      }
+
+      errorSnackbar('Error al obtener las tablas. Contacte a Soporte.');
     } finally {
       setIsTableRequestLoading(false);
     }
@@ -85,7 +113,8 @@ export const DashboardProvider = ({ children }: Props) => {
     isTableRequestLoading,
     queryParams,
     lastSearchParams,
-    fetchGraphs
+    fetchGraphs,
+    policies
   };
 
   return <DashboardContext.Provider value={store}>{children}</DashboardContext.Provider>;

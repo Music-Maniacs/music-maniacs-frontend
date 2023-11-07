@@ -10,6 +10,7 @@ import { VideoDropzone } from './VideoDropzone';
 import { InputDate } from '../../../../components/form/InputDate/InputDate';
 import { uploadVideo } from '../../../../services/eventService';
 import '../Multimedia.scss';
+import { isAxiosError } from 'axios';
 
 type FormProps = {
   eventId: string;
@@ -42,6 +43,12 @@ export const Form = ({ eventId, successCallback, closeFormModal }: FormProps) =>
 
       successCallback(response);
     } catch (error) {
+      if (isAxiosError(error) && error.response?.status === 403) {
+        errorSnackbar('No tienes permisos para realizar esta acción');
+
+        return closeFormModal();
+      }
+
       let hasFormError = handleFormErrors(error, setError);
 
       !hasFormError && errorSnackbar(`Error inesperado al subir video. Contacte a soporte.`);

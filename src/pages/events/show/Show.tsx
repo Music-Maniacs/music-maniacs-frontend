@@ -17,12 +17,14 @@ import { ReportForm } from '../../../components/forms/report/ReportForm';
 import { reportEvent } from '../../../services/eventService';
 import { Version } from '../../../models/Version';
 import { reportVersions } from '../../../services/versionService';
+import { warningSnackbar } from '../../../components/Snackbar/Snackbar';
 
 const Show = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { isModalOpen, openModal, closeModal } = useModal();
-  const { showEvent, getShowEvent, setShowEvent } = useEvents();
+  const { showEvent, getShowEvent, setShowEvent, eventPolicies, versionsPolicies, commentsPolicies, reviewsPolicies } =
+    useEvents();
   const { isModalOpen: isReportModalOpen, openModal: openReportModal, closeModal: closeReportModal } = useModal();
   const [versionsToReport, setVersionsToReport] = useState<Version>();
   const {
@@ -31,17 +33,44 @@ const Show = () => {
     closeModal: closeVersionsReportModal
   } = useModal();
 
-  const handleReportVersion = (version: Version) => {
-    setVersionsToReport(version);
-    openVersionsReportModal();
-  };
-
   useEffect(() => {
     if (!id) return navigate(-1);
 
     if (!showEvent || showEvent.id !== id) getShowEvent(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleReportVersion = (version: Version) => {
+    if (versionsPolicies?.report) {
+      setVersionsToReport(version);
+
+      openVersionsReportModal();
+    } else {
+      warningSnackbar(
+        'No tienes permisos para reportar versiones. Debes alcanzar un nivel de confianza más alto para desbloquear esta función.'
+      );
+    }
+  };
+
+  const handleEditEvent = () => {
+    if (eventPolicies?.update) {
+      openModal();
+    } else {
+      warningSnackbar(
+        'No tienes permisos para editar eventos. Debes alcanzar un nivel de confianza más alto para desbloquear esta función.'
+      );
+    }
+  };
+
+  const handleReportEvent = () => {
+    if (eventPolicies?.report) {
+      openReportModal();
+    } else {
+      warningSnackbar(
+        'No tienes permisos para reportar eventos. Debes alcanzar un nivel de confianza más alto para desbloquear esta función.'
+      );
+    }
+  };
 
   return (
     <>
@@ -87,13 +116,13 @@ const Show = () => {
 
             <EventInfoBox
               event={showEvent}
-              openModal={openModal}
+              handleEditEvent={handleEditEvent}
               setEvent={setShowEvent}
-              openReportModal={openReportModal}
+              handleReportEvent={handleReportEvent}
             />
             <EventAdvancedInfo event={showEvent} />
-            <EventReviewBox event={showEvent} />
-            <EventCommentBox event={showEvent} />
+            <EventReviewBox event={showEvent} reviewsPolicies={reviewsPolicies} />
+            <EventCommentBox event={showEvent} commentsPolicies={commentsPolicies} />
 
             <VersionBox versions={showEvent.versions} handleReportVersion={handleReportVersion} />
           </>

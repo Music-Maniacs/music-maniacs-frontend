@@ -20,16 +20,20 @@ type Props = {
 
 const StyledMaterialDesignContent = styled(MaterialDesignContent)(() => ({
   '&.notistack-MuiContent-warning': {
-    backgroundColor: colors.warning
+    backgroundColor: colors.warning,
+    maxWidth: '400px'
   },
   '&.notistack-MuiContent-info': {
-    backgroundColor: colors.primary
+    backgroundColor: colors.primary,
+    maxWidth: '400px'
   },
   '&.notistack-MuiContent-success': {
-    backgroundColor: colors.success
+    backgroundColor: colors.success,
+    maxWidth: '400px'
   },
   '&.notistack-MuiContent-error': {
-    backgroundColor: colors.error
+    backgroundColor: colors.error,
+    maxWidth: '400px'
   }
 }));
 

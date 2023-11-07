@@ -10,6 +10,7 @@ import { handleFormErrors } from '../../../../utils/handleFormErrors';
 import { PermissionListInput } from '../../../../components/form/PermissionListInput/PermissionListInput';
 import { useCollection } from '../../../../context/collectionContext';
 import { Grid } from '@mui/material';
+import { isAxiosError } from 'axios';
 
 type FormData = {
   name: string;
@@ -69,9 +70,20 @@ export const Form = ({ type, trustLevel, setTrustLevel, closeFormModal, setTrust
         if (closeFormModal) closeFormModal();
       }
     } catch (error) {
+      if (isAxiosError(error) && error.response?.status === 403) {
+        errorSnackbar(`No tienes permisos para ${type === 'create' ? 'crear' : 'actualizar'} el nivel de confianza.`);
+
+        if (closeFormModal) closeFormModal();
+
+        return;
+      }
+
       let hasFormError = handleFormErrors(error, setError);
 
-      !hasFormError && errorSnackbar('Error inesperado al crear el usuario. Contacte a soporte.');
+      !hasFormError &&
+        errorSnackbar(
+          `Error inesperado al ${type === 'create' ? 'crear' : 'actualizar'} el nivel de confianza. Contacte a soporte.`
+        );
     }
   };
 

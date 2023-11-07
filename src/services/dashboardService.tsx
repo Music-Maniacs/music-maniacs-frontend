@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { DashboardGraphs, DashboardTables } from '../models/Dashboard';
 
-const dashboardUrl = `${process.env.REACT_APP_API_URL}/metrics`;
+const dashboardUrl = `${process.env.REACT_APP_API_URL}/admin/metrics`;
 
 type DashboardGraphsResponse = {
   data: DashboardGraphs;

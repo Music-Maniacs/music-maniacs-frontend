@@ -4,9 +4,13 @@ import { ProfileAllReviews } from '../../components/ProfileAllReviews';
 import { Loader } from '../../../../components/Loader/Loader';
 
 const Reviews = () => {
-  const { producer } = useProducer();
+  const { producer, reviewsPolicies } = useProducer();
 
-  return producer ? <ProfileAllReviews profile={producer} reviewableKlass="producer" /> : <Loader />;
+  return producer ? (
+    <ProfileAllReviews profile={producer} reviewableKlass="producer" canReport={reviewsPolicies?.report} />
+  ) : (
+    <Loader />
+  );
 };
 
 export default Reviews;

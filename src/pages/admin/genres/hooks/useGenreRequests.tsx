@@ -1,6 +1,7 @@
 import { sweetAlert } from '../../../../components/SweetAlert/sweetAlert';
 import { errorSnackbar, infoSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { deleteGenre } from '../../../../services/genreService';
+import { isAxiosError } from 'axios';
 import { handleApiErrors } from '../../../../utils/handleFormErrors';
 
 export const useGenreRequests = () => {
@@ -15,6 +16,10 @@ export const useGenreRequests = () => {
 
           successCallback && successCallback();
         } catch (error) {
+          if (isAxiosError(error) && error.response?.status === 403) {
+            return errorSnackbar('No tienes permisos para realizar esta acción');
+          }
+
           let hasFormError = handleApiErrors(error);
 
           !hasFormError && errorSnackbar('Error al eliminar el género');

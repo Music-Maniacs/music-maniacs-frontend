@@ -5,6 +5,8 @@ import { Event } from '../../../models/Event';
 import { getEvent } from '../../../services/eventService';
 import { errorSnackbar } from '../../../components/Snackbar/Snackbar';
 import { useNavigate } from 'react-router-dom';
+import { usePolicy } from '../../../components/hooks/usePolicy';
+import { Policy } from '../../../models/Policy';
 
 type Props = {
   children: React.ReactNode;
@@ -21,6 +23,10 @@ type StoreProps = {
   showEvent?: Event;
   setShowEvent: Dispatch<SetStateAction<Event | undefined>>;
   getShowEvent: (id: string) => Promise<void>;
+  eventPolicies?: Policy;
+  versionsPolicies?: Policy;
+  commentsPolicies?: Policy;
+  reviewsPolicies?: Policy;
 };
 
 const EventsContext = createContext<StoreProps | null>(null);
@@ -31,6 +37,10 @@ export const EventsProvider = ({ children }: Props) => {
   // Table Data
   const [events, setEvents] = useState<Event[]>();
   const [showEvent, setShowEvent] = useState<Event>();
+  const { policies: eventPolicies } = usePolicy({ controllerClassName: 'EventsController' });
+  const { policies: versionsPolicies } = usePolicy({ controllerClassName: 'VersionsController' });
+  const { policies: commentsPolicies } = usePolicy({ controllerClassName: 'CommentsController' });
+  const { policies: reviewsPolicies } = usePolicy({ controllerClassName: 'ReviewsController' });
 
   // Searcher
   const queryParams = useRef<Record<string, string>>({
@@ -91,7 +101,11 @@ export const EventsProvider = ({ children }: Props) => {
     cleanQueryParams,
     showEvent,
     setShowEvent,
-    getShowEvent
+    getShowEvent,
+    eventPolicies,
+    versionsPolicies,
+    commentsPolicies,
+    reviewsPolicies
   };
 
   return <EventsContext.Provider value={store}>{children}</EventsContext.Provider>;

@@ -5,6 +5,7 @@ import { VenuesForm } from '../../../../components/forms/venues/VenuesForm';
 import { errorSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { adminGetVenue } from '../../../../services/venueService';
 import { Loader } from '../../../../components/Loader/Loader';
+import { isAxiosError } from 'axios';
 
 export const Form = () => {
   const { setVenues, closeFormModal, isFormEdit, venueIdToEdit, isFormModalOpen } = useVenues();
@@ -24,7 +25,13 @@ export const Form = () => {
       const venue = await adminGetVenue(venueIdToEdit);
 
       setVenueToEdit(venue);
-    } catch (errror) {
+    } catch (error) {
+      if (isAxiosError(error) && error.response?.status === 403) {
+        errorSnackbar('No tienes permisos para realizar esta acción');
+
+        return closeFormModal();
+      }
+
       errorSnackbar('Error al obtener el espacio de eventos. Contacte a soporte.');
       closeFormModal();
     } finally {

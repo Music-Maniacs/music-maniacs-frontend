@@ -2,6 +2,9 @@ import { createContext, useContext, useReducer, useEffect, useState, SetStateAct
 import { useModal } from '../../../../components/hooks/useModal';
 import { Threshold } from '../../../../models/Threshold';
 import { indexThreshold } from '../../../../services/thresholdService';
+import { Policy } from '../../../../models/Policy';
+import { checkPolicy } from '../../../../services/policyService';
+import { errorSnackbar } from '../../../../components/Snackbar/Snackbar';
 
 export interface Props {
   children: React.ReactNode;
@@ -22,6 +25,7 @@ interface Store {
   isLoading: boolean;
   threshold?: Threshold;
   setThreshold: Dispatch<SetStateAction<Threshold | undefined>>;
+  policies?: Policy;
 }
 
 export const thresholdContext = createContext<Store | null>(null);
@@ -54,16 +58,29 @@ export function ThresholdProvider(props: Props) {
 
   const [thresholds, dispatch] = useReducer(reducer, []);
 
-  const [isLoading,setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [threshold, setThreshold] = useState<Threshold>();
+  const [policies, setPolicies] = useState<Policy>();
 
   useEffect(() => {
+    getPolicy();
+
     setIsLoading(true);
     indexThreshold().then((thresholds) => {
       dispatch({ type: 'index_threshold', payload: thresholds });
     });
     setIsLoading(false);
   }, []);
+
+  const getPolicy = async () => {
+    try {
+      const response = await checkPolicy('Admin::PenaltyThresholdsController');
+
+      setPolicies(response);
+    } catch (error) {
+      errorSnackbar('Error al obtener los permisos. Contacte a soporte');
+    }
+  };
 
   const { isModalOpen, openModal, closeModal } = useModal();
 
@@ -75,7 +92,8 @@ export function ThresholdProvider(props: Props) {
     closeModal,
     isLoading,
     threshold,
-    setThreshold
+    setThreshold,
+    policies
   };
 
   return <thresholdContext.Provider value={store}>{props.children}</thresholdContext.Provider>;

@@ -7,6 +7,7 @@ import { StyledButtonGroup } from '../../../admin/styles';
 import { handleFormErrors } from '../../../../utils/handleFormErrors';
 import { Comment, commentValidations } from '../../../../models/Comment';
 import { createComment, updateComment } from '../../../../services/commentService';
+import { isAxiosError } from 'axios';
 
 type EventCommentFormProps = {
   eventId: string;
@@ -61,6 +62,12 @@ export const EventCommentForm = ({
 
       successCallback && successCallback(response);
     } catch (error) {
+      if (isAxiosError(error) && error.response?.status === 403) {
+        errorSnackbar('No tienes permisos para realizar esta acción');
+
+        return closeModal();
+      }
+
       let hasFormError = handleFormErrors(error, setError);
 
       !hasFormError &&

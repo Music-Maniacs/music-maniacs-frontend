@@ -20,6 +20,9 @@ import { VenuesForm } from '../../../../components/forms/venues/VenuesForm';
 import { VersionBox } from '../../../../components/versions/VersionBox';
 import { MMChip } from '../../../../components/MMChip/MMChip';
 import { StyledFlex } from '../../../../styles/styledComponents';
+import { Policy } from '../../../../models/Policy';
+import { checkPolicy } from '../../../../services/policyService';
+import { isAxiosError } from 'axios';
 
 const Show = () => {
   const { id } = useParams();
@@ -27,11 +30,23 @@ const Show = () => {
   const [venue, setVenue] = useState<Venue>();
   const { isModalOpen, openModal, closeModal } = useModal();
   const { handleDeleteVenue } = useVenuesRequests();
+  const [policies, setPolicies] = useState<Policy>();
 
   useEffect(() => {
     getVenue();
+    getPolicy();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const getPolicy = async () => {
+    try {
+      const response = await checkPolicy('Admin::VenuesController');
+
+      setPolicies(response);
+    } catch (error) {
+      errorSnackbar('Error al obtener los permisos. Contacte a soporte');
+    }
+  };
 
   const getVenue = async () => {
     if (!id) return;
@@ -41,6 +56,12 @@ const Show = () => {
 
       setVenue(venue);
     } catch (error) {
+      if (isAxiosError(error) && error.response?.status === 403) {
+        errorSnackbar('No tienes permisos para realizar esta acción');
+
+        return navigate('/');
+      }
+
       errorSnackbar('Error al obtener el espacio de eventos. Contacte a soporte.');
       navigate(-1);
     }
@@ -71,11 +92,13 @@ const Show = () => {
           </StyledFlex>
 
           <Stack direction={'row'} spacing={1} justifyContent={'flex-end'}>
-            <MMButtonResponsive Icon={FaEdit} onClick={() => openModal()}>
-              Editar
-            </MMButtonResponsive>
+            {policies?.update && (
+              <MMButtonResponsive Icon={FaEdit} onClick={() => openModal()}>
+                Editar
+              </MMButtonResponsive>
+            )}
 
-            {!venue?.deleted_at && (
+            {!venue?.deleted_at && policies?.destroy && (
               <MMButtonResponsive color="error" onClick={() => handleDeleteButton()} Icon={FaTrash}>
                 Eliminar
               </MMButtonResponsive>

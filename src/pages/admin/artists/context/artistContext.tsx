@@ -1,8 +1,20 @@
-import React, { Dispatch, MutableRefObject, SetStateAction, createContext, useContext, useRef, useState } from 'react';
+import React, {
+  Dispatch,
+  MutableRefObject,
+  SetStateAction,
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState
+} from 'react';
 import { useModal } from '../../../../components/hooks/useModal';
 import { usePagination } from '../../../../components/searcher/usePagination';
 import { Pagination } from '../../../../models/Generic';
 import { Artist } from '../../../../models/Artist';
+import { Policy } from '../../../../models/Policy';
+import { errorSnackbar } from '../../../../components/Snackbar/Snackbar';
+import { checkPolicy } from '../../../../services/policyService';
 
 type Props = {
   children: React.ReactNode;
@@ -21,6 +33,7 @@ type StoreProps = {
   pagination: Pagination;
   setPagination: Dispatch<SetStateAction<Pagination>>;
   queryParams: MutableRefObject<Record<string, string>>;
+  policies?: Policy;
 };
 
 const ArtistsContext = createContext<StoreProps | null>(null);
@@ -29,6 +42,7 @@ export const ArtistsProvider = ({ children }: Props) => {
   const INDEX_URL = `${process.env.REACT_APP_API_URL}/admin/artists`;
   // Table Data
   const [artists, setArtists] = useState<Artist[]>();
+  const [policies, setPolicies] = useState<Policy>();
 
   // Searceher
   const queryParams = useRef<Record<string, string>>({
@@ -49,6 +63,20 @@ export const ArtistsProvider = ({ children }: Props) => {
     setArtists(artists);
   };
 
+  useEffect(() => {
+    getPolicy();
+  }, []);
+
+  const getPolicy = async () => {
+    try {
+      const response = await checkPolicy('Admin::ArtistsController');
+
+      setPolicies(response);
+    } catch (error) {
+      errorSnackbar('Error al obtener los permisos. Contacte a soporte');
+    }
+  };
+
   const store: StoreProps = {
     artists,
     setArtists,
@@ -61,7 +89,8 @@ export const ArtistsProvider = ({ children }: Props) => {
     setArtistToEdit,
     pagination,
     setPagination,
-    queryParams
+    queryParams,
+    policies
   };
 
   return <ArtistsContext.Provider value={store}>{children}</ArtistsContext.Provider>;

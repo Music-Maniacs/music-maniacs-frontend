@@ -12,7 +12,8 @@ import { MMChip } from '../../../../components/MMChip/MMChip';
 
 export const Table = () => {
   const navigate = useNavigate();
-  const { producers, pagination, setProducers, openFormModal, setIsFormEdit, setProducerToEdit } = useProducers();
+  const { producers, pagination, setProducers, openFormModal, setIsFormEdit, setProducerToEdit, policies } =
+    useProducers();
   const { handleDeleteProducer } = useProducerRequests();
 
   const handleShowButton = (producerId: string) => {
@@ -72,23 +73,27 @@ export const Table = () => {
           renderCell: (rowData) => {
             return (
               <Stack direction={'row'} spacing={1}>
-                <MMButton
-                  data-tooltip-id="tooltip"
-                  data-tooltip-content="Ver"
-                  onClick={() => handleShowButton(rowData.id)}
-                >
-                  <FaSearch />
-                </MMButton>
+                {policies?.show && (
+                  <MMButton
+                    data-tooltip-id="tooltip"
+                    data-tooltip-content="Ver"
+                    onClick={() => handleShowButton(rowData.id)}
+                  >
+                    <FaSearch />
+                  </MMButton>
+                )}
 
-                <MMButton
-                  data-tooltip-id="tooltip"
-                  data-tooltip-content="Editar"
-                  onClick={() => handleEditButton(rowData)}
-                >
-                  <FaEdit />
-                </MMButton>
+                {policies?.update && (
+                  <MMButton
+                    data-tooltip-id="tooltip"
+                    data-tooltip-content="Editar"
+                    onClick={() => handleEditButton(rowData)}
+                  >
+                    <FaEdit />
+                  </MMButton>
+                )}
 
-                {!rowData.deleted_at && (
+                {!rowData.deleted_at && policies?.destroy && (
                   <MMButton
                     data-tooltip-id="tooltip"
                     data-tooltip-content="Eliminar"

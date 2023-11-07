@@ -15,6 +15,7 @@ import { StyledButtonGroup } from '../../../pages/admin/styles';
 import { MMButton } from '../../MMButton/MMButton';
 import { adminCreateArtist, adminUpdateArtist, createArtist, updateArtist } from '../../../services/artistService';
 import '../Forms.scss';
+import { isAxiosError } from 'axios';
 
 type Props = {
   useAdminController?: boolean;
@@ -127,6 +128,11 @@ export const ArtistForm = ({
 
       closeFormModal();
     } catch (error) {
+      if (isAxiosError(error) && error.response?.status === 403) {
+        errorSnackbar(`No tienes permisos para ${isFormEdit ? 'editar' : 'crear'} artistas.`);
+
+        return closeFormModal();
+      }
       let hasFormError = handleFormErrors(error, setError);
 
       !hasFormError &&

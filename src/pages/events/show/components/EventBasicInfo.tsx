@@ -13,6 +13,7 @@ import { MMVenueIcon } from '../../../../components/icons/MMVenueIcon';
 import { MMProducerIcon } from '../../../../components/icons/MMProducerIcon';
 import { StyledFlex } from '../../../../styles/styledComponents';
 import { FaFlag } from 'react-icons/fa';
+import { warningSnackbar } from '../../../../components/Snackbar/Snackbar';
 
 type Props = {
   event: Event;
@@ -56,13 +57,17 @@ export const EventBasicInfo = ({
         <div className="data-container">
           <h1 className="name">{event.name}</h1>
 
-          {user && handleFollow && handleUnfollow && (
+          {handleFollow && handleUnfollow && (
             <MMButton
               onClick={() => {
-                if (event.followed_by_current_user) {
-                  handleUnfollow();
+                if (user) {
+                  if (event.followed_by_current_user) {
+                    handleUnfollow();
+                  } else {
+                    handleFollow();
+                  }
                 } else {
-                  handleFollow();
+                  warningSnackbar('Debes iniciar sesión para seguir el evento');
                 }
               }}
             >
@@ -122,13 +127,34 @@ export const EventBasicInfo = ({
         {(customActions || !hideActions) && (
           <div className="actions-container">
             {handleReportEvent && (
-              <StyledFlex $cursor="pointer" onClick={handleReportEvent}>
+              <StyledFlex
+                $cursor="pointer"
+                onClick={() => {
+                  if (user) {
+                    handleReportEvent();
+                  } else {
+                    warningSnackbar('Debes iniciar sesión para reportar el evento');
+                  }
+                }}
+              >
                 <FaFlag />
                 <span>Reportar</span>
               </StyledFlex>
             )}
 
-            {handleEditEvent && <MMButton onClick={handleEditEvent}>Editar Evento</MMButton>}
+            {handleEditEvent && (
+              <MMButton
+                onClick={() => {
+                  if (user) {
+                    handleEditEvent();
+                  } else {
+                    warningSnackbar('Debes iniciar sesión para editar el evento');
+                  }
+                }}
+              >
+                Editar Evento
+              </MMButton>
+            )}
 
             {customActions}
           </div>

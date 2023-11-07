@@ -13,7 +13,7 @@ import { useUserRequests } from '../hooks/useUserRequests';
 
 export const Table = () => {
   const navigate = useNavigate();
-  const { users, pagination, setUsers } = useUsers();
+  const { users, pagination, setUsers, policies } = useUsers();
   const { handleDeleteUser, handleRestoreUser, handleUnblockUser, handleBlockUser } = useUserRequests();
 
   function getStateColor(state: string): MMColors {
@@ -158,15 +158,17 @@ export const Table = () => {
           renderCell: (rowData) => {
             return (
               <Stack direction={'row'} spacing={1}>
-                <MMButton
-                  data-tooltip-id="tooltip"
-                  data-tooltip-content="Ver"
-                  onClick={() => handleShowButton(rowData.id)}
-                >
-                  <FaSearch />
-                </MMButton>
+                {policies?.show && (
+                  <MMButton
+                    data-tooltip-id="tooltip"
+                    data-tooltip-content="Ver"
+                    onClick={() => handleShowButton(rowData.id)}
+                  >
+                    <FaSearch />
+                  </MMButton>
+                )}
 
-                {rowData.deleted_at ? (
+                {rowData.deleted_at && policies?.restore ? (
                   <MMButton
                     data-tooltip-id="tooltip"
                     data-tooltip-content="Restaurar"
@@ -176,7 +178,7 @@ export const Table = () => {
                   </MMButton>
                 ) : (
                   <>
-                    {rowData.blocked_until ? (
+                    {rowData.blocked_until && policies?.unblock ? (
                       <MMButton
                         data-tooltip-id="tooltip"
                         data-tooltip-content="Desbloquear"
@@ -185,21 +187,25 @@ export const Table = () => {
                         <FaUnlock />
                       </MMButton>
                     ) : (
+                      policies?.block && (
+                        <MMButton
+                          data-tooltip-id="tooltip"
+                          data-tooltip-content="Bloquear"
+                          onClick={() => handleLockButton(rowData.id)}
+                        >
+                          <FaLock />
+                        </MMButton>
+                      )
+                    )}
+                    {policies?.destroy && (
                       <MMButton
                         data-tooltip-id="tooltip"
-                        data-tooltip-content="Bloquear"
-                        onClick={() => handleLockButton(rowData.id)}
+                        data-tooltip-content="Eliminar"
+                        onClick={() => handleDeleteButton(rowData.id)}
                       >
-                        <FaLock />
+                        <FaTrash />
                       </MMButton>
                     )}
-                    <MMButton
-                      data-tooltip-id="tooltip"
-                      data-tooltip-content="Eliminar"
-                      onClick={() => handleDeleteButton(rowData.id)}
-                    >
-                      <FaTrash />
-                    </MMButton>
                   </>
                 )}
               </Stack>

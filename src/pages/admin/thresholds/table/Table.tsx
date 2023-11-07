@@ -9,7 +9,7 @@ import { Threshold } from '../../../../models/Threshold';
 import { useThreshold } from '../context/ThresholdProvider';
 
 export const Table = () => {
-  const { dispatch, thresholds, isLoading, openModal, setThreshold } = useThreshold();
+  const { dispatch, thresholds, isLoading, openModal, setThreshold, policies } = useThreshold();
   const { handleDeleteThreshold } = useThresholdRequests();
 
   const handleDeleteButton = (threshold: Threshold) => {
@@ -40,23 +40,28 @@ export const Table = () => {
           renderCell: (rowData) => {
             return (
               <Stack direction={'row'} spacing={1}>
-                <MMButton
-                  data-tooltip-id="tooltip"
-                  data-tooltip-content="Editar"
-                  onClick={() => {
-                    setThreshold(rowData);
-                    openModal();
-                  }}
-                >
-                  <FaEdit />
-                </MMButton>
-                <MMButton
-                  data-tooltip-id="tooltip"
-                  data-tooltip-content="Eliminar"
-                  onClick={() => handleDeleteButton(rowData)}
-                >
-                  <FaTrash />
-                </MMButton>
+                {policies?.update && (
+                  <MMButton
+                    data-tooltip-id="tooltip"
+                    data-tooltip-content="Editar"
+                    onClick={() => {
+                      setThreshold(rowData);
+                      openModal();
+                    }}
+                  >
+                    <FaEdit />
+                  </MMButton>
+                )}
+
+                {policies?.destroy && (
+                  <MMButton
+                    data-tooltip-id="tooltip"
+                    data-tooltip-content="Eliminar"
+                    onClick={() => handleDeleteButton(rowData)}
+                  >
+                    <FaTrash />
+                  </MMButton>
+                )}
               </Stack>
             );
           },

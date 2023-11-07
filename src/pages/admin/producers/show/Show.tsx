@@ -20,6 +20,9 @@ import { ProducerForm } from '../../../../components/forms/producer/ProducerForm
 import { VersionBox } from '../../../../components/versions/VersionBox';
 import { StyledFlex } from '../../../../styles/styledComponents';
 import { MMChip } from '../../../../components/MMChip/MMChip';
+import { checkPolicy } from '../../../../services/policyService';
+import { Policy } from '../../../../models/Policy';
+import { isAxiosError } from 'axios';
 
 const Show = () => {
   const { id } = useParams();
@@ -27,9 +30,11 @@ const Show = () => {
   const [producer, setProducer] = useState<Producer>();
   const { isModalOpen, openModal, closeModal } = useModal();
   const { handleDeleteProducer } = useProducerRequests();
+  const [policies, setPolicies] = useState<Policy>();
 
   useEffect(() => {
     getProducer();
+    getPolicy();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -41,8 +46,24 @@ const Show = () => {
 
       setProducer(user);
     } catch (error) {
+      if (isAxiosError(error) && error.response?.status === 403) {
+        errorSnackbar('No tienes permisos para realizar esta acción');
+
+        return navigate('/');
+      }
+
       errorSnackbar('Error al obtener la productora. Contacte a soporte.');
       navigate(-1);
+    }
+  };
+
+  const getPolicy = async () => {
+    try {
+      const response = await checkPolicy('Admin::ProducersController');
+
+      setPolicies(response);
+    } catch (error) {
+      errorSnackbar('Error al obtener los permisos. Contacte a soporte');
     }
   };
 
@@ -71,11 +92,13 @@ const Show = () => {
           </StyledFlex>
 
           <Stack direction={'row'} spacing={1} justifyContent={'flex-end'}>
-            <MMButtonResponsive Icon={FaEdit} onClick={() => openModal()}>
-              Editar
-            </MMButtonResponsive>
+            {policies?.update && (
+              <MMButtonResponsive Icon={FaEdit} onClick={() => openModal()}>
+                Editar
+              </MMButtonResponsive>
+            )}
 
-            {!producer?.deleted_at && (
+            {!producer?.deleted_at && policies?.destroy && (
               <MMButtonResponsive color="error" onClick={() => handleDeleteButton()} Icon={FaTrash}>
                 Eliminar
               </MMButtonResponsive>

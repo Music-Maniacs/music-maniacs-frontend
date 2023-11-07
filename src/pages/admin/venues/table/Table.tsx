@@ -11,7 +11,7 @@ import { MMChip } from '../../../../components/MMChip/MMChip';
 
 export const Table = () => {
   const navigate = useNavigate();
-  const { venues, pagination, setVenues, openFormModal, setIsFormEdit, setVenueIdToEdit } = useVenues();
+  const { venues, pagination, setVenues, openFormModal, setIsFormEdit, setVenueIdToEdit, policies } = useVenues();
   const { handleDeleteVenue } = useVenuesRequests();
 
   const handleShowButton = (venueId: string) => {
@@ -85,23 +85,27 @@ export const Table = () => {
           renderCell: (rowData) => {
             return (
               <Stack direction={'row'} spacing={1}>
-                <MMButton
-                  data-tooltip-id="tooltip"
-                  data-tooltip-content="Ver"
-                  onClick={() => handleShowButton(rowData.id)}
-                >
-                  <FaSearch />
-                </MMButton>
+                {policies?.show && (
+                  <MMButton
+                    data-tooltip-id="tooltip"
+                    data-tooltip-content="Ver"
+                    onClick={() => handleShowButton(rowData.id)}
+                  >
+                    <FaSearch />
+                  </MMButton>
+                )}
 
-                <MMButton
-                  data-tooltip-id="tooltip"
-                  data-tooltip-content="Editar"
-                  onClick={() => handleEditButton(rowData.id)}
-                >
-                  <FaEdit />
-                </MMButton>
+                {policies?.update && (
+                  <MMButton
+                    data-tooltip-id="tooltip"
+                    data-tooltip-content="Editar"
+                    onClick={() => handleEditButton(rowData.id)}
+                  >
+                    <FaEdit />
+                  </MMButton>
+                )}
 
-                {!rowData.deleted_at && (
+                {!rowData.deleted_at && policies?.destroy && (
                   <MMButton
                     data-tooltip-id="tooltip"
                     data-tooltip-content="Eliminar"

@@ -24,13 +24,15 @@ import { Tooltip } from 'react-tooltip';
 import { ReportForm } from '../../../components/forms/report/ReportForm';
 import { reportReview } from '../../../services/reviewsService';
 import { NoData } from '../../../components/NoData/NoData';
+import { warningSnackbar } from '../../../components/Snackbar/Snackbar';
 
 type ProfileAllReviewsProps = {
   profile: Artist | Producer | Venue;
   reviewableKlass: 'artist' | 'venue' | 'producer';
+  canReport?: boolean;
 };
 
-export const ProfileAllReviews = ({ profile, reviewableKlass }: ProfileAllReviewsProps) => {
+export const ProfileAllReviews = ({ profile, reviewableKlass, canReport = false }: ProfileAllReviewsProps) => {
   const { id } = useParams();
   const { user } = useAuth();
   const [reviewToEdit, setReviewToEdit] = useState<Review>();
@@ -64,8 +66,14 @@ export const ProfileAllReviews = ({ profile, reviewableKlass }: ProfileAllReview
   };
 
   const handleReportReviewButton = (review: Review) => {
-    setReviewToReport(review);
-    openReportModal();
+    if (canReport) {
+      setReviewToReport(review);
+      openReportModal();
+    } else {
+      warningSnackbar(
+        'No tienes permisos para reportar reseñas. Debes alcanzar un nivel de confianza más alto para desbloquear esta función.'
+      );
+    }
   };
 
   const updateReview = (review: Review) => {

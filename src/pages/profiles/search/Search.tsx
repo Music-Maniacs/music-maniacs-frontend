@@ -6,7 +6,7 @@ import { MMTitle } from '../../../components/MMTitle/MMTitle';
 import { StyledFlex, StyledFlexColumn } from '../../../styles/styledComponents';
 import { MMButton } from '../../../components/MMButton/MMButton';
 import axios from 'axios';
-import { errorSnackbar } from '../../../components/Snackbar/Snackbar';
+import { errorSnackbar, warningSnackbar } from '../../../components/Snackbar/Snackbar';
 import { Artist } from '../../../models/Artist';
 import { Venue } from '../../../models/Venue';
 import { Producer } from '../../../models/Producer';
@@ -27,6 +27,8 @@ import { ArtistForm } from '../../../components/forms/artist/ArtistForm';
 import { ProducerForm } from '../../../components/forms/producer/ProducerForm';
 import { VenuesForm } from '../../../components/forms/venues/VenuesForm';
 import { NoData } from '../../../components/NoData/NoData';
+import { useAuth } from '../../../context/authContext';
+import { usePolicy } from '../../../components/hooks/usePolicy';
 
 type ProfileSearchApiResponse = {
   artists: PaginatedApiResponse<Artist>;
@@ -42,12 +44,16 @@ const FormsByProfile = {
 
 const Search = () => {
   const location = useLocation();
+  const { user } = useAuth();
   const [inputValue, setInputValue] = useState<string>(location.state?.inputValue ?? '');
   const { isModalOpen, openModal, closeModal } = useModal();
   const [artists, setArtists] = useState<Artist[]>([]);
   const [venues, setVenues] = useState<Venue[]>([]);
   const [producers, setProducers] = useState<Producer[]>([]);
   const [isFirstSearchLoading, setIsFirstSearchLoading] = useState<Boolean>(true);
+  const { policies: artistPolicies } = usePolicy({ controllerClassName: 'ArtistsController' });
+  const { policies: producerPolicies } = usePolicy({ controllerClassName: 'ProducersController' });
+  const { policies: venuePolicies } = usePolicy({ controllerClassName: 'VenuesController' });
 
   const [profileClassToCreate, setProfileClassToCreate] = useState<'artist' | 'venue' | 'producer'>('artist');
   const Form = FormsByProfile[profileClassToCreate];
@@ -141,18 +147,37 @@ const Search = () => {
   };
 
   const handleCreateArtist = () => {
-    setProfileClassToCreate('artist');
-    openModal();
+    if (artistPolicies?.create) {
+      setProfileClassToCreate('artist');
+
+      openModal();
+    } else {
+      warningSnackbar(
+        'No tienes permisos para crear Artistas. Debes alcanzar un nivel de confianza más alto para desbloquear esta función.'
+      );
+    }
   };
 
   const handleCreateVenue = () => {
-    setProfileClassToCreate('venue');
-    openModal();
+    if (venuePolicies?.create) {
+      setProfileClassToCreate('venue');
+      openModal();
+    } else {
+      warningSnackbar(
+        'No tienes permisos para crear Espacios de Eventos. Debes alcanzar un nivel de confianza más alto para desbloquear esta función.'
+      );
+    }
   };
 
   const handleCreateProducer = () => {
-    setProfileClassToCreate('producer');
-    openModal();
+    if (producerPolicies?.create) {
+      setProfileClassToCreate('producer');
+      openModal();
+    } else {
+      warningSnackbar(
+        'No tienes permisos para crear Productoras. Debes alcanzar un nivel de confianza más alto para desbloquear esta función.'
+      );
+    }
   };
 
   return (
@@ -167,21 +192,48 @@ const Search = () => {
             <MMTitle content="Perfiles" />
 
             <StyledFlex $justifyContent="flex-end">
-              <MMButton onClick={handleCreateArtist} className="profile-create-button">
+              <MMButton
+                onClick={() => {
+                  if (user) {
+                    handleCreateArtist();
+                  } else {
+                    warningSnackbar('Debe iniciar sesión para crear un perfil');
+                  }
+                }}
+                className="profile-create-button"
+              >
                 <span className="icons">
                   <FaPlus />
                   <MMArtistIcon />
                 </span>
                 <span className="label">Crear Artista</span>
               </MMButton>
-              <MMButton onClick={handleCreateVenue} className="profile-create-button">
+              <MMButton
+                onClick={() => {
+                  if (user) {
+                    handleCreateVenue();
+                  } else {
+                    warningSnackbar('Debe iniciar sesión para crear un perfil');
+                  }
+                }}
+                className="profile-create-button"
+              >
                 <span className="icons">
                   <FaPlus />
                   <MMVenueIcon />
                 </span>
                 <span className="label">Crear Espacio de Evento</span>
               </MMButton>
-              <MMButton onClick={handleCreateProducer} className="profile-create-button">
+              <MMButton
+                onClick={() => {
+                  if (user) {
+                    handleCreateProducer();
+                  } else {
+                    warningSnackbar('Debe iniciar sesión para crear un perfil');
+                  }
+                }}
+                className="profile-create-button"
+              >
                 <span className="icons">
                   <FaPlus />
                   <MMProducerIcon />

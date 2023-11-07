@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Tooltip } from 'react-tooltip';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Stack } from '@mui/material';
@@ -21,6 +21,9 @@ import { MMChip } from '../../../../components/MMChip/MMChip';
 import { MMButtonResponsive } from '../../../../components/MMButton/MMButtonResponsive';
 import { FaArrowLeft, FaEdit, FaLock, FaTrash, FaTrashRestore, FaUnlock } from 'react-icons/fa';
 import './Show.scss';
+import { Policy } from '../../../../models/Policy';
+import { checkPolicy } from '../../../../services/policyService';
+import { isAxiosError } from 'axios';
 
 export default function Show() {
   const { id } = useParams();
@@ -28,11 +31,23 @@ export default function Show() {
   const [user, setUser] = React.useState<User>();
   const { isModalOpen, openModal, closeModal } = useModal();
   const { handleDeleteUser, handleRestoreUser, handleBlockUser, handleUnblockUser } = useUserRequests();
+  const [policies, setPolicies] = useState<Policy>();
 
   useEffect(() => {
     getUser();
+    getPolicy();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const getPolicy = async () => {
+    try {
+      const response = await checkPolicy('Admin::UsersController');
+
+      setPolicies(response);
+    } catch (error) {
+      errorSnackbar('Error al obtener los permisos. Contacte a soporte');
+    }
+  };
 
   function getStateColor(state: string): MMColors {
     return stateColors[state] || (colors.primary as MMColors);
@@ -50,6 +65,12 @@ export default function Show() {
 
       setUser(user);
     } catch (error) {
+      if (isAxiosError(error) && error.response?.status === 403) {
+        errorSnackbar('No tienes permisos para realizar esta acción');
+
+        return navigate('/');
+      }
+
       errorSnackbar('Error al obtener el usuario. Contacte a soporte.');
       navigate(-1);
     }
@@ -98,29 +119,35 @@ export default function Show() {
             </div>
 
             <Stack direction={'row'} spacing={1} justifyContent={'flex-end'} width={'100%'}>
-              <MMButtonResponsive Icon={FaEdit} onClick={() => openModal()}>
-                Editar
-              </MMButtonResponsive>
+              {policies?.update && (
+                <MMButtonResponsive Icon={FaEdit} onClick={() => openModal()}>
+                  Editar
+                </MMButtonResponsive>
+              )}
 
-              {user?.deleted_at ? (
+              {user?.deleted_at && policies?.restore ? (
                 <MMButtonResponsive color="error" onClick={() => handleRestoreButton()} Icon={FaTrashRestore}>
                   Restaurar
                 </MMButtonResponsive>
               ) : (
                 <>
-                  {user?.blocked_until ? (
+                  {user?.blocked_until && policies?.unblock ? (
                     <MMButtonResponsive color="error" onClick={() => handleUnlockButton()} Icon={FaUnlock}>
                       Desbloquear
                     </MMButtonResponsive>
                   ) : (
-                    <MMButtonResponsive color="error" onClick={() => handleLockButton()} Icon={FaLock}>
-                      Bloquear
-                    </MMButtonResponsive>
+                    policies?.block && (
+                      <MMButtonResponsive color="error" onClick={() => handleLockButton()} Icon={FaLock}>
+                        Bloquear
+                      </MMButtonResponsive>
+                    )
                   )}
 
-                  <MMButtonResponsive color="error" onClick={() => handleDeleteButton()} Icon={FaTrash}>
-                    Eliminar
-                  </MMButtonResponsive>
+                  {policies?.destroy && (
+                    <MMButtonResponsive color="error" onClick={() => handleDeleteButton()} Icon={FaTrash}>
+                      Eliminar
+                    </MMButtonResponsive>
+                  )}
                 </>
               )}
 
