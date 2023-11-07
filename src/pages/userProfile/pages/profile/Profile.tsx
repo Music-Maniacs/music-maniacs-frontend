@@ -35,7 +35,7 @@ export const Profile = () => {
             value: userProfile.user_stat.days_visited.toString()
           },
           {
-            label: 'Eventos consutlados:',
+            label: 'Eventos consultados:',
             value: userProfile?.user_stat.viewed_events.toString()
           }
         ],
