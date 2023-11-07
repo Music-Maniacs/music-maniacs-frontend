@@ -20,7 +20,7 @@ export const useDashboardTables = () => {
         dashboardTables?.metrics?.likes?.days30 ?? 0
       ],
       [
-        { content: 'Cantidad de eventos', cellProps: { style: { textAlign: 'start' } } },
+        { content: 'Cantidad de eventos creados', cellProps: { style: { textAlign: 'start' } } },
         dashboardTables?.metrics?.events?.today ?? 0,
         dashboardTables?.metrics?.events?.days7 ?? 0,
         dashboardTables?.metrics?.events?.days30 ?? 0
