@@ -81,7 +81,7 @@ export const UserInfo = ({ user }: Props) => {
       value: user.user_stat.days_visited
     },
     {
-      label: 'Eventos consutlados:',
+      label: 'Eventos consultados:',
       value: user.user_stat.viewed_events
     },
     {
