@@ -38,6 +38,7 @@ const SearchEvents = () => {
   const artistInputRef = useRef<Select<any, boolean, GroupBase<any>>>(null);
   const venueInputRef = useRef<Select<any, boolean, GroupBase<any>>>(null);
   const producerInputRef = useRef<Select<any, boolean, GroupBase<any>>>(null);
+  const placesInputRef = useRef<Select<any, boolean, GroupBase<any>>>(null);
   const { lastElementRef } = useInfiniteScroll({ pagination, setPagination });
 
   const handleCreateButton = () => {
@@ -55,6 +56,7 @@ const SearchEvents = () => {
     if (artistInputRef.current) artistInputRef.current.clearValue();
     if (venueInputRef.current) venueInputRef.current.clearValue();
     if (producerInputRef.current) producerInputRef.current.clearValue();
+    if (placesInputRef.current) placesInputRef.current.clearValue();
     setPagination((prevState) => ({ ...prevState, isLoading: true, page: 1 }));
   };
 
@@ -161,6 +163,7 @@ const SearchEvents = () => {
 
                 <Grid item xs={12} sm={12} md={6} lg={6}>
                   <GoogleAutocomplete
+                    innerRef={placesInputRef}
                     placeholder="Ciudad / Provincia / País"
                     defaultValue={placeSelectDefaultValue()}
                     onPlaceSelected={handlePlaceSelected}
