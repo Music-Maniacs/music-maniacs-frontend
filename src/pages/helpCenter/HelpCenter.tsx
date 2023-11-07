@@ -46,7 +46,7 @@ const HelpCenter = () => {
             {
               href: '#faq',
               Icon: FaUser,
-              label: 'Preguntas Frequentes'
+              label: 'Preguntas Frecuentes'
             },
             {
               href: '#mod',
