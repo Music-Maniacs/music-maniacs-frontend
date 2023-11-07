@@ -3,6 +3,7 @@ import { Permission } from '../../../models/Role';
 import { Loader } from '../../Loader/Loader';
 import './PermissionListInput.scss';
 import { useCollection } from '../../../context/collectionContext';
+import { permissionsDiccionary } from './permissionsHelpers';
 
 type Props = {
   setSelectedPermissions?: Dispatch<SetStateAction<string[]>>;
@@ -47,7 +48,11 @@ export const PermissionListInput = ({ setSelectedPermissions, selectedPermission
         {permissions.map((perms, index) => {
           return (
             <div className="permissions-subject-class" key={'permissions' + index}>
-              <h4 className="title">{perms[0].subject_class}</h4>
+              <h4 className="title">
+                {permissionsDiccionary[perms[0].subject_class]
+                  ? permissionsDiccionary[perms[0].subject_class]
+                  : perms[0].subject_class}
+              </h4>
               <div className="permissions">
                 {perms.map((perm, innerIndex) => {
                   return (
