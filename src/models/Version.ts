@@ -3,6 +3,9 @@ export interface Version {
   item_type: string;
   item_id: string;
   event: 'create' | 'update' | 'destroy';
+  object: {
+    [key: string]: any;
+  };
   whodunnit: string;
   anonymous: boolean;
   created_at: string;

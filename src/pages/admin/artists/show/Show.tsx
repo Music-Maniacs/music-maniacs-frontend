@@ -128,7 +128,7 @@ const Show = () => {
         )}
       </MMBox>
 
-      {artist && <VersionBox versions={artist.versions} customClassName="admin-versions-box-container" />}
+      {artist && <VersionBox versions={artist.history} customClassName="admin-versions-box-container" />}
       <Tooltip id="tooltip" place="top" />
     </MMContainer>
   );

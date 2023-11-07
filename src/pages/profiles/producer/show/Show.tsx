@@ -78,7 +78,7 @@ const Show = () => {
 
             <ProfileReviewsBox profile={producer} reviewableKlass="producer" canReport={reviewsPolicies?.report} />
 
-            <VersionBox versions={producer.versions} handleReportVersion={handleReportVersion} />
+            <VersionBox versions={producer.history} handleReportVersion={handleReportVersion} />
           </>
         ) : (
           <Loader />

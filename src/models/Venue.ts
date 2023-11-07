@@ -18,7 +18,7 @@ export interface Venue {
   links: Link[];
   location?: Location;
   image?: Image;
-  versions: Version[];
+  history: Version[];
   last_reviews: Review[];
   rating: number;
   next_events: EventProfilesTab[];

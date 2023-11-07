@@ -124,7 +124,7 @@ const Show = () => {
             <EventReviewBox event={showEvent} reviewsPolicies={reviewsPolicies} />
             <EventCommentBox event={showEvent} commentsPolicies={commentsPolicies} />
 
-            <VersionBox versions={showEvent.versions} handleReportVersion={handleReportVersion} />
+            <VersionBox versions={showEvent.history} handleReportVersion={handleReportVersion} />
           </>
         ) : (
           <Loader />
