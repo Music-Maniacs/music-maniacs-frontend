@@ -84,7 +84,6 @@ export function handleFormErrors<T extends FieldValues>(
 }
 
 function formatApiErrorMessage(error: string, field: string): string {
-  console.log('🚀 ~ file: handleFormErrors.ts:67 ~ formatApiErrorMessage ~ error:', error);
   const fieldName = fieldNames[field] || '';
   const message = errors[error] || error;
   return `${message} ${fieldName}`;
