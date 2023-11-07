@@ -29,12 +29,12 @@ export const useDashboardGraphs = () => {
       ...getLabelsAndDatasets(dashboardGraphs?.new_users || {})
     },
     {
-      title: 'Respuestas',
+      title: 'Nuevos Comentarios',
       id: COMMENTS_CHART_ID,
       ...getLabelsAndDatasets(dashboardGraphs?.new_comments || {})
     },
     {
-      title: 'Reseñas',
+      title: 'Nuevas Reseñas',
       id: REVIEWS_CHART_ID,
       ...getLabelsAndDatasets(dashboardGraphs?.reviews || {})
     },
