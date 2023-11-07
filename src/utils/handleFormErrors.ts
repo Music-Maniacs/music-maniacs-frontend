@@ -3,6 +3,7 @@ import axios, { AxiosError } from 'axios';
 import { Dictionary, FormErrors } from '../models/Generic';
 import { FieldValues, UseFormSetError } from 'react-hook-form';
 import { errorSnackbar } from '../components/Snackbar/Snackbar';
+import { permissionsDiccionary } from '../components/form/PermissionListInput/permissionsHelpers';
 
 const errors: Dictionary = {
   taken: 'está ocupado',
@@ -11,7 +12,8 @@ const errors: Dictionary = {
   not_a_number: 'no es un número',
   already_reviewed: 'Ya has realizado una reseña sobre esta opción',
   'restrict_dependent_destroy.has_many': 'No se puede eliminar porque tiene dependencias con',
-  blank: 'no puede estar en blanco'
+  blank: 'no puede estar en blanco',
+  missing_permission_from_lower_trust_level: 'Faltan permisos del nivel de confianza inferior:'
 };
 
 const fieldNames: Dictionary = {
@@ -33,6 +35,22 @@ function formatErrorMessage(error: string, field: string): string {
   const message = errors[error] || error;
   return `${fieldName} ${message}`;
 }
+
+function handleTrustLevelErrorMessage(permissions: string[]): string {
+  let message = errors['missing_permission_from_lower_trust_level'];
+
+  permissions.forEach((element) => {
+    const splittedElement = element.split('_');
+
+    const className = permissionsDiccionary[splittedElement[0]] ?? '';
+    const action = splittedElement[1];
+
+    message += `\n${className}: ${action}`;
+  });
+
+  return message;
+}
+
 /*
  * This function is used to handle form errors from the API
  * @param error - The error object
@@ -49,6 +67,9 @@ export function handleFormErrors<T extends FieldValues>(
     hasErrors = true;
     Object.keys(error.response.data.errors).forEach((key) => {
       if (key === 'base') {
+        if (error.response.data.errors[key][0].error === 'missing_permission_from_lower_trust_level') {
+          return errorSnackbar(handleTrustLevelErrorMessage(error.response.data.errors[key][0].permissions));
+        }
         return errorSnackbar(formatErrorMessage(error.response.data.errors[key][0].error));
       }
 
@@ -63,6 +84,7 @@ export function handleFormErrors<T extends FieldValues>(
 }
 
 function formatApiErrorMessage(error: string, field: string): string {
+  console.log('🚀 ~ file: handleFormErrors.ts:67 ~ formatApiErrorMessage ~ error:', error);
   const fieldName = fieldNames[field] || '';
   const message = errors[error] || error;
   return `${message} ${fieldName}`;
