@@ -61,7 +61,7 @@ export const usePagination = <T>({
         isLoading: false
       }));
     } catch (error) {
-      if (isAxiosError(error) && error?.response?.status === 403) {
+      if (isAxiosError(error) && (error?.response?.status === 403 || error?.response?.status === 401)) {
         errorSnackbar('No tiene permisos para realizar esta acción');
 
         return navigate('/');

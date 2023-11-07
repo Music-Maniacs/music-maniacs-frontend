@@ -5,7 +5,7 @@ import { Policy } from '../models/Policy';
 const policyUrl = `${process.env.REACT_APP_API_URL}/`;
 
 export async function navigationPolicy(): Promise<ControllerClassNames[]> {
-  return (await axios.get(`${policyUrl}/navigation_policy`)).data;
+  return (await axios.get(`${policyUrl}navigation_policy`)).data;
 }
 
 export async function checkPolicy(className: ControllerClassNames): Promise<Policy> {
