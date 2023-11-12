@@ -129,7 +129,7 @@ export const Show = () => {
           </div>
         )}
 
-        <MMModal isModalOpen={isModalOpen} closeModal={closeModal} maxWidth="md" title="Editar Rol">
+        <MMModal isModalOpen={isModalOpen} closeModal={closeModal} maxWidth="lg" title="Editar Rol">
           <Form type="update" role={role} closeFormModal={closeModal} setRole={setRole} />
         </MMModal>
       </MMBox>

@@ -87,7 +87,7 @@ export const Form = ({ type, role, setRole, closeFormModal, roleList, setRoleLis
 
       <div className="role-form-buttons">
         <MMButton color="primary" type="submit">
-          {type === 'create' ? 'Crear Rol' : 'Guardar'}
+          {type === 'create' ? 'Crear' : 'Editar'}
         </MMButton>
         <MMButton
           color="tertiary"

@@ -194,7 +194,7 @@ export const Show = () => {
                 <PermissionListInput disabled={true} selectedPermissions={trustLevel.permission_ids} />
               </div>
             )}
-            <MMModal isModalOpen={isModalOpen} closeModal={closeModal} maxWidth="md" title="Editar Nivel De Confianza">
+            <MMModal isModalOpen={isModalOpen} closeModal={closeModal} maxWidth="lg" title="Editar Nivel De Confianza">
               <Form type="update" closeFormModal={closeModal} trustLevel={trustLevel} setTrustLevel={setTrustLevel} />
             </MMModal>
           </>

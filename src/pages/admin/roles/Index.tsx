@@ -29,7 +29,7 @@ export const Index = () => {
           )}
         </div>
 
-        <MMModal isModalOpen={isFormModalOpen} closeModal={closeFormModal} maxWidth="md" title="Crear Rol">
+        <MMModal isModalOpen={isFormModalOpen} closeModal={closeFormModal} maxWidth="lg" title="Crear Rol">
           <Form type="create" roleList={roles} setRoleList={setRoles} closeFormModal={closeFormModal} />
         </MMModal>
 
