@@ -112,11 +112,14 @@ export const LineChart = ({ title, labels, dataset, id }: Props) => {
     },
     scales: {
       y: {
+        beginAtZero: true,
+        max: dataset && dataset.length > 0 ? Math.max(...dataset) + 2 : undefined,
         grid: {
           color: gridColor
         },
         ticks: {
-          color: textColor
+          color: textColor,
+          stepSize: 1
         }
       },
       x: {
