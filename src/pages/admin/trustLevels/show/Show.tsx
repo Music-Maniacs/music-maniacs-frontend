@@ -22,6 +22,7 @@ import '../../Admin.scss';
 import { Policy } from '../../../../models/Policy';
 import { checkPolicy } from '../../../../services/policyService';
 import { isAxiosError } from 'axios';
+import { formatDate } from '../../../../utils/formatDate';
 
 export const Show = () => {
   const { id } = useParams();
@@ -118,7 +119,11 @@ export const Show = () => {
                       <InputText
                         label="Creado El"
                         name="created_at"
-                        value={trustLevel.created_at}
+                        value={
+                          trustLevel.created_at
+                            ? formatDate({ date: trustLevel.created_at, format: 'slashWithTime' })
+                            : ''
+                        }
                         type="text"
                         readOnly={true}
                       />
@@ -127,7 +132,11 @@ export const Show = () => {
                       <InputText
                         label="Actualizado El"
                         name="updated_at"
-                        value={trustLevel.updated_at}
+                        value={
+                          trustLevel.updated_at
+                            ? formatDate({ date: trustLevel.updated_at, format: 'slashWithTime' })
+                            : ''
+                        }
                         type="text"
                         readOnly={true}
                       />

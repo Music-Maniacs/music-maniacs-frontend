@@ -44,11 +44,21 @@ export const UserInfo = ({ user }: Props) => {
     },
     {
       label: 'Creado El',
-      content: <InputText disabled value={user.created_at} />
+      content: (
+        <InputText
+          disabled
+          value={user.created_at ? formatDate({ date: user.created_at, format: 'slashWithTime' }) : ''}
+        />
+      )
     },
     {
       label: 'Actualizado El',
-      content: <InputText disabled value={user.updated_at} />
+      content: (
+        <InputText
+          disabled
+          value={user.updated_at ? formatDate({ date: user.updated_at, format: 'slashWithTime' }) : ''}
+        />
+      )
     },
     {
       label: 'Links',

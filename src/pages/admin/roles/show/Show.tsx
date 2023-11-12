@@ -21,6 +21,7 @@ import '../../Admin.scss';
 import { Policy } from '../../../../models/Policy';
 import { checkPolicy } from '../../../../services/policyService';
 import { isAxiosError } from 'axios';
+import { formatDate } from '../../../../utils/formatDate';
 
 export const Show = () => {
   const { id } = useParams();
@@ -108,11 +109,17 @@ export const Show = () => {
                 value={role.name}
               />
               <div className="role-date-input-container">
-                <InputText label="Creado El" name="created_at" value={role.created_at} type="text" readOnly={true} />
+                <InputText
+                  label="Creado El"
+                  name="created_at"
+                  value={role.created_at ? formatDate({ date: role.created_at, format: 'slashWithTime' }) : ''}
+                  type="text"
+                  readOnly={true}
+                />
                 <InputText
                   label="Actualizado El"
                   name="updated_at"
-                  value={role.updated_at}
+                  value={role.updated_at ? formatDate({ date: role.updated_at, format: 'slashWithTime' }) : ''}
                   type="text"
                   readOnly={true}
                 />
