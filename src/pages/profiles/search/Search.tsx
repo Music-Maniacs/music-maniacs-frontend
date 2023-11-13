@@ -329,12 +329,12 @@ const ProfileTabContent = ({ profileKlass, data, lastElementRef }: ProfileTabCon
         <NoData message="No hay perfiles para mostrar" />
       ) : (
         data.map((profile, index) => (
-          <Link to={`${profileKlass}s/${profile.id}`} style={{ textDecoration: 'none', color: 'var(--text_color)' }}>
-            <div
-              key={profile.id}
-              ref={data.length === index + 1 ? lastElementRef : undefined}
-              className="profile-search-item"
-            >
+          <Link
+            key={profile.id}
+            to={`${profileKlass}s/${profile.id}`}
+            style={{ textDecoration: 'none', color: 'var(--text_color)' }}
+          >
+            <div ref={data.length === index + 1 ? lastElementRef : undefined} className="profile-search-item">
               <Icon size={'1.5rem'} />
 
               <span>{profile.name}</span>

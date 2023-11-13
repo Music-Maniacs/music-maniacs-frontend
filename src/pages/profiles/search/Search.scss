@@ -42,7 +42,7 @@
     }
 
     input {
-      background: inherit;
+      background: transparent;
       font-weight: 400;
       line-height: normal;
       border: none;
@@ -55,6 +55,10 @@
       &:focus,
       &:target {
         outline: none;
+      }
+
+      &::placeholder {
+        color: rgba(var(--text_color), 0.8);
       }
     }
   }
