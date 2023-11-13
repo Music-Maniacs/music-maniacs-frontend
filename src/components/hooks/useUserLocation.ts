@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { errorSnackbar } from '../Snackbar/Snackbar';
+import { useMemo } from 'react';
 
 export type UserLocation = {
   city: string;
@@ -9,12 +7,17 @@ export type UserLocation = {
 };
 
 export const useUserLocation = (): { userLocation: UserLocation } => {
-  return {
-    userLocation: {
+  const userLocation = useMemo(
+    () => ({
       city: 'Capital',
       province: 'Mendoza',
       country: 'Argentina'
-    }
+    }),
+    []
+  );
+
+  return {
+    userLocation
   };
 };
 
