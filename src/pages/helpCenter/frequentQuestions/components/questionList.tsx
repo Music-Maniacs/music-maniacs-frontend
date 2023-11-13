@@ -56,14 +56,79 @@ export const questionList: QuestionDropdownProps[] = [
   {
     question: '¿Qué es el sistema de niveles de confianza y cómo funciona?',
     Answer: (
-      <Paragraph>
-        El sistema de niveles de confianza es un pilar fundamental en el funcionamiento de MusicManiacs. La idea es
-        otorgar más derechos a los usuarios con el tiempo, para que puedan ayudar a todos a mantener y moderar el
-        contenido de la comunidad. Para eso se define una progresión de niveles donde a medida que se avanza se van
-        adquiriendo más permisos en la aplicación. Cada nivel tiene sus requisitos asociados en base a las siguientes
-        estadísticas: días visitados, eventos consultados, me gustas recibidos, me gustas dados y respuestas creadas.
-        Puedes consultar tus estadísticas y tu nivel de confianza en tu perfil.
-      </Paragraph>
+      <>
+        <Paragraph>
+          El sistema de niveles de confianza es un pilar fundamental en el funcionamiento de MusicManiacs. La idea es
+          otorgar más derechos a los usuarios con el tiempo, para que puedan ayudar a todos a mantener y moderar el
+          contenido de la comunidad. Para eso se define una progresión de niveles donde a medida que se avanza se van
+          adquiriendo más permisos en la aplicación.
+        </Paragraph>
+        <Paragraph>
+          A continuación, se detalla cada nivel, los requisitos, y los permisos que se obtienen al alcanzar cada uno.
+        </Paragraph>
+
+        {/* Nivel 1 */}
+        <Paragraph>
+          <u>Nivel 1</u>
+        </Paragraph>
+
+        <Paragraph>Permisos:</Paragraph>
+        <Paragraph as={'ul'}>
+          <li>Comentarios: Crear</li>
+        </Paragraph>
+
+        {/* Nivel 2 */}
+        <Paragraph>
+          <u>Nivel 2</u>
+        </Paragraph>
+
+        <Paragraph>Permisos:</Paragraph>
+        <Paragraph as={'ul'}>
+          <li>Eventos: Crear y Reportar</li>
+          <li>Artistas: Crear y Reportar</li>
+          <li>Espacios de Evento: Crear y Reportar</li>
+          <li>Productoras: Crear y Reportar</li>
+          <li>Reseñas: Crear y Reportar</li>
+          <li>Comentarios: Crear y Reportar</li>
+          <li>Videos: Crear y Reportar</li>
+          <li>Versiones: Reportar</li>
+        </Paragraph>
+
+        <Paragraph>Requisitos:</Paragraph>
+        <Paragraph as={'ul'}>
+          <li>Días Visitados: 5</li>
+          <li>Comentarios Creados: 3</li>
+          <li>Eventos Consultados: 10</li>
+          <li>Me Gustas Recibidos: 0</li>
+          <li>Me Gustas Dados: 10</li>
+        </Paragraph>
+
+        {/* Nivel 3 */}
+        <Paragraph>
+          <u>Nivel 3</u>
+        </Paragraph>
+
+        <Paragraph>Permisos:</Paragraph>
+        <Paragraph as={'ul'}>
+          <li>Eventos: Actualizar, Crear y Reportar</li>
+          <li>Artistas: Actualizar, Crear y Reportar</li>
+          <li>Espacios de Evento: Actualizar, Crear y Reportar</li>
+          <li>Productoras: Actualizar, Crear y Reportar</li>
+          <li>Reseñas: Crear y Reportar</li>
+          <li>Comentarios: Crear y Reportar</li>
+          <li>Videos: Crear y Reportar</li>
+          <li>Versiones: Reportar</li>
+        </Paragraph>
+
+        <Paragraph>Requisitos:</Paragraph>
+        <Paragraph as={'ul'}>
+          <li>Días Visitados: 20</li>
+          <li>Comentarios Creados: 15</li>
+          <li>Eventos Consultados: 20</li>
+          <li>Me Gustas Recibidos: 10</li>
+          <li>Me Gustas Dados: 30</li>
+        </Paragraph>
+      </>
     )
   },
   {

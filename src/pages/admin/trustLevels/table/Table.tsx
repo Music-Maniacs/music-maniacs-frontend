@@ -7,6 +7,7 @@ import { MMButton } from '../../../../components/MMButton/MMButton';
 import { FaSearch, FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { useTrustLevelRequests } from '../hooks/useTrustLevelRequest';
+import { formatDate } from '../../../../utils/formatDate';
 
 export const Table = () => {
   const navigate = useNavigate();
@@ -37,13 +38,13 @@ export const Table = () => {
         {
           header: 'Actualizado El',
           renderCell: (rowData) => {
-            return rowData.updated_at;
+            return rowData.updated_at ? formatDate({ date: rowData.updated_at, format: 'slashWithTime' }) : '';
           }
         },
         {
           header: 'Creado El',
           renderCell: (rowData) => {
-            return rowData.created_at;
+            return rowData.created_at ? formatDate({ date: rowData.created_at, format: 'slashWithTime' }) : '';
           }
         },
         {

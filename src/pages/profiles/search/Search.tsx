@@ -17,7 +17,7 @@ import { MMArtistIcon } from '../../../components/icons/MMArtistIcon';
 import { MMVenueIcon } from '../../../components/icons/MMVenueIcon';
 import { MMProducerIcon } from '../../../components/icons/MMProducerIcon';
 import { useInfiniteScroll } from '../../../components/hooks/useInfiniteScroll';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { MMButtonResponsive } from '../../../components/MMButton/MMButtonResponsive';
 import { FaPlus, FaSearch, FaSearchPlus } from 'react-icons/fa';
 import { Loader } from '../../../components/Loader/Loader';
@@ -321,8 +321,6 @@ const IconByProfileKlass = {
 };
 
 const ProfileTabContent = ({ profileKlass, data, lastElementRef }: ProfileTabContentProps) => {
-  const navigate = useNavigate();
-
   const Icon = IconByProfileKlass[profileKlass];
 
   return (
@@ -331,18 +329,19 @@ const ProfileTabContent = ({ profileKlass, data, lastElementRef }: ProfileTabCon
         <NoData message="No hay perfiles para mostrar" />
       ) : (
         data.map((profile, index) => (
-          <div
+          <Link
             key={profile.id}
-            ref={data.length === index + 1 ? lastElementRef : undefined}
-            className="profile-search-item"
-            onClick={() => navigate(`${profileKlass}s/${profile.id}`)}
+            to={`${profileKlass}s/${profile.id}`}
+            style={{ textDecoration: 'none', color: 'var(--text_color)' }}
           >
-            <Icon size={'1.5rem'} />
+            <div ref={data.length === index + 1 ? lastElementRef : undefined} className="profile-search-item">
+              <Icon size={'1.5rem'} />
 
-            <span>{profile.name}</span>
+              <span>{profile.name}</span>
 
-            <MMButtonResponsive Icon={FaSearch}>Consultar Perfil</MMButtonResponsive>
-          </div>
+              <MMButtonResponsive Icon={FaSearch}>Consultar Perfil</MMButtonResponsive>
+            </div>
+          </Link>
         ))
       )}
     </StyledFlexColumn>

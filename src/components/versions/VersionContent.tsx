@@ -37,7 +37,15 @@ const attrTranslation: Dictionary = {
   producer: 'Productora',
   venue: 'Espacio de Evento',
   title: 'Título',
-  url: 'Enlace'
+  url: 'Enlace',
+  zip_code: 'Código Postal',
+  street: 'Calle',
+  city: 'Ciudad',
+  latitude: 'Latitud',
+  longitude: 'Longitud',
+  number: 'Número',
+  country: 'País',
+  province: 'Provincia'
 };
 
 const itemTypesTranslation: Dictionary = {

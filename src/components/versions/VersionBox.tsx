@@ -17,7 +17,7 @@ export const VersionBox = ({ versions, customClassName, handleReportVersion }: P
       <MMSubTitle content="Versiones" />
 
       <StyledFlexColumn $gap="10px">
-        {[...versions].reverse().map((version) => (
+        {versions.map((version) => (
           <VersionContent key={version.id} version={version} handleReportVersion={handleReportVersion} />
         ))}
       </StyledFlexColumn>
