@@ -243,6 +243,11 @@ export const ReportForm = ({ reportableId, closeModal, service, reportTitleText,
               required: {
                 value: true,
                 message: 'El campo es requerido'
+              },
+              validate: {
+                isDifferent: (value) => {
+                  return reportableId !== value?.value || 'El reporte no puede ser sobre el mismo elemento';
+                }
               }
             }}
           />
