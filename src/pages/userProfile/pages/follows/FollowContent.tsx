@@ -11,6 +11,7 @@ import { unfollowVenue } from '../../../../services/venueService';
 import { unfollowArtist } from '../../../../services/artistService';
 import { errorSnackbar } from '../../../../components/Snackbar/Snackbar';
 import { Dispatch, RefObject, SetStateAction } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const FollowContentContainer = styled.div`
   display: flex;
@@ -22,6 +23,10 @@ const FollowContentContainer = styled.div`
   border: 2px solid var(--highlight);
   box-sizing: border-box;
   width: 100%;
+
+  &:hover {
+    background-color: var(--highlight);
+  }
 `;
 
 const FollowContentTitle = styled.span`
@@ -38,6 +43,8 @@ type FollowContentProps = {
   innerRef?: RefObject<HTMLDivElement> | null | ((node: HTMLDivElement) => void);
 };
 export const FollowContent = ({ follow, canUnfollow, type, setFollows, innerRef }: FollowContentProps) => {
+  const navigate = useNavigate();
+
   const unfollowEndpoint = {
     artist: unfollowArtist,
     producer: unfollowProducer,
@@ -77,11 +84,21 @@ export const FollowContent = ({ follow, canUnfollow, type, setFollows, innerRef 
   };
 
   return (
-    <FollowContentContainer ref={innerRef}>
+    <FollowContentContainer
+      ref={innerRef}
+      onClick={(e) => {
+        navigate(`/${type !== 'event' ? 'profiles/' + type.toString() + 's' : type + 's'}/${follow.id}`);
+      }}
+    >
       {renderIcon(type)}
       <FollowContentTitle>{follow.name}</FollowContentTitle>
       {canUnfollow && (
-        <MMButton onClick={handleUnfollow}>
+        <MMButton
+          onClick={(e) => {
+            e.stopPropagation();
+            handleUnfollow();
+          }}
+        >
           <span>Dejar de Seguir</span>
         </MMButton>
       )}
