@@ -69,8 +69,8 @@ export const DashboardProvider = ({ children }: Props) => {
       const { startDate: lastStartDate, endDate: lastEndDate, data } = response;
 
       lastSearchParams.current = {
-        startDate: lastStartDate,
-        endDate: lastEndDate
+        endDate: queryParams.current.endDate ? lastEndDate : '',
+        startDate: queryParams.current.startDate ? lastStartDate : ''
       };
 
       setDashboardGraphs(data);

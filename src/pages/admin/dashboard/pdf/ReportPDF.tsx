@@ -54,6 +54,26 @@ export const ReportPDF = ({
     }
   });
 
+  const getDateRange = (): string => {
+    if (startDate && endDate) {
+      return `Período Consultado: Desde ${moment(startDate).format('DD-MM-YYYY')} hasta ${moment(endDate).format(
+        'DD-MM-YYYY'
+      )}`;
+    }
+
+    if (!startDate && endDate) {
+      return `Período Consultado: Desde el inicio del sistema hasta ${moment(endDate).format('DD-MM-YYYY')}`;
+    }
+
+    if (!endDate && startDate) {
+      return `Período Consultado: Desde ${moment(startDate).format('DD-MM-YYYY')} hasta hoy (${moment().format(
+        'DD-MM-YYYY'
+      )})`;
+    }
+
+    return `Período Consultado: Desde el inicio del sistema hasta hoy (${moment().format('DD-MM-YYYY')})`;
+  };
+
   return (
     <Document
       author="MusicManiacs"
@@ -63,16 +83,14 @@ export const ReportPDF = ({
     >
       <Page size="A4" orientation="landscape" style={styles.page}>
         <View>
-          <Text style={styles.title}>Music Maniacs | Métricas</Text>
+          <Text style={styles.title}>Métricas | Music Maniacs</Text>
           <Text style={styles.text}>Reporte generado el: {moment().format('DD-MM-YYYY')}</Text>
-          <Text style={styles.text}>
-            {`Período Consultado: Desde ${startDate ? moment(startDate).format('DD-MM-YYYY') : ' - '} Hasta ${
-              endDate ? moment(endDate).format('DD-MM-YYYY') : ' - '
-            }`}
-          </Text>
+          <Text style={styles.text}>{getDateRange()}</Text>
         </View>
+
         {canViewGraphs && <GraphPDF />}
-        {canViewTables && <TablesPDF metricsTable={metricsTable} userTypesTable={userTypesTable} />}{' '}
+
+        {canViewTables && <TablesPDF metricsTable={metricsTable} userTypesTable={userTypesTable} />}
       </Page>
     </Document>
   );
