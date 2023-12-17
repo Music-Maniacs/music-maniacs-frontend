@@ -11,6 +11,7 @@ import { InputDate } from '../../../../components/form/InputDate/InputDate';
 import { uploadVideo } from '../../../../services/eventService';
 import '../Multimedia.scss';
 import { isAxiosError } from 'axios';
+import { DirectUpload } from '@rails/activestorage';
 
 type FormProps = {
   eventId: string;
@@ -37,7 +38,22 @@ export const Form = ({ eventId, successCallback, closeFormModal }: FormProps) =>
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
-      const response = await uploadVideo(eventId, data.name, data.video, data.recorded_at);
+      // your form needs the file_field direct_upload: true, which
+      //  provides data-direct-upload-url
+      const url = `${process.env.REACT_APP_API_URL}/rails/active_storage/direct_uploads`;
+      const upload = new DirectUpload(data.video, url)
+      
+      var signed_id = await new Promise<string>((resolve, reject) => {
+        upload.create((error, blob) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(blob.signed_id);
+          }
+        });
+      });
+  
+      const response = await uploadVideo(eventId, data.name, signed_id, data.recorded_at);
 
       infoSnackbar(`Video subido con éxito.`);
 
