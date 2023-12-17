@@ -76,7 +76,7 @@ export const SideNav = ({ active, setActive }: Props) => {
 
   return (
     <div id="mySidenav" className={active ? 'sidenav active' : 'sidenav'} ref={sideNavRef}>
-      <StyledFlex $justifyContent="space-between" $alignItems="center">
+      <StyledFlex $justifyContent="space-between" $alignItems="center" $overflowX='hidden'>
         <IoMdClose
           className="close-sidenav"
           size={40}
