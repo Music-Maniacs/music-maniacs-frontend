@@ -21,6 +21,7 @@ const QuestionTitle = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 100%;
+  gap: 1rem;
 `;
 
 const Question = styled.span`
@@ -32,10 +33,12 @@ const Question = styled.span`
   text-indent: 0;
   text-align: justify;
   text-justify: inter-word;
+  width: fit-content;
 `;
 
 const AnswerContainer = styled.div`
-  padding-right: 35px;
+  padding-left: 10px;
+  padding-right: 10px;
 `;
 
 export type QuestionDropdownProps = {

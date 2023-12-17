@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import breakpoints from '../../styles/_breakpoints.scss';
 
 export const Title = styled.h1`
   margin: 10px;
@@ -16,6 +17,10 @@ export const Paragraph = styled.p`
   text-indent: 0;
   text-align: justify;
   text-justify: inter-word;
+
+  @media screen and (max-width: ${breakpoints.sm}) {
+    margin-left: 0px;
+  }
 
   ul ol li {
     padding: 5px 0 0 15px;
