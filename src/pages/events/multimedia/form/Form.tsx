@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { handleFormErrors } from '../../../../utils/handleFormErrors';
 import { errorSnackbar, infoSnackbar } from '../../../../components/Snackbar/Snackbar';
@@ -11,7 +11,6 @@ import { InputDate } from '../../../../components/form/InputDate/InputDate';
 import { uploadVideo } from '../../../../services/eventService';
 import '../Multimedia.scss';
 import { isAxiosError } from 'axios';
-import { DirectUpload } from '@rails/activestorage';
 import Uploader from './Uploader';
 
 type FormProps = {
