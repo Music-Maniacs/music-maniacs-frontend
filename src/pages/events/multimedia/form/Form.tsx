@@ -11,7 +11,7 @@ import { InputDate } from '../../../../components/form/InputDate/InputDate';
 import { uploadVideo } from '../../../../services/eventService';
 import '../Multimedia.scss';
 import { isAxiosError } from 'axios';
-import Uploader from './Uploader';
+import DirectUploader from '../../../../components/form/DirectUploader';
 
 type FormProps = {
   eventId: string;
@@ -48,7 +48,7 @@ export const Form = ({ eventId, successCallback, closeFormModal }: FormProps) =>
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
       const url = `${process.env.REACT_APP_API_URL}/rails/active_storage/direct_uploads`;
-      const uploader = new Uploader(data.video, url, onProgress);
+      const uploader = new DirectUploader(data.video, url, onProgress);
       const signed_id: string = await uploader.start();
       const response = await uploadVideo(eventId, data.name, signed_id, data.recorded_at);
 
