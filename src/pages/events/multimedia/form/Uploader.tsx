@@ -5,12 +5,12 @@ export default class Uploader {
     progress = "0%";
     error: any = null;
     upload: DirectUpload;
-    progressBar: HTMLProgressElement | undefined;
+    onProgress: Function | undefined;
   
-    constructor(file: File, url: string, progressBar?: HTMLProgressElement | undefined) {
+    constructor(file: File, url: string, onProgress?: (event: ProgressEvent<XMLHttpRequest>) => void) {
       this.file = file;
-      this.progressBar = progressBar;
       this.upload = new DirectUpload(file, url, this);
+      this.onProgress = onProgress;
     }
   
     async start(): Promise<string> {
@@ -30,9 +30,8 @@ export default class Uploader {
     }
   
     directUploadDidProgress(event: any) {
-        if (this.progressBar) {
-          const progress = (event.loaded / event.total) * 100;
-          this.progressBar.value = progress;
-        }
+      if (this.onProgress) {
+        this.onProgress(event)
+      }
     }
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { handleFormErrors } from '../../../../utils/handleFormErrors';
 import { errorSnackbar, infoSnackbar } from '../../../../components/Snackbar/Snackbar';
@@ -36,11 +36,19 @@ export const Form = ({ eventId, successCallback, closeFormModal }: FormProps) =>
     formState: { errors }
   } = useForm<FormData>();
 
+  const [uploading, setUploading] = useState(false);
+  const [uploadingPercent, setUploadingPercent] = useState(0);
+  const onProgress = useCallback((event: ProgressEvent<XMLHttpRequest>) => {
+    setUploading(true);
+    if (event.lengthComputable) {
+      setUploadingPercent((event.loaded / event.total) * 100);
+    }
+  }, []);
+
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
       const url = `${process.env.REACT_APP_API_URL}/rails/active_storage/direct_uploads`;
-      const progressBar = document.getElementById('progress-bar') as HTMLProgressElement;
-      const uploader = new Uploader(data.video, url, progressBar);
+      const uploader = new Uploader(data.video, url, onProgress);
       const signed_id: string = await uploader.start();
       const response = await uploadVideo(eventId, data.name, signed_id, data.recorded_at);
 
@@ -81,8 +89,8 @@ export const Form = ({ eventId, successCallback, closeFormModal }: FormProps) =>
         <MMButton type="button" color="tertiary" onClick={closeFormModal}>
           Cerrar
         </MMButton>
-        <progress id="progress-bar" max="100" value="0"></progress>
       </StyledFlex>
+      <progress id="progress-bar" max="100" value={uploadingPercent} hidden={!uploading}></progress>
     </form>
   );
 };
