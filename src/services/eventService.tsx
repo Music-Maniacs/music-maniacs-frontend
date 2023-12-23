@@ -104,7 +104,7 @@ export async function getVideos(id: string, sort: 'recorded_at desc' | 'created_
   return (await axios.get(`${eventsUrl}/${id}/videos?sort=${sort}`)).data;
 }
 
-export async function uploadVideo(id: string, name: string, video: File, recorded_at?: string): Promise<Video> {
+export async function uploadVideo(id: string, name: string, signed_id: string, recorded_at?: string): Promise<Video> {
   const formData = new FormData();
 
   formData.append('name', name);
@@ -112,7 +112,7 @@ export async function uploadVideo(id: string, name: string, video: File, recorde
   // es opcional
   recorded_at && formData.append('recorded_at', recorded_at);
 
-  formData.append('video', video);
+  formData.append('signed_id', signed_id);
 
   return (await axios.post(`${eventsUrl}/${id}/videos/add_video`, formData)).data;
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { handleFormErrors } from '../../../../utils/handleFormErrors';
 import { errorSnackbar, infoSnackbar } from '../../../../components/Snackbar/Snackbar';
@@ -11,6 +11,7 @@ import { InputDate } from '../../../../components/form/InputDate/InputDate';
 import { uploadVideo } from '../../../../services/eventService';
 import '../Multimedia.scss';
 import { isAxiosError } from 'axios';
+import DirectUploader from '../../../../components/form/DirectUploader';
 
 type FormProps = {
   eventId: string;
@@ -35,9 +36,21 @@ export const Form = ({ eventId, successCallback, closeFormModal }: FormProps) =>
     formState: { errors }
   } = useForm<FormData>();
 
+  const [uploading, setUploading] = useState(false);
+  const [uploadingPercent, setUploadingPercent] = useState(0);
+  const onProgress = useCallback((event: ProgressEvent<XMLHttpRequest>) => {
+    setUploading(true);
+    if (event.lengthComputable) {
+      setUploadingPercent((event.loaded / event.total) * 100);
+    }
+  }, []);
+
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
-      const response = await uploadVideo(eventId, data.name, data.video, data.recorded_at);
+      const url = `${process.env.REACT_APP_API_URL}/rails/active_storage/direct_uploads`;
+      const uploader = new DirectUploader(data.video, url, onProgress);
+      const signed_id: string = await uploader.start();
+      const response = await uploadVideo(eventId, data.name, signed_id, data.recorded_at);
 
       infoSnackbar(`Video subido con éxito.`);
 
@@ -70,13 +83,14 @@ export const Form = ({ eventId, successCallback, closeFormModal }: FormProps) =>
       />
 
       <StyledFlex $justifyContent="flex-end">
-        <MMButton type="submit" color="primary">
+        <MMButton type="submit" color="primary" disabled={uploading}>
           Subir Video
         </MMButton>
         <MMButton type="button" color="tertiary" onClick={closeFormModal}>
           Cerrar
         </MMButton>
       </StyledFlex>
+      <progress id="progress-bar" max="100" value={uploadingPercent} hidden={!uploading}></progress>
     </form>
   );
 };
