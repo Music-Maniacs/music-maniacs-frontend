@@ -83,7 +83,7 @@ export const Form = ({ eventId, successCallback, closeFormModal }: FormProps) =>
       />
 
       <StyledFlex $justifyContent="flex-end">
-        <MMButton type="submit" color="primary">
+        <MMButton type="submit" color="primary" disabled={uploading}>
           Subir Video
         </MMButton>
         <MMButton type="button" color="tertiary" onClick={closeFormModal}>
